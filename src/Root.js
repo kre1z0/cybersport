@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 
 import Router from './router';
 
+import 'normalize.css/normalize.css';
+
 class Root extends Component {
     static propTypes = {
         store: PropTypes.object.isRequired
