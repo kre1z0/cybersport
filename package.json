@@ -3,17 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.5",
     "normalize.css": "^5.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
-    "react-router-dom": "^4.0.0-beta.7",
+    "react-router-dom": "^4.0.0",
     "react-router-redux": "^4.0.8",
     "redux": "^3.6.0",
     "redux-persist": "^4.4.2",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.21.0",
+    "enzyme": "^2.7.1",
+    "react-addons-test-utils": "^15.4.2",
     "react-scripts": "0.9.3",
     "redux-devtools": "^3.3.2",
     "redux-devtools-extension": "^2.13.0",
@@ -23,6 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   }
 }
