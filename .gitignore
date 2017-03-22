@@ -18,5 +18,5 @@ yarn-error.log*
 .idea
 .storybook
 
-/src/**/*.css
+#/src/**/*.css
 
