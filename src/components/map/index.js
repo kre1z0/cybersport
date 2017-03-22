@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 
+import './map.css';
+
 class Map extends Component {
     static propTypes = {
         center: PropTypes.array.isRequired,
