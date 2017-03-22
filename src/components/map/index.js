@@ -18,8 +18,6 @@ class Map extends Component {
     
     render () {
         const {center, onResetMap} = this.props;
-        console.log('Hello!');
-
         return (
             <div className="map-container" ref={container => this.container = container}>
                 <button onTouchTap={this.onButtonClick}>setCenter</button>
