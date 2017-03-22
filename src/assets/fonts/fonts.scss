@@ -68,8 +68,12 @@
     src: url(./FedraSansPro-BoldItalicLF.otf)
 }
 
-
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 html {
     font-family: FedraSans;
+    font-size: 14px;
 }
