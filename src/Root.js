@@ -12,7 +12,7 @@ import './assets/fonts/fonts.css';
 const theme = getMuiTheme({
     fontFamily: 'FedraSans',
     appBar: {
-        height: 50,
+        height: 80,
         color: '#64c76c'
     }
 });
