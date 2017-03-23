@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import SidebarMenu from '../../components/sidebar-menu';
+import withRouter from '../../hoc/withRouter';
 
 class Sidebar extends Component {
     static propTypes = {
@@ -9,10 +10,10 @@ class Sidebar extends Component {
     };
     
     render () {
-        console.info(this.props);
         return (
-            <div>
-                <SidebarMenu></SidebarMenu>
+            <div className="sidebar-content">
+                <SidebarMenu {...this.props}
+                />
             </div>
         )
     }
@@ -26,4 +27,4 @@ const mapActions = {
 
 };
 
-export default connect(mapProps, mapActions)(Sidebar);
+export default withRouter(connect(mapProps, mapActions)(Sidebar));

@@ -29,10 +29,10 @@ class App extends Component {
     
     render () {
         const {isSidebarOpen} = this.state;
-        
+
         return (
             <div className="app-container">
-                <AppBar title="ГЕОМОНИТОРИНГ ЗАЛОГОВ"
+                <AppBar title="геомониторинг залогов"
                         className="sber-appbar"
                         titleStyle={ titleStyle }
                         onLeftIconButtonTouchTap={this.toggleSidebar}

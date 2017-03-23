@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {Provider} from 'react-redux';
+import {BrowserRouter as Router} from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import Router from './router';
+import Routes from './routes';
 import App from './containers/App';
 
 import 'normalize.css/normalize.css';
@@ -27,9 +28,11 @@ class Root extends Component {
         return (
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={theme}>
-                    <App>
-                        {Router}
-                    </App>
+                    <Router>
+                        <App>
+                            {Routes}
+                        </App>
+                    </Router>
                 </MuiThemeProvider>
             </Provider>
         );

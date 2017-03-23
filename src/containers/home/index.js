@@ -15,6 +15,7 @@ class Home extends Component {
     
     render () {
         const {center, setCenter, resetMap} = this.props;
+        
         return (
             <Map center={center}
                  onCenterChange={setCenter}
