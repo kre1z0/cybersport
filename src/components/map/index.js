@@ -9,10 +9,6 @@ class Map extends Component {
         onResetMap: PropTypes.func.isRequired
     };
     
-    constructor () {
-       super();
-    }
-    
     onButtonClick = () => {
         const {center, onCenterChange} = this.props;
         onCenterChange([center[0]-1, center[1]+1])

@@ -4,11 +4,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import {setCenter, resetMap} from '../actions/map';
+import {setCenter, resetMap} from '../../actions/map';
 
-import Map from '../components/map';
+import Map from '../../components/map';
 
-class Main extends Component {
+class Home extends Component {
     static propTypes = {
         center: PropTypes.array.isRequired
     };
@@ -33,7 +33,7 @@ const mapActions = {
     resetMap
 };
 
-export default connect(mapProps, mapActions)(Main);
+export default connect(mapProps, mapActions)(Home);
 
 
 

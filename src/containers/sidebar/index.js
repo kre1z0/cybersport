@@ -1,15 +1,29 @@
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+
+import SidebarMenu from '../../components/sidebar-menu';
 
 class Sidebar extends Component {
-    propTypes = {
+    static propTypes = {
     
     };
     
     render () {
+        console.info(this.props);
         return (
-            <div>Sidebar content</div>
+            <div>
+                <SidebarMenu></SidebarMenu>
+            </div>
         )
     }
 }
 
-export default Sidebar;
+const mapProps = () => ({
+
+});
+
+const mapActions = {
+
+};
+
+export default connect(mapProps, mapActions)(Sidebar);
