@@ -4,7 +4,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: auto;
 
   .home-content {
     display: flex;
@@ -12,11 +11,10 @@
     align-items: center;
     justify-content: center;
     max-width: 760px;
-
-    width: 100%;
   }
 
   .home-buttons {
+    margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
