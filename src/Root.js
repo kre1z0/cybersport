@@ -9,7 +9,7 @@ import App from './containers/App';
 
 import 'normalize.css/normalize.css';
 import 'reset.css/reset.css';
-import './assets/base/variables.css';
+import './assets/fonts/fonts.css';
 import './assets/base/main.css';
 
 const theme = getMuiTheme({
