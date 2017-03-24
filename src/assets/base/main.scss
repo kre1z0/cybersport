@@ -1,0 +1,10 @@
+html,
+body,
+#root,
+.app-container {
+  height: 100%;
+}
+
+.pages-container {
+  height: calc(100% - 80px);
+}

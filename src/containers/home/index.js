@@ -1,12 +1,8 @@
-/**
- * Created by tporyadin on 3/6/2017.
- */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-
+import './home.css';
 import {setCenter, resetMap} from '../../actions/map';
-
-import Map from '../../components/map';
+import ProgressChart from '../../components/ProgressChart';
 
 class Home extends Component {
     static propTypes = {
@@ -14,13 +10,17 @@ class Home extends Component {
     };
     
     render () {
-        const {center, setCenter, resetMap} = this.props;
-        
         return (
-            <Map center={center}
-                 onCenterChange={setCenter}
-                 onResetMap={resetMap}
-            />
+            <div className="home-container">
+                <div className="home-content">
+
+                <ProgressChart
+                    value={75}
+                    month="март"
+                />
+
+                </div>
+            </div>
         );
     }
 }
