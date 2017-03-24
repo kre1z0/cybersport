@@ -45,7 +45,7 @@ class App extends Component {
                         overlayStyle={sidebarOverlayStyle}
                         width={360}
                 >
-                    <Sidebar/>
+                    <Sidebar toggleSidebar={this.toggleSidebar}/>
                 </Drawer>
 
                 <div className="pages-container">
