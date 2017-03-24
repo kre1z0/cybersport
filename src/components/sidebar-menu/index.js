@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {List} from 'material-ui/List';
-import HomeIcon from 'material-ui/svg-icons/action/home';
+import {HomeIcon, ObjectsIcon, MapIcon, EmployeesIcon, InspectionsIcon, AnalyticIcon} from '../icons';
 
 import MenuItem from './menu-item'
 
@@ -26,32 +26,32 @@ class SidebarMenu extends Component {
                 <MenuItem primaryText={'Главная'}
                           isActive={isHome()}
                           onTouchTap={goHome}
-                          leftIcon={<HomeIcon />}
+                          leftIcon={<HomeIcon isActive/>}
                 />
                 <MenuItem primaryText={'Залоговый портфель'}
                           isActive={isPortfolio()}
                           onTouchTap={goPortfolio}
-                          leftIcon={<HomeIcon />}
+                          leftIcon={<ObjectsIcon isActive/>}
                 />
                 <MenuItem primaryText={'Карта залогов'}
                           isActive={isMap()}
                           onTouchTap={goMap}
-                          leftIcon={<HomeIcon />}
+                          leftIcon={<MapIcon isActive/>}
                 />
                 <MenuItem primaryText={'Реестр сотрудников'}
                           isActive={isEmployees()}
                           onTouchTap={goEmployees}
-                          leftIcon={<HomeIcon />}
+                          leftIcon={<EmployeesIcon isActive/>}
                 />
                 <MenuItem primaryText={'Проверки'}
                           isActive={isVerifications()}
                           onTouchTap={goVerifications}
-                          leftIcon={<HomeIcon />}
+                          leftIcon={<InspectionsIcon isActive/>}
                 />
                 <MenuItem primaryText={'Аналитика'}
                           isActive={isAnalytic()}
                           onTouchTap={goAnalytic}
-                          leftIcon={<HomeIcon />}
+                          leftIcon={<AnalyticIcon isActive/>}
                 />
             </List>
         )

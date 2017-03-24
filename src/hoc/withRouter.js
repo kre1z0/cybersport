@@ -16,8 +16,8 @@ export default function (EnhancedComponent) {
         isEmployees = () => this.props.location.pathname.includes('/employees');
         goEmployees = () => this.props.history.push('/employees');
     
-        isVerifications = () => this.props.location.pathname.includes('/verifications');
-        goVerifications = () => this.props.history.push('/verifications');
+        isVerifications = () => this.props.location.pathname.includes('/inspections');
+        goVerifications = () => this.props.history.push('/inspections');
     
         isAnalytic = () => this.props.location.pathname.includes('/analytic');
         goAnalytic = () => this.props.history.push('/analytic');
