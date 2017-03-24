@@ -1,15 +1,40 @@
+/**
+ * Created by tporyadin on 3/6/2017.
+ */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-class Map extends Component {
-    render () {
+import {setCenter, resetMap} from '../../actions/map';
 
+import Map from '../../components/map';
+
+class MapContainer extends Component {
+    static propTypes = {
+        center: PropTypes.array.isRequired
+    };
+    
+    render () {
+        const {center, setCenter, resetMap} = this.props;
+        
         return (
-            <div>
-                Map
-            </div>
+            <Map center={center}
+                 onCenterChange={setCenter}
+                 onResetMap={resetMap}
+            />
         );
     }
 }
 
-export default Map;
+const mapProps = ({map: {center}}) => ({
+    center
+});
+
+const mapActions = {
+    setCenter,
+    resetMap
+};
+
+export default connect(mapProps, mapActions)(MapContainer);
+
+
+
