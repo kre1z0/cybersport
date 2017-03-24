@@ -1,5 +1,6 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton';
+import {darkGrey, softGreen} from '../../assets/theme'
 
 const style = {
     height: '110px',
@@ -8,17 +9,29 @@ const style = {
 };
 
 const labelStyle = {
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
-    justifyContent: 'center',
     height: '100%',
     fontSize: '1.286rem',
-    textTransform: 'normal'
+    fontWeight: 400,
+    textTransform: 'normal',
+    textAlign: 'left',
+    width: '72%',
+    paddingLeft: '22px',
+    paddingTop: '2px'
 };
 
-function MainButton({label}) {
+function MainButton(props) {
     return (
-        <RaisedButton {...{label, style, labelStyle}} />
+        <RaisedButton
+            {...props}
+            {...{style}}
+            labelStyle={{...labelStyle, color: props.isActive ? softGreen : darkGrey}}
+            labelPosition="after"
+
+            rippleStyle={{color: softGreen}}
+            overlayStyle={{backgroundColor: '#fff'}}
+        />
     );
 }
 
