@@ -1,10 +1,15 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {List} from 'material-ui/List';
 import {HomeIcon, ObjectsIcon, MapIcon, EmployeesIcon, InspectionsIcon, AnalyticIcon} from '../icons';
 
 import MenuItem from './menu-item'
 
 class SidebarMenu extends Component {
+    withToggleSidebar = (goTo) => () => {
+        goTo && goTo();
+        this.props.toggleSidebar();
+    };
+    
     render () {
         const {
             isHome,
@@ -25,32 +30,32 @@ class SidebarMenu extends Component {
             <List>
                 <MenuItem primaryText={'Главная'}
                           isActive={isHome()}
-                          onTouchTap={goHome}
+                          onTouchTap={this.withToggleSidebar(goHome)}
                           leftIcon={<HomeIcon isActive/>}
                 />
                 <MenuItem primaryText={'Залоговый портфель'}
                           isActive={isPortfolio()}
-                          onTouchTap={goPortfolio}
+                          onTouchTap={this.withToggleSidebar(goPortfolio)}
                           leftIcon={<ObjectsIcon isActive/>}
                 />
                 <MenuItem primaryText={'Карта залогов'}
                           isActive={isMap()}
-                          onTouchTap={goMap}
+                          onTouchTap={this.withToggleSidebar(goMap)}
                           leftIcon={<MapIcon isActive/>}
                 />
                 <MenuItem primaryText={'Реестр сотрудников'}
                           isActive={isEmployees()}
-                          onTouchTap={goEmployees}
+                          onTouchTap={this.withToggleSidebar(goEmployees)}
                           leftIcon={<EmployeesIcon isActive/>}
                 />
                 <MenuItem primaryText={'Проверки'}
                           isActive={isVerifications()}
-                          onTouchTap={goVerifications}
+                          onTouchTap={this.withToggleSidebar(goVerifications)}
                           leftIcon={<InspectionsIcon isActive/>}
                 />
                 <MenuItem primaryText={'Аналитика'}
                           isActive={isAnalytic()}
-                          onTouchTap={goAnalytic}
+                          onTouchTap={this.withToggleSidebar(goAnalytic)}
                           leftIcon={<AnalyticIcon isActive/>}
                 />
             </List>
