@@ -1,16 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-class Verifications extends Component {
+class Inspections extends Component {
     render () {
         
         return (
             <div>
-                Verifications
+                Inspections
             </div>
         );
     }
 }
 
-export default Verifications;
+export default Inspections;
 
