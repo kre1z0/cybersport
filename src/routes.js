@@ -5,7 +5,7 @@ import Home from './containers/home';
 import Portfolio from './containers/portfolio';
 import Map from './containers/map';
 import Employees from './containers/employees';
-import Verifications from './containers/verifications';
+import Inspections from './containers/inspections';
 import Analytics from './containers/analytics';
 
 export default (
@@ -14,7 +14,7 @@ export default (
             <Route path="/portfolio" component={ Portfolio }/>
             <Route path="/map" component={ Map }/>
             <Route path="/employees" component={ Employees }/>
-            <Route path="/verifications" component={ Verifications }/>
+            <Route path="/inspections" component={ Inspections }/>
             <Route path="/analytic" component={ Analytics }/>
             <Route path="*" component={ Home }>
                 <Redirect to="/"/>
