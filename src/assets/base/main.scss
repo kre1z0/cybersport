@@ -1,0 +1,21 @@
+html {
+  box-sizing: border-box;
+  font-family: FedraSans;
+  font-size: 14px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html,
+body,
+#root,
+.app-container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.pages-container {
+  height: calc(100% - 80px);
+}
