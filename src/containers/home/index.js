@@ -1,10 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import './home.css';
-import {setCenter, resetMap} from '../../actions/map';
+
 import {ObjectsIcon, MapIcon, InspectionsIcon, AnalyticIcon} from '../../components/icons';
-import ProgressChart from '../../components/progress-chart';
-import MainButton from '../../components/main-button';
+import ProgressChart from '../../components/ProgressChart';
+import MainButton from '../../components/MainButton';
+import withRouter from '../../hoc/withRouter';
+
+import './home.css';
 
 const iconStyle = {
     width: '46px',
@@ -86,16 +88,15 @@ class Home extends Component {
     }
 }
 
-const mapProps = ({map: {center}}) => ({
-    center
+const mapProps = () => ({
+
 });
 
 const mapActions = {
-    setCenter,
-    resetMap
+
 };
 
-export default connect(mapProps, mapActions)(Home);
+export default withRouter(connect()(Home));
 
 
 

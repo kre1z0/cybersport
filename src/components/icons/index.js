@@ -15,6 +15,7 @@ export {default as SettingsIcon} from './settings';
 export {default as UploadIcon} from './upload';
 export {default as UserIcon} from './user';
 export {default as ViewIcon} from './view';
+export {default as BackIcon} from './back';
 export {default as WayBackIcon} from './way-back';
 export {default as WayForwardIcon} from './way-forward';
 export {default as HomeIcon} from './home';

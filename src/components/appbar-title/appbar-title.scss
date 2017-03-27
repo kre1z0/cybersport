@@ -1,0 +1,22 @@
+@import "../../assets/base/colors.scss";
+
+.appbar-title {
+  position: relative;
+
+  .logo {
+    position: absolute;
+    left: 0;
+    top: 25px;
+    height: 30px;
+    width: 144px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    height: 80px;
+    line-height: 80px;
+    text-transform: uppercase;
+    color: $lightGray;
+  }
+}

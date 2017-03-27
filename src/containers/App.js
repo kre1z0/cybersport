@@ -4,14 +4,10 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 
 import Sidebar from './sidebar';
+import Title from '../components/appbar-title';
 
 const titleStyle = {
-    fontSize: '1.5rem',
-    textAlign: 'center',
-    color: '#f3f7ef',
-    fontWeight: 500,
-    textTransform: 'uppercase',
-    paddingRight: '40px'
+    textAlign: 'center'
 };
 
 const sidebarOverlayStyle = {
@@ -31,10 +27,10 @@ class App extends Component {
     
     render () {
         const {isSidebarOpen} = this.state;
-
+        
         return (
             <div className="app-container">
-                <AppBar title="геомониторинг залогов"
+                <AppBar title={<Title/>}
                         className="sber-appbar"
                         titleStyle={ titleStyle }
                         onLeftIconButtonTouchTap={this.toggleSidebar}
