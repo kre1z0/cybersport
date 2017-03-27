@@ -14,6 +14,10 @@ const sidebarOverlayStyle = {
   backgroundColor: 'rgba(0, 0, 0, 0)'
 };
 
+const sidebarContainerStyle = {
+    boxShadow: '10px 0 20px 0 rgba(24, 25, 26, 0.12)'
+};
+
 class App extends Component {
     state = {
         isSidebarOpen: false
@@ -38,8 +42,9 @@ class App extends Component {
                 <Drawer open={isSidebarOpen}
                         docked={false}
                         onRequestChange={this.toggleSidebar}
-                        overlayStyle={sidebarOverlayStyle}
                         width={360}
+                        overlayStyle={sidebarOverlayStyle}
+                        containerStyle={sidebarContainerStyle}
                 >
                     <Sidebar toggleSidebar={this.toggleSidebar}/>
                 </Drawer>
