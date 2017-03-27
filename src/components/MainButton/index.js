@@ -21,7 +21,7 @@ const labelStyle = {
     paddingTop: '2px'
 };
 
-function MainButton(props) {
+const MainButton = (props) => {
     return (
         <RaisedButton
             {...props}
@@ -33,6 +33,6 @@ function MainButton(props) {
             overlayStyle={{backgroundColor: '#fff'}}
         />
     );
-}
+};
 
 export default MainButton;

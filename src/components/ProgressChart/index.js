@@ -1,7 +1,7 @@
 import React from 'react';
 import './ProgressChart.css';
 
-function ProgressChart({value, month}) {
+const ProgressChart = ({value, month}) => {
 
     return (
         <div className="progress-chart">
@@ -12,6 +12,6 @@ function ProgressChart({value, month}) {
         </div>
     );
 
-}
+};
 
 export default ProgressChart;
