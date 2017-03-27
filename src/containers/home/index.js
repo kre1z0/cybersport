@@ -2,8 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 import {ObjectsIcon, MapIcon, InspectionsIcon, AnalyticIcon} from '../../components/icons';
-import ProgressChart from '../../components/ProgressChart';
-import MainButton from '../../components/MainButton';
+import ProgressChart from '../../components/progress-chart';
+import MainButton from '../../components/main-button';
 import withRouter from '../../hoc/withRouter';
 
 import './home.css';

@@ -4,6 +4,10 @@ import {HomeIcon, ObjectsIcon, MapIcon, EmployeesIcon, InspectionsIcon, Analytic
 
 import MenuItem from './menu-item'
 
+const listStyle = {
+    paddingTop: '36px'
+};
+
 class SidebarMenu extends Component {
     withToggleSidebar = (goTo) => () => {
         goTo && goTo();
@@ -27,7 +31,7 @@ class SidebarMenu extends Component {
         } = this.props;
         
         return (
-            <List>
+            <List style={listStyle}>
                 <MenuItem primaryText={'Главная'}
                           isActive={isHome()}
                           onTouchTap={this.withToggleSidebar(goHome)}
