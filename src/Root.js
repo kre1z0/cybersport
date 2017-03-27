@@ -7,8 +7,9 @@ import {theme} from './assets/theme';
 import Routes from './routes';
 import App from './containers/App';
 
-import 'normalize.css/normalize.css';
+import 'reset.css/reset.css';
 import './assets/fonts/fonts.css';
+import './assets/base/main.css';
 
 class Root extends Component {
     static propTypes = {
