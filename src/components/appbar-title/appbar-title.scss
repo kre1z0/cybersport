@@ -1,0 +1,30 @@
+.appbar-title {
+  position: relative;
+  .logo {
+    position: absolute;
+    left: 0;
+    height: 30px;
+    width: 144px;
+  }
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    flex: 1 1 0%;
+    height: 80px;
+    line-height: 80px;
+  }
+}
+
+//white-space: nowrap;
+//overflow: hidden;
+//text-overflow: ellipsis;
+//margin: 0px;
+//padding-top: 0px;
+//letter-spacing: 0px;
+//font-size: 1.5rem;
+//font-weight: 500;
+//color: rgb(243, 247, 239);
+//height: 80px;
+//line-height: 80px;
+//flex: 1 1 0%;
+//           text-align: center;
