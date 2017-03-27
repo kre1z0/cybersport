@@ -1,8 +1,10 @@
+@import "../../assets/base/colors.scss";
+
 .sidebar-profile {
   position: relative;
   display: flex;
   align-items: center;
-  background: #64c76c;
+  background: $softGreen;
   height: 214px;
   padding: 20px;
   background: url(./menu-bg.png) no-repeat;

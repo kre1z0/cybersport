@@ -1,3 +1,5 @@
+@import "../../assets/base/colors.scss";
+
 .progress-chart {
   display: flex;
   align-items: center;
@@ -23,7 +25,7 @@
     font-size: 3.4rem;
     font-weight: 500;
     text-align: center;
-    color: #64c76c;
+    color: $softGreen;
 
   }
 
@@ -31,7 +33,7 @@
     font-size: 1.143rem;
     font-weight: 500;
     text-align: center;
-    color: #18191a;
+    color: $darkGrey;
     text-transform: uppercase;
     line-height: normal;
   }
