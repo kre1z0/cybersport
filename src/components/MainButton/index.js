@@ -21,19 +21,19 @@ const labelStyle = {
     paddingTop: '2px'
 };
 
-const MainButton = ({id, label, icon, isActive, onEnterButton, onLeaveButton}) => {
-    return (
-        <RaisedButton
-            {...{label, icon, style}}
-            labelStyle={{...labelStyle, color: isActive === id ? softGreen : darkGrey}}
-            labelPosition="after"
+const MainButton = ({id, label, icon, isActive, onEnterButton, onLeaveButton}) => (
 
-            rippleStyle={{color: softGreen}}
-            overlayStyle={{backgroundColor: '#fff'}}
-            onMouseEnter={onEnterButton}
-            onMouseLeave={onLeaveButton}
-        />
-    );
-};
+    <RaisedButton
+        {...{label, icon, style}}
+        labelStyle={{...labelStyle, color: isActive === id ? softGreen : darkGrey}}
+        labelPosition="after"
+
+        rippleStyle={{color: softGreen}}
+        overlayStyle={{backgroundColor: '#fff'}}
+        onMouseEnter={onEnterButton}
+        onMouseLeave={onLeaveButton}
+    />
+
+);
 
 export default MainButton;
