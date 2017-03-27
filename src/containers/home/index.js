@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import './home.css';
 import {setCenter, resetMap} from '../../actions/map';
 import {ObjectsIcon, MapIcon, InspectionsIcon, AnalyticIcon} from '../../components/icons';
-import ProgressChart from '../../components/ProgressChart';
-import MainButton from '../../components/MainButton';
+import ProgressChart from '../../components/progress-chart';
+import MainButton from '../../components/main-button';
 
 const iconStyle = {
     width: '46px',

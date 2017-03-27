@@ -12,6 +12,7 @@ class Sidebar extends Component {
     render () {
         return (
             <div className="sidebar-content">
+                <h1>hello!</h1>
                 <SidebarMenu {...this.props}
                 />
             </div>
