@@ -1,13 +1,19 @@
 import React, { PropTypes } from 'react';
 import { ListItem } from 'material-ui/List';
 
+import { softGreen } from '../../assets/theme';
+
+const innerStyle = {
+  fontSize: '1rem'
+};
+
 const activeStyle = {
-  color: '#64c76c'
+  color: softGreen
 };
 
 const MenuItem = ({isActive, ...props}) => (
     <ListItem {...props}
-              innerDivStyle={isActive ? activeStyle : {}}
+              innerDivStyle={{...innerStyle, ...(isActive ? activeStyle : {})}}
     />
 );
 
