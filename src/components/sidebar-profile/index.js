@@ -1,14 +1,14 @@
 import React from 'react';
+
 import './SidebarProfile.css';
+import {BackIcon, UserIcon} from '../../components/icons';
 
-import {UndoIcon, UserIcon} from '../../components/icons';
-
-const SidebarProfile = ({name, office, post}) => (
+const SidebarProfile = ({name, office, post, toggleSidebar}) => (
 
     <div className="sidebar-profile">
 
-        <a className="back">
-            <UndoIcon />
+        <a className="back" onTouchTap={toggleSidebar}>
+            <BackIcon style={{width: '20px', height: '14px'}} />
         </a>
 
         <div className="user-block">

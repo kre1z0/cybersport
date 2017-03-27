@@ -18,6 +18,7 @@ class Sidebar extends Component {
                     name="Константинопольский К. К."
                     office="ЦА ПАО Сбербанк"
                     post="Руководитель ПМЗ"
+                    {...this.props}
                 />
 
                 <SidebarMenu {...this.props} />
