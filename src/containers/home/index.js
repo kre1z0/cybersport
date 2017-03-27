@@ -18,7 +18,48 @@ class Home extends Component {
         center: PropTypes.array.isRequired
     };
 
+    state = {
+        isActive: false
+    };
+
+    handleEnterButton = (id) => {
+        this.setState(() => ({
+            isActive: id
+        }));
+    };
+
+    handleLeaveButton = () => {
+        this.setState(() => ({
+            isActive: null
+        }));
+    };
+
     render () {
+        const {isActive} = this.state;
+
+        const mainButtons = [
+            {
+                id: 1,
+                label: 'Залоговый портфель',
+                icon: <ObjectsIcon style={iconStyle} isActive={isActive === 1} />
+            },
+            {
+                id: 2,
+                label: 'Проверки',
+                icon: <InspectionsIcon style={iconStyle} isActive={isActive === 2} />
+            },
+            {
+                id: 3,
+                label: 'Карта залогов',
+                icon: <MapIcon  style={iconStyle} isActive={isActive === 3} />
+            },
+            {
+                id: 4,
+                label: 'Аналитика',
+                icon: <AnalyticIcon style={iconStyle} isActive={isActive === 4} />
+            }
+        ];
+
         return (
             <div className="home-container">
                 <div className="home-content">
@@ -26,23 +67,17 @@ class Home extends Component {
                     <ProgressChart value={75} month="март"/>
 
                     <div className="home-buttons">
-                        <MainButton
-                            icon={<ObjectsIcon style={iconStyle} isActive />}
-                            label="Залоговый портфель"
-                            isActive
-                        />
-                        <MainButton
-                            icon={<InspectionsIcon style={iconStyle} />}
-                            label="Проверки"
-                        />
-                        <MainButton
-                            icon={<MapIcon style={iconStyle} />}
-                            label="Карта залогов"
-                        />
-                        <MainButton
-                            icon={<AnalyticIcon style={iconStyle} />}
-                            label="Аналитика"
-                        />
+                        {mainButtons.map(({id, icon, label}) =>
+                            <MainButton
+                                key={id}
+                                id={id}
+                                icon={icon}
+                                label={label}
+                                isActive={isActive}
+                                onEnterButton={() => this.handleEnterButton(id)}
+                                onLeaveButton={this.handleLeaveButton}
+                            />
+                        )}
                     </div>
 
                 </div>
