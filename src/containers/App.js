@@ -10,7 +10,9 @@ const titleStyle = {
     fontSize: '1.5rem',
     textAlign: 'center',
     color: '#f3f7ef',
-    fontWeight: 500
+    fontWeight: 500,
+    textTransform: 'uppercase',
+    paddingRight: '40px'
 };
 
 const sidebarOverlayStyle = {
@@ -46,7 +48,10 @@ class App extends Component {
                 >
                     <Sidebar toggleSidebar={this.toggleSidebar}/>
                 </Drawer>
-                {this.props.children}
+
+                <div className="pages-container">
+                    {this.props.children}
+                </div>
             </div>
         )
     }
