@@ -19,7 +19,6 @@ class MapContainer extends Component {
         return (
             <Map center={center}
                  onCenterChange={setCenter}
-                 onResetMap={resetMap}
             />
         );
     }
