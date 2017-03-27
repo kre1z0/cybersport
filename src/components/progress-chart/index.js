@@ -17,7 +17,7 @@ const ProgressChart = ({value, month}) => (
                   stroke='#64c76c'
                   strokeDasharray="887"
                   strokeWidth="26"
-                  strokeDashoffset={887 - value*8.15}
+                  strokeDashoffset={887 - value*8.12}
                   strokeLinecap="round"
                   className="plan-chart"
             >
