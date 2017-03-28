@@ -16,8 +16,8 @@ export default function (EnhancedComponent) {
         isEmployees = () => this.props.location.pathname.includes('/employees');
         goEmployees = () => this.props.history.push('/employees');
     
-        isVerifications = () => this.props.location.pathname.includes('/inspections');
-        goVerifications = () => this.props.history.push('/inspections');
+        isInspections = () => this.props.location.pathname.includes('/inspections');
+        goInspections = () => this.props.history.push('/inspections');
     
         isAnalytic = () => this.props.location.pathname.includes('/analytic');
         goAnalytic = () => this.props.history.push('/analytic');
@@ -33,8 +33,8 @@ export default function (EnhancedComponent) {
                     goMap={this.goMap}
                     isEmployees={this.isEmployees}
                     goEmployees={this.goEmployees}
-                    isVerifications={this.isVerifications}
-                    goVerifications={this.goVerifications}
+                    isInspections={this.isInspections}
+                    goInspections={this.goInspections}
                     isAnalytic={this.isAnalytic}
                     goAnalytic={this.goAnalytic}
                     {...this.state}

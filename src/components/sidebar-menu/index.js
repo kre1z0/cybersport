@@ -24,8 +24,8 @@ class SidebarMenu extends Component {
             goMap,
             isEmployees,
             goEmployees,
-            isVerifications,
-            goVerifications,
+            isInspections,
+            goInspections,
             isAnalytic,
             goAnalytic
         } = this.props;
@@ -53,8 +53,8 @@ class SidebarMenu extends Component {
                           leftIcon={<EmployeesIcon isActive/>}
                 />
                 <MenuItem primaryText={'Проверки'}
-                          isActive={isVerifications()}
-                          onTouchTap={this.withToggleSidebar(goVerifications)}
+                          isActive={isInspections()}
+                          onTouchTap={this.withToggleSidebar(goInspections)}
                           leftIcon={<InspectionsIcon isActive/>}
                 />
                 <MenuItem primaryText={'Аналитика'}
