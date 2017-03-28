@@ -3,9 +3,11 @@
  */
 export const SET_CENTER = 'map/set-center';
 export const RESET_MAP = 'map/reset-map';
+export const SET_RESOLUTION = 'map/set-resolution';
 
 const initState = {
-  center: [0, 0]
+  center: [0, 0],
+  resolution: 76.437
 };
 
 export default (state = initState, {type, ...payload}) => {
@@ -15,8 +17,16 @@ export default (state = initState, {type, ...payload}) => {
                 ...state,
                 center: payload.center
             };
+            
+        case SET_RESOLUTION:
+            return {
+                ...state,
+                resolution: payload.resolution
+            };
+            
         case RESET_MAP:
             return initState;
+            
         default: return state;
     }
 }

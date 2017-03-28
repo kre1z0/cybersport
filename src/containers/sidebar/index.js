@@ -7,29 +7,29 @@ import withRouter from '../../hoc/withRouter';
 
 class Sidebar extends Component {
     static propTypes = {
-    
+        user: PropTypes.object.isRequired
     };
     
     render () {
+        const {user, toggleSidebar, ...props} = this.props;
         return (
             <div className="sidebar-content">
 
-                <SidebarProfile
-                    name="Константинопольский К. К."
-                    office="ЦА ПАО Сбербанк"
-                    post="Руководитель ПМЗ"
-                    {...this.props}
+                <SidebarProfile {...user}
+                                toggleSidebar={toggleSidebar}
                 />
 
-                <SidebarMenu {...this.props} />
+                <SidebarMenu {...props}
+                             toggleSidebar={toggleSidebar}
+                />
 
             </div>
         )
     }
 }
 
-const mapProps = () => ({
-
+const mapProps = ({user}) => ({
+    user
 });
 
 const mapActions = {

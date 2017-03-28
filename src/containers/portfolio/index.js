@@ -24,4 +24,12 @@ class Portfolio extends Component {
     }
 }
 
-export default Portfolio;
+const mapProps = () => ({
+
+});
+
+const mapActions = {
+
+};
+
+export default connect(mapProps, mapActions)(Portfolio);

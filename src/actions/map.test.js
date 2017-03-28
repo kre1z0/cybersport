@@ -1,5 +1,5 @@
-import { setCenter, resetMap } from './map';
-import { RESET_MAP, SET_CENTER } from '../reducers/map'
+import { setCenter, resetMap, setResolution } from './map';
+import { RESET_MAP, SET_CENTER, SET_RESOLUTION } from '../reducers/map'
 
 describe('actions', () => {
     it('should create an action to set center', () => {
@@ -9,6 +9,15 @@ describe('actions', () => {
             center
         };
         expect(setCenter(center)).toEqual(expectedAction)
+    });
+    
+    it('should create an action to set resolution', () => {
+        const resolution = 100;
+        const expectedAction = {
+            type: SET_RESOLUTION,
+            resolution
+        };
+        expect(setResolution(resolution)).toEqual(expectedAction)
     });
     
     it('should create an action to reset center', () => {
