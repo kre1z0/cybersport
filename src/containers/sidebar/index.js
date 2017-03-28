@@ -11,13 +11,17 @@ class Sidebar extends Component {
     };
     
     render () {
-        const {user, ...props} = this.props;
+        const {user, toggleSidebar, ...props} = this.props;
         return (
             <div className="sidebar-content">
 
-                <SidebarProfile {...user}/>
+                <SidebarProfile {...user}
+                                toggleSidebar={toggleSidebar}
+                />
 
-                <SidebarMenu {...props}/>
+                <SidebarMenu {...props}
+                             toggleSidebar={toggleSidebar}
+                />
 
             </div>
         )
