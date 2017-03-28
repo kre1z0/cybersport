@@ -34,7 +34,7 @@ class Map extends Component {
         this.sgis = sGis.init({
             wrapper: this.container,
             position: this.props.center,
-            resolution: 76.437,
+            resolution: this.props.resolution,
             layers: [ new sGis.TileLayer('http://b.tile.openstreetmap.org/{z}/{x}/{y}.png') ]
         });
         
