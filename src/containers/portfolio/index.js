@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 
 import HeaderTitleBlock from '../../components/header-title-block';
 import PortfolioTable from '../../components/portfolio-table';
+import data from './data';
 
 import './Portfolio.css'
 
@@ -15,13 +16,12 @@ class Portfolio extends Component {
 
                     <HeaderTitleBlock title="Реестр объектов залога" />
 
-                    <PortfolioTable />
+                    <PortfolioTable {...{data}} />
 
                 </div>
             </div>
         );
     }
-
 }
 
 export default Portfolio;

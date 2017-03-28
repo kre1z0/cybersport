@@ -1,4 +1,29 @@
 @import "../../assets/base/colors.scss";
 
 .portfolio-table {
+
+  & > div {
+    border-radius: 2px;
+  }
+
+  & > div > div:last-child {
+      overflow: visible !important;
+  }
+
+  .table-body {
+    tr:nth-child(odd) {
+      background: rgba(221, 223, 225, 0.12);
+    }
+  }
+
+  .cell-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .filter-icon,
+  .title {
+    display: inline-block;
+  }
+
 }

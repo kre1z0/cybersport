@@ -3,6 +3,7 @@ export {default as AnalyticIcon} from './analytic';
 export {default as BurgerIcon} from './burger';
 export {default as ClearFiltersIcon} from './clear-filters';
 export {default as CloseWindowIcon} from './close-window';
+export {default as ContextIcon} from './context';
 export {default as DownloadIcon} from './download';
 export {default as DragIcon} from './drag';
 export {default as EmployeesIcon} from './emplyees';
