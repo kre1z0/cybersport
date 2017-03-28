@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import IconButton from 'material-ui/IconButton';
+
+import {BackIcon, UserIcon} from '../../components/icons';
 
 import './SidebarProfile.css';
-import {BackIcon, UserIcon} from '../../components/icons';
 
 const SidebarProfile = ({name, office, post, toggleSidebar}) => (
 
     <div className="sidebar-profile">
 
         <a className="back" onTouchTap={toggleSidebar}>
-            <BackIcon style={{width: '20px', height: '14px'}} />
+            <IconButton>
+                <BackIcon style={{width: '20px', height: '14px'}} />
+            </IconButton>
         </a>
 
         <div className="user-block">
@@ -27,5 +31,12 @@ const SidebarProfile = ({name, office, post, toggleSidebar}) => (
     </div>
 
 );
+
+SidebarProfile.propTypes = {
+    name: PropTypes.string.isRequired,
+    office: PropTypes.string.isRequired,
+    post: PropTypes.string.isRequired,
+    avatar: PropTypes.string
+};
 
 export default SidebarProfile;
