@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
 
 import HeaderTitleBlock from '../../components/header-title-block';
 import PortfolioTable from '../../components/portfolio-table';
