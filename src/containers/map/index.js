@@ -4,33 +4,37 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import {setCenter, resetMap} from '../../actions/map';
+import {setCenter, setResolution} from '../../actions/map';
 
 import Map from '../../components/map';
 
 class MapContainer extends Component {
     static propTypes = {
-        center: PropTypes.array.isRequired
+        map: PropTypes.object,
+        setCenter: PropTypes.func,
+        setResolution: PropTypes.func
     };
     
     render () {
-        const {center, setCenter, resetMap} = this.props;
+        const {map: {center, resolution}, setCenter, setResolution} = this.props;
         
         return (
             <Map center={center}
+                 resolution={resolution}
                  onCenterChange={setCenter}
+                 onResolutionChange={setResolution}
             />
         );
     }
 }
 
-const mapProps = ({map: {center}}) => ({
-    center
+const mapProps = ({map}) => ({
+    map
 });
 
 const mapActions = {
     setCenter,
-    resetMap
+    setResolution
 };
 
 export default connect(mapProps, mapActions)(MapContainer);
