@@ -21,17 +21,16 @@ const labelStyle = {
     paddingTop: '2px'
 };
 
-const MainButton = ({id, label, icon, isActive, onEnterButton, onLeaveButton}) => (
+const MainButton = ({id, isActive, ...props}) => (
 
     <RaisedButton
-        {...{label, icon, style}}
+        {...props}
+        style={style}
         labelStyle={{...labelStyle, color: isActive === id ? softGreen : darkGrey}}
         labelPosition="after"
 
         rippleStyle={{color: softGreen}}
         overlayStyle={{backgroundColor: '#fff'}}
-        onMouseEnter={onEnterButton}
-        onMouseLeave={onLeaveButton}
     />
 
 );
