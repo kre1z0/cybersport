@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 class Analytics extends Component {
@@ -12,4 +12,12 @@ class Analytics extends Component {
     }
 }
 
-export default Analytics;
+const mapProps = () => ({
+
+});
+
+const mapActions = {
+
+};
+
+export default connect(mapProps, mapActions)(Analytics);

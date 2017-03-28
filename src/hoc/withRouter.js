@@ -29,7 +29,7 @@ export default function (EnhancedComponent) {
                     goHome={this.goHome}
                     isPortfolio={this.isPortfolio}
                     goPortfolio={this.goPortfolio}
-                    isMap = {this.isMap}
+                    isMap={this.isMap}
                     goMap={this.goMap}
                     isEmployees={this.isEmployees}
                     goEmployees={this.goEmployees}

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 class Employees extends Component {
@@ -12,4 +12,12 @@ class Employees extends Component {
     }
 }
 
-export default Employees;
+const mapProps = () => ({
+
+});
+
+const mapActions = {
+
+};
+
+export default connect(mapProps, mapActions)(Employees);

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 class Inspections extends Component {
@@ -12,5 +12,13 @@ class Inspections extends Component {
     }
 }
 
-export default Inspections;
+const mapProps = () => ({
+
+});
+
+const mapActions = {
+
+};
+
+export default connect(mapProps, mapActions)(Inspections);
 

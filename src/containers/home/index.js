@@ -103,7 +103,7 @@ const mapActions = {
 
 };
 
-export default withRouter(connect()(Home));
+export default withRouter(connect(mapProps, mapActions)(Home));
 
 
 
