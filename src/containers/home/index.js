@@ -17,7 +17,10 @@ const iconStyle = {
 
 class Home extends Component {
     static propTypes = {
-        center: PropTypes.array.isRequired
+        goPortfolio: PropTypes.func.isRequired,
+        goMap: PropTypes.func.isRequired,
+        goInspections: PropTypes.func.isRequired,
+        goAnalytic: PropTypes.func.isRequired
     };
 
     state = {
@@ -37,28 +40,33 @@ class Home extends Component {
     };
 
     render () {
+        const {goPortfolio, goMap, goInspections, goAnalytic} = this.props;
         const {isActive} = this.state;
 
         const mainButtons = [
             {
                 id: 1,
                 label: 'Залоговый портфель',
-                icon: <ObjectsIcon style={iconStyle} isActive={isActive === 1} />
+                icon: <ObjectsIcon style={iconStyle} isActive={isActive === 1} />,
+                onTouchTap: goPortfolio
             },
             {
                 id: 2,
                 label: 'Проверки',
-                icon: <InspectionsIcon style={iconStyle} isActive={isActive === 2} />
+                icon: <InspectionsIcon style={iconStyle} isActive={isActive === 2} />,
+                onTouchTap: goInspections
             },
             {
                 id: 3,
                 label: 'Карта залогов',
-                icon: <MapIcon  style={iconStyle} isActive={isActive === 3} />
+                icon: <MapIcon  style={iconStyle} isActive={isActive === 3} />,
+                onTouchTap: goMap
             },
             {
                 id: 4,
                 label: 'Аналитика',
-                icon: <AnalyticIcon style={iconStyle} isActive={isActive === 4} />
+                icon: <AnalyticIcon style={iconStyle} isActive={isActive === 4} />,
+                onTouchTap: goAnalytic
             }
         ];
 
@@ -69,15 +77,14 @@ class Home extends Component {
                     <ProgressChart value={75} month="март"/>
 
                     <div className="home-buttons">
-                        {mainButtons.map(({id, icon, label}) =>
+                        {mainButtons.map(({id, ...props}) =>
                             <MainButton
+                                {...props}
                                 key={id}
                                 id={id}
-                                icon={icon}
-                                label={label}
                                 isActive={isActive}
-                                onEnterButton={() => this.handleEnterButton(id)}
-                                onLeaveButton={this.handleLeaveButton}
+                                onMouseEnter={() => this.handleEnterButton(id)}
+                                onMouseLeave={this.handleLeaveButton}
                             />
                         )}
                     </div>
