@@ -1,7 +1,10 @@
+@import "./colors.scss";
+
 html {
   box-sizing: border-box;
   font-family: FedraSans;
   font-size: 14px;
+  background: $mainBackground;
 }
 
 *, *:before, *:after {

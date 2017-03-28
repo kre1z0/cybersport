@@ -2,8 +2,8 @@ import React from 'react';
 import Avatar from 'material-ui/Avatar';
 
 import {BackIcon, UserIcon} from '../../components/icons';
-import {silver} from '../../assets/theme'
 
+import {silver} from '../../assets/theme'
 import './SidebarProfile.css';
 
 const avatarStyle = {
