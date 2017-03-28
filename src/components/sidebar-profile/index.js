@@ -1,7 +1,17 @@
 import React from 'react';
+import Avatar from 'material-ui/Avatar';
+
+import {BackIcon, UserIcon} from '../../components/icons';
+import {silver} from '../../assets/theme'
 
 import './SidebarProfile.css';
-import {BackIcon, UserIcon} from '../../components/icons';
+
+const avatarStyle = {
+    width: '70px',
+    height: '70px',
+    backgroundColor: '#fff',
+    boxShadow: '0 8px 15px 0 rgba(0, 0, 0, 0.07)'
+};
 
 const SidebarProfile = ({name, office, post, toggleSidebar}) => (
 
@@ -12,9 +22,7 @@ const SidebarProfile = ({name, office, post, toggleSidebar}) => (
         </a>
 
         <div className="user-block">
-            <div className="user-avatar">
-                <UserIcon />
-            </div>
+            <Avatar icon={<UserIcon />} color={silver} style={avatarStyle} />
             <div className="user-info">
                 <p className="user-name">{name}</p>
                 <p className="user-office">{office}</p>
