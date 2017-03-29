@@ -13,7 +13,9 @@ class Map extends Component {
     };
     static defaultProps = {
         center: [0, 0],
-        resolution: 76.437
+        resolution: 76.437,
+        onCenterChange: () => {},
+        onResolutionChange: () => {}
     };
     
     onResolutionChange = (resolution) => {

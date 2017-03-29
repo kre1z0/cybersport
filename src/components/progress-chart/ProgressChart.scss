@@ -37,4 +37,15 @@
     line-height: normal;
   }
 
+  .plan-chart {
+    transition: stroke-dashoffset .8s ease-out;
+    animation: dash .8s ease-out;
+  }
+
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 877;
+  }
 }

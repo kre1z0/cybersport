@@ -1,0 +1,20 @@
+exports[`map component should mount map correctly 1`] = `
+<Map
+  center={
+    Array [
+      0,
+      0,
+    ]
+  }
+  onCenterChange={[Function]}
+  onResolutionChange={[Function]}
+  resolution={76.437}>
+  <div
+    className="map-container" />
+</Map>
+`;
+
+exports[`map component should render map correctly 1`] = `
+<div
+  class="map-container" />
+`;

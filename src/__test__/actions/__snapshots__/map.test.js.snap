@@ -1,0 +1,56 @@
+exports[`map actions should create an action to reset center 1`] = `
+Object {
+  "type": "map/reset-map",
+}
+`;
+
+exports[`map actions should create an action to set center 1`] = `
+Object {
+  "center": Array [
+    0,
+    0,
+  ],
+  "type": "map/set-center",
+}
+`;
+
+exports[`map actions should create an action to set center 2`] = `
+Object {
+  "center": Array [
+    500,
+    100,
+  ],
+  "type": "map/set-center",
+}
+`;
+
+exports[`map actions should create an action to set center 3`] = `
+Object {
+  "center": Array [
+    100,
+    500,
+  ],
+  "type": "map/set-center",
+}
+`;
+
+exports[`map actions should create an action to set resolution 1`] = `
+Object {
+  "resolution": 0,
+  "type": "map/set-resolution",
+}
+`;
+
+exports[`map actions should create an action to set resolution 2`] = `
+Object {
+  "resolution": 5,
+  "type": "map/set-resolution",
+}
+`;
+
+exports[`map actions should create an action to set resolution 3`] = `
+Object {
+  "resolution": 100,
+  "type": "map/set-resolution",
+}
+`;
