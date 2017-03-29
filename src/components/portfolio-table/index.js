@@ -88,36 +88,49 @@ class PortfolioTable extends Component {
                     <TableBody displayRowCheckbox={false} style={{width: 'auto'}} className="table-body">
                         {objects.map(object => (
                             <TableRow key={object.id} style={{height: '58px'}}>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[0], textAlign: 'center', paddingTop: '1px'}}>
                                     <ContextIcon style={contextIconStyle} />
                                 </TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[1]}}>{object.id}</TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[2]}}>
                                     <Avatar style={avatarStyle} src={object.photo} />
                                 </TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[7]}}>{object.description}</TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[4]}}>{object.segment}</TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[3]}}>{object.tb}</TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[5]}}>{object.response}</TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[5]}}>{object.region}</TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[7]}}>
                                     <div className="cell-content">
                                         <div className="filter-icon" style={{alignSelf: 'flex-start'}}><PinIcon style={pinIconStyle} /></div>
                                         <div className="title">{object.address_doc}</div>
                                     </div>
                                 </TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[7]}}>
                                     <div className="cell-content">
                                         <div className="filter-icon" style={{alignSelf: 'flex-start'}}><PinIcon style={pinIconStyle} /></div>
                                         <div className="title">{object.address_edit}</div>
                                     </div>
                                 </TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[6]}}>{object.type_one}</TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[6]}}>{object.type_two}</TableRowColumn>
+
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[6]}}>{object.type_three}</TableRowColumn>
+
                             </TableRow>
                         ))}
-
                     </TableBody>
 
                 </Table>
