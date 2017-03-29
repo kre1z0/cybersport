@@ -1717,6 +1717,10 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     parse-json "^2.2.0"
     require-from-string "^1.1.0"
 
+countup.js@1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-1.8.2.tgz#24504b4d60721e40c3b97d599202bd3c8919cff8"
+
 cross-spawn@4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-4.0.2.tgz#7b9247621c23adfdd3856004a823cbe397424d41"
@@ -5107,6 +5111,13 @@ react-addons-transition-group@^15.0.0:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
+react-countup@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-countup/-/react-countup-2.0.3.tgz#c6c777f90782773ea6c2ec652dfcdbd6bceb1429"
+  dependencies:
+    countup.js "1.8.2"
+    react "15.4.2"
+
 react-dev-utils@^0.5.1:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-0.5.2.tgz#50d0b962d3a94b6c2e8f2011ed6468e4124bc410"
@@ -5288,7 +5299,7 @@ react-tap-event-plugin@^2.0.1:
   dependencies:
     fbjs "^0.8.6"
 
-react@^15.4.2:
+react@15.4.2, react@^15.4.2:
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
   dependencies:

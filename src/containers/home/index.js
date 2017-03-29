@@ -74,7 +74,7 @@ class Home extends Component {
             <div className="home-container">
                 <div className="home-content">
 
-                    <ProgressChart value={75} month="март"/>
+                    <ProgressChart value={76} month="март"/>
 
                     <div className="home-buttons">
                         {mainButtons.map(({id, ...props}) =>
@@ -95,8 +95,8 @@ class Home extends Component {
     }
 }
 
-const mapProps = () => ({
-
+const mapProps = ({plan}) => ({
+    plan
 });
 
 const mapActions = {
