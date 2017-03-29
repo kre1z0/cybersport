@@ -36,7 +36,6 @@ const popoverStyle = {
     height: '199px',
     borderRadius: '6px',
     backgroundColor: '#fff',
-    boxShadow: '0 7px 15px 0 rgba(24, 25, 26, 0.22)',
     padding: '20px'
 };
 
@@ -86,6 +85,7 @@ class PortfolioTable extends Component {
                         targetOrigin={{horizontal: 'middle', vertical: 'top'}}
                         className="portfolio-header-popover"
                         style={popoverStyle}
+                        zDepth={3}
                         onRequestClose={this.handleRequestClose}
                     >
                         <h1>Hello!</h1>
