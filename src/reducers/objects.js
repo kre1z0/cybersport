@@ -1,4 +1,4 @@
-export default [
+const initState = [
     {
         id: 1,
         photo: 'https://topstroy-remont.ru/wp-content/uploads/2016/07/proekt-rekonstrukcii-zdaniya.jpg',
@@ -42,3 +42,9 @@ export default [
         type_three: 'Офисные здания и помещения'
     }
 ];
+
+export default (state = initState, {type, ...payload}) => {
+    switch (type) {
+        default: return state;
+    }
+}

@@ -3,13 +3,16 @@ import { connect } from 'react-redux';
 
 import HeaderTitleBlock from '../../components/header-title-block';
 import PortfolioTable from '../../components/portfolio-table';
-import data from './data';
 
 import './Portfolio.css'
 
 class Portfolio extends Component {
+    static propTypes = {
+        data: PropTypes.array.isRequired
+    };
 
     render () {
+        const {objects} = this.props;
         
         return (
             <div className="portfolio-container">
@@ -17,7 +20,7 @@ class Portfolio extends Component {
 
                     <HeaderTitleBlock title="Реестр объектов залога" />
 
-                    <PortfolioTable {...{data}} />
+                    <PortfolioTable {...{objects}} />
 
                 </div>
             </div>
@@ -25,8 +28,8 @@ class Portfolio extends Component {
     }
 }
 
-const mapProps = () => ({
-
+const mapProps = ({objects}) => ({
+    objects
 });
 
 const mapActions = {
