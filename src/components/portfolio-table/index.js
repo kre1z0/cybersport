@@ -111,14 +111,14 @@ class PortfolioTable extends Component {
 
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[7]}}>
                                     <div className="cell-content">
-                                        <div className="filter-icon" style={{alignSelf: 'flex-start'}}><PinIcon style={pinIconStyle} /></div>
+                                        <div className="icon" style={{alignSelf: 'flex-start'}}><PinIcon style={pinIconStyle} /></div>
                                         <div className="title">{object.address_doc}</div>
                                     </div>
                                 </TableRowColumn>
 
                                 <TableRowColumn style={{...columnStyle, ...columnWidths[7]}}>
                                     <div className="cell-content">
-                                        <div className="filter-icon" style={{alignSelf: 'flex-start'}}><PinIcon style={pinIconStyle} /></div>
+                                        <div className="pin-icon" style={{alignSelf: 'flex-start'}}><PinIcon style={pinIconStyle} /></div>
                                         <div className="title">{object.address_edit}</div>
                                     </div>
                                 </TableRowColumn>

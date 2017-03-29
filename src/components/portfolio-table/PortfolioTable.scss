@@ -19,13 +19,44 @@
   .cell-content {
     display: flex;
     align-items: center;
+    .icon,
+    .title {
+      display: inline-block;
+    }
   }
 
-  .filter-icon,
-  .title {
-    /*position: relative;
-    left: -12px;*/
-    display: inline-block;
+  .cell-header-content {
+    @extend .cell-content;
+    .icon,
+    .title {
+      position: relative;
+      left: -12px;
+    }
   }
 
+  .header-button {
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+}
+
+.portfolio-header-popover {
+  &:before {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    content: '';
+    display: block;
+    background: #fff;
+    width: 20px;
+    height: 20px;
+    transform: translateX(-50%) rotate(45deg);
+    box-shadow: 0 0 5px 0 rgba(24, 25, 26, 0.22);
+  }
 }
