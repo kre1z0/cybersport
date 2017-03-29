@@ -17,6 +17,7 @@ const iconStyle = {
 
 class Home extends Component {
     static propTypes = {
+        plan: PropTypes.object.isRequired,
         goPortfolio: PropTypes.func.isRequired,
         goMap: PropTypes.func.isRequired,
         goInspections: PropTypes.func.isRequired,
@@ -40,7 +41,7 @@ class Home extends Component {
     };
 
     render () {
-        const {goPortfolio, goMap, goInspections, goAnalytic} = this.props;
+        const {goPortfolio, goMap, goInspections, goAnalytic, plan: {progress}} = this.props;
         const {isActive} = this.state;
 
         const mainButtons = [
@@ -74,7 +75,7 @@ class Home extends Component {
             <div className="home-container">
                 <div className="home-content">
 
-                    <ProgressChart value={76} month="март"/>
+                    <ProgressChart value={progress} month="март"/>
 
                     <div className="home-buttons">
                         {mainButtons.map(({id, ...props}) =>
