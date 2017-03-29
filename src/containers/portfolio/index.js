@@ -8,7 +8,7 @@ import './Portfolio.css'
 
 class Portfolio extends Component {
     static propTypes = {
-        data: PropTypes.array.isRequired
+        objects: PropTypes.array.isRequired
     };
 
     render () {

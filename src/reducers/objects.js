@@ -1,6 +1,6 @@
 const initState = [
     {
-        id: 1,
+        id: 111111,
         photo: 'https://topstroy-remont.ru/wp-content/uploads/2016/07/proekt-rekonstrukcii-zdaniya.jpg',
         description: 'Торговый центр площадью 2500 м2',
         segment: 'Крупный бизнес',
@@ -14,7 +14,7 @@ const initState = [
         type_three: 'Офисные здания и помещения'
     },
     {
-        id: 2,
+        id: 111112,
         photo: 'http://buildvision.com/images/officebuilding-1a.jpg',
         description: 'Торговый центр площадью 3500 м2',
         segment: 'Крупный бизнес',
@@ -28,7 +28,7 @@ const initState = [
         type_three: 'Офисные здания и помещения'
     },
     {
-        id: 3,
+        id: 111113,
         photo: 'http://www.donbass-info.com/images/stories/memorial_plaques/donetsk/school_architectural_mon_2.jpg',
         description: 'Торговый центр площадью 4500 м2',
         segment: 'Крупный бизнес',
