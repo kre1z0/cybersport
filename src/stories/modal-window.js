@@ -14,7 +14,7 @@ const Actions = (
         <RoundedButton label="Button1" />
         <RoundedButton label="Button2"  primary={true}/>
     </div>
-)
+);
 
 class ModalWindowContainer extends Component {
     state = {
@@ -43,7 +43,7 @@ class ModalWindowContainer extends Component {
     }
 }
 
-storiesOf('ModalWindow', Map)
+storiesOf('ModalWindow', module)
     .addDecorator((story) => (
         <MuiThemeProvider muiTheme={theme}>
             {story()}

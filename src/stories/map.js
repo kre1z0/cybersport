@@ -3,7 +3,7 @@ import { storiesOf } from '@kadira/storybook';
 
 import Map from '../components/map';
 
-storiesOf('Map', Map)
+storiesOf('Map', module)
     .addDecorator((story) => (
         <div style={{height: 768}}>
             {story()}
