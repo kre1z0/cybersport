@@ -18,8 +18,13 @@ class ModalWindowContainer extends Component {
     render () {
         return (
             <div>
-                <RaisedButton onTouchTap={this.toggle} label="Open dialog"/>
-                <ModalWindow open={this.state.open} onRequestClose={this.toggle}>
+                <RaisedButton onTouchTap={this.toggle}
+                              label="Open window"
+                />
+                <ModalWindow title="Window Title"
+                             open={this.state.open}
+                             onRequestClose={this.toggle}
+                >
                     Content
                 </ModalWindow>
             </div>
