@@ -5,6 +5,16 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import {theme} from '../assets/theme';
 import ModalWindow from '../components/modal-window';
+import RoundedButton from '../components/rounded-button';
+
+import bigText from './big-text-mock';
+
+const Actions = (
+    <div>
+        <RoundedButton label="Button1" />
+        <RoundedButton label="Button2"  primary={true}/>
+    </div>
+)
 
 class ModalWindowContainer extends Component {
     state = {
@@ -23,9 +33,10 @@ class ModalWindowContainer extends Component {
                 />
                 <ModalWindow title="Window Title"
                              open={this.state.open}
+                             actions={Actions}
                              onRequestClose={this.toggle}
                 >
-                    Content
+                    {bigText}
                 </ModalWindow>
             </div>
         )
