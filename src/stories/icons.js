@@ -30,7 +30,31 @@ import {
 import {theme} from '../assets/theme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-storiesOf('Icons', module)
+storiesOf('Icons', [
+    AddIcon,
+    AnalyticIcon,
+    BurgerIcon,
+    ClearFiltersIcon,
+    CloseWindowIcon,
+    DownloadIcon,
+    DragIcon,
+    EmployeesIcon,
+    FilterIcon,
+    HomeIcon,
+    InspectionsIcon,
+    MapIcon,
+    ObjectsIcon,
+    PinIcon,
+    PlusIcon,
+    RedoIcon,
+    SettingsIcon,
+    UndoIcon,
+    UploadIcon,
+    UserIcon,
+    ViewIcon,
+    WayBackIcon,
+    WayForwardIcon
+])
     .addDecorator((story) => (
         <MuiThemeProvider muiTheme={theme}>
             {story()}
