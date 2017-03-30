@@ -1,2 +1,2 @@
-import Icons from './icons';
 import Map from './map';
+import Icons from './icons';
