@@ -8,6 +8,7 @@ export const lightGray = '#f3f7ef';
 export const coolGreyTwo = '#9da3aa';
 export const steeGrey = '#7a7f85';
 export const steel = '#81878f';
+export const paleGrey = '#dce1e6';
 
 export const theme = getMuiTheme({
     fontFamily: 'FedraSans',

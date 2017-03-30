@@ -30,7 +30,7 @@ import {
 import {theme} from '../assets/theme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-storiesOf('icons', [
+storiesOf('Icons', [
     AddIcon,
     AnalyticIcon,
     BurgerIcon,
