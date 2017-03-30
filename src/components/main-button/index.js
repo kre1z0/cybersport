@@ -28,8 +28,6 @@ const MainButton = ({id, isActive, ...props}) => (
         style={style}
         labelStyle={{...labelStyle, color: isActive === id ? softGreen : darkGrey}}
         labelPosition="after"
-
-        rippleStyle={{color: softGreen}}
         overlayStyle={{backgroundColor: '#fff'}}
     />
 
