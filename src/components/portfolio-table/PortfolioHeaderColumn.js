@@ -101,7 +101,20 @@ class PortfolioTable extends Component {
                         onRequestClose={this.handleRequestClose}
                     >
                         <h3 className="popover-title">Сортировка</h3>
-                        <Dropdown fields={fields} />
+                        <Dropdown
+                            type="select"
+                            fields={fields}
+                        />
+
+                        <h3 className="popover-title">Фильтр</h3>
+                        <Dropdown
+                            type="input"
+                            fields={fields}
+                        />
+
+                        <div className="clear-block">
+                            <a className="clear">Сбросить все</a>
+                        </div>
                     </Popover>
                     <div className="title">{title}</div>
                 </div>

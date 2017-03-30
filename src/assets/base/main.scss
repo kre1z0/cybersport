@@ -22,3 +22,8 @@ body,
 .pages-container {
   height: calc(100% - 80px);
 }
+
+a,
+button {
+  user-select: none;
+}

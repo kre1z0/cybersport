@@ -12,7 +12,8 @@ const innerDivStyle = {
 
 class Dropdown extends Component {
     static propTypes = {
-        fields: PropTypes.array.isRequired
+        type: PropTypes.string.isRequired,
+        fields: PropTypes.array
     };
 
     state = {
@@ -35,26 +36,52 @@ class Dropdown extends Component {
 
     render() {
         const {open, selected} = this.state;
-        const {fields} = this.props;
+        const {type, fields} = this.props;
 
         return (
             <div className={`dropdown ${open ? 'open' : ''}`}>
-                <div className='input' onTouchTap={this.handleMenuOpen}>
-                    <div className="text">{selected.text}</div>
-                    <div className="icon"><DropdownIcon style={{width: '7px', height: '4px', color: coolGreyTwo}} /></div>
-                </div>
-                <div className='menu'>
-                    {fields.map(({id, text}) =>
-                        <MenuItem
-                            key={id}
-                            className='menu-item'
-                            style={{color: selected.id === id ? softGreen : darkGrey}}
-                            innerDivStyle={innerDivStyle}
-                            primaryText={text}
-                            onTouchTap={() => this.handleFieldSelect(id)}
+                {type === 'select' ?
+                    <div>
+                        <div className='select' onTouchTap={this.handleMenuOpen}>
+                            <div className="text">{selected.text}</div>
+                            <div className="icon"><DropdownIcon style={{width: '7px', height: '4px', color: coolGreyTwo}} /></div>
+                        </div>
+                        <div className='menu'>
+                            {fields.map(({id, text}) =>
+                                <MenuItem
+                                    key={id}
+                                    className='menu-item'
+                                    style={{color: selected.id === id ? softGreen : darkGrey}}
+                                    innerDivStyle={innerDivStyle}
+                                    primaryText={text}
+                                    onTouchTap={() => this.handleFieldSelect(id)}
+                                />
+                            )}
+                        </div>
+                    </div>
+                    :
+                    <div>
+                        <input
+                            type="text"
+                            className='input'
+                            onChange={this.handleMenuOpen}
                         />
-                    )}
-                </div>
+                        <div className='menu'>
+                            {fields.map(({id, text}) =>
+                                <MenuItem
+                                    key={id}
+                                    className='menu-item'
+                                    style={{color: selected.id === id ? softGreen : darkGrey}}
+                                    innerDivStyle={innerDivStyle}
+                                    primaryText={text}
+                                    onTouchTap={() => this.handleFieldSelect(id)}
+                                />
+                            )}
+                        </div>
+                    </div>
+                }
+
+
             </div>
         );
     }
