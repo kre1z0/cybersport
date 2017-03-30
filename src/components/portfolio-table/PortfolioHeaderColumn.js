@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {TableHeaderColumn} from 'material-ui/Table';
 import Popover from 'material-ui/Popover';
 import IconButton from 'material-ui/IconButton';
 
+import Dropdown from '../dropdown';
 import {FilterIcon} from '../icons';
 
 import {darkGrey, coolGreyTwo} from '../../assets/theme'
@@ -33,17 +34,21 @@ const filterIconStyle = {
 const popoverStyle = {
     position: 'relative',
     width: '260px',
-    height: '199px',
     borderRadius: '6px',
     backgroundColor: '#fff',
-    padding: '20px'
+    padding: '20px',
 };
 
 class PortfolioTable extends Component {
+    static propTypes = {
+        style: PropTypes.object.isRequired,
+        title: PropTypes.string.isRequired,
+    };
 
     state = {
         open: false,
-        anchorEl: null
+        anchorEl: null,
+        value: 1
     };
 
     handleTouchTap = (e) => {
@@ -61,9 +66,14 @@ class PortfolioTable extends Component {
         });
     };
 
-
     render() {
         const {style, title=''} = this.props;
+
+        const fields = [
+            {id: 1, text: 'По возрастанию'},
+            {id: 2, text: 'По убыванию'},
+            {id: 3, text: 'По еще чему-нибудь'}
+        ];
 
         return (
             <TableHeaderColumn style={{...columnHeaderStyle, ...style}}>
@@ -88,7 +98,8 @@ class PortfolioTable extends Component {
                         zDepth={3}
                         onRequestClose={this.handleRequestClose}
                     >
-                        <h1>Hello!</h1>
+                        <h3 className="popover-title">Сортировка</h3>
+                        <Dropdown fields={fields} />
                     </Popover>
                     <div className="title">{title}</div>
                 </div>

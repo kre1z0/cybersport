@@ -6,6 +6,7 @@ export {default as CloseWindowIcon} from './close-window';
 export {default as ContextIcon} from './context';
 export {default as DownloadIcon} from './download';
 export {default as DragIcon} from './drag';
+export {default as DropdownIcon} from './dropdown';
 export {default as EmployeesIcon} from './emplyees';
 export {default as FilterIcon} from './filter';
 export {default as PinIcon} from './pin';

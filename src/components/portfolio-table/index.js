@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import Avatar from 'material-ui/Avatar';
 
@@ -67,6 +67,9 @@ const headerColumns = [
 ];
 
 class PortfolioTable extends Component {
+    static propTypes = {
+        objects: PropTypes.array.isRequired
+    };
 
     render() {
         const {objects} = this.props;

@@ -1,0 +1,70 @@
+@import "../../assets/base/colors.scss";
+
+.dropdown {
+  position: relative;
+
+  .input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+    border-radius: 2px;
+    background-color: #fff;
+    border: solid 1px $paleGrey;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    user-select: none;
+    overflow: visible;
+  }
+
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    width: 7px;
+    transition: all 0.3s ease-out;
+  }
+
+  .menu {
+    position: absolute;
+    width: 100%;
+    top: 32px;
+    left: 0;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.22);
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0,1,0,.99), padding 0.3s linear;
+    & > div:first-child {
+      margin-top: 5px;
+    }
+    & > div:last-child {
+      margin-bottom: 5px;
+    }
+  }
+
+  .menu-item {
+    font-size: 1rem !important;
+    min-height: 30px !important;
+    line-height: 30px !important;
+    user-select: none;
+  }
+
+  &.open {
+    .input {
+      border: solid 1px $softGreen;
+    }
+
+    .icon {
+      transform: rotate(180deg);
+    }
+
+    .menu {
+      max-height: 1000px;
+      transition: all 0.3s cubic-bezier(1,.01,1,.01);
+    }
+
+  }
+
+}
