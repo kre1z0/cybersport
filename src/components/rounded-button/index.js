@@ -11,7 +11,7 @@ const RoundedButton = ({overlayStyle, style, buttonStyle, ...props}) => (
     <RaisedButton {...props}
                   className="rounded-button"
                   overlayStyle={{...overlayStyle, borderRadius: 17}}
-                  style={{...style, borderRadius: 17}}
+                  style={{marginLeft: 10, marginRight: 10, ...style, borderRadius: 17}}
                   buttonStyle={{...buttonStyle, borderRadius: 17}}
     />
 );

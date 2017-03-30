@@ -5,7 +5,7 @@ import {theme} from '../assets/theme';
 
 import RoundedButton from '../components/rounded-button';
 
-storiesOf('Buttons', Map)
+storiesOf('Buttons', module)
     .addDecorator((story) => (
         <MuiThemeProvider muiTheme={theme}>
             {story()}

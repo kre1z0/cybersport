@@ -20,6 +20,12 @@ const bodyStyle = {
     padding: 21
 };
 
+const actionsContainerStyle = {
+    padding: 20,
+    borderTop: `1px solid ${paleGrey}`,
+    textAlign: 'center'
+};
+
 const CloseWindowButton = (props) => (
     <IconButton {...props}
                 style={closeButtonStyle}>
@@ -34,6 +40,8 @@ const ModalWindow = ({children, onRequestClose, ...props}) => (
             modal={true}
             titleStyle={titleStyle}
             bodyStyle={bodyStyle}
+            autoScrollBodyContent={true}
+            actionsContainerStyle={actionsContainerStyle}
     >
         <CloseWindowButton onTouchTap={onRequestClose}/>
         {children}
