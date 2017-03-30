@@ -7,5 +7,6 @@ injectTapEventPlugin();
 
 import Map from './map';
 import Buttons from './buttons';
+import ImgField from './img-field';
 import ModalWindow from './modal-window';
 import Icons from './icons';

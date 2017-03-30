@@ -22,5 +22,5 @@ export {default as HomeIcon} from './home';
 export {default as InspectionsIcon} from './inspections';
 export {default as MapIcon} from './map';
 export {default as ObjectsIcon} from './objects';
-
+export {default as AddPictureIcon} from './add-picture';
 
