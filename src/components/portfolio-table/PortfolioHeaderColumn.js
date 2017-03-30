@@ -6,7 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import Dropdown from '../dropdown';
 import {FilterIcon} from '../icons';
 
-import {darkGrey, coolGreyTwo} from '../../assets/theme'
+import {darkGrey, coolGreyTwo, softGreen} from '../../assets/theme'
 
 const columnHeaderStyle = {
     padding: '0 10px',
@@ -27,8 +27,7 @@ const iconButtonStyle = {
 
 const filterIconStyle = {
     width: '14px',
-    height: '10px',
-    color: coolGreyTwo
+    height: '10px'
 };
 
 const popoverStyle = {
@@ -54,6 +53,8 @@ class PortfolioTable extends Component {
     handleTouchTap = (e) => {
         e.preventDefault();
 
+        console.log(e.currentTarget);
+
         this.setState({
             open: true,
             anchorEl: e.currentTarget,
@@ -67,7 +68,8 @@ class PortfolioTable extends Component {
     };
 
     render() {
-        const {style, title=''} = this.props;
+        const {style, title} = this.props;
+        const {open, anchorEl} = this.state;
 
         const fields = [
             {id: 1, text: 'По возрастанию'},
@@ -85,12 +87,12 @@ class PortfolioTable extends Component {
                             iconStyle={filterIconStyle}
                             onTouchTap={this.handleTouchTap}
                         >
-                            <FilterIcon />
+                            <FilterIcon color={open ? softGreen : coolGreyTwo} />
                         </IconButton>
                     </div>
                     <Popover
-                        open={this.state.open}
-                        anchorEl={this.state.anchorEl}
+                        open={open}
+                        anchorEl={anchorEl}
                         anchorOrigin={{horizontal: 'middle', vertical: 'bottom'}}
                         targetOrigin={{horizontal: 'middle', vertical: 'top'}}
                         className="portfolio-header-popover"
