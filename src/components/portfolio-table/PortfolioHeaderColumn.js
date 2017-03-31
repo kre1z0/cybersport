@@ -53,8 +53,6 @@ class PortfolioTable extends Component {
     handleTouchTap = (e) => {
         e.preventDefault();
 
-        console.log(e.currentTarget);
-
         this.setState({
             open: true,
             anchorEl: e.currentTarget,
@@ -77,6 +75,12 @@ class PortfolioTable extends Component {
             {id: 3, text: 'По еще чему-нибудь'}
         ];
 
+        const data = [
+            {id: 1, text: 'Иванов'},
+            {id: 2, text: 'Петров'},
+            {id: 3, text: 'Сидоров'}
+        ];
+
         return (
             <TableHeaderColumn style={{...columnHeaderStyle, ...style}}>
                 <div className="cell-header-content">
@@ -97,6 +101,8 @@ class PortfolioTable extends Component {
                         targetOrigin={{horizontal: 'middle', vertical: 'top'}}
                         className="portfolio-header-popover"
                         style={popoverStyle}
+                        autoCloseWhenOffScreen={false}
+                        canAutoPosition={false}
                         zDepth={3}
                         onRequestClose={this.handleRequestClose}
                     >
@@ -109,7 +115,7 @@ class PortfolioTable extends Component {
                         <h3 className="popover-title">Фильтр</h3>
                         <Dropdown
                             type="input"
-                            fields={fields}
+                            data={data}
                         />
 
                         <div className="clear-block">
