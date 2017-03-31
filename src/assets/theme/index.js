@@ -9,6 +9,9 @@ export const coolGreyTwo = '#9da3aa';
 export const steeGrey = '#7a7f85';
 export const steel = '#81878f';
 export const paleGrey = '#dce1e6';
+export const macaroniAndCheese = '#f7c134';
+export const coolGrayTwo = '#9da3aa';
+export const dustyOrange = '#eb7f2e';
 
 export const theme = getMuiTheme({
     fontFamily: 'FedraSans',
@@ -20,6 +23,7 @@ export const theme = getMuiTheme({
         color: silver
     },
     palette: {
-        primary1Color: softGreen
+        primary1Color: softGreen,
+        accent1Color: dustyOrange
     }
 });
