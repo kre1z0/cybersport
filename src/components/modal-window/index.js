@@ -35,13 +35,13 @@ const CloseWindowButton = (props) => (
 
 
 const ModalWindow = ({children, onRequestClose, ...props}) => (
-    <Dialog {...props}
-            onRequestClose={onRequestClose}
+    <Dialog onRequestClose={onRequestClose}
             modal={true}
             titleStyle={titleStyle}
             bodyStyle={bodyStyle}
             autoScrollBodyContent={true}
             actionsContainerStyle={actionsContainerStyle}
+            {...props}
     >
         <CloseWindowButton onTouchTap={onRequestClose}/>
         {children}

@@ -4,6 +4,7 @@ import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 
 import {AddPictureIcon} from '../icons';
+import RemoveImageWindow from './remove-image-window';
 
 import './image-loader-button.css';
 
@@ -48,7 +49,15 @@ const createFileInput = () => {
 };
 
 const addImage = (image) => ({images}) => ({images: images.concat(image)});
+const removeImage = () => {};
 const clearImages = () => ({images: []});
+
+const readAsDataURL = (file) => new Promise((resolve, reject)=>{
+    const fileReader = new FileReader();
+    fileReader.addEventListener('load', ({target}) => resolve(target.result));
+    fileReader.addEventListener('error', (e) => reject(e));
+    fileReader.readAsDataURL(file);
+});
 
 class ImageLoader extends Component{
     static propTypes = {
@@ -56,9 +65,11 @@ class ImageLoader extends Component{
     };
     
     input = createFileInput();
+    files = [];
     
     state = {
-        images: []
+        images: [],
+        removeWindowOpen: false
     };
     
     constructor () {
@@ -68,25 +79,43 @@ class ImageLoader extends Component{
     
     inputChange = () => {
         this.setState(clearImages);
-        for (let file of this.input.files) {
-            let fileReader = new FileReader();
-            fileReader.addEventListener('load', this.fileLoaded);
-            fileReader.readAsDataURL(file);
-        }
+        
+        this.files = Array.from(this.input.files);
+        
+        this.files.forEach(file => {
+            readAsDataURL(file).then(result => {
+                this.setState(addImage(result));
+            });
+        });
     };
     
-    fileLoaded = ({target}) => {
-        this.setState(addImage(target.result))
-    };
+    dataUrlLoaded = ({target}) => this.setState(addImage(target.result));
     
     addFiles = () => this.input.click();
     
+    closeRemoveWindow = () => this.setState(({removeWindowOpen}) => ({removeWindowOpen: false}));
+    showRemoveWindow = (img) => () => this.setState(({removeWindowOpen}) => ({removeWindowOpen: img}));
+    
+    removeFile = () => {
+        this.closeRemoveWindow();
+    };
+    
     render () {
-        const {images} = this.state;
+        const {images, removeWindowOpen} = this.state;
         return (
             <div>
-                {images.map((image, key) => <LoadedImgButton src={image} key={key}/>)}
+                {images.map((image, key) => (
+                    <LoadedImgButton src={image}
+                                     key={key}
+                                     onTouchTap={this.showRemoveWindow(image)}
+                    />
+                ))}
                 <AddImgButton onTouchTap={this.addFiles}/>
+                <RemoveImageWindow img={removeWindowOpen}
+                                   onRequestClose={this.closeRemoveWindow}
+                                   onRemove={this.removeFile}
+                                   open={!!removeWindowOpen}
+                />
             </div>
         )
     }
