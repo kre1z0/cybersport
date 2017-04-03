@@ -48,7 +48,7 @@
     box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.22);
     max-height: 0;
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0,1,0,.99), padding 0.3s linear;
+    transition: all .45s cubic-bezier(0.23, 1, 0.32, 1), padding 0.3s linear;
     & > div:first-child {
       margin-top: 5px;
     }
@@ -74,8 +74,8 @@
     }
 
     .menu {
-      max-height: 1000px;
-      transition: all 0.3s cubic-bezier(1,.01,1,.01);
+      max-height: 700px;
+      transition: all 3s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
   }
