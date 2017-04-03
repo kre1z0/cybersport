@@ -5,6 +5,8 @@ import IconButton from 'material-ui/IconButton';
 import {CloseWindowIcon} from '../icons';
 import {paleGrey} from '../../assets/theme';
 
+import './modal-window.css';
+
 const closeButtonStyle = {
     position: 'absolute',
     right: -48,
@@ -12,11 +14,11 @@ const closeButtonStyle = {
 };
 
 const titleStyle = {
-    fontSize: '1.286rem',
-    borderBottom: `1px solid ${paleGrey}`
+    fontSize: '1.286rem'
 };
 
 const bodyStyle = {
+    borderTop: `1px solid ${paleGrey}`,
     padding: 21
 };
 
@@ -39,6 +41,7 @@ const ModalWindow = ({children, onRequestClose, ...props}) => (
             modal={true}
             titleStyle={titleStyle}
             bodyStyle={bodyStyle}
+            contentClassName="modal-window-content"
             autoScrollBodyContent={true}
             actionsContainerStyle={actionsContainerStyle}
             {...props}
