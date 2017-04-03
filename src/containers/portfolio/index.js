@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import HeaderTitleBlock from '../../components/header-title-block';
 import PortfolioTable from '../../components/portfolio-table';
 
-import './Portfolio.css'
+import './portfolio.css'
 
 class Portfolio extends Component {
     static propTypes = {
