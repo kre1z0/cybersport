@@ -10,12 +10,14 @@ import './image-loader-button.css';
 
 const addImgIconStyle = {
     height: 46,
-    width: 46
+    width: 46,
+    marginRight: 10
 };
 const ImgButtonStyle = {
     height: 46,
     width: 46,
-    padding: 0
+    padding: 0,
+    marginRight: 10
 };
 
 const ImageFieldButton = ({children, ...props}) => (
