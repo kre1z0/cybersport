@@ -1,7 +1,10 @@
+@import "./colors.scss";
+
 html {
   box-sizing: border-box;
   font-family: FedraSans;
   font-size: 14px;
+  background: $mainBackground;
 }
 
 *, *:before, *:after {
@@ -18,4 +21,9 @@ body,
 
 .pages-container {
   height: calc(100% - 80px);
+}
+
+a,
+button {
+  user-select: none;
 }

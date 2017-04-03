@@ -1,24 +1,28 @@
-import React, {PropTypes} from 'react';
-import IconButton from 'material-ui/IconButton';
+import React from 'react';
+import Avatar from 'material-ui/Avatar';
 
 import {BackIcon, UserIcon} from '../../components/icons';
 
+import {silver} from '../../assets/theme'
 import './SidebarProfile.css';
+
+const avatarStyle = {
+    width: '70px',
+    height: '70px',
+    backgroundColor: '#fff',
+    boxShadow: '0 8px 15px 0 rgba(0, 0, 0, 0.07)'
+};
 
 const SidebarProfile = ({name, office, post, toggleSidebar}) => (
 
     <div className="sidebar-profile">
 
         <a className="back" onTouchTap={toggleSidebar}>
-            <IconButton>
-                <BackIcon style={{width: '20px', height: '14px'}} />
-            </IconButton>
+            <BackIcon style={{width: '20px', height: '14px'}} />
         </a>
 
         <div className="user-block">
-            <div className="user-avatar">
-                <UserIcon />
-            </div>
+            <Avatar icon={<UserIcon />} color={silver} style={avatarStyle} />
             <div className="user-info">
                 <p className="user-name">{name}</p>
                 <p className="user-office">{office}</p>
@@ -31,12 +35,5 @@ const SidebarProfile = ({name, office, post, toggleSidebar}) => (
     </div>
 
 );
-
-SidebarProfile.propTypes = {
-    name: PropTypes.string.isRequired,
-    office: PropTypes.string.isRequired,
-    post: PropTypes.string.isRequired,
-    avatar: PropTypes.string
-};
 
 export default SidebarProfile;
