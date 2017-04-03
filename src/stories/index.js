@@ -6,6 +6,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 import Map from './map';
+import Inputs from './inputs';
 import Buttons from './buttons';
 import ImgLoader from './img-loader';
 import ModalWindow from './modal-window';
