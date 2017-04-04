@@ -1,5 +1,5 @@
-import reducer from './map';
-import {setResolution, setCenter, resetMap} from '../actions/map';
+import reducer from '../../reducers/map';
+import {setResolution, setCenter, resetMap} from '../../actions/map';
 
 describe('map reducers', () => {
     it('should return initial state', () => {

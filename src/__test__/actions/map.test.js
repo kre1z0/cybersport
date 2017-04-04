@@ -1,5 +1,4 @@
-import { setCenter, resetMap, setResolution } from './map';
-import { RESET_MAP, SET_CENTER, SET_RESOLUTION } from '../reducers/map'
+import { setCenter, resetMap, setResolution } from '../../actions/map';
 
 describe('map actions', () => {
     it('should create an action to set center', () => {
