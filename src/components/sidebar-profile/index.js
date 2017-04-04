@@ -4,7 +4,7 @@ import Avatar from 'material-ui/Avatar';
 import {BackIcon, UserIcon} from '../../components/icons';
 
 import {silver} from '../../assets/theme'
-import './SidebarProfile.css';
+import './SidebarProfile.scss';
 
 const avatarStyle = {
     width: '70px',

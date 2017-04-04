@@ -6,7 +6,7 @@ import PortfolioHeaderColumn from './PortfolioHeaderColumn';
 import {ContextIcon, PinIcon} from '../icons';
 
 import {coolGreyTwo, steel} from '../../assets/theme'
-import './PortfolioTable.css';
+import './PortfolioTable.scss';
 
 const columnStyle = {
     padding: '0 10px',

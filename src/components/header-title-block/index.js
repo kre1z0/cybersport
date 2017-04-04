@@ -4,7 +4,7 @@ import ControlItem from './ControlItem';
 import {RedoIcon, UndoIcon, AddIcon, ClearFiltersIcon, SettingsIcon, DownloadIcon, UploadIcon} from '../icons';
 
 import {coolGreyTwo, steeGrey} from '../../assets/theme'
-import './HeaderTitleBlock.css';
+import './HeaderTitleBlock.scss';
 
 const iconsStyle = {
     width: '16px',

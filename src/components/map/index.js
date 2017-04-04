@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import sGis from '../../assets/sgis';
 import debounce from 'lodash/debounce';
 
-import './map.css';
+import './map.scss';
 
 class Map extends Component {
     static propTypes = {

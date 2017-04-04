@@ -5,7 +5,7 @@ import IconButton from 'material-ui/IconButton';
 import {CloseWindowIcon} from '../icons';
 import {paleGrey} from '../../assets/theme';
 
-import './modal-window.css';
+import './modal-window.scss';
 
 const closeButtonStyle = {
     position: 'absolute',

@@ -1,6 +1,6 @@
 import React from 'react';
 import CountUp from 'react-countup';
-import './ProgressChart.css';
+import './ProgressChart.scss';
 
 const ProgressChart = ({value, month}) => (
 

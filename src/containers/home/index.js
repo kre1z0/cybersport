@@ -6,7 +6,7 @@ import ProgressChart from '../../components/progress-chart';
 import MainButton from '../../components/main-button';
 import withRouter from '../../hoc/withRouter';
 
-import './home.css';
+import './home.scss';
 
 const iconStyle = {
     width: '46px',

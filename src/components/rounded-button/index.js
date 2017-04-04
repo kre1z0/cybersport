@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
  * ripple style not work correctly
  * https://github.com/callemall/material-ui/blob/master/src/RaisedButton/RaisedButton.js
  */
-import './rounded-button.css';
+import './rounded-button.scss';
 
 const RoundedButton = ({overlayStyle, style, buttonStyle, ...props}) => (
     <RaisedButton {...props}

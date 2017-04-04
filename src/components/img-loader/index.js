@@ -6,7 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import {AddPictureIcon} from '../icons';
 import RemoveImageWindow from './remove-image-window';
 
-import './image-loader-button.css';
+import './image-loader-button.scss';
 
 const addImgIconStyle = {
     height: 46,

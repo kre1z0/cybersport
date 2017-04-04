@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './HeaderTitleBlock.css';
+import './HeaderTitleBlock.scss';
 
 const ControlItem = ({icon, disabled}) => (
 

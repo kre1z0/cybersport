@@ -4,7 +4,7 @@ import MenuItem from 'material-ui/MenuItem';
 import {DropdownIcon} from '../icons';
 
 import {darkGrey, coolGreyTwo, softGreen} from '../../assets/theme'
-import './Dropdown.css';
+import './Dropdown.scss';
 
 const innerDivStyle = {
     padding: '0 10px'

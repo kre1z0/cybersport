@@ -8,8 +8,8 @@ import Routes from './routes';
 import App from './containers/App';
 
 import 'reset.css/reset.css';
-import './assets/fonts/fonts.css';
-import './assets/base/main.css';
+import './assets/fonts/fonts.scss';
+import './assets/base/main.scss';
 
 class Root extends Component {
     static propTypes = {

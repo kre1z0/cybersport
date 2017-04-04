@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../../assets/icons/logo.svg';
 
-import './appbar-title.css';
+import './appbar-title.scss';
 
 const AppbarTitle = () => (
     <div className="appbar-title">
