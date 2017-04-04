@@ -1,6 +1,6 @@
 import 'reset.css/reset.css';
-import '../assets/fonts/fonts.css';
-import '../assets/base/main.css';
+import '../assets/fonts/fonts.scss';
+import '../assets/base/main.scss';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
