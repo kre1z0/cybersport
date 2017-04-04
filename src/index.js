@@ -8,6 +8,9 @@ injectTapEventPlugin();
 
 import configureStore from './store';
 
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+OfflinePluginRuntime.install();
+
 const store = configureStore();
 
 ReactDOM.render(

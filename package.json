@@ -54,6 +54,7 @@
     "node-sass": "^4.5.1",
     "npm-run-all": "^4.0.2",
     "object-assign": "4.1.1",
+    "offline-plugin": "^4.6.2",
     "postcss-loader": "1.2.2",
     "promise": "7.1.1",
     "react-addons-test-utils": "^15.4.2",
