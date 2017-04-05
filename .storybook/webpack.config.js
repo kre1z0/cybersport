@@ -7,46 +7,20 @@
 // to "React Create App". This only has babel loader to load JavaScript.
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
 
-module.exports = {
-  plugins: [
-    // your custom plugins
-  ],
-  module: {
-    loaders: [
-        {
-            exclude: [
-                /\.html$/,
-                /\.(js|jsx)$/,
-                /\.css$/,
-                /\.json$/,
-                /\.svg$/,
-                /\.scss$/
-            ],
-            loader: 'url',
-            query: {
-                limit: 10000,
-                name: 'static/media/[name].[hash:8].[ext]'
-            }
-        },
-        {
-            test: /\.(js|jsx)$/,
-            include: path.resolve(__dirname, '../src'),
-            loader: 'babel',
-            query: {
-                cacheDirectory: true
-            }
-        },
+// Export a function. Accept the base config as the only param.
+module.exports = function(storybookBaseConfig, configType) {
+    storybookBaseConfig.module.loaders.push(
         {
             test: /\.css$/,
             loader: 'style!css?importLoaders=1!postcss'
-        },
-        {
+        }, {
             test: /\.json$/,
             loader: 'json'
         },
         {
-            test: /\.svg$/,
+            test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
             loader: 'file',
             query: {
                 name: 'static/media/[name].[hash:8].[ext]'
@@ -56,18 +30,21 @@ module.exports = {
             test: /\.scss$/,
             loader: 'style!css?importLoaders=1!postcss!sass'
         }
-    ],
-  },
-  postcss: function() {
-      return [
-          autoprefixer({
-              browsers: [
-                  '>1%',
-                  'last 4 versions',
-                  'Firefox ESR',
-                  'not ie < 9', // React doesn't support IE8 anyway
-              ]
-          }),
-      ];
-  },
+    );
+
+    storybookBaseConfig.postcss = function() {
+        return [
+            autoprefixer({
+                browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9', // React doesn't support IE8 anyway
+                ]
+            }),
+        ];
+    };
+
+    // Return the altered config
+    return storybookBaseConfig;
 };

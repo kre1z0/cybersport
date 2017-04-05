@@ -3,7 +3,7 @@ import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {theme} from '../assets/theme';
 
-import Table from '../components/portfolio-table';
+import Table from '../components/table';
 
 const columns = [
     {id: 1, title: 'ID'},
@@ -14,7 +14,7 @@ const columns = [
     {id: 6, title: 'Ответственный сотрудник ПМЗ'},
     {id: 7, title: 'Регион расположения объекта'},
     {id: 8, title: 'Адрес объекта (по договору)'},
-    {id: 9, title: 'Адрес объекта (скореректированный)'},
+    {id: 9, title: 'Адрес объекта (скоректированный)'},
     {id: 10, title: 'Вид обеспечения по классификатору (1 уровень)'},
     {id: 11, title: 'Вид обеспечения по классификатору (2 уровень)'},
     {id: 12, title: 'Вид обеспечения по классификатору (3 уровень)'}
