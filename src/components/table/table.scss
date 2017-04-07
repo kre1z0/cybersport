@@ -1,0 +1,42 @@
+.sber-grid {
+  .row {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+  }
+
+  .corner-cell {
+    flex: 0 0 75px;
+    z-index: 10;
+  }
+
+  .left-column-grid {
+    overflow: hidden !important;
+  }
+  .header-grid {
+    width: 100%;
+    overflow: hidden !important;
+  }
+  .body-grid {
+    width: 100%;
+  }
+
+  .cell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 .5em;
+    background-color: #fff;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+}
