@@ -13,12 +13,9 @@ storiesOf('Table',  Table)
             {story()}
         </MuiThemeProvider>
     ))
-    .add('with header', () =>
+    .add('Objects', () =>
         <Table columns={columns}
                data={objects}/>
-    )
-    .add('without header', () =>
-        <Table data={objects}/>
     );
 
 

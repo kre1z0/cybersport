@@ -1,6 +1,9 @@
 import React, {Component, PropTypes} from 'react';
-import {AutoSizer, ScrollSync, Grid} from 'react-virtualized';
+import {AutoSizer, ScrollSync, Grid, ColumnSizer} from 'react-virtualized';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
+import classnames from 'classnames';
+
+import Header from './header';
 
 import 'react-virtualized/styles.css'
 
@@ -25,7 +28,7 @@ class TableComponent extends Component {
         const overscanRowCount = 5;
         const rowCount = data.length;
         const columnCount = columns.length;
-        const height = 300;
+        const height = 400;
         
         return (
             <div className="sber-grid">
@@ -66,7 +69,9 @@ class TableComponent extends Component {
                                 <Grid overscanColumnCount={overscanColumnCount}
                                       overscanRowCount={overscanRowCount}
                                       cellRenderer={({rowIndex, style, key}) => (
-                                          <div className="cell"
+                                          <div className={classnames(
+                                              'cell', {'--odd': rowIndex % 2 === 0}
+                                                )}
                                                style={style}
                                                key={key}
                                           >
@@ -87,30 +92,14 @@ class TableComponent extends Component {
                                 <AutoSizer disableHeight>
                                     {({width}) => (
                                         <div>
-                                            <div style={{
-                                                height: rowHeight,
-                                                width: width
-                                            }}>
-                                                <Grid className="header-grid"
-                                                      columnWidth={columnWidth}
-                                                      columnCount={columnCount}
-                                                      height={rowHeight}
-                                                      overscanColumnCount={overscanColumnCount}
-                                                      cellRenderer={({columnIndex, style, key}) => (
-                                                          columnIndex > 0 &&
-                                                          <div className="cell"
-                                                               style={style}
-                                                               key={key}
-                                                          >
-                                                              {columns[columnIndex].title}
-                                                          </div>
-                                                      )}
-                                                      rowHeight={rowHeight}
-                                                      rowCount={1}
-                                                      scrollLeft={scrollLeft}
-                                                      width={width}
-                                                />
-                                            </div>
+                                            <Header columns={columns}
+                                                    height={rowHeight}
+                                                    width={width}
+                                                    columnWidth={columnWidth}
+                                                    columnCount={columnCount}
+                                                    overscanColumnCount={overscanColumnCount}
+                                                    scrollLeft={scrollLeft}
+                                            />
                                             <div style={{
                                                 height,
                                                 width
@@ -124,9 +113,12 @@ class TableComponent extends Component {
                                                       overscanRowCount={overscanRowCount}
                                                       cellRenderer={({rowIndex, columnIndex, style, key})=>(
                                                           columnIndex > 0 &&
-                                                              <div className="cell"
-                                                                   style={style}
-                                                                   key={key}
+                                                              <div className={
+                                                                  classnames(
+                                                                        'cell', {'--odd': rowIndex % 2 === 0}
+                                                                  )}
+                                                                  style={style}
+                                                                  key={key}
                                                               >
                                                                   {data[rowIndex][columns[columnIndex].field]}
                                                               </div>

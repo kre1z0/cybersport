@@ -27,7 +27,7 @@ export const columns = [
 
 export default [
     {
-        id: 111111,
+        id: 1000001,
         photo: 'https://topstroy-remont.ru/wp-content/uploads/2016/07/proekt-rekonstrukcii-zdaniya.jpg',
         description: 'Торговый центр площадью 2500 м2',
         segment: 'Крупный бизнес',
@@ -41,7 +41,7 @@ export default [
         type_three: 'Офисные здания и помещения'
     },
     {
-        id: 111112,
+        id: 1000002,
         photo: 'http://buildvision.com/images/officebuilding-1a.jpg',
         description: 'Торговый центр площадью 3500 м2',
         segment: 'Крупный бизнес',
