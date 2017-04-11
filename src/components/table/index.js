@@ -4,10 +4,20 @@ import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 import classnames from 'classnames';
 
 import Header from './header';
+import Body from './body';
+import ControlColumn from './control-column';
 
 import 'react-virtualized/styles.css'
 
 import './table.scss';
+
+const CornerCell = ({style, key}) => (
+    <div className="cell"
+         style={style}
+         key={key}
+    >
+    </div>
+);
 
 class TableComponent extends Component {
     static propTypes = {
@@ -43,14 +53,7 @@ class TableComponent extends Component {
                                  }}
                             >
                                 <Grid className="header-grid"
-                                      cellRenderer={({style, key}) => (
-                                          <div className="cell"
-                                               style={style}
-                                               key={key}
-                                          >
-                                              x
-                                          </div>
-                                      )}
+                                      cellRenderer={(props) => <CornerCell {...props}/>}
                                       width={columnWidth}
                                       height={rowHeight}
                                       rowHeight={rowHeight}
@@ -59,35 +62,15 @@ class TableComponent extends Component {
                                       columnCount={1}
                                 />
                             </div>
-                            <div className="corner-cell"
-                                 style={{
-                                     position: 'absolute',
-                                     left: 0,
-                                     top: rowHeight
-                                 }}
-                            >
-                                <Grid overscanColumnCount={overscanColumnCount}
-                                      overscanRowCount={overscanRowCount}
-                                      cellRenderer={({rowIndex, style, key}) => (
-                                          <div className={classnames(
-                                              'cell', {'--odd': rowIndex % 2 === 0}
-                                                )}
-                                               style={style}
-                                               key={key}
-                                          >
-                                              {rowIndex}
-                                          </div>
-                                      )}
-                                      columnWidth={columnWidth}
-                                      columnCount={1}
-                                      className="left-column-grid"
-                                      height={height-scrollbarSize()}
-                                      rowHeight={rowHeight}
-                                      rowCount={rowCount}
-                                      scrollTop={scrollTop}
-                                      width={columnWidth}
-                                />
-                            </div>
+                            <ControlColumn data={data}
+                                           height={height}
+                                           width={columnWidth}
+                                           rowHeight={rowHeight}
+                                           rowCount={rowCount}
+                                           overscanColumnCount={overscanColumnCount}
+                                           overscanRowCount={overscanRowCount}
+                                           scrollTop={scrollTop}
+                            />
                             <div className="column">
                                 <AutoSizer disableHeight>
                                     {({width}) => (
@@ -100,35 +83,18 @@ class TableComponent extends Component {
                                                     overscanColumnCount={overscanColumnCount}
                                                     scrollLeft={scrollLeft}
                                             />
-                                            <div style={{
-                                                height,
-                                                width
-                                            }}>
-                                                <Grid className="body-grid"
-                                                      columnWidth={columnWidth}
-                                                      columnCount={columnCount}
-                                                      height={height}
-                                                      onScroll={onScroll}
-                                                      overscanColumnCount={overscanColumnCount}
-                                                      overscanRowCount={overscanRowCount}
-                                                      cellRenderer={({rowIndex, columnIndex, style, key})=>(
-                                                          columnIndex > 0 &&
-                                                              <div className={
-                                                                  classnames(
-                                                                        'cell', {'--odd': rowIndex % 2 === 0}
-                                                                  )}
-                                                                  style={style}
-                                                                  key={key}
-                                                              >
-                                                                  {data[rowIndex][columns[columnIndex].field]}
-                                                              </div>
-                                                          
-                                                      )}
-                                                      rowHeight={rowHeight}
-                                                      rowCount={rowCount}
-                                                      width={width}
-                                                />
-                                            </div>
+                                            <Body data={data}
+                                                  columns={columns}
+                                                  height={height}
+                                                  width={width}
+                                                  onScroll={onScroll}
+                                                  columnWidth={columnWidth}
+                                                  columnCount={columnCount}
+                                                  rowHeight={rowHeight}
+                                                  rowCount={rowCount}
+                                                  overscanColumnCount={overscanColumnCount}
+                                                  overscanRowCount={overscanRowCount}
+                                            />
                                         </div>
                                     )}
                                 </AutoSizer>

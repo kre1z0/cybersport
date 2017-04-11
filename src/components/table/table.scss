@@ -28,7 +28,7 @@
   }
   .cell.header {
     color: $darkGrey;
-    font-weight: 400;
+    font-weight: 500;
     text-align: left;
   }
 
@@ -44,10 +44,10 @@
     word-wrap: break-word;
     border-bottom: 1px solid $paleGrey;
     color: $steel;
-    font-weight: 300;
+    font-weight: 400;
     background-color: #fff;
   }
   .--odd {
-     //background-color: $oddColor;
+    background-color: $oddColor;
   }
 }

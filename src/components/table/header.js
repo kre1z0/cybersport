@@ -38,11 +38,10 @@ class HeaderGrid extends Component {
              style={style}
              key={key}
         >
-            <IconButton
-                className="header-button"
-                style={iconButtonStyle}
-                iconStyle={filterIconStyle}
-                onTouchTap={this.handleTouchTap}
+            <IconButton className="header-button"
+                        style={iconButtonStyle}
+                        iconStyle={filterIconStyle}
+                        onTouchTap={this.handleTouchTap}
             >
                 <FilterIcon color={coolGreyTwo} />
             </IconButton>
@@ -61,11 +60,10 @@ class HeaderGrid extends Component {
             }}>
                 <Grid className="header-grid"
                       height={height}
- 
+                      width={width}
                       cellRenderer={this.renderCell}
                       rowHeight={height}
                       rowCount={1}
-                      width={width}
                       {...props}
                 />
             </div>
