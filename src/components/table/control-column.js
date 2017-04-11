@@ -35,7 +35,6 @@ class ControlColumn extends Component {
     );
     
     render () {
-        console.info(this.props);
         const {height, width, rowHeight, data, ...props} = this.props;
         
         return (

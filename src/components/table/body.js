@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Grid} from 'react-virtualized';
+import {Grid, CellMeasurer} from 'react-virtualized';
 import classnames from 'classnames';
 
 class BodyGrid extends Component{
@@ -18,22 +18,28 @@ class BodyGrid extends Component{
         data: PropTypes.array.isRequired
     };
     
-    renderCell = ({rowIndex, columnIndex, style, key})=>(
+    renderCell = ({rowIndex, columnIndex, style, key, parent})=>(
         columnIndex > 0 &&
-        <div className={
-             classnames(
-                 'cell', {'--odd': rowIndex % 2 === 0}
-             )}
-             style={style}
-             key={key}
+        <CellMeasurer cache={this.props.deferredMeasurementCache}
+                      columnIndex={columnIndex}
+                      rowIndex={rowIndex}
+                      key={key}
+                      parent={parent}
         >
-            {this.props.data[rowIndex][this.props.columns[columnIndex].field]}
-        </div>
-
+            <div className={
+                 classnames(
+                     'cell', {'--odd': rowIndex % 2 === 0}
+                 )}
+                 style={style}
+                 key={key}
+            >
+                {this.props.data[rowIndex][this.props.columns[columnIndex].field]}
+            </div>
+        </CellMeasurer>
     );
     
     render () {
-        const {height, width, columns, data, ...props} = this.props;
+        const {height, width, columns, data, deferredMeasurementCache, ...props} = this.props;
         return (
             <div style={{
                 height,
@@ -42,6 +48,8 @@ class BodyGrid extends Component{
                 <Grid className="body-grid"
                       height={height}
                       width={width}
+                      deferredMeasurementCache={deferredMeasurementCache}
+                      columnWidth={deferredMeasurementCache.columnWidth}
                       cellRenderer={this.renderCell}
                       {...props}
                 />

@@ -1,23 +1,14 @@
 import React, {Component, PropTypes} from 'react';
-import {AutoSizer, ScrollSync, Grid, ColumnSizer} from 'react-virtualized';
-import scrollbarSize from 'dom-helpers/util/scrollbarSize';
-import classnames from 'classnames';
+import {AutoSizer, ScrollSync, CellMeasurerCache} from 'react-virtualized';
 
 import Header from './header';
 import Body from './body';
 import ControlColumn from './control-column';
+import Corner from './corner';
 
 import 'react-virtualized/styles.css'
 
 import './table.scss';
-
-const CornerCell = ({style, key}) => (
-    <div className="cell"
-         style={style}
-         key={key}
-    >
-    </div>
-);
 
 class TableComponent extends Component {
     static propTypes = {
@@ -28,6 +19,12 @@ class TableComponent extends Component {
     static defaultProps = {
         data: []
     };
+    
+    cache = new CellMeasurerCache({
+        defaultWidth: 44,
+        minWidth: 44,
+        fixedHeight: true
+    });
     
     render () {
         const {columns, data} = this.props;
@@ -45,26 +42,12 @@ class TableComponent extends Component {
                 <ScrollSync>
                     {({clientHeight, clientWidth, onScroll, scrollHeight, scrollLeft, scrollTop, scrollWidth}) => (
                         <div className="row">
-                            <div className="corner-cell"
-                                 style={{
-                                     position: 'absolute',
-                                     left: 0,
-                                     top: 0,
-                                 }}
-                            >
-                                <Grid className="header-grid"
-                                      cellRenderer={(props) => <CornerCell {...props}/>}
-                                      width={columnWidth}
-                                      height={rowHeight}
-                                      rowHeight={rowHeight}
-                                      columnWidth={columnWidth}
-                                      rowCount={1}
-                                      columnCount={1}
-                                />
-                            </div>
+                            <Corner height={rowHeight}
+                                    width={44}
+                            />
                             <ControlColumn data={data}
                                            height={height}
-                                           width={columnWidth}
+                                           width={44}
                                            rowHeight={rowHeight}
                                            rowCount={rowCount}
                                            overscanColumnCount={overscanColumnCount}
@@ -78,7 +61,7 @@ class TableComponent extends Component {
                                             <Header columns={columns}
                                                     height={rowHeight}
                                                     width={width}
-                                                    columnWidth={columnWidth}
+                                                    deferredMeasurementCache={this.cache}
                                                     columnCount={columnCount}
                                                     overscanColumnCount={overscanColumnCount}
                                                     scrollLeft={scrollLeft}
@@ -88,7 +71,7 @@ class TableComponent extends Component {
                                                   height={height}
                                                   width={width}
                                                   onScroll={onScroll}
-                                                  columnWidth={columnWidth}
+                                                  deferredMeasurementCache={this.cache}
                                                   columnCount={columnCount}
                                                   rowHeight={rowHeight}
                                                   rowCount={rowCount}
@@ -100,12 +83,13 @@ class TableComponent extends Component {
                                 </AutoSizer>
                             </div>
                         </div>
-                    )
-                    }
+                    )}
                 </ScrollSync>
             </div>
         )
     }
+    
+    
 }
 
 export default TableComponent;

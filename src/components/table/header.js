@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Grid} from 'react-virtualized';
+import {Grid, CellMeasurer} from 'react-virtualized';
 import IconButton from 'material-ui/IconButton';
 import {FilterIcon} from '../icons';
 import {coolGreyTwo} from '../../assets/theme';
@@ -32,27 +32,34 @@ class HeaderGrid extends Component {
         columns: PropTypes.array.isRequired
     };
     
-    renderCell = ({columnIndex, style, key}) => (
+    renderCell = ({columnIndex, style, key, parent, rowIndex}) => (
         columnIndex > 0 &&
-        <div className="cell header"
-             style={style}
-             key={key}
+        <CellMeasurer cache={this.props.deferredMeasurementCache}
+                      columnIndex={columnIndex}
+                      rowIndex={rowIndex}
+                      key={key}
+                      parent={parent}
         >
-            <IconButton className="header-button"
-                        style={iconButtonStyle}
-                        iconStyle={filterIconStyle}
-                        onTouchTap={this.handleTouchTap}
+            <div className="cell header"
+                 style={style}
+                 key={key}
             >
-                <FilterIcon color={coolGreyTwo} />
-            </IconButton>
-            <div className="header-title">
-                {this.props.columns[columnIndex].title}
+                <IconButton className="header-button"
+                            style={iconButtonStyle}
+                            iconStyle={filterIconStyle}
+                            onTouchTap={this.handleTouchTap}
+                >
+                    <FilterIcon color={coolGreyTwo}/>
+                </IconButton>
+                <div className="header-title">
+                    {this.props.columns[columnIndex].title}
+                </div>
             </div>
-        </div>
+        </CellMeasurer>
     );
     
     render () {
-        const {height, width, columns, ...props} = this.props;
+        const {height, width, columns, deferredMeasurementCache, ...props} = this.props;
         return (
             <div style={{
                 height,
@@ -63,6 +70,8 @@ class HeaderGrid extends Component {
                       width={width}
                       cellRenderer={this.renderCell}
                       rowHeight={height}
+                      columnWidth={deferredMeasurementCache.columnWidth}
+                      deferredMeasurementCache={deferredMeasurementCache}
                       rowCount={1}
                       {...props}
                 />
