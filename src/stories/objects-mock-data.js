@@ -8,7 +8,7 @@ export const columns = [
     {field: 'employee', title: 'Ответственный сотрудник ПМЗ', type: 'text'},
     {field: 'region', title: 'Регион расположения объекта', type: 'text'},
     {field: 'address_doc', title: 'Адрес объекта (по договору)', type: 'text'},
-    {field: 'address_edit', title: 'Адрес объекта (скореректированный)', type: 'text'},
+    {field: 'address_edit', title: 'Адрес объекта (скорректированный)', type: 'text'},
     {field: 'type_one', title: 'Вид обеспечения по классификатору (1 уровень)', type: 'text'},
     {field: 'type_two', title: 'Вид обеспечения по классификатору (2 уровень)', type: 'text'},
     {field: 'type_three', title: 'Вид обеспечения по классификатору (3 уровень)', type: 'text'}
