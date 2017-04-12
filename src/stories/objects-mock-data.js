@@ -1,28 +1,17 @@
-export const columnWidths = [
-    {minWidth: '43px', maxWidth: '43px'},
-    {minWidth: '100px', maxWidth: '100px'},
-    {minWidth: '105px', maxWidth: '105px'},
-    {minWidth: '176px', maxWidth: '176px'},
-    {minWidth: '212px', maxWidth: '212px'},
-    {minWidth: '220px', maxWidth: '220px'},
-    {minWidth: '260px', maxWidth: '260px'},
-    {minWidth: '303px', maxWidth: '303px'},
-];
 
 export const columns = [
-    {field: 'options', style: columnWidths[1], title: ''},
-    {field: 'id', style: columnWidths[1], title: 'ID'},
-    {field: 'photo', style: columnWidths[2], title: 'Фото'},
-    {field: 'description', style: columnWidths[7], title: 'Описание'},
-    {field: 'segment', style: columnWidths[4], title: 'Целевой клиентский сегмент'},
-    {field: 'tb', style: columnWidths[3], title: 'ТБ'},
-    {field: 'employee', style: columnWidths[5], title: 'Ответственный сотрудник ПМЗ'},
-    {field: 'region', style: columnWidths[5], title: 'Регион расположения объекта'},
-    {field: 'address_doc', style: columnWidths[7], title: 'Адрес объекта (по договору)'},
-    {field: 'address_edit', style: columnWidths[7], title: 'Адрес объекта (скореректированный)'},
-    {field: 'type_one', style: columnWidths[6], title: 'Вид обеспечения по классификатору (1 уровень)'},
-    {field: 'type_two', style: columnWidths[6], title: 'Вид обеспечения по классификатору (2 уровень)'},
-    {field: 'type_three', style: columnWidths[6], title: 'Вид обеспечения по классификатору (3 уровень)'}
+    {field: 'id', title: 'ID', type: 'text'},
+    {field: 'photo', title: 'Фото', type: 'img'},
+    {field: 'description', title: 'Описание', type: 'text'},
+    {field: 'segment', title: 'Целевой клиентский сегмент', type: 'text'},
+    {field: 'tb', title: 'ТБ', type: 'text'},
+    {field: 'employee', title: 'Ответственный сотрудник ПМЗ', type: 'text'},
+    {field: 'region', title: 'Регион расположения объекта', type: 'text'},
+    {field: 'address_doc', title: 'Адрес объекта (по договору)', type: 'text'},
+    {field: 'address_edit', title: 'Адрес объекта (скореректированный)', type: 'text'},
+    {field: 'type_one', title: 'Вид обеспечения по классификатору (1 уровень)', type: 'text'},
+    {field: 'type_two', title: 'Вид обеспечения по классификатору (2 уровень)', type: 'text'},
+    {field: 'type_three', title: 'Вид обеспечения по классификатору (3 уровень)', type: 'text'}
 ];
 
 export default [

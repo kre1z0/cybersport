@@ -1,36 +1,7 @@
 @import "../../assets/base/colors";
 .sber-grid {
-  .row {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-  }
-  .column {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-  }
-
-  .corner-cell {
-    flex: 0 0 75px;
-    z-index: 10;
-  }
-
-  .left-column-grid {
-    overflow: hidden !important;
-  }
-  .header-grid {
-    width: 100%;
-    overflow: hidden !important;
-  }
-  .body-grid {
-    width: 100%;
-  }
-  .cell.header {
-    color: $darkGrey;
-    font-weight: 500;
-    text-align: left;
-  }
+  width: 100%;
+  height: 100%;
 
   .cell {
     width: 100%;
@@ -46,6 +17,16 @@
     font-weight: 400;
     background-color: #fff;
   }
+
+  .header {
+    font-weight: 500;
+    color: $darkGrey;
+  }
+
+  .img {
+    justify-content: center;
+  }
+
   .--odd {
     background-color: $oddColor;
   }
