@@ -7,7 +7,6 @@ import 'react-virtualized/styles.css'
 
 import './table.scss';
 
-
 class TableComponent extends Component {
     static propTypes = {
         columns: PropTypes.array,
@@ -20,6 +19,7 @@ class TableComponent extends Component {
     
     static defaultProps = {
         data: [],
+        columns: [],
         rowHeight: 56
     };
     
@@ -71,9 +71,7 @@ class TableComponent extends Component {
     );
     
     render () {
-        const {columns, data} = this.props;
-        
-        const rowHeight = 56;
+        const {columns, data, rowHeight} = this.props;
         
         return (
             <div className="sber-grid">

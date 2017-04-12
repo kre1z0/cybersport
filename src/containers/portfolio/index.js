@@ -2,25 +2,27 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
 import HeaderTitleBlock from '../../components/header-title-block';
-import PortfolioTable from '../../components/portfolio-table';
+import Table from '../../components/table';
 
 import './portfolio.scss'
 
 class Portfolio extends Component {
     static propTypes = {
-        objects: PropTypes.array.isRequired
+        objects: PropTypes.object.isRequired
     };
 
     render () {
-        const {objects} = this.props;
-        
+        const {objects: {data, columns}} = this.props;
+
         return (
             <div className="portfolio-container">
                 <div className="portfolio-content">
 
                     <HeaderTitleBlock title="Реестр объектов залога" />
 
-                    <PortfolioTable {...{objects}} />
+                    <Table data={data}
+                           columns={columns}
+                    />
 
                 </div>
             </div>
