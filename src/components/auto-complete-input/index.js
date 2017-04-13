@@ -22,7 +22,8 @@ class AutoCompleteInput extends Component {
     static propTypes = {
         data: PropTypes.arrayOf(PropTypes.shape({
             text: PropTypes.string
-        }))
+        })),
+        onChange: PropTypes.func
     };
 
     static defaultProps = {
@@ -35,12 +36,23 @@ class AutoCompleteInput extends Component {
         blockFocus: false
     };
 
+    filterData(value){
+        const result = value === ''
+                            ? []
+                            : this.props.data
+                                    .filter(item => item.text.toLowerCase().search(value.toLowerCase()) !== -1);
+        return result;
+    }
+
     handleUpdateInput = (value) => {
         this.setState({
-            data: value === '' ? [] : this.props.data
-                                            .filter(item => item.text.toLowerCase().search(value.toLowerCase()) !== -1)
+            data: this.filterData(value)
 
-        })
+        });
+
+        if(this.props.onChange) {
+            this.props.onChange(value)
+        }
     };
 
     handleFocus = () => {
@@ -84,7 +96,7 @@ class AutoCompleteInput extends Component {
                     menuStyle={styles.MENU}
                     openOnFocus={true}
                     listStyle={styles.MENU_LIST}
-                    className={`Input ${this.state.focused ? 'focused' : ''}`}
+                    className={`text-input ${this.state.focused ? 'focused' : ''}`}
                     menuProps={{
                         menuItemStyle: styles.MENU_ITEM
                     }}

@@ -35,7 +35,7 @@ storiesOf('Inputs',  Dropdown)
     )
     .add('AutoComplete input', () =>
         <div>
-            <AutoCompleteInput data={data} />
+            <AutoCompleteInput onChange={(e) => {console.log(e)}} data={data} />
         </div>
     );
 
