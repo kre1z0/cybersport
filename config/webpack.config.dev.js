@@ -1,6 +1,7 @@
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+const flexboxFixes = require('postcss-flexbugs-fixes');
 const OfflinePlugin = require('offline-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
@@ -163,6 +164,7 @@ module.exports = {
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
+      flexboxFixes(),
       autoprefixer({
         browsers: [
           '>1%',
