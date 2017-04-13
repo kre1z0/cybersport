@@ -88,6 +88,8 @@ class TableComponent extends Component {
                             height={height}
                             width={width}
                             deferredMeasurementCache={this.cache}
+                            overscanColumnCount={3}
+                            overscanRowCount={5}
                         />
                     )}
                 </AutoSizer>
