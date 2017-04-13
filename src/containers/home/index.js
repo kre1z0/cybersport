@@ -1,19 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import {ObjectsIcon, MapIcon, InspectionsIcon, AnalyticIcon} from '../../components/icons';
 import ProgressChart from '../../components/progress-chart';
-import MainButton from '../../components/main-button';
+import MainButtons from '../../components/main-buttons';
 import withRouter from '../../hoc/withRouter';
 
 import './home.scss';
-
-const iconStyle = {
-    width: '46px',
-    height: '44px',
-    position: 'relative',
-    bottom: '4px'
-};
 
 class Home extends Component {
     static propTypes = {
@@ -24,49 +16,32 @@ class Home extends Component {
         goAnalytic: PropTypes.func.isRequired
     };
 
-    state = {
-        isActive: false
-    };
-
-    handleEnterButton = (id) => {
-        this.setState(() => ({
-            isActive: id
-        }));
-    };
-
-    handleLeaveButton = () => {
-        this.setState(() => ({
-            isActive: null
-        }));
-    };
-
     render () {
         const {goPortfolio, goMap, goInspections, goAnalytic, plan: {progress}} = this.props;
-        const {isActive} = this.state;
-
-        const mainButtons = [
+    
+        const buttons = [
             {
                 id: 1,
                 label: 'Залоговый портфель',
-                icon: <ObjectsIcon style={iconStyle} isActive={isActive === 1} />,
+                icon: 'objects',
                 onTouchTap: goPortfolio
             },
             {
                 id: 2,
                 label: 'Проверки',
-                icon: <InspectionsIcon style={iconStyle} isActive={isActive === 2} />,
+                icon: 'inspections',
                 onTouchTap: goInspections
             },
             {
                 id: 3,
                 label: 'Карта залогов',
-                icon: <MapIcon  style={iconStyle} isActive={isActive === 3} />,
+                icon: 'map',
                 onTouchTap: goMap
             },
             {
                 id: 4,
                 label: 'Аналитика',
-                icon: <AnalyticIcon style={iconStyle} isActive={isActive === 4} />,
+                icon: 'analytic',
                 onTouchTap: goAnalytic
             }
         ];
@@ -75,20 +50,12 @@ class Home extends Component {
             <div className="home-container">
                 <div className="home-content">
 
-                    <ProgressChart value={progress} month="март"/>
-
-                    <div className="home-buttons">
-                        {mainButtons.map(({id, ...props}) =>
-                            <MainButton
-                                {...props}
-                                key={id}
-                                id={id}
-                                isActive={isActive}
-                                onMouseEnter={() => this.handleEnterButton(id)}
-                                onMouseLeave={this.handleLeaveButton}
-                            />
-                        )}
-                    </div>
+                    <ProgressChart value={progress}
+                                   month="март"/>
+                    <MainButtons buttons={buttons}
+                                 onMouseEnter={this.handleEnterButton}
+                                 onMouseLeave={this.handleLeaveButton}
+                    />
 
                 </div>
             </div>

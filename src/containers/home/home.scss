@@ -17,8 +17,15 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: stretch;
 
   }
-
+  @media all and (max-width: 760px){
+    .home-buttons {
+      span{
+        display: none!important;
+      }
+    }
+  }
 }
 
