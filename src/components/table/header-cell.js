@@ -4,8 +4,6 @@ import {FilterIcon} from '../icons';
 import {coolGreyTwo} from '../../assets/theme';
 
 const iconButtonStyle = {
-    display: 'flex',
-    justifyContent: 'center',
     width: 40,
     height: 40,
     padding: 0
@@ -25,6 +23,7 @@ const HeaderCell = ({content, style, key, onClick}) => (
                     style={iconButtonStyle}
                     iconStyle={filterIconStyle}
                     onTouchTap={onClick}
+                    touch={true}
         >
             <FilterIcon color={coolGreyTwo}/>
         </IconButton>
