@@ -1,0 +1,13 @@
+@import "../../assets/base/colors.scss";
+
+.auto-complete-input{
+  background-color: #fff;
+  .Input{
+    box-sizing: border-box;
+    border: 1px solid $paleGrey;
+    transition: border-color .2s ease-out;
+    &.focused{
+      border-color: $softGreen;
+    }
+  }
+}

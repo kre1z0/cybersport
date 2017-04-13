@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {theme} from '../assets/theme';
 
 import Dropdown from '../components/dropdown';
+import AutoCompleteInput from '../components/auto-complete-input';
 
 const fields = [
     {id: 1, text: 'По возрастанию'},
@@ -14,7 +15,8 @@ const fields = [
 const data = [
     {id: 1, text: 'Иванов'},
     {id: 2, text: 'Петров'},
-    {id: 3, text: 'Сидоров'}
+    {id: 3, text: 'Сидоров'},
+    {id: 4, text: 'Иванченко'}
 ];
 
 storiesOf('Inputs',  Dropdown)
@@ -29,6 +31,11 @@ storiesOf('Inputs',  Dropdown)
             <Dropdown type={'select'} fields={fields}/>
             <Dropdown type={'input'} data={data} cell={true}/>
             <Dropdown type={'select'} fields={fields} cell={true}/>
+        </div>
+    )
+    .add('AutoComplete input', () =>
+        <div>
+            <AutoCompleteInput data={data} />
         </div>
     );
 

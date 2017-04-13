@@ -14,6 +14,7 @@ export const dustyOrange = '#eb7f2e';
 
 export const theme = getMuiTheme({
     fontFamily: 'FedraSans',
+    fontSize: '14px',
     appBar: {
         height: 80,
         color: softGreen
