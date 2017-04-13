@@ -4,6 +4,8 @@ import {darkGrey, softGreen} from '../../assets/theme'
 
 import {ObjectsIcon, MapIcon, InspectionsIcon, AnalyticIcon} from '../icons';
 
+import './main-buttons.scss'
+
 const style = {
     height: '110px',
     minWidth: '40%',
@@ -76,7 +78,7 @@ class MainButtons extends Component {
         const {activeButton} = this.state;
         
         return (
-            <div className="home-buttons">
+            <div className="main-buttons">
                 {buttons.map(({id, icon, ...props}) => {
                         const Icon = Icons[icon];
                         return (
