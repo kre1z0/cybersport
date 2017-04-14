@@ -25,5 +25,8 @@ export const theme = getMuiTheme({
     palette: {
         primary1Color: softGreen,
         accent1Color: dustyOrange
+    },
+    datePicker: {
+        selectColor: softGreen
     }
 });

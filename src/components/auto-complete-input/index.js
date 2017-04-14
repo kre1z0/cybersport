@@ -23,11 +23,13 @@ class AutoCompleteInput extends Component {
         data: PropTypes.arrayOf(PropTypes.shape({
             text: PropTypes.string
         })),
+        value: PropTypes.string,
         onChange: PropTypes.func
     };
 
     static defaultProps = {
-        data: []
+        data: [],
+        value: ''
     };
 
     state = {
@@ -82,11 +84,14 @@ class AutoCompleteInput extends Component {
     };
 
     render() {
+        const { data, focused } = this.state;
+        const { value } = this.props;
+
         return (
             <div className="auto-complete-input">
                 <AutoComplete
                     hintText=" "
-                    dataSource={this.state.data}
+                    dataSource={data}
                     dataSourceConfig={{ text: 'text', value: 'id'}}
                     onUpdateInput={this.handleUpdateInput}
                     fullWidth={true}
@@ -96,10 +101,11 @@ class AutoCompleteInput extends Component {
                     menuStyle={styles.MENU}
                     openOnFocus={true}
                     listStyle={styles.MENU_LIST}
-                    className={`text-input ${this.state.focused ? 'focused' : ''}`}
+                    className={`text-input ${focused ? 'focused' : ''}`}
                     menuProps={{
                         menuItemStyle: styles.MENU_ITEM
                     }}
+                    searchText={value}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
                     onKeyDown={this.handleKeyDown}

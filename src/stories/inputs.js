@@ -5,6 +5,7 @@ import {theme} from '../assets/theme';
 
 import Dropdown from '../components/dropdown';
 import AutoCompleteInput from '../components/auto-complete-input';
+import DatePicker from '../components/date-picker';
 
 const fields = [
     {id: 1, text: 'По возрастанию'},
@@ -36,6 +37,14 @@ storiesOf('Inputs',  Dropdown)
     .add('AutoComplete input', () =>
         <div>
             <AutoCompleteInput onChange={(e) => {console.log(e)}} data={data} />
+            <AutoCompleteInput value="Ива" data={data} />
+        </div>
+    )
+    .add('DatePicker input', () =>
+        <div>
+            <DatePicker />
+            <DatePicker onChange={(date) => { console.log(date)}} />
+            <DatePicker value={new Date(2017, 6, 5)} />
         </div>
     );
 
