@@ -1,21 +1,32 @@
 import {FETCH_ERROR, FETCH, FETCH_SUCCESS} from '../reducers/objects';
 
+const keyValueArrayToObject = (array) =>
+    array.reduce((prev, {Key, Value}) => {
+        prev[Key] = Value;
+        return prev;
+    }, {});
+
+const normalizeData = (data) =>
+    data.map(({attributes}) =>
+    attributes && keyValueArrayToObject(attributes));
+
+const transformResponseData = (data) =>
+    data && normalizeData(data);
+
 const fetchObjects = () => Promise.all([
     fetch('/reestr.json').then(response=>response.json()),
-    fetch('/objects_service_info.json').then(response=>response.json())
-]).then(([{data, totalObjects}, {attributesDefinition: {attributes}}]) => ({
-    data,
-    totalObjects,
-    attributes
+]).then(([{data, totalObjects}]) => ({
+    data: transformResponseData(data),
+    totalObjects
 }));
 
 export const objectsFetch = (objects) => ({
     type: FETCH
 });
 
-export const objectsFetchSuccess = (objects) => ({
+export const objectsFetchSuccess = (payload) => ({
     type: FETCH_SUCCESS,
-    objects
+    ...payload
 });
 
 export const objectsFetchError = (error) => ({
@@ -26,6 +37,6 @@ export const objectsFetchError = (error) => ({
 export const getObjects = () => (dispatch) => {
     dispatch(objectsFetch());
     fetchObjects()
-        .then(objects => dispatch(objectsFetchSuccess(objects)))
+        .then(response => dispatch(objectsFetchSuccess(response)))
         .catch(error => dispatch(objectsFetchError()));
 };
