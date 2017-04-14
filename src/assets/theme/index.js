@@ -14,6 +14,7 @@ export const dustyOrange = '#eb7f2e';
 
 export const theme = getMuiTheme({
     fontFamily: 'FedraSans',
+    fontSize: '14px',
     appBar: {
         height: 80,
         color: softGreen
@@ -24,5 +25,8 @@ export const theme = getMuiTheme({
     palette: {
         primary1Color: softGreen,
         accent1Color: dustyOrange
+    },
+    datePicker: {
+        selectColor: softGreen
     }
 });
