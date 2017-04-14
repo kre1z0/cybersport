@@ -5,7 +5,9 @@ import {theme} from '../assets/theme';
 
 import Table from '../components/table';
 
-import objects, {columns, columnWidths} from './objects-mock-data';
+import objects, {columns} from './objects-mock-data';
+
+console.log(objects, columns);
 
 storiesOf('Table',  Table)
     .addDecorator((story) => (
@@ -14,8 +16,11 @@ storiesOf('Table',  Table)
         </MuiThemeProvider>
     ))
     .add('Objects', () =>
-        <Table columns={columns}
-               data={objects}/>
+        <div style={{height: 500, width: '100%'}}>
+            <Table columns={columns}
+                   data={objects}
+            />
+        </div>
     );
 
 
