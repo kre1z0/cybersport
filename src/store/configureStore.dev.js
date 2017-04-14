@@ -2,13 +2,19 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import {persistStore, autoRehydrate} from 'redux-persist'
+import {persistStore, autoRehydrate} from 'redux-persist';
+import {REHYDRATE} from 'redux-persist/constants';
+import createActionBuffer from 'redux-action-buffer';
+import localForage from 'localforage';
 
 import reducers from '../reducers';
 
 const configureStore = preloadedState => {
     
-    const middlewares = composeWithDevTools(applyMiddleware(thunk, createLogger()), autoRehydrate());
+    const middlewares = composeWithDevTools(
+        applyMiddleware(thunk, createActionBuffer(REHYDRATE), createLogger()),
+        autoRehydrate()
+    );
     
     const store = createStore(reducers, preloadedState, middlewares);
     
@@ -19,7 +25,7 @@ const configureStore = preloadedState => {
         })
     }
     
-    persistStore(store);
+    persistStore(store, {storage: localForage});
     
     return store;
 };
