@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
+import Loader from 'material-ui/CircularProgress';
 import HeaderTitleBlock from '../../components/header-title-block';
 import Table from '../../components/table';
 import {getObjects} from '../../actions/objects';
@@ -17,7 +18,7 @@ class Portfolio extends Component {
     }
 
     render () {
-        const {objects: {data, attributes, loading, error, totalObjects}} = this.props;
+        const {objects: {data, attributes}} = this.props;
 
         return (
             <div className="portfolio-container">
@@ -25,9 +26,12 @@ class Portfolio extends Component {
 
                     <HeaderTitleBlock title="Реестр объектов залога" />
 
-                    <Table data={data}
+                    {data.length > 0
+                        ? <Table data={data}
                            columns={attributes}
-                    />
+                          />
+                        : <Loader className="loader"/>
+                    }
 
                 </div>
             </div>

@@ -72,7 +72,7 @@ class TableComponent extends Component {
     
     render () {
         const {columns, data, rowHeight} = this.props;
-        
+
         return (
             <div className="sber-grid">
                 <AutoSizer>
@@ -90,6 +90,7 @@ class TableComponent extends Component {
                             deferredMeasurementCache={this.cache}
                             overscanColumnCount={3}
                             overscanRowCount={5}
+                            estimatedColumnSize={200}
                         />
                     )}
                 </AutoSizer>
