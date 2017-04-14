@@ -35,14 +35,14 @@ class TableComponent extends Component {
             const column = columns[columnIndex - 1];
             return {
                 type: column.type,
-                content: data[rowIndex - 1][column.field],
+                content: data[rowIndex - 1][column.name],
                 rowIndex
             }
         } else if (rowIndex === 0 && columnIndex > 0) {
             const column = columns[columnIndex - 1];
             return {
                 type: TYPES.HEADER,
-                content: column.title
+                content: column.alias
             }
         } else if (rowIndex > 0 && columnIndex === 0){
             return {
