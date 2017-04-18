@@ -14,10 +14,9 @@ const filterIconStyle = {
     height: '10px'
 };
 
-const HeaderCell = ({content, style, key, onClick}) => (
-    <div className="cell header"
+const HeaderCell = ({content, style, onClick}) => (
+    <div className="cell --header"
          style={style}
-         key={key}
     >
         <IconButton className="header-button"
                     style={iconButtonStyle}

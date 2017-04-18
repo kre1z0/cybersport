@@ -1,0 +1,56 @@
+@import "../../assets/base/colors";
+.sber-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  td, th {
+    vertical-align: middle;
+  }
+
+  .header-container {
+    will-change: transform;
+  }
+
+  .body-container {
+    overflow: auto;
+    table {
+      table-layout: fixed;
+    }
+  }
+
+  .cell {
+    display: flex;
+    height: 56px;
+    border-bottom: 1px solid $paleGrey;
+    align-items: center;
+    white-space: nowrap;
+    background-color: #fff;
+    color: $steel;
+    font-weight: 400;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  .--img {
+    justify-content: center;
+  }
+
+  .--header {
+    justify-content: center;
+    font-weight: 500;
+    color: $darkGrey;
+    border-bottom: none;
+  }
+
+  .--hidden {
+    height: 0;
+    overflow: hidden;
+  }
+
+  .--odd {
+      background-color: $oddColor;
+  }
+}

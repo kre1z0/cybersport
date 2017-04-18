@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Loader from 'material-ui/CircularProgress';
 import HeaderTitleBlock from '../../components/header-title-block';
-import Table from '../../components/table';
+import Table from '../../components/table/simple-table';
 import {getObjects} from '../../actions/objects';
 
 import './portfolio.scss'

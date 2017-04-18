@@ -3,7 +3,7 @@ import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {theme} from '../assets/theme';
 
-import Table from '../components/table';
+import Table from '../components/table/simple-table';
 
 import objects, {columns} from './objects-mock-data';
 
@@ -15,8 +15,8 @@ storiesOf('Table',  Table)
             {story()}
         </MuiThemeProvider>
     ))
-    .add('Objects', () =>
-        <div style={{height: 500, width: '100%'}}>
+    .add('Virtual table', () =>
+        <div style={{height: 500}}>
             <Table columns={columns}
                    data={objects}
             />
