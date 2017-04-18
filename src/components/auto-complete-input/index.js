@@ -77,7 +77,6 @@ class AutoCompleteInput extends Component {
     };
 
     handleSelectItem = () => {
-        console.log('sdcsc');
         this.setState({
             blockFocus: false,
             focused: false
