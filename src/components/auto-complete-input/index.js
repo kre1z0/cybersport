@@ -77,6 +77,7 @@ class AutoCompleteInput extends Component {
     };
 
     handleSelectItem = () => {
+        console.log('sdcsc');
         this.setState({
             blockFocus: false,
             focused: false
@@ -90,6 +91,7 @@ class AutoCompleteInput extends Component {
         return (
             <div className="auto-complete-input">
                 <AutoComplete
+                    animated={false}
                     hintText=" "
                     dataSource={data}
                     dataSourceConfig={{ text: 'text', value: 'id'}}
@@ -110,6 +112,7 @@ class AutoCompleteInput extends Component {
                     onBlur={this.handleBlur}
                     onKeyDown={this.handleKeyDown}
                     onNewRequest={this.handleSelectItem}
+                    menuCloseDelay={0}
                 />
             </div>
         );
