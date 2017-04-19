@@ -6,6 +6,7 @@ import {theme} from '../assets/theme';
 import Dropdown from '../components/dropdown';
 import AutoCompleteInput from '../components/auto-complete-input';
 import DatePicker from '../components/date-picker';
+import SelectFieldInput from '../components/select-field';
 
 const fields = [
     {id: 1, text: 'По возрастанию'},
@@ -26,18 +27,17 @@ storiesOf('Inputs',  Dropdown)
             {story()}
         </MuiThemeProvider>
     ))
-    .add('Dropdown', () =>
-        <div>
-            <Dropdown type={'input'} data={data}/>
-            <Dropdown type={'select'} fields={fields}/>
-            <Dropdown type={'input'} data={data} cell={true}/>
-            <Dropdown type={'select'} fields={fields} cell={true}/>
-        </div>
-    )
     .add('AutoComplete input', () =>
         <div>
             <AutoCompleteInput onChange={(e) => {console.log(e)}} data={data} />
             <AutoCompleteInput value="Ива" data={data} />
+        </div>
+    )
+    .add('SelectInput input', () =>
+        <div>
+            <SelectFieldInput data={data} selectedId={1} />
+            <br />
+            <SelectFieldInput multiple data={data} selectedId={[1,2,3]} />
         </div>
     )
     .add('DatePicker input', () =>
