@@ -7,7 +7,7 @@ import Dropdown from '../components/dropdown';
 import AutoCompleteInput from '../components/auto-complete-input';
 import DatePicker from '../components/date-picker';
 import SelectFieldInput from '../components/select-field';
-import TextArea from '../components/text-area';
+import TextInput from '../components/text-input';
 
 const fields = ['Иванов', 'Петров', 'Иванченко'];
 
@@ -38,7 +38,19 @@ storiesOf('Inputs',  Dropdown)
                     {id: 1, text: 'Иванов'},
                     {id: 2, text: 'Петров'},
                     {id: 3, text: 'Сидоров'},
-                    {id: 4, text: 'Иванченко'}
+                    {id: 4, text: 'Иванченко'},
+                    {id: 12, text: 'Петров'},
+                    {id: 13, text: 'Сидоров'},
+                    {id: 14, text: 'Иванченко'},
+                    {id: 22, text: 'Петров'},
+                    {id: 23, text: 'Сидоров'},
+                    {id: 24, text: 'Иванченко'},
+                    {id: 32, text: 'Петров'},
+                    {id: 33, text: 'Сидоров'},
+                    {id: 34, text: 'Иванченко'},
+                    {id: 42, text: 'Петров'},
+                    {id: 53, text: 'Сидоров'},
+                    {id: 64, text: 'Иванченко'}
                 ],
                 selectId1: 1,
                 selectId2: [1,2,3]
@@ -80,10 +92,45 @@ storiesOf('Inputs',  Dropdown)
             <DatePicker value={new Date(2017, 6, 5)} />
         </div>
     )
-    .add('Text Area', () =>
-        <div>
-            <TextArea/>
-        </div>
+    .add('Text Area', () => {
+
+        class WrappedTextInput extends React.Component {
+            state = {
+                value1: '',
+                value2: ''
+            };
+
+            handlerChange1 = (val) => {
+                this.setState({
+                    value1: val
+                })
+            };
+
+            handlerChange2 = (val) => {
+                this.setState({
+                    value2: val
+                })
+            };
+
+            render(){
+                const { value1, value2 } = this.state;
+
+                return (
+                    <div>
+                        <div style={{width: '300px', display: 'inline-block'}}>
+                            <TextInput value={value1} onChange={this.handlerChange1} />
+                        </div>
+                        <br/>
+                        <div style={{width: '300px', display: 'inline-block'}}>
+                            <TextInput value={value2} multiLine onChange={this.handlerChange2} />
+                        </div>
+                    </div>
+                )
+            }
+        }
+
+        return <WrappedTextInput />
+    }
     );
 
 

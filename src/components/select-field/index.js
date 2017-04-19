@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import classNames from 'classnames';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -49,7 +50,8 @@ class SelectFieldInput extends Component {
             PropTypes.array
         ]),
         onChange: PropTypes.func,
-        multiple: PropTypes.bool
+        multiple: PropTypes.bool,
+        className: PropTypes.string
     };
 
     static defaultProps = {
@@ -61,11 +63,11 @@ class SelectFieldInput extends Component {
         focused: false
     };
 
-    handleClick = (e) => {
-        this.setState({
-            focused: !this.state.focused,
-            popoverPosition: e.currentTarget
-        })
+    handleClick = ({target}) => {
+        this.setState(state => ({
+            popoverPosition: target,
+            focused: !state.focused
+        }));
     };
 
     handleClose = () => {
@@ -103,14 +105,15 @@ class SelectFieldInput extends Component {
     };
 
     render(){
-        const { data, selectedId } = this.props;
+        const { data, selectedId, className } = this.props;
         const { focused, popoverPosition } = this.state;
         const selectedValue = this.props.multiple
             ? `Выбрано ${selectedId.length} объекта(ов)`
             : selectedId && data.find((elem) => elem.id === selectedId).text;
+        const mergedClassName = classNames('select-field-input', className);
         return (
-            <div className="select-field-input">
-                <div onClick={this.handleClick} className={`select-box ${focused ? 'focused' : ''}`}>
+            <div className={mergedClassName}>
+                <div onTouchTap={this.handleClick} className={classNames('select-box', {focused})}>
                     <span className="text">{selectedValue}</span>
                     <div className="arrow">
                         <DropdownIcon style={styles.ARROW} className="icon-content" />
@@ -125,6 +128,7 @@ class SelectFieldInput extends Component {
                     style={styles.POPOVER}
                 >
                     <Menu
+                        maxHeight={200}
                         onItemTouchTap={this.handleSelectItem}
                         onEscKeyDown={this.handleClose}
                         menuItemStyle={styles.MENU}

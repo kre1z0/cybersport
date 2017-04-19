@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import classNames from 'classnames';
 import AutoComplete from 'material-ui/AutoComplete';
 
 import './AutoCompleteInput.scss';
@@ -22,7 +23,8 @@ class AutoCompleteInput extends Component {
     static propTypes = {
         data: PropTypes.arrayOf(PropTypes.string),
         value: PropTypes.string,
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        className: PropTypes.string
     };
 
     static defaultProps = {
@@ -45,14 +47,12 @@ class AutoCompleteInput extends Component {
     }
 
     handleUpdateInput = (value) => {
+        const { onChange } = this.props;
         this.setState({
             filteredData: this.filterData(value)
-
         });
 
-        if(this.props.onChange) {
-            this.props.onChange(value)
-        }
+        onChange && onChange(value)
     };
 
     handleFocus = () => {
@@ -83,10 +83,11 @@ class AutoCompleteInput extends Component {
 
     render() {
         const { filteredData, focused } = this.state;
-        const { value } = this.props;
+        const { value, className } = this.props;
+        const mergedClassName = classNames('auto-complete-input', className);
 
         return (
-            <div className="auto-complete-input">
+            <div className={mergedClassName}>
                 <AutoComplete
                     animated={false}
                     hintText=" "
