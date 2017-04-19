@@ -50,7 +50,7 @@ class HeaderPopup extends PureComponent {
     
     state = {
         anchor: null,
-        sort: 0,
+        sort: 1,
         filter: ''
     };
     
@@ -71,7 +71,7 @@ class HeaderPopup extends PureComponent {
         onApply && onApply({sort: 0, filter: ''});
     };
     
-    onSortTypeChange = (sortType) => this.setState(setSortType(sortType));
+    onSortTypeChange = ({id}) => this.setState(setSortType(id));
     onFilterChange = (filter) => this.setState(setFilter(filter));
     
     render () {
@@ -102,7 +102,7 @@ class HeaderPopup extends PureComponent {
                     <div className="popover-content">
                         <label>Сортировка</label>
                         <SelectField data={sortTypes}
-                                     selectedId={sort}
+                                     value={sort}
                                      onChange={this.onSortTypeChange}
                         />
     
