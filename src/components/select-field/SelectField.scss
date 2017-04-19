@@ -1,0 +1,32 @@
+@import "../../assets/base/colors.scss";
+
+.select-field-input{
+  width: 100%;
+  .select-box{
+    background-color: #fff;
+    height: 2.286rem;
+    line-height: 2.286rem;
+    box-sizing: border-box;
+    border: 1px solid $paleGrey;
+    transition: border-color .2s ease-out;
+    position: relative;
+    &.focused{
+      border-color: $softGreen;
+      .arrow{
+        transform: rotate(180deg);
+      }
+    }
+    .text{
+      user-select: none;
+      margin-left: 12px;
+    }
+    .arrow{
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      line-height: 0;
+      margin-top: -4px;
+      transition: transform .2s ease-out;
+    }
+  }
+}
