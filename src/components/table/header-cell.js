@@ -1,31 +1,12 @@
 import React from 'react';
-import IconButton from 'material-ui/IconButton';
-import {FilterIcon} from '../icons';
-import {coolGreyTwo} from '../../assets/theme';
+import HeaderPopup from './header-popup';
 
-const iconButtonStyle = {
-    width: 40,
-    height: 40,
-    padding: 0
-};
 
-const filterIconStyle = {
-    width: '14px',
-    height: '10px'
-};
-
-const HeaderCell = ({content, style, onClick}) => (
+const HeaderCell = ({name, content, style, onClick}) => (
     <div className="cell --header"
          style={style}
     >
-        <IconButton className="header-button"
-                    style={iconButtonStyle}
-                    iconStyle={filterIconStyle}
-                    onTouchTap={onClick}
-                    touch={true}
-        >
-            <FilterIcon color={coolGreyTwo}/>
-        </IconButton>
+        <HeaderPopup columnName={name} onApply={e => console.info(e)}/>
         <div className="header-title">
             {content}
         </div>

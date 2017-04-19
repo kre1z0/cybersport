@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import uniq from 'lodash/uniq'
 
 import CellSwitcher, {TYPES} from './cell-switcher';
 import Body from './table-body';
@@ -22,6 +23,16 @@ class TableComponent extends Component {
         rowHeight: 56
     };
     
+    static childContextTypes = {
+        getColumnsDataDistinct: PropTypes.func
+    };
+    
+    getChildContext() {
+        return ({
+            getColumnsDataDistinct: (columnName) => uniq(this.props.data.map(item => item[columnName]))
+        })
+    }
+    
     state = {
         columnsWidth: {},
         scrollLeft: 0
@@ -29,11 +40,11 @@ class TableComponent extends Component {
     
     _columnsWidth = {};
     
-    
     getHeaderContent = (columnIndex) => {
         return {
             type: TYPES.HEADER,
-            content: this.props.columns[columnIndex].alias
+            content: this.props.columns[columnIndex].alias,
+            name: this.props.columns[columnIndex].name
         };
     };
     
@@ -50,9 +61,9 @@ class TableComponent extends Component {
         <CellSwitcher {...this.getCellContent(rowIndex, columnIndex)}/>
     );
     
-    hiddenHeaderRenderer = columnIndex => ( //empty div for header button size
+    hiddenHeaderRenderer = columnIndex => (
         <div className="cell --hidden">
-            <div style={{width: 40}}/>
+            <div style={{width: 40}}/> {/*empty div for header button size*/}
             {this.getHeaderContent(columnIndex).content}
         </div>
     );
@@ -77,9 +88,11 @@ class TableComponent extends Component {
     
     onBodyScroll = ({target}) => {
         const scrollLeft = target.scrollLeft;
-        this.setState(state => ({
-            scrollLeft
-        }));
+        if (scrollLeft !== this.state.scrollLeft) {
+            this.setState(state => ({
+                scrollLeft
+            }));
+        }
     };
     
     

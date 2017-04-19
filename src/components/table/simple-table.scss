@@ -42,12 +42,12 @@
     justify-content: center;
     font-weight: 500;
     color: $darkGrey;
-    border-bottom: none;
   }
 
   .--hidden {
     height: 0;
     overflow: hidden;
+    border-bottom: none;
   }
 
   .--odd {
