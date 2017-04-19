@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import classNames from 'classnames';
 import AutoComplete from 'material-ui/AutoComplete';
 
 import './AutoCompleteInput.scss';
@@ -20,11 +21,10 @@ const styles = {
 
 class AutoCompleteInput extends Component {
     static propTypes = {
-        data: PropTypes.arrayOf(PropTypes.shape({
-            text: PropTypes.string
-        })),
+        data: PropTypes.arrayOf(PropTypes.string),
         value: PropTypes.string,
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        className: PropTypes.string
     };
 
     static defaultProps = {
@@ -33,7 +33,7 @@ class AutoCompleteInput extends Component {
     };
 
     state = {
-        data: [],
+        filteredData: [],
         focused: false,
         blockFocus: false
     };
@@ -42,19 +42,17 @@ class AutoCompleteInput extends Component {
         const result = value === ''
                             ? []
                             : this.props.data
-                                    .filter(item => item.text.toLowerCase().search(value.toLowerCase()) !== -1);
+                                    .filter(item => item.toLowerCase().search(value.toLowerCase()) !== -1);
         return result;
     }
 
     handleUpdateInput = (value) => {
+        const { onChange } = this.props;
         this.setState({
-            data: this.filterData(value)
-
+            filteredData: this.filterData(value)
         });
 
-        if(this.props.onChange) {
-            this.props.onChange(value)
-        }
+        onChange && onChange(value)
     };
 
     handleFocus = () => {
@@ -84,15 +82,16 @@ class AutoCompleteInput extends Component {
     };
 
     render() {
-        const { data, focused } = this.state;
-        const { value } = this.props;
+        const { filteredData, focused } = this.state;
+        const { value, className } = this.props;
+        const mergedClassName = classNames('auto-complete-input', className);
 
         return (
-            <div className="auto-complete-input">
+            <div className={mergedClassName}>
                 <AutoComplete
                     animated={false}
                     hintText=" "
-                    dataSource={data}
+                    dataSource={filteredData}
                     dataSourceConfig={{ text: 'text', value: 'id'}}
                     onUpdateInput={this.handleUpdateInput}
                     fullWidth={true}

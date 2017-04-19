@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import classNames from 'classnames';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -17,14 +18,13 @@ const styles = {
         color: coolGreyTwo
     },
     POPOVER: {
-        width: '100%'
+        display: 'block'
     },
     MENU: {lineHeight: '32px', minHeight: 'auto'},
     MENU_LIST: {
         paddingTop: '0px',
         paddingBottom: '0px',
-        display: 'inline-block',
-        width: '100%'
+        display: 'inline-block'
     },
     MENU_ITEM: (selected) => ({
         color: selected ? softGreen : 'inherit',
@@ -45,30 +45,29 @@ class SelectFieldInput extends Component {
             text: PropTypes.string,
             id: PropTypes.number
         })),
-        selectedId: PropTypes.oneOfType([
-            PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.number,
             PropTypes.array
         ]),
         onChange: PropTypes.func,
-        multiple: PropTypes.bool
+        multiple: PropTypes.bool,
+        className: PropTypes.string
     };
 
-    defaultProps = {
+    static defaultProps = {
         data: [],
         multiple: false
     };
 
     state = {
-        focused: false,
-        selectedValue: this.props.multiple ? `Выбрано ${this.props.selectedId.length} объекта(ов)` : this.props.data.reduce((val, el) => el.id === this.props.selectedId ? el.text : val, ''),
-        selectedId: this.props.multiple ? this.props.selectedId : [].concat(this.props.selectedId)
+        focused: false
     };
 
-    handleClick = (e) => {
-        this.setState({
-            focused: !this.state.focused,
-            popoverPosition: e.currentTarget
-        })
+    handleClick = ({target}) => {
+        this.setState(state => ({
+            popoverPosition: target,
+            focused: !state.focused
+        }));
     };
 
     handleClose = () => {
@@ -78,9 +77,10 @@ class SelectFieldInput extends Component {
     };
 
     handleSelectItem = (event, child) => {
-        if(this.props.multiple){
-            let arr = this.state.selectedId.slice();
-            console.log(arr);
+        const { multiple, data, value, onChange } = this.props;
+
+        if(multiple){
+            let arr = value.slice();
             const indexId = arr.indexOf(child.props.id);
             if(indexId > -1){
                 arr.splice(indexId, 1);
@@ -90,29 +90,30 @@ class SelectFieldInput extends Component {
             }
 
             this.setState({
-                selectedId: arr,
-                selectedValue: `Выбрано ${arr.length} объекта(ов)`,
                 focused: true
             });
+
+            if(onChange) onChange(data.filter(item => arr.indexOf(item.id) > -1))
         }
         else{
             this.setState({
-                selectedId: [].concat(child.props.id),
-                selectedValue: child.props.primaryText,
                 focused: false
             });
+
+            if(onChange) onChange(data.filter(item => item.id === child.props.id)[0])
         }
-
-
-        if(this.props.onChange) this.props.onChange(child.props.id)
     };
 
     render(){
-        const { data } = this.props;
-        const { focused, popoverPosition, selectedValue, selectedId } = this.state;
+        const { data, value, className } = this.props;
+        const { focused, popoverPosition } = this.state;
+        const selectedValue = this.props.multiple
+            ? `Выбрано ${value.length} объекта(ов)`
+            : value && data.find((elem) => elem.id === value).text;
+        const mergedClassName = classNames('select-field-input', className);
         return (
-            <div className="select-field-input">
-                <div onClick={this.handleClick} className={`select-box ${focused ? 'focused' : ''}`}>
+            <div className={mergedClassName}>
+                <div onTouchTap={this.handleClick} className={classNames('select-box', {focused})}>
                     <span className="text">{selectedValue}</span>
                     <div className="arrow">
                         <DropdownIcon style={styles.ARROW} className="icon-content" />
@@ -126,9 +127,16 @@ class SelectFieldInput extends Component {
                     onRequestClose={this.handleClose}
                     style={styles.POPOVER}
                 >
-                    <Menu onItemTouchTap={this.handleSelectItem} onEscKeyDown={this.handleClose} menuItemStyle={styles.MENU} autoWidth={false} listStyle={styles.MENU_LIST}>
+                    <Menu
+                        maxHeight={200}
+                        onItemTouchTap={this.handleSelectItem}
+                        onEscKeyDown={this.handleClose}
+                        menuItemStyle={styles.MENU}
+                        autoWidth={false}
+                        width={popoverPosition && popoverPosition.clientWidth}
+                        listStyle={styles.MENU_LIST}>
                         {data.map(item => {
-                            const isSelected = selectedId.indexOf(item.id) !== -1;
+                            const isSelected = this.props.multiple ? value.indexOf(item.id) !== -1 : value === item.id;
 
                             return this.props.multiple
                                     ? <MenuItem
