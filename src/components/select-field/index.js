@@ -45,7 +45,7 @@ class SelectFieldInput extends Component {
             text: PropTypes.string,
             id: PropTypes.number
         })),
-        selectedId: PropTypes.oneOfType([
+        value: PropTypes.oneOfType([
             PropTypes.number,
             PropTypes.array
         ]),
@@ -77,10 +77,10 @@ class SelectFieldInput extends Component {
     };
 
     handleSelectItem = (event, child) => {
-        const { multiple, data, selectedId, onChange } = this.props;
+        const { multiple, data, value, onChange } = this.props;
 
         if(multiple){
-            let arr = selectedId.slice();
+            let arr = value.slice();
             const indexId = arr.indexOf(child.props.id);
             if(indexId > -1){
                 arr.splice(indexId, 1);
@@ -105,11 +105,11 @@ class SelectFieldInput extends Component {
     };
 
     render(){
-        const { data, selectedId, className } = this.props;
+        const { data, value, className } = this.props;
         const { focused, popoverPosition } = this.state;
         const selectedValue = this.props.multiple
-            ? `Выбрано ${selectedId.length} объекта(ов)`
-            : selectedId && data.find((elem) => elem.id === selectedId).text;
+            ? `Выбрано ${value.length} объекта(ов)`
+            : value && data.find((elem) => elem.id === value).text;
         const mergedClassName = classNames('select-field-input', className);
         return (
             <div className={mergedClassName}>
@@ -136,7 +136,7 @@ class SelectFieldInput extends Component {
                         width={popoverPosition && popoverPosition.clientWidth}
                         listStyle={styles.MENU_LIST}>
                         {data.map(item => {
-                            const isSelected = this.props.multiple ? selectedId.indexOf(item.id) !== -1 : selectedId === item.id;
+                            const isSelected = this.props.multiple ? value.indexOf(item.id) !== -1 : value === item.id;
 
                             return this.props.multiple
                                     ? <MenuItem

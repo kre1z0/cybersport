@@ -52,30 +52,30 @@ storiesOf('Inputs',  Dropdown)
                     {id: 53, text: 'Сидоров'},
                     {id: 64, text: 'Иванченко'}
                 ],
-                selectId1: 1,
-                selectId2: [1,2,3]
+                value1: 1,
+                value2: [1,2,3]
             };
 
             changeInput1 = (e) => {
                 this.setState({
-                    selectId1: e.id
+                    value1: e.id
                 })
             };
 
             changeInput2 = (e) => {
                 this.setState({
-                    selectId2: e.map(el => el.id)
+                    value2: e.map(el => el.id)
                 })
             };
 
             render(){
-                const { data, selectId1, selectId2 } = this.state;
+                const { data, value1, value2 } = this.state;
                 return <div>
                             <div style={{width: '300px', display: 'inline-block'}}>
-                                <SelectFieldInput onChange={this.changeInput1} data={data} selectedId={selectId1} />
+                                <SelectFieldInput onChange={this.changeInput1} data={data} value={value1} />
                             </div>
                             <div style={{width: '300px', display: 'inline-block'}}>
-                                <SelectFieldInput onChange={this.changeInput2} multiple data={data} selectedId={selectId2} />
+                                <SelectFieldInput onChange={this.changeInput2} multiple data={data} value={value2} />
                             </div>
                         </div>
             }
