@@ -247,7 +247,15 @@ module.exports = {
       fileName: 'asset-manifest.json'
     }),
     new OfflinePlugin({
-        responseStrategy: 'cache-first'
+        responseStrategy: 'cache-first',
+        ServiceWorker: {
+            navigateFallbackURL: '/'
+        },
+        AppCache: {
+            FALLBACK: {
+                '/': '/index.html'
+            }
+        }
     })
   ],
   // Some libraries import Node modules but don't use them in the browser.

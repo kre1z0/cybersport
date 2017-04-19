@@ -201,7 +201,15 @@ module.exports = {
     // See https://github.com/facebookincubator/create-react-app/issues/186
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
     new OfflinePlugin({
-        responseStrategy: 'network-first'
+        responseStrategy: 'network-first',
+        ServiceWorker: {
+            navigateFallbackURL: '/'
+        },
+        AppCache: {
+            FALLBACK: {
+                '/': '/index.html'
+            }
+        }
     })
   ],
   // Some libraries import Node modules but don't use them in the browser.
