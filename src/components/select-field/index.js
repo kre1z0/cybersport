@@ -17,14 +17,13 @@ const styles = {
         color: coolGreyTwo
     },
     POPOVER: {
-        width: '100%'
+        display: 'block'
     },
     MENU: {lineHeight: '32px', minHeight: 'auto'},
     MENU_LIST: {
         paddingTop: '0px',
         paddingBottom: '0px',
-        display: 'inline-block',
-        width: '100%'
+        display: 'inline-block'
     },
     MENU_ITEM: (selected) => ({
         color: selected ? softGreen : 'inherit',
@@ -46,22 +45,20 @@ class SelectFieldInput extends Component {
             id: PropTypes.number
         })),
         selectedId: PropTypes.oneOfType([
-            PropTypes.string,
+            PropTypes.number,
             PropTypes.array
         ]),
         onChange: PropTypes.func,
         multiple: PropTypes.bool
     };
 
-    defaultProps = {
+    static defaultProps = {
         data: [],
         multiple: false
     };
 
     state = {
-        focused: false,
-        selectedValue: this.props.multiple ? `Выбрано ${this.props.selectedId.length} объекта(ов)` : this.props.data.reduce((val, el) => el.id === this.props.selectedId ? el.text : val, ''),
-        selectedId: this.props.multiple ? this.props.selectedId : [].concat(this.props.selectedId)
+        focused: false
     };
 
     handleClick = (e) => {
@@ -78,9 +75,10 @@ class SelectFieldInput extends Component {
     };
 
     handleSelectItem = (event, child) => {
-        if(this.props.multiple){
-            let arr = this.state.selectedId.slice();
-            console.log(arr);
+        const { multiple, data, selectedId, onChange } = this.props;
+
+        if(multiple){
+            let arr = selectedId.slice();
             const indexId = arr.indexOf(child.props.id);
             if(indexId > -1){
                 arr.splice(indexId, 1);
@@ -90,26 +88,26 @@ class SelectFieldInput extends Component {
             }
 
             this.setState({
-                selectedId: arr,
-                selectedValue: `Выбрано ${arr.length} объекта(ов)`,
                 focused: true
             });
+
+            if(onChange) onChange(data.filter(item => arr.indexOf(item.id) > -1))
         }
         else{
             this.setState({
-                selectedId: [].concat(child.props.id),
-                selectedValue: child.props.primaryText,
                 focused: false
             });
+
+            if(onChange) onChange(data.filter(item => item.id === child.props.id)[0])
         }
-
-
-        if(this.props.onChange) this.props.onChange(child.props.id)
     };
 
     render(){
-        const { data } = this.props;
-        const { focused, popoverPosition, selectedValue, selectedId } = this.state;
+        const { data, selectedId } = this.props;
+        const { focused, popoverPosition } = this.state;
+        const selectedValue = this.props.multiple
+            ? `Выбрано ${selectedId.length} объекта(ов)`
+            : selectedId && data.find((elem) => elem.id === selectedId).text;
         return (
             <div className="select-field-input">
                 <div onClick={this.handleClick} className={`select-box ${focused ? 'focused' : ''}`}>
@@ -126,9 +124,15 @@ class SelectFieldInput extends Component {
                     onRequestClose={this.handleClose}
                     style={styles.POPOVER}
                 >
-                    <Menu onItemTouchTap={this.handleSelectItem} onEscKeyDown={this.handleClose} menuItemStyle={styles.MENU} autoWidth={false} listStyle={styles.MENU_LIST}>
+                    <Menu
+                        onItemTouchTap={this.handleSelectItem}
+                        onEscKeyDown={this.handleClose}
+                        menuItemStyle={styles.MENU}
+                        autoWidth={false}
+                        width={popoverPosition && popoverPosition.clientWidth}
+                        listStyle={styles.MENU_LIST}>
                         {data.map(item => {
-                            const isSelected = selectedId.indexOf(item.id) !== -1;
+                            const isSelected = this.props.multiple ? selectedId.indexOf(item.id) !== -1 : selectedId === item.id;
 
                             return this.props.multiple
                                     ? <MenuItem

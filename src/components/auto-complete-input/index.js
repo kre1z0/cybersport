@@ -20,9 +20,7 @@ const styles = {
 
 class AutoCompleteInput extends Component {
     static propTypes = {
-        data: PropTypes.arrayOf(PropTypes.shape({
-            text: PropTypes.string
-        })),
+        data: PropTypes.arrayOf(PropTypes.string),
         value: PropTypes.string,
         onChange: PropTypes.func
     };
@@ -33,7 +31,7 @@ class AutoCompleteInput extends Component {
     };
 
     state = {
-        data: [],
+        filteredData: [],
         focused: false,
         blockFocus: false
     };
@@ -42,13 +40,13 @@ class AutoCompleteInput extends Component {
         const result = value === ''
                             ? []
                             : this.props.data
-                                    .filter(item => item.text.toLowerCase().search(value.toLowerCase()) !== -1);
+                                    .filter(item => item.toLowerCase().search(value.toLowerCase()) !== -1);
         return result;
     }
 
     handleUpdateInput = (value) => {
         this.setState({
-            data: this.filterData(value)
+            filteredData: this.filterData(value)
 
         });
 
@@ -84,7 +82,7 @@ class AutoCompleteInput extends Component {
     };
 
     render() {
-        const { data, focused } = this.state;
+        const { filteredData, focused } = this.state;
         const { value } = this.props;
 
         return (
@@ -92,7 +90,7 @@ class AutoCompleteInput extends Component {
                 <AutoComplete
                     animated={false}
                     hintText=" "
-                    dataSource={data}
+                    dataSource={filteredData}
                     dataSourceConfig={{ text: 'text', value: 'id'}}
                     onUpdateInput={this.handleUpdateInput}
                     fullWidth={true}
