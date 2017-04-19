@@ -1,7 +1,5 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import {persistStore, autoRehydrate} from 'redux-persist';
 import {REHYDRATE} from 'redux-persist/constants';
 import createActionBuffer from 'redux-action-buffer';
@@ -11,19 +9,12 @@ import reducers from '../reducers';
 
 const configureStore = preloadedState => {
     
-    const middlewares = composeWithDevTools(
-        applyMiddleware(thunk, createActionBuffer(REHYDRATE), createLogger()),
+    const middlewares = compose(
+        applyMiddleware(thunk, createActionBuffer(REHYDRATE)),
         autoRehydrate()
     );
     
     const store = createStore(reducers, preloadedState, middlewares);
-    
-    if (module.hot) {
-        module.hot.accept('../reducers', () => {
-            const nextRootReducer = require('../reducers').default;
-            store.replaceReducer(nextRootReducer)
-        })
-    }
     
     persistStore(store, {storage: localForage});
     
@@ -31,3 +22,4 @@ const configureStore = preloadedState => {
 };
 
 export default configureStore;
+
