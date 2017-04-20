@@ -14,9 +14,8 @@ const styles = {
     },
     INPUT: {
         fontSize: 'inherit',
-        height: '2.286rem',
+        height: '100%',
         padding: '0 0.8571rem',
-        lineHeight: '2.286rem',
         paddingLeft: '2rem'
     }
 };
@@ -33,7 +32,9 @@ class DatePicker extends Component {
 
     static propTypes = {
         value: PropTypes.instanceOf(Date),
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        className: PropTypes.string,
+        style: PropTypes.string
     };
 
     static defaultProps = {

@@ -28,7 +28,9 @@ const styles = {
     },
     MENU_ITEM: (selected) => ({
         color: selected ? softGreen : 'inherit',
-        fontSize: '1rem'
+        fontSize: '1rem',
+        display: 'flex',
+        alignItems: 'center'
     }),
     MENU_ITEM_ICON: {
         margin: 0,
@@ -51,7 +53,11 @@ class SelectFieldInput extends Component {
         ]),
         onChange: PropTypes.func,
         multiple: PropTypes.bool,
-        className: PropTypes.string
+        className: PropTypes.string,
+        style: PropTypes.object,
+        itemStyle: PropTypes.object,
+        focusOnMount: PropTypes.bool,
+        onBlur: PropTypes.func
     };
 
     static defaultProps = {
@@ -63,17 +69,15 @@ class SelectFieldInput extends Component {
         focused: false
     };
 
-    handleClick = ({target}) => {
+    handleClick = () => {
         this.setState(state => ({
-            popoverPosition: target,
+            popoverPosition: this.selectBoxRef,
             focused: !state.focused
         }));
     };
 
     handleClose = () => {
-        this.setState({
-            focused: false
-        })
+        this.handleBlur();
     };
 
     handleSelectItem = (event, child) => {
@@ -96,31 +100,46 @@ class SelectFieldInput extends Component {
             if(onChange) onChange(data.filter(item => arr.indexOf(item.id) > -1))
         }
         else{
-            this.setState({
-                focused: false
-            });
-
+            this.handleBlur();
             if(onChange) onChange(data.filter(item => item.id === child.props.id)[0])
         }
     };
 
+    handleBlur = () => {
+        const { onBlur } = this.props;
+
+        this.setState({
+            popoverPosition: null,
+            focused: false
+        });
+
+        onBlur && onBlur()
+    };
+
+    componentDidMount(){
+        this.props.focusOnMount && this.setState({
+            focused: true,
+            popoverPosition: this.selectBoxRef
+        })
+    }
+
     render(){
-        const { data, value, className } = this.props;
+        const { data, value, className, style, itemStyle } = this.props;
         const { focused, popoverPosition } = this.state;
         const selectedValue = this.props.multiple
             ? `Выбрано ${value.length} объекта(ов)`
-            : value && data.find((elem) => elem.id === value).text;
+            : typeof value !== 'undefined' && data.find((elem) => elem.id === value).text;
         const mergedClassName = classNames('select-field-input', className);
         return (
             <div className={mergedClassName}>
-                <div onTouchTap={this.handleClick} className={classNames('select-box', {focused})}>
+                <div ref={(ref) => { this.selectBoxRef = ref }} style={style} onClick={this.handleClick} className={classNames('select-box', {focused})}>
                     <span className="text">{selectedValue}</span>
                     <div className="arrow">
                         <DropdownIcon style={styles.ARROW} className="icon-content" />
                     </div>
                 </div>
                 <Popover
-                    open={focused}
+                    open={!!popoverPosition}
                     anchorEl={popoverPosition}
                     anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                     targetOrigin={{horizontal: 'left', vertical: 'top'}}
@@ -137,17 +156,18 @@ class SelectFieldInput extends Component {
                         listStyle={styles.MENU_LIST}>
                         {data.map(item => {
                             const isSelected = this.props.multiple ? value.indexOf(item.id) !== -1 : value === item.id;
+                            const menuItemStyle = {...styles.MENU_ITEM(isSelected), ...itemStyle, ...{height: style && style.height || 'auto'}};
 
                             return this.props.multiple
                                     ? <MenuItem
                                         innerDivStyle={{paddingLeft: '35px'}}
                                         leftIcon={isSelected ? <div style={styles.MENU_ITEM_ICON}><CheckIcon style={{width: '100%', height: '100%'}} /></div> : null}
-                                        style={styles.MENU_ITEM(isSelected)}
+                                        style={menuItemStyle}
                                         primaryText={item.text}
                                         id={item.id}
                                         key={item.id} />
                                     : <MenuItem
-                                        style={styles.MENU_ITEM(isSelected)}
+                                        style={menuItemStyle}
                                         primaryText={item.text}
                                         id={item.id}
                                         key={item.id}/>
