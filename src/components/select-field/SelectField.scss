@@ -4,7 +4,8 @@
   display: inline-block;
   width: 100%;
   .select-box{
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     width: 100%;
     background-color: #fff;
     height: 2.286rem;

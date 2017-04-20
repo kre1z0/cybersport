@@ -28,6 +28,15 @@ storiesOf('Inputs',  Dropdown)
         <div>
             <AutoCompleteInput onChange={(e) => {console.log(e)}} data={fields} />
             <AutoCompleteInput value="Ива" data={fields} />
+            <AutoCompleteInput
+                style={{height: "58px", backgroundColor: 'green'}}
+                menuStyle={{boxShadow: '0 0 10px red'}}
+                listStyle={{backgroundColor: 'yellow'}}
+                itemStyle={{cursor: 'help'}}
+                value="Ива"
+                focusOnMount
+                onBlur={()=>{console.log('unfocused')}}
+                data={fields}/>
         </div>
     )
     .add('SelectInput input', () => {
@@ -77,6 +86,17 @@ storiesOf('Inputs',  Dropdown)
                             <div style={{width: '300px', display: 'inline-block'}}>
                                 <SelectFieldInput onChange={this.changeInput2} multiple data={data} value={value2} />
                             </div>
+                            <div style={{width: '300px', display: 'inline-block'}}>
+                                <SelectFieldInput
+                                    style={{height: '58px'}}
+                                    itemStyle={{backgroundColor: 'red', color: 'yellow'}}
+                                    onChange={this.changeInput2}
+                                    multiple
+                                    data={data}
+                                    focusOnMount
+                                    onBlur={()=>{console.log('unfocused')}}
+                                    value={value2} />
+                            </div>
                         </div>
             }
         }
@@ -96,7 +116,7 @@ storiesOf('Inputs',  Dropdown)
 
         class WrappedTextInput extends React.Component {
             state = {
-                value1: '',
+                value1: '1',
                 value2: ''
             };
 
@@ -120,9 +140,34 @@ storiesOf('Inputs',  Dropdown)
                         <div style={{width: '300px', display: 'inline-block'}}>
                             <TextInput value={value1} onChange={this.handlerChange1} />
                         </div>
+                        <div style={{width: '300px', display: 'inline-block'}}>
+                            <TextInput
+                                value={value1}
+                                style={{
+                                    backgroundColor: 'green'
+                                }}
+                                inputStyle={{
+                                    color: 'yellow'
+                                }}
+                                onChange={this.handlerChange1} />
+                        </div>
                         <br/>
                         <div style={{width: '300px', display: 'inline-block'}}>
                             <TextInput value={value2} multiLine onChange={this.handlerChange2} />
+                        </div>
+                        <div style={{width: '300px', display: 'inline-block'}}>
+                            <TextInput
+                                style={{
+                                    backgroundColor: 'red'
+                                }}
+                                textAreaStyle={{
+                                    color: 'blue'
+                                }}
+                                focusOnMount
+                                onBlur={()=>{console.log('unfocused')}}
+                                value={value2}
+                                multiLine
+                                onChange={this.handlerChange2} />
                         </div>
                     </div>
                 )
