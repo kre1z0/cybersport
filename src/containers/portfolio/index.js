@@ -18,7 +18,7 @@ class Portfolio extends Component {
     }
 
     render () {
-        const {objects: {data, attributes}} = this.props;
+        const {objects: {data, attributes, cacheKey}} = this.props;
 
         return (
             <div className="portfolio-container">
@@ -28,7 +28,8 @@ class Portfolio extends Component {
 
                     {data.length > 0
                         ? <Table data={data}
-                           columns={attributes}
+                                 columns={attributes}
+                                 cacheKey={cacheKey}
                           />
                         : <Loader className="loader"/>
                     }

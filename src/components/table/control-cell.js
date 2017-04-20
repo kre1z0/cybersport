@@ -8,7 +8,7 @@ const iconStyle = {
     width: 13
 };
 
-const ControlCell = ({rowIndex, columnIndex, style, key, content}) => (
+const ControlCell = ({rowIndex, columnIndex, style, content}) => (
     <div className={
         classnames(
             'cell',
@@ -16,7 +16,6 @@ const ControlCell = ({rowIndex, columnIndex, style, key, content}) => (
             {'--odd': rowIndex % 2 === 0}
         )}
          style={style}
-         key={key}
     >
         <IconButton iconStyle={iconStyle}
                     touch={true}

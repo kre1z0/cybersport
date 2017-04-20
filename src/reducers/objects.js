@@ -3,18 +3,19 @@ export const FETCH_SUCCESS = 'objects/fetch-success';
 export const FETCH_ERROR = 'objects/fetch-error';
 
 const initAttributes = [
-    {name: 'object_name', alias: 'ID', type: 'text', width: 150},
-    {name: 'image_name', alias: 'Фото', type: 'img', width: 56},
-    {name: 'object_description', alias: 'Описание', type: 'text', width: 200},
-    {name: 'target_segment', alias: 'Целевой клиентский сегмент', type: 'text', width: 100},
-    {name: 'department', alias: 'ТБ', type: 'text'},
-    {name: 'responsible_employee_name', alias: 'Ответственный сотрудник ПМЗ', type: 'text'},
-    {name: 'address_region', alias: 'Регион расположения объекта', type: 'text'},
-    {name: 'address_combined', alias: 'Адрес объекта (по договору)', type: 'text'},
-    {name: 'address_adjusted', alias: 'Адрес объекта (скорректированный)', type: 'address'},
-    {name: 'classifier1', alias: 'Вид обеспечения по классификатору (1 уровень)', type: 'text'},
-    {name: 'classifier2', alias: 'Вид обеспечения по классификатору (2 уровень)', type: 'text'},
-    {name: 'classifier3', alias: 'Вид обеспечения по классификатору (3 уровень)', type: 'text'}
+    {name: 'control', alias: '', type: 'control'},
+    {name: 'object_name', alias: 'ID', type: 'text'},
+    {name: 'image_name', alias: 'Фото', type: 'img'},
+    {name: 'object_description', alias: 'Описание', type: 'text', isEditable: true},
+    {name: 'target_segment', alias: 'Целевой клиентский сегмент', type: 'text', isEditable: true},
+    {name: 'department', alias: 'ТБ', type: 'text', isEditable: true},
+    {name: 'responsible_employee_name', alias: 'Ответственный сотрудник ПМЗ', type: 'text', isEditable: true},
+    {name: 'address_region', alias: 'Регион расположения объекта', type: 'text', isEditable: true},
+    {name: 'address_combined', alias: 'Адрес объекта (по договору)', type: 'text', isEditable: true},
+    {name: 'address_adjusted', alias: 'Адрес объекта (скорректированный)', type: 'address', isEditable: true},
+    {name: 'classifier1', alias: 'Вид обеспечения по классификатору (1 уровень)', type: 'text', isEditable: true},
+    {name: 'classifier2', alias: 'Вид обеспечения по классификатору (2 уровень)', type: 'text', isEditable: true},
+    {name: 'classifier3', alias: 'Вид обеспечения по классификатору (3 уровень)', type: 'text', isEditable: true}
 ];
 
 const initState = {

@@ -17,7 +17,8 @@ const fetchObjects = () => Promise.all([
     fetch('/reestr.json').then(response=>response.json()),
 ]).then(([{data, totalObjects}]) => ({
     data: transformResponseData(data),
-    totalObjects
+    totalObjects,
+    cacheKey: Math.random().toString(36).substring(3)
 }));
 
 export const objectsFetch = (objects) => ({

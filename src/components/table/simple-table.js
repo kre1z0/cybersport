@@ -7,6 +7,8 @@ import Header from './table-header';
 
 import './simple-table.scss';
 
+const selectCell = (rowIndex, columnIndex) => () => ({selectedCell: [rowIndex, columnIndex]});
+
 class TableComponent extends Component {
     static propTypes = {
         columns: PropTypes.array,
@@ -14,7 +16,8 @@ class TableComponent extends Component {
         rowHeight: PropTypes.oneOfType([
             PropTypes.number,
             PropTypes.string
-        ])
+        ]),
+        cacheKey: PropTypes.string
     };
     
     static defaultProps = {
@@ -34,6 +37,7 @@ class TableComponent extends Component {
     }
     
     state = {
+        selectedCell: null,
         columnsWidth: {},
         scrollLeft: 0
     };
@@ -41,38 +45,60 @@ class TableComponent extends Component {
     _columnsWidth = {};
     
     getHeaderContent = (columnIndex) => {
+        const column = this.props.columns[columnIndex];
         return {
             type: TYPES.HEADER,
-            content: this.props.columns[columnIndex].alias,
-            name: this.props.columns[columnIndex].name
+            popup: column.type !== TYPES.CONTROL,
+            content: column.alias,
+            name: column.name
         };
     };
     
     getCellContent = (rowIndex, columnIndex) => {
         const {columns, data} = this.props;
-        const column = columns[columnIndex];
+        const {selectedCell} = this.state;
+        const isSelected = selectedCell && selectedCell[0] === rowIndex && selectedCell[1] === columnIndex;
+        
+        const {name, type, isEditable} = columns[columnIndex];
         return {
-            type: column.type,
-            content: data[rowIndex][column.name]
+            type: isSelected && isEditable ? TYPES.EDITOR : type,
+            content: data[rowIndex][name]
         };
     };
     
-    bodyCellRenderer = (rowIndex, columnIndex) => (
-        <CellSwitcher {...this.getCellContent(rowIndex, columnIndex)}/>
-    );
+    bodyCellRenderer = (rowIndex, columnIndex) => {
+        return (
+            <CellSwitcher {...this.getCellContent(rowIndex, columnIndex)}
+                          onCellChange={this.onCellChange}
+                          rowIndex={rowIndex}
+                          columnIndex={columnIndex}
+            />
+        )
+    };
     
-    hiddenHeaderRenderer = columnIndex => (
-        <div className="cell --hidden">
-            <div style={{width: 40}}/> {/*empty div for header button size*/}
-            {this.getHeaderContent(columnIndex).content}
-        </div>
-    );
+    hiddenHeaderRenderer = columnIndex => {
+        const {popup, content } = this.getHeaderContent(columnIndex);
+        return (
+            <div className="cell --hidden">
+                {popup && <div style={{width: 40}}/> /*empty div for header button size*/}
+                {content}
+            </div>
+        )
+    };
     
     headerRenderer = columnIndex => (
         <CellSwitcher {...this.getHeaderContent(columnIndex)}
                       style={{width: this.state.columnsWidth[columnIndex]}}
         />
     );
+    
+    onCellClick = (rowIndex, columnIndex) => {
+        this.setState(selectCell(rowIndex, columnIndex));
+    };
+    
+    onCellChange = (rowIndex, columnIndex, value) => {
+        console.log(rowIndex, columnIndex, value);
+    };
     
     onColumnRef = (ref, columnIndex) => {
         if (columnIndex in this._columnsWidth) return;
@@ -97,8 +123,8 @@ class TableComponent extends Component {
     
     
     render () {
-        const {columns, data} = this.props;
-        const { scrollLeft} = this.state;
+        const {columns, data, cacheKey} = this.props;
+        const {scrollLeft, selectedCell} = this.state;
         
         return (
             <div className="sber-grid">
@@ -111,8 +137,11 @@ class TableComponent extends Component {
                       rowCount={data.length}
                       columnRef={this.onColumnRef}
                       onScroll={this.onBodyScroll}
+                      onCellClick={this.onCellClick}
                       cellRenderer={this.bodyCellRenderer}
                       hiddenHeaderRenderer={this.hiddenHeaderRenderer}
+                      cacheKey={cacheKey}
+                      selectedCell={selectedCell}
                 />
             </div>
         )
