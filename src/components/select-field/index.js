@@ -63,9 +63,9 @@ class SelectFieldInput extends Component {
         focused: false
     };
 
-    handleClick = ({target}) => {
+    handleClick = () => {
         this.setState(state => ({
-            popoverPosition: target,
+            popoverPosition: this.selectBoxRef,
             focused: !state.focused
         }));
     };
@@ -113,7 +113,7 @@ class SelectFieldInput extends Component {
         const mergedClassName = classNames('select-field-input', className);
         return (
             <div className={mergedClassName}>
-                <div onTouchTap={this.handleClick} className={classNames('select-box', {focused})}>
+                <div ref={(ref) => { this.selectBoxRef = ref }} onClick={this.handleClick} className={classNames('select-box', {focused})}>
                     <span className="text">{selectedValue}</span>
                     <div className="arrow">
                         <DropdownIcon style={styles.ARROW} className="icon-content" />
