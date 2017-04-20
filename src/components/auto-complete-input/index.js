@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import AutoComplete from 'material-ui/AutoComplete';
 
 import './AutoCompleteInput.scss';
@@ -101,7 +101,7 @@ class AutoCompleteInput extends Component {
     render() {
         const { filteredData, focused } = this.state;
         const { value, className, style, menuStyle, listStyle, itemStyle } = this.props;
-        const mergedClassName = classNames('auto-complete-input', className);
+        const mergedClassName = cn('auto-complete-input', className);
 
         return (
             <div className={mergedClassName}>
