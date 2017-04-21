@@ -105,12 +105,50 @@ storiesOf('Inputs',  Dropdown)
             <WrapperSelectFieldInput/>
         )
     })
-    .add('DatePicker input', () =>
-        <div>
-            <DatePicker />
-            <DatePicker onChange={(date) => { console.log(date)}} />
-            <DatePicker value={new Date(2017, 6, 5)} />
-        </div>
+    .add('DatePicker input', () => {
+        class WrapperDatePicker extends React.Component {
+            state = {
+                value2: null,
+                value3: new Date(2017, 6, 5)
+            };
+
+            changeInput2 = (value) => {
+                this.setState({
+                    value2: value
+                })
+            };
+
+            changeInput3 = (value) => {
+                this.setState({
+                    value3: value
+                })
+            };
+
+            render(){
+                const { value2, value3 } = this.state;
+
+                return (
+                    <div>
+                        <DatePicker onChange={this.changeInput2} value={value2} />
+                        <DatePicker onChange={this.changeInput3} value={value3} />
+                        <DatePicker
+                            disabled
+                            onChange={this.changeInput3}
+                            value={value3} />
+                        <DatePicker
+                            style={{backgroundColor: 'red'}}
+                            calendarStyle={{boxShadow: '0 0 10px green'}}
+                            inputStyle={{height: '58px'}}
+                            onChange={this.changeInput3}
+                            value={value3} />
+                    </div>
+                )
+            }
+        }
+
+        return <WrapperDatePicker />
+    }
+
     )
     .add('Text Area', () => {
 
