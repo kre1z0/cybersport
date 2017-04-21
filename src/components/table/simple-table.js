@@ -39,7 +39,8 @@ class TableComponent extends Component {
     state = {
         selectedCell: null,
         columnsWidth: {},
-        scrollLeft: 0
+        scrollLeft: 0,
+        isEdit: false
     };
     
     _columnsWidth = {};
@@ -56,12 +57,12 @@ class TableComponent extends Component {
     
     getCellContent = (rowIndex, columnIndex) => {
         const {columns, data} = this.props;
-        const {selectedCell} = this.state;
+        const {selectedCell, isEdit} = this.state;
         const isSelected = selectedCell && selectedCell[0] === rowIndex && selectedCell[1] === columnIndex;
         
         const {name, type, isEditable} = columns[columnIndex];
         return {
-            type: isSelected && isEditable ? TYPES.EDITOR : type,
+            type: isSelected && isEditable && isEdit ? TYPES.EDITOR : type,
             content: data[rowIndex][name]
         };
     };
