@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Calendar from 'material-ui/DatePicker';
 import CalendarIcon from '../icons/calendar';
+import cn from 'classnames';
 
 import './DatePicker.scss';
 
@@ -32,13 +33,15 @@ class DatePicker extends Component {
 
     static propTypes = {
         value: PropTypes.instanceOf(Date),
-        onChange: PropTypes.func,
         className: PropTypes.string,
-        style: PropTypes.string
-    };
 
-    static defaultProps = {
-        value: null
+        style: PropTypes.object,
+        calendarStyle: PropTypes.object,
+        inputStyle: PropTypes.object,
+
+        onChange: PropTypes.func,
+        onBlur: PropTypes.func
+
     };
 
     handleFocus = () => {
@@ -51,26 +54,31 @@ class DatePicker extends Component {
         if(this.props.onChange){
             this.props.onChange(date);
         }
-        this.setState({
-            focused: false,
-            value: date
-        })
+        this.handleHide();
     };
 
     handleHide = () => {
+        const { onBlur } = this.props;
         this.setState({
             focused: false
-        })
+        });
+        onBlur && onBlur();
     };
 
+
+
     render(){
+        const { value, className, style, calendarStyle, inputStyle, ...other } = this.props;
+        const mergedClassName = cn('date-picker-input', className);
+
         let DateTimeFormat = global.Intl.DateTimeFormat;
         return (
-            <div className="date-picker-input">
+            <div className={mergedClassName}>
                 <div className="icon-wrapper">
                     <CalendarIcon style={{height: '1rem', width: '1rem'}} />
                 </div>
                 <Calendar
+                    {...other}
                     DateTimeFormat={DateTimeFormat}
                     locale="ru-RU"
                     hintText=" "
@@ -78,9 +86,9 @@ class DatePicker extends Component {
                     container="inline"
                     fullWidth={true}
                     underlineShow={false}
-                    dialogContainerStyle={styles.CALENDAR}
-                    style={styles.ROOT}
-                    textFieldStyle={styles.INPUT}
+                    dialogContainerStyle={{...styles.CALENDAR, ...calendarStyle}}
+                    style={{...styles.ROOT, ...style}}
+                    textFieldStyle={{...styles.INPUT, ...inputStyle}}
                     hideCalendarDate={true}
                     className={`text-input ${this.state.focused ? 'focused' : ''}`}
                     mode="landscape"
@@ -88,7 +96,7 @@ class DatePicker extends Component {
                     onShow={this.handleFocus}
                     onDismiss={this.handleHide}
                     onChange={this.handleBlur}
-                    value={this.state.value}
+                    value={value}
                 />
             </div>
         )
