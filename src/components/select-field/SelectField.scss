@@ -15,6 +15,12 @@
     transition: border-color .2s ease-out;
     position: relative;
     padding-right: 25px;
+    & > span {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden !important;
+      text-overflow: ellipsis;
+    }
     &.focused{
       border-color: $softGreen;
       .arrow{
@@ -32,6 +38,17 @@
       line-height: 0;
       margin-top: -4px;
       transition: transform .2s ease-out;
+    }
+  }
+}
+
+.select-field-menu{
+  & > div > span > div {
+    width: 100%;
+    & > div > div:last-child {
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
     }
   }
 }
