@@ -9,42 +9,56 @@ import DatePicker from '../components/date-picker';
 import SelectFieldInput from '../components/select-field';
 import TextInput from '../components/text-input';
 
-const fields = ['Иванов', 'Петров', 'Иванченко'];
-
-const data = [
-    {id: 1, text: 'Иванов'},
-    {id: 2, text: 'Петров'},
-    {id: 3, text: 'Сидоров'},
-    {id: 4, text: 'Иванченко'}
-];
-
 storiesOf('Inputs',  Dropdown)
     .addDecorator((story) => (
         <MuiThemeProvider muiTheme={theme}>
             {story()}
         </MuiThemeProvider>
     ))
-    .add('AutoComplete input', () =>
-        <div>
-            <AutoCompleteInput onChange={(e) => {console.log(e)}} data={fields} />
-            <AutoCompleteInput value="Ива" data={fields} />
-            <AutoCompleteInput
-                style={{height: "58px", backgroundColor: 'green'}}
-                menuStyle={{boxShadow: '0 0 10px red'}}
-                listStyle={{backgroundColor: 'yellow'}}
-                itemStyle={{cursor: 'help'}}
-                value="Ива"
-                focusOnMount
-                onBlur={()=>{console.log('unfocused')}}
-                data={fields}/>
-        </div>
+    .add('AutoComplete input', () => {
+            class WrapperAutoComplete extends React.Component {
+                state = {
+                    data: [ 'Иванов', 'Петров', 'ИванченкоИванченкоИванченкоИванченкоИванченкоИванченкоИванченкоИванченко','Иванов', 'Петров', 'Иванченко','Иванов', 'Петров', 'Иванченко','Иванов', 'Петров', 'Иванченко','Иванов', 'Петров', 'Иванченко',  ],
+                    value: 'Ива'
+                };
+
+                changeComplete = (value) => {
+                    this.setState({
+                        value
+                    })
+                };
+
+                render(){
+                    const { data, value } = this.state;
+                    return (
+                        <div>
+                            <AutoCompleteInput onChange={this.changeComplete} value={value} data={data} />
+                            <AutoCompleteInput value={value} data={data} />
+                            <AutoCompleteInput
+                                style={{height: "58px", backgroundColor: 'green'}}
+                                menuStyle={{boxShadow: '0 0 10px red'}}
+                                listStyle={{backgroundColor: 'yellow'}}
+                                itemStyle={{cursor: 'help'}}
+                                value={value}
+                                onChange={this.changeComplete}
+                                focusOnMount
+                                onBlur={()=>{console.log('unfocused')}}
+                                data={data}/>
+                        </div>
+                    )
+                }
+            }
+
+            return <WrapperAutoComplete/>;
+        }
+
     )
     .add('SelectInput input', () => {
 
         class WrapperSelectFieldInput extends React.Component {
             state = {
                 data: [
-                    {id: 1, text: 'Иванов'},
+                    {id: 1, text: 'ИвановИвановИвановИвановИвановИвановИвановИвановИвановИвановИванов'},
                     {id: 2, text: 'Петров'},
                     {id: 3, text: 'Сидоров'},
                     {id: 4, text: 'Иванченко'},

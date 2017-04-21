@@ -12,3 +12,14 @@
     }
   }
 }
+
+.auto-complete-menu {
+  & > div > span > div {
+    width: 100%;
+    & > div > div {
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

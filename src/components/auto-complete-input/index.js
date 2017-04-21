@@ -14,7 +14,11 @@ const styles = {
         lineHeight: '2.286rem',
         height: '2.286rem'
     },
-    MENU: {},
+    MENU: {
+        maxHeight: '200px',
+        overflowY: 'auto',
+        overflowX: 'hidden'
+    },
     MENU_LIST: {paddingTop: '0px', paddingBottom: '0px'},
     MENU_ITEM: {fontSize: '', lineHeight: '2.286rem', minHeight: 'inherit', display: 'flex', alignItems: 'center'}
 };
@@ -37,8 +41,7 @@ class AutoCompleteInput extends Component {
     };
 
     static defaultProps = {
-        data: [],
-        value: ''
+        data: []
     };
 
     state = {
@@ -99,8 +102,8 @@ class AutoCompleteInput extends Component {
     }
 
     render() {
-        const { filteredData, focused } = this.state;
-        const { value, className, style, menuStyle, listStyle, itemStyle } = this.props;
+        const { filteredData, focused, value } = this.state;
+        const { className, style, menuStyle, listStyle, itemStyle } = this.props;
         const mergedClassName = cn('auto-complete-input', className);
 
         return (
@@ -120,7 +123,9 @@ class AutoCompleteInput extends Component {
                     openOnFocus={true}
                     className={`text-input ${focused ? 'focused' : ''}`}
                     menuProps={{
-                        menuItemStyle: {...styles.MENU_ITEM, ...itemStyle, ...{height: style && style.height || 'auto'}}
+                        className: 'auto-complete-menu',
+                        menuItemStyle: {...styles.MENU_ITEM, ...itemStyle, ...{height: style && style.height || 'auto'}},
+                        listStyle: {backgroundColor: 'red'}
                     }}
                     ref={input => input && focused && input.focus()}
                     searchText={value}

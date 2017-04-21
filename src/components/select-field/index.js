@@ -139,6 +139,7 @@ class SelectFieldInput extends Component {
                     </div>
                 </div>
                 <Popover
+                    animated={false}
                     open={!!popoverPosition}
                     anchorEl={popoverPosition}
                     anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
@@ -147,6 +148,7 @@ class SelectFieldInput extends Component {
                     style={styles.POPOVER}
                 >
                     <Menu
+                        className="select-field-menu"
                         maxHeight={200}
                         onItemTouchTap={this.handleSelectItem}
                         onEscKeyDown={this.handleClose}
