@@ -1,0 +1,65 @@
+@import "../assets/fonts/fonts";
+@import "../assets/base/main";
+@import "../assets/base/colors";
+
+.login {
+  position: absolute;
+  max-width: 360px;
+  height: 390px;
+  margin: auto;
+  padding: 40px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 5px 15px 0 rgba(164, 168, 171, 0.25);
+  background-color: #fff;
+  .logo {
+    width: 144px;
+    height: 30px;
+  }
+  .login-title {
+    color: $darkGrey;
+    font-size: 1.714rem;
+    font-weight: 500;
+    margin: 15px 0 25px 0;
+    line-height: 1.714rem;
+  }
+  .input-group {
+    padding-bottom: 20px;
+    label {
+      display: block;
+      font-size: 0.928rem;
+      color: $coolGrayTwo;
+      padding-bottom: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 0 10px;
+      height: 32px;
+      border: 1px solid $paleGrey;
+      border-radius: 2px;
+    }
+  }
+  .login-button-group {
+    padding-top: 15px;
+    text-align: right;
+    .forgot-password {
+      color: $darkGrey;
+      padding-right: 15px;
+      display: inline-block;
+      text-decoration: none;
+    }
+  }
+}
+
+.btn-green {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 8px 24px;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 17px;
+  background-color: $softGreen;
+}
