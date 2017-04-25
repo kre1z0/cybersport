@@ -25,7 +25,6 @@ export default (state = initState, {type, ...payload}) => {
                 ...payload
             };
         case LOGIN_ERROR:
-            location.reload(true);
             return {
                 ...state,
                 loading: false,
