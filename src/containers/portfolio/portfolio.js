@@ -14,11 +14,16 @@ class Portfolio extends Component {
     };
     
     componentDidMount () {
-        this.props.getObjects();
+        const {getObjects, isAuth, objects: {data}} = this.props;
+        data.length === 0 && isAuth && getObjects();
+    }
+
+    componentWillReceiveProps ({getObjects, isAuth, objects: {data}}) {
+        data.length === 0 && !this.props.isAuth && isAuth && getObjects();
     }
 
     render () {
-        const {objects: {data, attributes, cacheKey}} = this.props;
+        const {objects: {data, attributes, cacheKey, loading}, isAuth} = this.props;
 
         return (
             <div className="portfolio-container">
@@ -26,12 +31,12 @@ class Portfolio extends Component {
 
                     <HeaderTitleBlock title="Реестр объектов залога" />
 
-                    {data.length > 0
-                        ? <Table data={data}
+                    {data.length === 0 || loading || !isAuth
+                        ? <Loader className="loader"/>
+                        : <Table data={data}
                                  columns={attributes}
                                  cacheKey={cacheKey}
                           />
-                        : <Loader className="loader"/>
                     }
 
                 </div>
@@ -40,8 +45,9 @@ class Portfolio extends Component {
     }
 }
 
-const mapProps = ({objects}) => ({
-    objects
+const mapProps = ({objects, user: {login}}) => ({
+    objects,
+    isAuth: !!login
 });
 
 const mapActions = {
