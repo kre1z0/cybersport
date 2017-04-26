@@ -30,5 +30,23 @@ $NewObjectLabelWidth: 260px;
         color: $darkGrey;
       }
     }
+    @media #{$tablet} {
+      align-items: flex-start;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      &.top {
+        label {
+          padding: 0 0 7px 0;
+        }
+      }
+      label {
+        text-align: left;
+        padding-bottom: 7px;
+        width: auto;
+      }
+      .input-wrapper {
+        width: 100%;
+      }
+    }
   }
 }

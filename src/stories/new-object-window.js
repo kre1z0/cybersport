@@ -58,7 +58,7 @@ class ModalWindowContainer extends Component {
   }
 }
 
-storiesOf('NewObjectWindow', ModalWindow)
+storiesOf('NewObjectWindow', NewObjectWindow)
   .addDecorator((story) => (
     <MuiThemeProvider muiTheme={theme}>
       {story()}

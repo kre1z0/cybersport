@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import './login-page.scss'
 import GreenLogo from '../../assets/icons/green-logo.svg'
 
-class login extends Component {
+class Login extends Component {
   render() {
     return (
       <form className="login">
@@ -25,4 +25,4 @@ class login extends Component {
   }
 }
 
-export default login;
+export default Login;
