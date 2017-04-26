@@ -1,4 +1,4 @@
-import { setCenter, resetMap, setResolution } from '../../actions/map';
+import { setCenter, resetMap, setResolution } from '../../ducks/map';
 
 describe('map actions', () => {
     it('should create an action to set center', () => {
