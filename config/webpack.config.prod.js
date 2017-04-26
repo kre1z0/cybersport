@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const flexboxFixes = require('postcss-flexbugs-fixes');
 const OfflinePlugin = require('offline-plugin');
+const PrerenderSpaPlugin = require('prerender-spa-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
@@ -246,6 +247,11 @@ module.exports = {
     new ManifestPlugin({
       fileName: 'asset-manifest.json'
     }),
+    
+    new PrerenderSpaPlugin(
+        paths.appBuild,
+        ['/login']
+    ),
     new OfflinePlugin({
         responseStrategy: 'cache-first',
         ServiceWorker: {
