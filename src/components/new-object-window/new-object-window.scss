@@ -1,0 +1,48 @@
+@import "../../assets/base/colors";
+
+$NewObjectLabelWidth: 260px;
+
+.new-object-window {
+  .field-group {
+    display: flex;
+    padding-bottom: 20px;
+    align-items: center;
+    &.top {
+      align-items: flex-start;
+      label {
+        padding: 5px 20px 0 0;
+      }
+    }
+    label {
+      text-align: right;
+      padding: 0 20px 0 0;
+      font-size: 0.928rem;
+      color: $coolGrayTwo;
+      width: $NewObjectLabelWidth;
+      line-height: normal;
+    }
+    .input-wrapper {
+      width: calc(100% - #{$NewObjectLabelWidth});
+      .new-object-id {
+        line-height: 17px;
+        font-size: 1rem;
+        color: $darkGrey;
+      }
+      textarea {
+        display: inline-block;
+        padding: 5px 12px;
+        resize: none;
+        height: 80px;
+        width: 100%;
+        background-color: #fff;
+        box-sizing: border-box;
+        border: 1px solid $paleGrey;
+        transition: border-color .2s ease-out;
+        position: relative;
+        &:focus {
+          border-color: $softGreen;
+        }
+      }
+    }
+  }
+}
