@@ -7,9 +7,10 @@ import Map from './containers/map';
 import Employees from './containers/employees';
 import Inspections from './containers/inspections';
 import Analytics from './containers/analytics';
+import Login from './components/login-page'
 
 export const LoginRoute = (
-  <Route path="/login" component={()=><div>LOGIN!!!</div>}/>
+  <Route path="/login" component={Login}/>
 );
 
 export default (
