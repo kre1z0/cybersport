@@ -1,56 +1,57 @@
 exports[`map actions should create an action to reset center 1`] = `
 Object {
-  "type": "map/reset-map",
+  "payload": undefined,
+  "type": "[3] map/reset-map",
 }
 `;
 
 exports[`map actions should create an action to set center 1`] = `
 Object {
-  "center": Array [
+  "payload": Array [
     0,
     0,
   ],
-  "type": "map/set-center",
+  "type": "[2] map/set-center",
 }
 `;
 
 exports[`map actions should create an action to set center 2`] = `
 Object {
-  "center": Array [
+  "payload": Array [
     500,
     100,
   ],
-  "type": "map/set-center",
+  "type": "[2] map/set-center",
 }
 `;
 
 exports[`map actions should create an action to set center 3`] = `
 Object {
-  "center": Array [
+  "payload": Array [
     100,
     500,
   ],
-  "type": "map/set-center",
+  "type": "[2] map/set-center",
 }
 `;
 
 exports[`map actions should create an action to set resolution 1`] = `
 Object {
-  "resolution": 0,
-  "type": "map/set-resolution",
+  "payload": 0,
+  "type": "[4] map/set-resolution",
 }
 `;
 
 exports[`map actions should create an action to set resolution 2`] = `
 Object {
-  "resolution": 5,
-  "type": "map/set-resolution",
+  "payload": 5,
+  "type": "[4] map/set-resolution",
 }
 `;
 
 exports[`map actions should create an action to set resolution 3`] = `
 Object {
-  "resolution": 100,
-  "type": "map/set-resolution",
+  "payload": 100,
+  "type": "[4] map/set-resolution",
 }
 `;

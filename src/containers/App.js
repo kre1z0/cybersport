@@ -8,7 +8,7 @@ import Drawer from 'material-ui/Drawer';
 import Sidebar from './sidebar';
 import Title from '../components/appbar-title';
 
-import {getUser} from '../actions/user';
+import {getUser} from '../ducks/user';
 
 const titleStyle = {
     textAlign: 'center'
