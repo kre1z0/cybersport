@@ -8,18 +8,6 @@ import Employees from './containers/employees';
 import Inspections from './containers/inspections';
 import Analytics from './containers/analytics';
 
-
-// const PrivateRoute = ({component: Component, ...other}) => (
-//     <Route {...other}
-//            render={({isAuth, ...props}) => (
-//                 true
-//                     ? <Component {...props}/>
-//                     : <div>not auth</div>
-//            )}
-//     />
-// );
-
-
 export default (
         <Switch>
             <Route exact path="/" component={ Home }/>
