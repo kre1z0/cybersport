@@ -18175,8 +18175,8 @@ sGis.module('sp.Connector', ['utils', 'EventHandler', 'sp.Api', 'sp.serializers.
 
                                     self.fire('sessionInitialized');
                                 } else {
-                                    sGis.utils.error('Could not get session. Server responded with: ' + data);
                                     reject('Could not get session. Server responded with: ' + data);
+                                    sGis.utils.error('Could not get session. Server responded with: ' + data);
                                 }
                             }
                         },

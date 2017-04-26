@@ -16,7 +16,7 @@ const configureStore = preloadedState => {
     
     const store = createStore(reducers, preloadedState, middlewares);
     
-    persistStore(store, {storage: localForage});
+    persistStore(store, {storage: localForage, blacklist: ['user', 'objects']});
     
     return store;
 };

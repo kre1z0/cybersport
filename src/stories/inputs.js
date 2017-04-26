@@ -3,13 +3,12 @@ import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {theme} from '../assets/theme';
 
-import Dropdown from '../components/dropdown';
 import AutoCompleteInput from '../components/auto-complete-input';
 import DatePicker from '../components/date-picker';
 import SelectFieldInput from '../components/select-field';
 import TextInput from '../components/text-input';
 
-storiesOf('Inputs',  Dropdown)
+storiesOf('Inputs',  [AutoCompleteInput, DatePicker, SelectFieldInput, TextInput])
     .addDecorator((story) => (
         <MuiThemeProvider muiTheme={theme}>
             {story()}

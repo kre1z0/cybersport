@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
@@ -6,18 +8,24 @@ import Drawer from 'material-ui/Drawer';
 import Sidebar from './sidebar';
 import Title from '../components/appbar-title';
 
+import {getUser} from '../actions/user';
+
 const titleStyle = {
     textAlign: 'center'
 };
 
 const sidebarOverlayStyle = {
-  backgroundColor: 'rgba(0, 0, 0, 0)'
+    backgroundColor: 'rgba(0, 0, 0, 0)'
 };
 
 class App extends Component {
     state = {
         isSidebarOpen: false
     };
+    
+    componentDidMount () {
+        this.props.getUser();
+    }
     
     toggleSidebar = () => {
         this.setState(({isSidebarOpen}) => ({
@@ -53,4 +61,12 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapProps = ({user}) => ({
+    user
+});
+
+const mapActions = {
+    getUser,
+};
+
+export default withRouter(connect(mapProps, mapActions)(App));
