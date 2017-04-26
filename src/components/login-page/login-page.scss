@@ -37,6 +37,9 @@
       height: 32px;
       border: 1px solid $paleGrey;
       border-radius: 2px;
+      &:focus {
+        border-color: $softGreen;
+      }
     }
   }
   .login-button-group {

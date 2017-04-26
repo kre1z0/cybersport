@@ -35,7 +35,6 @@ const CloseWindowButton = (props) => (
     </IconButton>
 );
 
-
 const ModalWindow = ({children, onRequestClose, ...props}) => (
     <Dialog onRequestClose={onRequestClose}
             modal={true}
@@ -52,4 +51,3 @@ const ModalWindow = ({children, onRequestClose, ...props}) => (
 );
 
 export default ModalWindow
-
