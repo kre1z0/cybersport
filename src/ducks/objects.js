@@ -1,6 +1,5 @@
-export const FETCH = 'objects/fetch';
-export const FETCH_SUCCESS = 'objects/fetch-success';
-export const FETCH_ERROR = 'objects/fetch-error';
+import {createAction, createReducer} from 'redux-act';
+import {fetchObjects} from '../evergis/api';
 
 const initAttributes = [
     {name: 'control', alias: '', type: 'control'},
@@ -26,26 +25,35 @@ const initState = {
     error: false
 };
 
-export default (state = initState, {type, ...payload}) => {
-    switch (type) {
-        case FETCH:
-            return {
-                ...state,
-                loading: true
-            };
-        case FETCH_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                error: false,
-                ...payload
-            };
-        case FETCH_ERROR:
-            return {
-                ...state,
-                loading: false,
-                error: payload.error
-            };
-        default: return state;
-    }
-}
+export const fetch = createAction('objects/fetch');
+export const fetchSuccess = createAction('objects/fetch-success');
+export const fetchError = createAction('objects/fetch-error');
+
+export const getObjects = () => (dispatch) => {
+    dispatch(fetch());
+    fetchObjects({})
+        .then(response => dispatch(fetchSuccess(response)))
+        .catch(error => dispatch(fetchError()));
+};
+
+export default createReducer({
+    [fetch]: (state, payload) => ({
+        ...state,
+        loading: true
+    }),
+    
+    [fetchSuccess]: (state, payload) => ({
+        ...state,
+        loading: false,
+        error: false,
+        ...payload
+    }),
+    
+    [fetchError]: (state, payload) => ({
+        loading: false,
+        error: payload
+    })
+}, initState)
+
+
+

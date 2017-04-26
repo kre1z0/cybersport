@@ -7,7 +7,7 @@ import {REHYDRATE} from 'redux-persist/constants';
 import createActionBuffer from 'redux-action-buffer';
 import localForage from 'localforage';
 
-import reducers from '../reducers';
+import reducers from '../ducks';
 
 const configureStore = preloadedState => {
     
@@ -19,8 +19,8 @@ const configureStore = preloadedState => {
     const store = createStore(reducers, preloadedState, middlewares);
     
     if (module.hot) {
-        module.hot.accept('../reducers', () => {
-            const nextRootReducer = require('../reducers').default;
+        module.hot.accept('../ducks', () => {
+            const nextRootReducer = require('../ducks').default;
             store.replaceReducer(nextRootReducer)
         })
     }

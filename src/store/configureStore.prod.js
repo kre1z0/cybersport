@@ -5,7 +5,7 @@ import {REHYDRATE} from 'redux-persist/constants';
 import createActionBuffer from 'redux-action-buffer';
 import localForage from 'localforage';
 
-import reducers from '../reducers';
+import reducers from '../ducks';
 
 const configureStore = preloadedState => {
     
