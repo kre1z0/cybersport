@@ -17,7 +17,7 @@ class newObjectWindow extends Component {
           let input;
           if (type === 'text' || type === 'address') input = (<TextInput />);
           else if (type === 'select') input = (<SelectField />);
-          else if (type === 'text-area') input = (<textarea />);
+          else if (type === 'text-area') input = (<TextInput multiLine={true}/>);
           else if (type === 'text-string') input = (<div className="new-object-id">000003</div>);
           else if (type === 'img') input = (<ImageLoader />);
 

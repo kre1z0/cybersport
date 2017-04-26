@@ -1,4 +1,5 @@
 @import "../../assets/base/colors";
+@import "../../assets/base/media";
 
 $NewObjectLabelWidth: 260px;
 
@@ -27,21 +28,6 @@ $NewObjectLabelWidth: 260px;
         line-height: 17px;
         font-size: 1rem;
         color: $darkGrey;
-      }
-      textarea {
-        display: inline-block;
-        padding: 5px 12px;
-        resize: none;
-        height: 80px;
-        width: 100%;
-        background-color: #fff;
-        box-sizing: border-box;
-        border: 1px solid $paleGrey;
-        transition: border-color .2s ease-out;
-        position: relative;
-        &:focus {
-          border-color: $softGreen;
-        }
       }
     }
   }
