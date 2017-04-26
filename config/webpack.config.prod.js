@@ -247,11 +247,11 @@ module.exports = {
     new ManifestPlugin({
       fileName: 'asset-manifest.json'
     }),
-    
-    new PrerenderSpaPlugin(
-        paths.appBuild,
-        ['/login']
-    ),
+    //
+    // new PrerenderSpaPlugin(
+    //     paths.appBuild,
+    //     ['/login']
+    // ),
     new OfflinePlugin({
         responseStrategy: 'cache-first',
         ServiceWorker: {

@@ -14,8 +14,10 @@ export const fetchObjects = ({filter, orderBy}) => getConnector().api.getObjects
     cacheKey: Math.random().toString(36).substring(3)
 }));
 
+let authConfigUrl = process.env.NODE_ENV === 'development' ? '/auth.dev.json' : '/auth.json';
+
 export const getSession = () =>
-    fetch('/auth.json')
+    fetch(authConfigUrl)
         .then(response => response.json())
         .then(({url, authUrl = getAuthUrl(url), ...opts}) =>
             getConnector(url, authUrl, opts).initializationPromise
