@@ -13,7 +13,6 @@ export const TYPES = {
 };
 
 const InputSwitcher = ({type, ...props}) => {
-  console.log('TYPE', type);
   switch (type) {
     case TYPES.TEXT_STRING: return <div className="new-object-id">000003</div>;
     case TYPES.IMG: return <ImageLoader {...props}/>;
