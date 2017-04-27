@@ -1,10 +1,22 @@
+@import "../../assets/base/colors";
+@import "../../assets/base/media";
+
 .columns-settings {
+  margin: -21px;
   .columns-settings-item {
+    padding: 10px 21px;
     display: flex;
-    height: 37px;
     align-items: center;
+    border-top: 1px solid $paleGrey;
+    &:first-child {
+      border-top: none;
+    }
+    @media #{$phone} {
+      padding: 10px 12px;
+    }
   }
   .columns-settings-title {
+    color: $darkGrey;
     padding-left: 10px;
   }
 }

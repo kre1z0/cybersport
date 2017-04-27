@@ -18,7 +18,7 @@ class ColumnsSettings extends Component {
                 <DragIcon style={{height: '0.785rem'}} />
               </div>
               <div className="columns-settings-ico">
-                <ViewIcon style={{height: '0.785rem'}} />
+                <ViewIcon style={{height: '0.785rem'}} isVisible={isVisible} />
               </div>
               <div className="columns-settings-title">
                 {alias}
