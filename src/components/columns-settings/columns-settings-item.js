@@ -16,7 +16,7 @@ const ViewButtonStyle = {
 const ColumnsSettingsItem = ({alias, isVisible, ...props}) => (
   <div className="columns-settings-item">
     <div className="columns-settings-dnd">
-      <DragIcon style={{height: '0.785rem'}} />
+      <DragIcon style={{height: '0.785rem'}}/>
     </div>
     <div className="columns-settings-ico">
       <IconButton  style={ViewButtonStyle}
