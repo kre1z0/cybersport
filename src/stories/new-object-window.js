@@ -9,27 +9,14 @@ import RoundedButton from '../components/button/rounded-button';
 
 import NewObjectWindow from '../components/new-object-window'
 
+import {columns} from './objects-mock-data';
+
 const Actions = (
   <div>
     <RoundedButton label="Отменить" />
     <RoundedButton label="Создать"  primary={true}/>
   </div>
 );
-
-export const attributes = [
-  {name: 'object_name', alias: 'ID', type: 'text-string', isVisible: true},
-  {name: 'image_name', alias: 'Фото', type: 'img', isVisible: true},
-  {name: 'object_description', alias: 'Описание', type: 'text-area', isVisible: true},
-  {name: 'target_segment', alias: 'Целевой клиентский сегмент', type: 'select', isVisible: true},
-  {name: 'department', alias: 'ТБ', type: 'select', isVisible: true},
-  {name: 'responsible_employee_name', alias: 'Ответственный сотрудник ПМЗ', type: 'select', isVisible: true},
-  {name: 'address_region', alias: 'Регион расположения объекта', type: 'text', isVisible: true},
-  {name: 'address_combined', alias: 'Адрес объекта (по договору)', type: 'text', isVisible: false},
-  {name: 'address_adjusted', alias: 'Адрес объекта (скорректированный)', type: 'address', isVisible: true},
-  {name: 'classifier1', alias: 'Вид обеспечения по классификатору (1 уровень)', type: 'select', isVisible: false},
-  {name: 'classifier2', alias: 'Вид обеспечения по классификатору (2 уровень)', type: 'select', isVisible: true},
-  {name: 'classifier3', alias: 'Вид обеспечения по классификатору (3 уровень)', type: 'select', isVisible: true}
-];
 
 class ModalWindowContainer extends Component {
   state = {
@@ -51,7 +38,7 @@ class ModalWindowContainer extends Component {
                      actions={Actions}
                      onRequestClose={this.toggle}
         >
-        <NewObjectWindow data={attributes} />
+        <NewObjectWindow data={columns.filter(({name}) => name !== 'control' && name !== 'address_adjusted')} />
         </ModalWindow>
       </div>
     )
