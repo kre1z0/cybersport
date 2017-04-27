@@ -39,7 +39,7 @@ class ControlPopup extends  PureComponent {
                             onTouchTap={this.showPopup}
                             touch={true}
                 >
-                    <ContextIcon />
+                    <ContextIcon isActive={!!anchor} />
                 </IconButton>
                 <Popover open={!!anchor}
                          anchorEl={anchor}
@@ -53,10 +53,13 @@ class ControlPopup extends  PureComponent {
                 >
                     <div className="control-popup-content">
                         <FlatButton label="Карточка мониторинга"
+                                    onTouchTap={this.closePopup}
                         />
                         <FlatButton label="Ближайшая проверка"
+                                    onTouchTap={this.closePopup}
                         />
                         <FlatButton label="Удалить объект"
+                                    onTouchTap={this.closePopup}
                                     secondary={true}
                         />
                     </div>

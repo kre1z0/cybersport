@@ -3,7 +3,6 @@ import IconButton from 'material-ui/IconButton';
 import Popover from 'material-ui/Popover';
 import FlatButton from '../button/flat-button';
 import {FilterIcon} from '../icons';
-import {coolGreyTwo} from '../../assets/theme';
 
 import AutoComplete from '../auto-complete-input';
 import SelectField from '../select-field';
@@ -88,7 +87,7 @@ class HeaderPopup extends PureComponent {
                             onTouchTap={this.showPopup}
                             touch={true}
                 >
-                    <FilterIcon color={coolGreyTwo}/>
+                    <FilterIcon isActive={!!anchor}/>
                 </IconButton>
                 <Popover open={!!anchor}
                          anchorEl={anchor}
