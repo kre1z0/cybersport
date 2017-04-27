@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {Provider} from 'react-redux';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {theme} from './assets/theme';
 
-import Routes from './routes';
+import Routes, {LoginRoute} from './routes';
 import App from './containers/App';
 
 import 'reset.css/reset.css';
@@ -22,9 +22,12 @@ class Root extends Component {
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={theme}>
                     <Router>
+                        <Switch>
+                        {LoginRoute}
                         <App>
                             {Routes}
                         </App>
+                        </Switch>
                     </Router>
                 </MuiThemeProvider>
             </Provider>

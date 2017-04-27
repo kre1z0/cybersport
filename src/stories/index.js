@@ -12,3 +12,4 @@ import Buttons from './buttons';
 import ImgLoader from './img-loader';
 import ModalWindow from './modal-window';
 import Icons from './icons';
+import NewObjectWindow from './new-object-window';
