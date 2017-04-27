@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 
 import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
@@ -66,7 +66,7 @@ const readAsDataURL = (file) => new Promise((resolve, reject)=>{
 
 class ImageLoader extends Component{
     static propTypes = {
-
+    
     };
     
     input = createFileInput();

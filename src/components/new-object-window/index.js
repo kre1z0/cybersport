@@ -8,16 +8,16 @@ class NewObjectWindow extends Component {
     const { data } = this.props;
     return (
       <form className="new-object-window">
-        {data.map(({name, alias, type}) => {
+        {data.map(({name, alias, editorType}) => {
 
           const fieldGroup = classNames('field-group',
-            { top: type === TYPES.TEXT_AREA || type === TYPES.IMG });
+            { top: editorType === TYPES.TEXT_AREA || editorType === TYPES.IMG });
 
           return (
             <div className={fieldGroup} key={name}>
               <label>{alias}</label>
               <div className="input-wrapper">
-                <InputSwitcher type={type} />
+                <InputSwitcher type={editorType} />
               </div>
             </div>
           )
