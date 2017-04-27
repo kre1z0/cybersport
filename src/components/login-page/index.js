@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import './login-page.scss'
 import GreenLogo from '../../assets/icons/green-logo.svg'
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import SvgIcon from 'material-ui/SvgIcon';
-import {silver, strongSilver, softGreen} from '../../assets/theme';
+import {softGreen} from '../../assets/theme';
 
 const Check = (props) => (
     <SvgIcon {...props} viewBox="0 0 10 12">

@@ -5,7 +5,7 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import CheckIcon from '../icons/check';
 
-import {darkGrey, coolGreyTwo, softGreen} from '../../assets/theme'
+import {coolGreyTwo, softGreen} from '../../assets/theme'
 
 import {DropdownIcon} from '../icons';
 
@@ -158,7 +158,7 @@ class SelectFieldInput extends Component {
                         listStyle={styles.MENU_LIST}>
                         {data.map(item => {
                             const isSelected = this.props.multiple ? value.indexOf(item.id) !== -1 : value === item.id;
-                            const menuItemStyle = {...styles.MENU_ITEM(isSelected), ...itemStyle, ...{height: style && style.height || 'auto'}};
+                            const menuItemStyle = {...styles.MENU_ITEM(isSelected), ...itemStyle, ...{height: (style && style.height) || 'auto'}};
 
                             return this.props.multiple
                                     ? <MenuItem

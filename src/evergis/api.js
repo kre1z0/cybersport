@@ -1,5 +1,5 @@
 import getConnector from './connector';
-import {OBJECTS_SERVICE, getAuthUrl, transformResponseData, } from './helpers';
+import {OBJECTS_SERVICE, EMPLOYEES_SERVICE, getAuthUrl, transformResponseData, } from './helpers';
 
 export const fetchObjects = ({filter, orderBy}) => getConnector().api.getObjects({
     serviceName: OBJECTS_SERVICE,
@@ -26,3 +26,13 @@ export const getSession = () =>
                     sessionId
                 }))
         );
+export const getUserInfo = ({login}) => getConnector().api.getObjects({
+    serviceName: EMPLOYEES_SERVICE,
+    //condition: filter ? filter.join(' && ') : undefined,
+    startIndex: 0,
+    count: 1,
+    //orderBy: orderBy ? [`${orderBy.column} ${orderBy.order}`] : undefined,
+    getGeometry: false
+}).then(({data}) => ({
+   data: data && data[0] && transformResponseData(data)[0]
+}));
