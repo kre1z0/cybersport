@@ -16,19 +16,19 @@ const Actions = (
   </div>
 );
 
-const attributes = [
-  {name: 'object_name', alias: 'ID', type: 'text-string'},
-  {name: 'image_name', alias: 'Фото', type: 'img'},
-  {name: 'object_description', alias: 'Описание', type: 'text-area'},
-  {name: 'target_segment', alias: 'Целевой клиентский сегмент', type: 'select'},
-  {name: 'department', alias: 'ТБ', type: 'select'},
-  {name: 'responsible_employee_name', alias: 'Ответственный сотрудник ПМЗ', type: 'select'},
-  {name: 'address_region', alias: 'Регион расположения объекта', type: 'text'},
-  {name: 'address_combined', alias: 'Адрес объекта (по договору)', type: 'text'},
-  {name: 'address_adjusted', alias: 'Адрес объекта (скорректированный)', type: 'address'},
-  {name: 'classifier1', alias: 'Вид обеспечения по классификатору (1 уровень)', type: 'select'},
-  {name: 'classifier2', alias: 'Вид обеспечения по классификатору (2 уровень)', type: 'select'},
-  {name: 'classifier3', alias: 'Вид обеспечения по классификатору (3 уровень)', type: 'select'}
+export const attributes = [
+  {name: 'object_name', alias: 'ID', type: 'text-string', isVisible: true},
+  {name: 'image_name', alias: 'Фото', type: 'img', isVisible: true},
+  {name: 'object_description', alias: 'Описание', type: 'text-area', isVisible: true},
+  {name: 'target_segment', alias: 'Целевой клиентский сегмент', type: 'select', isVisible: true},
+  {name: 'department', alias: 'ТБ', type: 'select', isVisible: true},
+  {name: 'responsible_employee_name', alias: 'Ответственный сотрудник ПМЗ', type: 'select', isVisible: true},
+  {name: 'address_region', alias: 'Регион расположения объекта', type: 'text', isVisible: true},
+  {name: 'address_combined', alias: 'Адрес объекта (по договору)', type: 'text', isVisible: false},
+  {name: 'address_adjusted', alias: 'Адрес объекта (скорректированный)', type: 'address', isVisible: true},
+  {name: 'classifier1', alias: 'Вид обеспечения по классификатору (1 уровень)', type: 'select', isVisible: false},
+  {name: 'classifier2', alias: 'Вид обеспечения по классификатору (2 уровень)', type: 'select', isVisible: true},
+  {name: 'classifier3', alias: 'Вид обеспечения по классификатору (3 уровень)', type: 'select', isVisible: true}
 ];
 
 class ModalWindowContainer extends Component {
