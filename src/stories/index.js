@@ -13,3 +13,4 @@ import ImgLoader from './img-loader';
 import ModalWindow from './modal-window';
 import Icons from './icons';
 import NewObjectWindow from './new-object-window';
+import ColumnsSettings from './columns-settings';
