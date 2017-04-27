@@ -1,5 +1,5 @@
 import {createAction, createReducer} from 'redux-act';
-import {getSession} from '../evergis/api';
+import {getSession, getUserInfo} from '../evergis/api';
 
 const initState = {
     name: 'Константинопольский К. К.',
@@ -14,7 +14,10 @@ const loginError = createAction('user/login-error');
 export const getUser = () => (dispatch) => {
     dispatch(login());
     getSession()
-        .then(response => dispatch(loginSuccess(response)))
+        .then(response => {
+            getUserInfo({});
+            dispatch(loginSuccess(response));
+        })
         .catch(error => dispatch(loginError(error)))
 };
 

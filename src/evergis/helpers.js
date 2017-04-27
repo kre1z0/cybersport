@@ -1,4 +1,5 @@
 export const OBJECTS_SERVICE = 'sber_objects';
+export const EMPLOYEES_SERVICE = 'sber_employees';
 
 export const keyValueArrayToObject = (array) =>
     array.reduce((prev, {Key, Value}) => {
