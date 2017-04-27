@@ -12,7 +12,7 @@ const iconsStyle = {
     color: coolGreyTwo
 };
 
-const HeaderTitleBlock = ({title, onSettingsClick}) => (
+const HeaderTitleBlock = ({title, onSettingsClick, onNewObjectClick}) => (
 
     <div className="header-title-block">
         <h2 className="title">{title}</h2>
@@ -31,7 +31,12 @@ const HeaderTitleBlock = ({title, onSettingsClick}) => (
 
             <div className="section">
                 <ControlItem
-                    icon={<AddIcon style={iconsStyle} hoverColor={steeGrey} />}
+                    icon={
+                        <AddIcon style={iconsStyle}
+                                 hoverColor={steeGrey}
+                                 onTouchTap={onNewObjectClick}
+                        />
+                    }
                 />
                 <ControlItem
                     icon={<ClearFiltersIcon style={{...iconsStyle, height: '14px'}} hoverColor={steeGrey} />}

@@ -45,7 +45,7 @@ class Portfolio extends Component {
                 <div className="portfolio-content">
 
                     <HeaderTitleBlock title="Реестр объектов залога"
-                                      onSettingsClick={this.showNewObject}
+                                      onNewObjectClick={this.showNewObject}
                     />
 
                     {data.length === 0 || loading || !isAuth
