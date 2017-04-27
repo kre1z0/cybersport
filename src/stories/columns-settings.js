@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import {theme} from '../assets/theme';
 import ModalWindow from '../components/modal-window';
-import RoundedButton from '../components/rounded-button';
+import RoundedButton from '../components/button/rounded-button';
 
 import {attributes} from './new-object-window'
 import ColumnsSettings from '../components/columns-settings'
