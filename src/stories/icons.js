@@ -24,7 +24,8 @@ import {
     UserIcon,
     ViewIcon,
     WayBackIcon,
-    WayForwardIcon
+    WayForwardIcon,
+    CheckIcon
 } from '../components/icons';
 
 import {theme} from '../assets/theme';
@@ -53,7 +54,8 @@ storiesOf('Icons', [
     UserIcon,
     ViewIcon,
     WayBackIcon,
-    WayForwardIcon
+    WayForwardIcon,
+    CheckIcon
 ])
     .addDecorator((story) => (
         <MuiThemeProvider muiTheme={theme}>
@@ -65,6 +67,8 @@ storiesOf('Icons', [
     .add('burger', () => (<BurgerIcon/>))
     .add('clear filters', () => (<ClearFiltersIcon/>))
     .add('close window', () => (<CloseWindowIcon/>))
+    .add('check', () => (
+        <CheckIcon/>))
     .add('download', () => (<DownloadIcon/>))
     .add('drag', () => (<DragIcon/>))
     .add('employees', () => (<div><EmployeesIcon/><EmployeesIcon isActive/></div>))

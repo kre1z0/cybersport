@@ -124,7 +124,7 @@ class AutoCompleteInput extends Component {
                     className={`text-input ${focused ? 'focused' : ''}`}
                     menuProps={{
                         className: 'auto-complete-menu',
-                        menuItemStyle: {...styles.MENU_ITEM, ...itemStyle, ...{height: style && style.height || 'auto'}},
+                        menuItemStyle: {...styles.MENU_ITEM, ...itemStyle, ...{height: (style && style.height) || 'auto'}},
                         listStyle: {backgroundColor: 'red'}
                     }}
                     ref={input => input && focused && input.focus()}

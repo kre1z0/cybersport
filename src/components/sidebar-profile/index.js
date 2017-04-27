@@ -13,7 +13,7 @@ const avatarStyle = {
     boxShadow: '0 8px 15px 0 rgba(0, 0, 0, 0.07)'
 };
 
-const SidebarProfile = ({name, office, post, toggleSidebar}) => (
+const SidebarProfile = ({full_name, tb_name, role_name, toggleSidebar}) => (
 
     <div className="sidebar-profile">
 
@@ -24,9 +24,9 @@ const SidebarProfile = ({name, office, post, toggleSidebar}) => (
         <div className="user-block">
             <Avatar icon={<UserIcon />} color={silver} style={avatarStyle} />
             <div className="user-info">
-                <p className="user-name">{name}</p>
-                <p className="user-office">{office}</p>
-                <p className="user-post">{post}</p>
+                <p className="user-name">{full_name}</p>
+                <p className="user-office">{tb_name}</p>
+                <p className="user-post">{role_name}</p>
             </div>
         </div>
 
