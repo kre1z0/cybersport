@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ModalWindow from '../modal-window';
-import RoundedButton from '../rounded-button';
+import RoundedButton from '../button/rounded-button';
 
 const bodyStyle = {
     padding: 0,

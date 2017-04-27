@@ -1,5 +1,5 @@
 @import "../../assets/base/colors";
-.popover-content {
+.header-popup-content {
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -15,11 +15,5 @@
 
   .clear-block {
     text-align: center;
-  }
-
-  .clear-button {
-    color: $dustyOrange;
-    text-decoration: none;
-    cursor: pointer;
   }
 }

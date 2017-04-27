@@ -3,7 +3,7 @@ import { storiesOf } from '@kadira/storybook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {theme} from '../assets/theme';
 
-import RoundedButton from '../components/rounded-button';
+import RoundedButton from '../components/button/rounded-button';
 
 storiesOf('Buttons',  RoundedButton)
     .addDecorator((story) => (

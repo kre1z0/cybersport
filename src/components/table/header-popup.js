@@ -1,6 +1,7 @@
 import React, {PropTypes, PureComponent} from 'react';
 import IconButton from 'material-ui/IconButton';
 import Popover from 'material-ui/Popover';
+import FlatButton from '../button/flat-button';
 import {FilterIcon} from '../icons';
 import {coolGreyTwo} from '../../assets/theme';
 
@@ -99,7 +100,7 @@ class HeaderPopup extends PureComponent {
                          zDepth={3}
                          onRequestClose={this.closePopup}
                 >
-                    <div className="popover-content">
+                    <div className="header-popup-content">
                         <label>Сортировка</label>
                         <SelectField data={sortTypes}
                                      value={sort}
@@ -112,10 +113,10 @@ class HeaderPopup extends PureComponent {
                                       data={getColumnsDataDistinct(columnName)}
                         />
                         <div className="clear-block">
-                            <a className="clear-button"
-                               onTouchTap={this.reset}>
-                                Сбросить все
-                            </a>
+                            <FlatButton onTouchTap={this.reset}
+                                        secondary={true}
+                                        label={'Сбросить все'}
+                            />
                         </div>
                     </div>
                 </Popover>

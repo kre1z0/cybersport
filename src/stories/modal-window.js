@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import {theme} from '../assets/theme';
 import ModalWindow from '../components/modal-window';
-import RoundedButton from '../components/rounded-button';
+import RoundedButton from '../components/button/rounded-button';
 
 import bigText from './big-text-mock';
 

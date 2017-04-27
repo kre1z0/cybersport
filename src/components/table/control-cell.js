@@ -1,12 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import IconButton from 'material-ui/IconButton';
-import {ContextIcon} from '../icons';
-
-const iconStyle = {
-    height: 13,
-    width: 13
-};
+import ControlPopup from './control-popup';
 
 const ControlCell = ({rowIndex, columnIndex, style, content}) => (
     <div className={
@@ -17,11 +11,7 @@ const ControlCell = ({rowIndex, columnIndex, style, content}) => (
         )}
          style={style}
     >
-        <IconButton iconStyle={iconStyle}
-                    touch={true}
-        >
-            <ContextIcon />
-        </IconButton>
+        <ControlPopup />
     </div>
 );
 
