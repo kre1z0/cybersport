@@ -13,7 +13,7 @@ import ColumnsSettings from '../components/columns-settings'
 const Actions = (
   <div>
     <RoundedButton label="Отменить" />
-    <RoundedButton label="Создать"  primary={true}/>
+    <RoundedButton label="Сохранить"  primary={true}/>
   </div>
 );
 

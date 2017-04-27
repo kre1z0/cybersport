@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import DragIcon from '../icons/drag';
-import ViewIcon from '../icons/view';
+import ColumnsSettingsItem from './columns-settings-item';
 import './columns-settings.scss';
 
 class ColumnsSettings extends Component {
@@ -13,17 +12,11 @@ class ColumnsSettings extends Component {
       <div className="columns-settings">
         {data.map(({name, alias, isVisible}) => {
           return (
-            <div className="columns-settings-item" key={name}>
-              <div className="columns-settings-dnd">
-                <DragIcon style={{height: '0.785rem'}} />
-              </div>
-              <div className="columns-settings-ico">
-                <ViewIcon style={{height: '0.785rem'}} isVisible={isVisible} />
-              </div>
-              <div className="columns-settings-title">
-                {alias}
-              </div>
-            </div>
+            <ColumnsSettingsItem
+              key={name}
+              alias={alias}
+              isVisible={isVisible}
+            />
           )
         })}
       </div>

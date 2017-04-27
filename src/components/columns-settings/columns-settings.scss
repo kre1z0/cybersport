@@ -4,7 +4,7 @@
 .columns-settings {
   margin: -21px;
   .columns-settings-item {
-    padding: 10px 21px;
+    padding: 5px 21px;
     display: flex;
     align-items: center;
     border-top: 1px solid $paleGrey;
@@ -12,10 +12,14 @@
       border-top: none;
     }
     @media #{$phone} {
-      padding: 10px 12px;
+      padding: 5px 12px;
+    }
+    .columns-settings-dnd {
+      padding-right: 5px;
     }
   }
   .columns-settings-title {
+    font-size: 1rem;
     color: $darkGrey;
     padding-left: 10px;
   }
