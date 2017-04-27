@@ -22,6 +22,10 @@ const popoverStyle = {
 const setAnchor = (anchor) => () => ({anchor});
 
 class ControlPopup extends  PureComponent {
+    propTypes = {
+        id: PropTypes.string
+    };
+    
     state = {
         anchor: null
     };
