@@ -14,11 +14,11 @@ const closeButtonStyle = {
 };
 
 const titleStyle = {
-    fontSize: '1.286rem'
+    fontSize: '1.286rem',
+    borderBottom: `1px solid ${paleGrey}`,
 };
 
 const bodyStyle = {
-    borderTop: `1px solid ${paleGrey}`,
     padding: 21
 };
 

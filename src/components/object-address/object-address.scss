@@ -1,0 +1,38 @@
+@import "../../assets/base/colors";
+@import "../../assets/base/media";
+
+.object-address {
+  margin: -21px;
+  .object-address-map {
+    .map-container > div {
+      border-radius: 6px 6px 0 0;
+    }
+  }
+  .object-address-footer {
+    display: flex;
+    text-align: left;
+    padding: 20px;
+    .object-address-item {
+      padding-right: 40px;
+      .object-address-item-title {
+        color: $coolGrayTwo;
+        font-size: 0.928rem;
+        padding-bottom: 7px;
+      }
+      .object-address-item-description {
+        color: $darkGrey;
+      }
+      &:last-child {
+        padding-right: 0;
+      }
+      @media #{$phone} {
+        padding-right: 10px;
+      }
+    }
+    @media #{$phone} {
+      margin: 0 -10px;
+    }
+  }
+}
+
+
