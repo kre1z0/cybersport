@@ -20,11 +20,17 @@ const styles = {
     POPOVER: {
         display: 'block'
     },
-    MENU: {lineHeight: '32px', minHeight: 'auto'},
+    MENU: {
+        lineHeight: '32px',
+        minHeight: 'auto'
+    },
     MENU_LIST: {
         paddingTop: '0px',
         paddingBottom: '0px',
-        display: 'inline-block'
+        display: 'inline-block',
+        overflowY: 'auto',
+        backgroundColor: 'red',
+        width: '100%'
     },
     MENU_ITEM: (selected) => ({
         color: selected ? softGreen : 'inherit',
@@ -145,7 +151,8 @@ class SelectFieldInput extends Component {
                     anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                     targetOrigin={{horizontal: 'left', vertical: 'top'}}
                     onRequestClose={this.handleClose}
-                    style={styles.POPOVER}
+                    style={{...styles.POPOVER, width: popoverPosition && popoverPosition.clientWidth}}
+                    className="select-field-popover"
                 >
                     <Menu
                         className="select-field-menu"
@@ -154,7 +161,6 @@ class SelectFieldInput extends Component {
                         onEscKeyDown={this.handleClose}
                         menuItemStyle={styles.MENU}
                         autoWidth={false}
-                        width={popoverPosition && popoverPosition.clientWidth}
                         listStyle={styles.MENU_LIST}>
                         {data.map(item => {
                             const isSelected = this.props.multiple ? value.indexOf(item.id) !== -1 : value === item.id;

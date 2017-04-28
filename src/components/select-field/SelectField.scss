@@ -52,3 +52,9 @@
     }
   }
 }
+
+.select-field-popover{
+  & > div{
+    min-height: 20px;
+  }
+}
