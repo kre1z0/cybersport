@@ -1,11 +1,18 @@
 import {createAction, createReducer} from 'redux-act';
+import {Record} from 'immutable';
+
 import {getSession, getUserInfo} from '../evergis/api';
 
-const initState = {
+const User = Record({
     full_name: '',
     tb_name: '',
-    role_name: ''
-};
+    role_name: '',
+    login: '',
+    loading: false,
+    error: false
+});
+
+const initState = new User();
 
 const login = createAction('user/login');
 const loginSuccess = createAction('user/login-success');
@@ -35,36 +42,32 @@ export const getUser = () => (dispatch) => {
 };
 
 export default createReducer({
-    [login]: (state, payload) => ({
-        ...state,
-        loading: true
-    }),
-    [loginSuccess]: (state, payload) => ({
-        ...state,
-        loading: false,
-        error: false,
-        ...payload
-    }),
-    [loginError]: (state, payload) => ({
-        ...state,
-        loading: false,
-        error: true
-    }),
-    [fetch]: (state, payload) => ({
-        ...state,
-        loading: true
-    }),
-    [fetchSuccess]: (state, payload) => ({
-        ...state,
-        loading: false,
-        error: false,
-        ...payload
-    }),
-    [fetchError]: (state, payload) => ({
-        ...state,
-        loading: false,
-        error: true
-    })
+    [login]: (state, payload) =>
+        state.set('loading', true),
+    
+    [loginSuccess]: (state, {login}) =>
+        state.set('loading', false)
+             .set('error', false)
+             .set('login', login),
+    
+    [loginError]: (state, payload) =>
+        state.set('loading', false)
+             .set('error', true),
+    
+    [fetch]: (state, payload) =>
+        state.set('loading', true),
+    
+    [fetchSuccess]: (state, {full_name, tb_name, role_name}) =>
+        state.set('loading', false)
+            .set('error', false)
+            .set('full_name', full_name)
+            .set('tb_name', tb_name)
+            .set('role_name', role_name),
+    
+    [fetchError]: (state, payload) =>
+        state.set('loading', false)
+            .set('error', true),
+    
 }, initState)
 
 

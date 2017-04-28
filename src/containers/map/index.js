@@ -16,11 +16,11 @@ class MapContainer extends Component {
     };
     
     render () {
-        const {map: {center, resolution}, setCenter, setResolution} = this.props;
+        const {map, setCenter, setResolution} = this.props;
         
         return (
-            <Map center={center}
-                 resolution={resolution}
+            <Map center={map.center}
+                 resolution={map.resolution}
                  onCenterChange={setCenter}
                  onResolutionChange={setResolution}
             />
