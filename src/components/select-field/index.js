@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
-import Popover from 'material-ui/Popover';
+import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import CheckIcon from '../icons/check';
@@ -69,7 +69,8 @@ class SelectFieldInput extends Component {
     static defaultProps = {
         data: [],
         multiple: false,
-        maxHeight: 200
+        maxHeight: 200,
+        open: false
     };
 
     state = {
@@ -78,6 +79,7 @@ class SelectFieldInput extends Component {
 
     handleClick = () => {
         this.setState(state => ({
+            open: true,
             popoverPosition: this.selectBoxRef,
             focused: !state.focused
         }));
@@ -116,7 +118,7 @@ class SelectFieldInput extends Component {
         const { onBlur } = this.props;
 
         this.setState({
-            popoverPosition: null,
+            open: false,
             focused: false
         });
 
@@ -132,7 +134,7 @@ class SelectFieldInput extends Component {
 
     render(){
         const { data, value, className, style, itemStyle, maxHeight } = this.props;
-        const { focused, popoverPosition } = this.state;
+        const { focused, popoverPosition, open } = this.state;
         const selectedValue = this.props.multiple
             ? `Выбрано ${value.length} объекта(ов)`
             : typeof value !== 'undefined' && data.find((elem) => elem.id === value).text;
@@ -146,8 +148,8 @@ class SelectFieldInput extends Component {
                     </div>
                 </div>
                 <Popover
-                    animated={false}
-                    open={!!popoverPosition}
+                    animation={PopoverAnimationVertical}
+                    open={open}
                     anchorEl={popoverPosition}
                     anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                     targetOrigin={{horizontal: 'left', vertical: 'top'}}
