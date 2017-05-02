@@ -6,9 +6,13 @@ const AddressButton = ({label}) => (
   <RaisedButton className="address-button"
                 label={label}
                 overlayStyle={{borderRadius: '0 2px 2px 0'}}
-                labelStyle={{textTransform: 'capitalize'}}
+                labelStyle={{
+                  textTransform: 'capitalize',
+                  fontSize: '0.928rem',
+                  fontWeight: '400'
+                }}
                 style={{
-                  height: 35, borderRadius: '0 2px 2px 0',
+                  height: 34, borderRadius: '0 2px 2px 0',
                   boxShadow: 'none'
                 }}
                 primary={true}

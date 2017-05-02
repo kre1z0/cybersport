@@ -29,6 +29,8 @@ $ObjectAddressButtonRightWidth: 150px;
       }
       .object-address-item-content {
         color: $darkGrey;
+        font-size: 1rem;
+        font-weight: 400;
         .object-address-edit {
           display: flex;
           padding-right: 20px;
