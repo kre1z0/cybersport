@@ -25,7 +25,7 @@ class ObjectAddress extends Component {
                                  editorType={editorType}
                                  isEditable={isEditable}
                                  name={name}
-                                 object={object}
+                                 content={object[name]}
               />
             )
           })}
