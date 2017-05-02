@@ -1,21 +1,23 @@
 import React from 'react';
+import classNames from 'classnames';
+import ObjectAddressItemEdit from './object-address-item-edit'
 
-const ObjectAddressItem = ({alias, name, object}) => {
-  let description;
-  for (const key in object) {
-    if (object.hasOwnProperty(key) && name === key) {
-      description = object[key]
-    }
-  }
+const ObjectAddressItem = ({alias, editorType, isEditable, content}) => {
+  const objectAddressItem = classNames('object-address-item',
+    {edit: editorType === 'address' && isEditable === true});
+
   return (
-  <div className="object-address-item">
-    <div className="object-address-item-title">
-      {alias}
+    <div className={objectAddressItem}>
+      <div className="object-address-item-title">
+        {alias}
+      </div>
+      <div className="object-address-item-content">
+        {(editorType === 'address' && isEditable === true)
+          ? <ObjectAddressItemEdit content={content} />
+          : <span>{content}</span>}
+      </div>
     </div>
-    <div className="object-address-item-description">
-      {description}
-    </div>
-  </div>
-)};
+  )
+};
 
 export default ObjectAddressItem;
