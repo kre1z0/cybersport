@@ -253,7 +253,7 @@ module.exports = {
     //     ['/login']
     // ),
     new OfflinePlugin({
-        responseStrategy: 'cache-first',
+        responseStrategy: 'network-first',
         ServiceWorker: {
             navigateFallbackURL: '/'
         },
