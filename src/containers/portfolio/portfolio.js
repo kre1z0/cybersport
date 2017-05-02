@@ -46,7 +46,7 @@ class Portfolio extends Component {
         const hashKey = Math.random().toString(36);
         
         return (
-            <div className="portfolio-container">
+            <div className="portfolio-container --padding">
                 <div className="portfolio-content">
 
                     <HeaderTitleBlock title="Реестр объектов залога"

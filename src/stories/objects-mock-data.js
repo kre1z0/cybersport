@@ -12,7 +12,7 @@ export const columns = [
     {name: 'classifier1', alias: 'Вид обеспечения по классификатору (1 уровень)', type: 'text',  editorType: 'select', isEditable: true},
     {name: 'classifier2', alias: 'Вид обеспечения по классификатору (2 уровень)', type: 'text',  editorType: 'select', isEditable: true},
     {name: 'classifier3', alias: 'Вид обеспечения по классификатору (3 уровень)', type: 'text',  editorType: 'select', isEditable: true}
-];;
+];
 
 export default [
     {

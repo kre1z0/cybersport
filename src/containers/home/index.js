@@ -47,7 +47,7 @@ class Home extends Component {
         ];
 
         return (
-            <div className="home-container">
+            <div className="home-container --padding">
                 <div className="home-content">
 
                     <ProgressChart value={progress}

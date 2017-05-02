@@ -5,7 +5,7 @@ class Employees extends Component {
     render () {
         
         return (
-            <div>
+            <div className="--padding">
                 Employees
             </div>
         );

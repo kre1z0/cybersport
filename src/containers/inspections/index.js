@@ -5,7 +5,7 @@ class Inspections extends Component {
     render () {
         
         return (
-            <div>
+            <div className="--padding">
                 Inspections
             </div>
         );
