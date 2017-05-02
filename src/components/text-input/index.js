@@ -60,13 +60,14 @@ class TextArea extends Component {
     };
 
     componentDidMount(){
-        this.props.focusOnMount && this.setState({
+        const { focusOnMount } = this.props;
+        focusOnMount && this.setState({
             focused: true
         })
     }
 
     render(){
-        const { className, multiLine, value, style, inputStyle, textAreaStyle, ...other } = this.props;
+        const { className, multiLine, value, style, inputStyle, textAreaStyle, focusOnMount, ...other } = this.props;
         const { focused } = this.state;
 
         const mergedClassName = classNames('text-input', className, {focused});
