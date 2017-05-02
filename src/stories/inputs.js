@@ -84,7 +84,7 @@ storiesOf('Inputs',  [AutoCompleteInput, DatePicker, SelectFieldInput, TextInput
                                 <SelectFieldInput />
                             </div>
                             <div style={{width: '300px', display: 'inline-block'}}>
-                                <SelectFieldInput onChange={this.changeInput2} multiple data={data} value={value2} />
+                                <SelectFieldInput onChange={this.changeInput1} data={data} value={value1} />
                             </div>
                             <div style={{width: '300px', display: 'inline-block'}}>
                                 <SelectFieldInput
