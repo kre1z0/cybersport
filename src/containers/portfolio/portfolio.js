@@ -18,7 +18,9 @@ class Portfolio extends Component {
     };
     
     state = {
-        newObjectOpen: false
+        newObjectOpen: false,
+        filter: undefined,
+        sort: undefined
     };
     
     componentDidMount () {
@@ -37,9 +39,18 @@ class Portfolio extends Component {
         this.closeNewObject();
     };
     
+    changeFilter = ({filter, sort}) => {
+        this.setState(state => ({
+            filter,
+            sort
+        }));
+        
+        this.props.getObjects({filter, sort});
+    };
+    
     render () {
         const {objects: {data, attributes, loading}, isAuth} = this.props;
-        const {newObjectOpen} = this.state;
+        const {newObjectOpen, filter, sort} = this.state;
         
         const dataJS = data.toJS();
         const attrJS = attributes.toJS();
@@ -53,11 +64,15 @@ class Portfolio extends Component {
                                       onNewObjectClick={this.showNewObject}
                     />
 
-                    {dataJS.length === 0 || loading || !isAuth
+                    {!isAuth
                         ? <Loader className="loader"/>
                         : <Table cacheKey={hashKey}
                                  data={dataJS}
                                  columns={attrJS}
+                                 filter={filter}
+                                 sort={sort}
+                                 loader={loading && <Loader className="loader"/>}
+                                 onFilterChange={this.changeFilter}
                           />
                     }
                     <NewObjectWindow open={newObjectOpen}

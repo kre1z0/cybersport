@@ -28,8 +28,8 @@ const initAttributesArray = [
     {name: 'department', alias: 'ТБ', type: 'text', editorType: 'select', isEditable: true, filterable: true},
     {name: 'responsible_employee_name', alias: 'Ответственный сотрудник ПМЗ', type: 'text', editorType: 'select', isEditable: true, filterable: true},
     {name: 'address_region', alias: 'Регион расположения объекта', type: 'text', editorType: 'text', isEditable: true, filterable: true},
-    {name: 'address_combined', alias: 'Адрес объекта (по договору)', type: 'text', editorType: 'text', isEditable: true, filterable: true},
-    {name: 'address_adjusted', alias: 'Адрес объекта (скорректированный)', type: 'address', editorType: 'address', isEditable: true, filterable: true},
+    {name: 'address_combined', alias: 'Адрес объекта (по договору)', type: 'text', editorType: 'text', isEditable: true},
+    {name: 'address_adjusted', alias: 'Адрес объекта (скорректированный)', type: 'address', editorType: 'address', isEditable: true},
     {name: 'classifier1', alias: 'Вид обеспечения по классификатору (1 уровень)', type: 'text',  editorType: 'select', isEditable: true, filterable: true},
     {name: 'classifier2', alias: 'Вид обеспечения по классификатору (2 уровень)', type: 'text',  editorType: 'select', isEditable: true, filterable: true},
     {name: 'classifier3', alias: 'Вид обеспечения по классификатору (3 уровень)', type: 'text',  editorType: 'select', isEditable: true, filterable: true}
@@ -49,9 +49,9 @@ export const fetch = createAction('objects/fetch');
 export const fetchSuccess = createAction('objects/fetch-success');
 export const fetchError = createAction('objects/fetch-error');
 
-export const getObjects = () => (dispatch) => {
+export const getObjects = (filter) => (dispatch) => {
     dispatch(fetch());
-    fetchObjects({})
+    fetchObjects(filter)
         .then(response => dispatch(fetchSuccess(response)))
         .catch(error => dispatch(fetchError()));
 };

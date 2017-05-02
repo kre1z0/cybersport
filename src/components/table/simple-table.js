@@ -121,7 +121,7 @@ class TableComponent extends Component {
     
     
     render () {
-        const {columns, data, cacheKey} = this.props;
+        const {columns, data, cacheKey, loader} = this.props;
         const {scrollLeft, selectedCell} = this.state;
         
         return (
@@ -131,16 +131,18 @@ class TableComponent extends Component {
                         cellRenderer={this.headerRenderer}
     
                 />
-                <Body columnCount={columns.length}
-                      rowCount={data.length}
-                      columnRef={this.onColumnRef}
-                      onScroll={this.onBodyScroll}
-                      onCellClick={this.onCellClick}
-                      cellRenderer={this.bodyCellRenderer}
-                      hiddenHeaderRenderer={this.hiddenHeaderRenderer}
-                      cacheKey={cacheKey}
-                      selectedCell={selectedCell}
-                />
+                {loader ||
+                    <Body columnCount={columns.length}
+                          rowCount={data.length}
+                          columnRef={this.onColumnRef}
+                          onScroll={this.onBodyScroll}
+                          onCellClick={this.onCellClick}
+                          cellRenderer={this.bodyCellRenderer}
+                          hiddenHeaderRenderer={this.hiddenHeaderRenderer}
+                          cacheKey={cacheKey}
+                          selectedCell={selectedCell}
+                    />
+                }
             </div>
         )
     }

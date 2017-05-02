@@ -1,12 +1,12 @@
 import getConnector from './connector';
 import {OBJECTS_SERVICE, EMPLOYEES_SERVICE, getAuthUrl, transformResponseData, } from './helpers';
 
-export const fetchObjects = ({filter, orderBy}) => getConnector().api.getObjects({
+export const fetchObjects = ({filter, sort} = {}) => getConnector().api.getObjects({
     serviceName: OBJECTS_SERVICE,
     condition: filter ? filter.join(' && ') : undefined,
     startIndex: 0,
     count: 100,
-    orderBy: orderBy ? [`${orderBy.column} ${orderBy.order}`] : undefined,
+    orderBy: sort ? [`${sort.column} ${sort.order}`] : undefined,
     getGeometry: false
 }).then(({data, totalObjects}) => ({
     data: transformResponseData(data),
