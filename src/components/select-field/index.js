@@ -27,9 +27,8 @@ const styles = {
     MENU_LIST: {
         paddingTop: '0px',
         paddingBottom: '0px',
-        display: 'inline-block',
+        display: 'block',
         overflowY: 'auto',
-        backgroundColor: 'red',
         width: '100%'
     },
     MENU_ITEM: (selected) => ({
@@ -57,6 +56,7 @@ class SelectFieldInput extends Component {
             PropTypes.number,
             PropTypes.array
         ]),
+        maxHeight: PropTypes.number,
         onChange: PropTypes.func,
         multiple: PropTypes.bool,
         className: PropTypes.string,
@@ -68,7 +68,8 @@ class SelectFieldInput extends Component {
 
     static defaultProps = {
         data: [],
-        multiple: false
+        multiple: false,
+        maxHeight: 200
     };
 
     state = {
@@ -130,7 +131,7 @@ class SelectFieldInput extends Component {
     }
 
     render(){
-        const { data, value, className, style, itemStyle } = this.props;
+        const { data, value, className, style, itemStyle, maxHeight } = this.props;
         const { focused, popoverPosition } = this.state;
         const selectedValue = this.props.multiple
             ? `Выбрано ${value.length} объекта(ов)`
@@ -156,7 +157,7 @@ class SelectFieldInput extends Component {
                 >
                     <Menu
                         className="select-field-menu"
-                        maxHeight={200}
+                        maxHeight={maxHeight}
                         onItemTouchTap={this.handleSelectItem}
                         onEscKeyDown={this.handleClose}
                         menuItemStyle={styles.MENU}

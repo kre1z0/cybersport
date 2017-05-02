@@ -60,20 +60,7 @@ storiesOf('Inputs',  Dropdown)
                 data: [
                     {id: 1, text: 'ИвановИвановИвановИвановИвановИвановИвановИвановИвановИвановИванов'},
                     {id: 2, text: 'Петров'},
-                    {id: 3, text: 'Сидоров'},
-                    {id: 4, text: 'Иванченко'},
-                    {id: 12, text: 'Петров'},
-                    {id: 13, text: 'Сидоров'},
-                    {id: 14, text: 'Иванченко'},
-                    {id: 22, text: 'Петров'},
-                    {id: 23, text: 'Сидоров'},
-                    {id: 24, text: 'Иванченко'},
-                    {id: 32, text: 'Петров'},
-                    {id: 33, text: 'Сидоров'},
-                    {id: 34, text: 'Иванченко'},
-                    {id: 42, text: 'Петров'},
-                    {id: 53, text: 'Сидоров'},
-                    {id: 64, text: 'Иванченко'}
+                    {id: 3, text: 'Сидоров'}
                 ],
                 value1: 1,
                 value2: [1,2,3]
@@ -107,6 +94,7 @@ storiesOf('Inputs',  Dropdown)
                                     onChange={this.changeInput2}
                                     multiple
                                     data={data}
+                                    maxHeight={100}
                                     focusOnMount
                                     onBlur={()=>{console.log('unfocused')}}
                                     value={value2} />
