@@ -11,18 +11,15 @@ const selectCell = (rowIndex, columnIndex) => () => ({selectedCell: [rowIndex, c
 
 class TableComponent extends Component {
     static propTypes = {
-        columns: PropTypes.array,
-        data: PropTypes.array,
+        columns: PropTypes.array.isRequired,
+        data: PropTypes.array.isRequired,
         rowHeight: PropTypes.oneOfType([
             PropTypes.number,
             PropTypes.string
-        ]),
-        cacheKey: PropTypes.string
+        ])
     };
     
     static defaultProps = {
-        data: [],
-        columns: [],
         rowHeight: 56
     };
     

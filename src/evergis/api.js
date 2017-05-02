@@ -10,8 +10,7 @@ export const fetchObjects = ({filter, orderBy}) => getConnector().api.getObjects
     getGeometry: false
 }).then(({data, totalObjects}) => ({
     data: transformResponseData(data),
-    totalObjects,
-    cacheKey: Math.random().toString(36).substring(3)
+    totalObjects
 }));
 
 let authConfigUrl = process.env.NODE_ENV === 'development' ? '/auth.dev.json' : '/auth.json';

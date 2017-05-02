@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
+import {hash} from 'immutable';
 
 import Loader from 'material-ui/CircularProgress';
 
@@ -21,12 +22,12 @@ class Portfolio extends Component {
     };
     
     componentDidMount () {
-        const {getObjects, isAuth, objects: {data}} = this.props;
-        data.length === 0 && isAuth && getObjects();
+        const {getObjects, isAuth} = this.props;
+        isAuth && getObjects();
     }
 
-    componentWillReceiveProps ({getObjects, isAuth, objects: {data}}) {
-        data.length === 0 && !this.props.isAuth && isAuth && getObjects();
+    componentWillReceiveProps ({getObjects, isAuth}) {
+        !this.props.isAuth && isAuth && getObjects();
     }
     
     showNewObject = () => this.setState(() => ({newObjectOpen: true}));
@@ -37,8 +38,12 @@ class Portfolio extends Component {
     };
     
     render () {
-        const {objects: {data, attributes, cacheKey, loading}, isAuth} = this.props;
+        const {objects: {data, attributes, loading}, isAuth} = this.props;
         const {newObjectOpen} = this.state;
+        
+        const dataJS = data.toJS();
+        const attrJS = attributes.toJS();
+        const hashKey = Math.random().toString(36);
         
         return (
             <div className="portfolio-container">
@@ -48,15 +53,15 @@ class Portfolio extends Component {
                                       onNewObjectClick={this.showNewObject}
                     />
 
-                    {data.length === 0 || loading || !isAuth
+                    {dataJS.length === 0 || loading || !isAuth
                         ? <Loader className="loader"/>
-                        : <Table data={data}
-                                 columns={attributes}
-                                 cacheKey={cacheKey}
+                        : <Table cacheKey={hashKey}
+                                 data={dataJS}
+                                 columns={attrJS}
                           />
                     }
                     <NewObjectWindow open={newObjectOpen}
-                                     attributes={attributes.filter(({name}) => name !== 'control' && name !== 'address_adjusted')}
+                                     attributes={attrJS.filter(({name}) => name !== 'control' && name !== 'address_adjusted')}
                                      onRequestClose={this.closeNewObject}
                                      onApply={this.addNewObject}
                     />

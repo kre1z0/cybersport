@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "dom-helpers": "^3.2.1",
+    "immutable": "^3.8.1",
     "localforage": "^1.5.0",
     "lodash": "^4.17.4",
     "material-ui": "^0.17.1",
@@ -18,7 +19,8 @@
     "redux": "^3.6.0",
     "redux-act": "^1.2.0",
     "redux-action-buffer": "^1.0.1",
-    "redux-persist": "^4.4.2",
+    "redux-immutable": "^4.0.0",
+    "redux-persist-immutable": "^4.2.0",
     "redux-thunk": "^2.2.0",
     "reset.css": "^2.0.2"
   },
@@ -61,6 +63,7 @@
     "object-assign": "4.1.1",
     "offline-plugin": "^4.6.2",
     "postcss-loader": "1.2.2",
+    "prerender-spa-plugin": "^2.0.1",
     "promise": "7.1.1",
     "react-addons-test-utils": "^15.4.2",
     "react-dev-utils": "^0.5.1",
@@ -75,7 +78,6 @@
     "webpack": "1.14.0",
     "webpack-dev-server": "1.16.2",
     "webpack-manifest-plugin": "1.1.0",
-    "prerender-spa-plugin": "^2.0.1",
     "whatwg-fetch": "2.0.2"
   },
   "scripts": {
