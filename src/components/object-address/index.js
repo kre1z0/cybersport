@@ -13,15 +13,17 @@ class ObjectAddress extends Component {
     const {attr, object} = this.props;
     return (
       <div className="object-address">
-        <div style={{height: 480}} className="object-address-map">
+        <div className="object-address-map">
           <Map center={[4191452.3430594765, 7499156.532455107]} resolution={152.87405657031263}/>
         </div>
         <div className="object-address-footer">
 
-          {attr.map(({name, alias}) => {
+          {attr.map(({name, alias, editorType, isEditable}) => {
             return (
               <ObjectAddressItem key={name}
                                  alias={alias}
+                                 editorType={editorType}
+                                 isEditable={isEditable}
                                  name={name}
                                  object={object}
               />
