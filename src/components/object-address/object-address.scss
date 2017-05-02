@@ -1,29 +1,68 @@
 @import "../../assets/base/colors";
 @import "../../assets/base/media";
 
+$ObjectAddressButtonLeftWidth: 113px;
+$ObjectAddressButtonRightWidth: 150px;
+
 .object-address {
   margin: -21px;
   .object-address-map {
+    height: 480px;
     .map-container > div {
       border-radius: 6px 6px 0 0;
     }
   }
   .object-address-footer {
-    display: flex;
     text-align: left;
-    padding: 20px;
+    padding: 20px 0 0 20px;
+    display: flex;
+    flex-wrap: wrap;
     .object-address-item {
-      padding-right: 40px;
+      padding: 0 40px 20px 0;
+      &.edit {
+        padding: 0 0 20px 0;
+      }
       .object-address-item-title {
         color: $coolGrayTwo;
         font-size: 0.928rem;
         padding-bottom: 7px;
       }
-      .object-address-item-description {
+      .object-address-item-content {
         color: $darkGrey;
-      }
-      &:last-child {
-        padding-right: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        .object-address-edit {
+          display: flex;
+          padding-right: 20px;
+          .col {
+            width: 50%;
+            .object-address-setup {
+              .text-input {
+                width: calc(100% - #{$ObjectAddressButtonLeftWidth});
+              }
+              .address-button {
+                width: $ObjectAddressButtonLeftWidth;
+              }
+            }
+            .object-address-coordinates {
+              .text-input {
+                width: calc((100% - #{$ObjectAddressButtonRightWidth}) / 2);
+                &:first-child {
+                  border-right-color: transparent;
+                  &.focused {
+                    border-right-color: $softGreen;
+                  }
+                }
+              }
+              .address-button {
+                width: $ObjectAddressButtonRightWidth;
+              }
+            }
+            &:first-child {
+              padding-right: 20px;
+            }
+          }
+        }
       }
       @media #{$phone} {
         padding-right: 10px;
