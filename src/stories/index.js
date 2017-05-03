@@ -15,3 +15,4 @@ import Icons from './icons';
 import NewObjectWindow from './new-object-window';
 import ColumnsSettings from './columns-settings';
 import ObjectAddress from './object-address';
+import ObjectPhoto from './object-photo';
