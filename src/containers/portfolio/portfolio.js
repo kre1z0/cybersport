@@ -125,9 +125,9 @@ class Portfolio extends Component {
     }
 }
 
-const mapProps = ({objects, user: {login}}) => ({
+const mapProps = ({objects, user: {employee_id}}) => ({
     objects,
-    isAuth: !!login
+    isAuth: !!employee_id
 });
 
 const mapActions = {

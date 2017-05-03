@@ -49,9 +49,19 @@ export const fetch = createAction('objects/fetch');
 export const fetchSuccess = createAction('objects/fetch-success');
 export const fetchError = createAction('objects/fetch-error');
 
-export const getObjects = (filter) => (dispatch) => {
+const addEmployeeToQuery = (query, id) => {
+    if (query.filter) {
+        query.filter += `&& responsible_employee_id == ${id}`
+    } else {
+        query.filter = `responsible_employee_id == ${id}`
+    }
+    return query;
+};
+
+export const getObjects = (query = {}) => (dispatch, getState) => {
+    const state = getState();
     dispatch(fetch());
-    fetchObjects(filter)
+    fetchObjects(addEmployeeToQuery(query, state.user.employee_id))
         .then(response => dispatch(fetchSuccess(response)))
         .catch(error => dispatch(fetchError()));
 };

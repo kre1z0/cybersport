@@ -7,6 +7,7 @@ const User = Record({
     full_name: '',
     tb_name: '',
     role_name: '',
+    employee_id: undefined,
     login: '',
     loading: false,
     error: false
@@ -57,12 +58,13 @@ export default createReducer({
     [fetch]: (state, payload) =>
         state.set('loading', true),
     
-    [fetchSuccess]: (state, {full_name, tb_name, role_name}) =>
+    [fetchSuccess]: (state, {full_name, tb_name, role_name, employee_id}) =>
         state.set('loading', false)
             .set('error', false)
             .set('full_name', full_name)
             .set('tb_name', tb_name)
-            .set('role_name', role_name),
+            .set('role_name', role_name)
+            .set('employee_id', employee_id),
     
     [fetchError]: (state, payload) =>
         state.set('loading', false)
