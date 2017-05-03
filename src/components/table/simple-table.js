@@ -29,7 +29,11 @@ class TableComponent extends Component {
     
     getChildContext() {
         return ({
-            getColumnsDataDistinct: (columnName) => uniq(this.props.data.map(item => item[columnName]))
+            getColumnsDataDistinct: (columnName) => uniq(
+                this.props.data
+                    .filter(item => item[columnName])
+                    .map(item => item[columnName])
+            )
         })
     }
     
@@ -43,12 +47,15 @@ class TableComponent extends Component {
     _columnsWidth = {};
     
     getHeaderContent = (columnIndex) => {
+        const {onFilterChange, query} = this.props;
         const column = this.props.columns[columnIndex];
         return {
             type: TYPES.HEADER,
             popup: column.type !== TYPES.CONTROL && column.filterable,
             content: column.alias,
-            name: column.name
+            name: column.name,
+            onApply: onFilterChange,
+            query: query[column.name]
         };
     };
     
@@ -118,6 +125,12 @@ class TableComponent extends Component {
             }));
         }
     };
+    
+    componentWillReceiveProps ({cacheKey}) {
+        if (cacheKey !== this.props.cacheKey) {
+            this._columnsWidth = {};
+        }
+    }
     
     
     render () {

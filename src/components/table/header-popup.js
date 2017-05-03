@@ -50,35 +50,44 @@ class HeaderPopup extends PureComponent {
     
     state = {
         anchor: null,
-        sort: 1,
+        sort: 0,
         filter: ''
     };
     
     showPopup = ({target}) => this.setState(setAnchor(target));
     closePopup = () => {
-        const {onApply} = this.props;
+        const {onApply, columnName} = this.props;
         const {sort, filter} = this.state;
         
-        onApply && onApply({sort, filter});
+        onApply && onApply({column: columnName, sort, filter});
         this.setState(setAnchor(null));
     };
     
     reset = () => {
-        const {onApply} = this.props;
+        const {onApply, columnName} = this.props;
         this.setState(setSortType(0));
         this.setState(setFilter(''));
         this.setState(setAnchor(null));
-        onApply && onApply({sort: 0, filter: ''});
+        onApply && onApply({column: columnName});
     };
     
     onSortTypeChange = ({id}) => this.setState(setSortType(id));
     onFilterChange = (filter) => this.setState(setFilter(filter));
     
+    componentWillReceiveProps ({query}) {
+        if (query && this.props.query !== query) {
+            this.setState(() => ({
+                sort: query.sort,
+                filter: query.filter
+            }));
+        }
+    }
+    
     render () {
-        const {columnName} = this.props;
+        const {columnName, query} = this.props;
         const {anchor, filter, sort} = this.state;
         const {getColumnsDataDistinct} = this.context;
-
+   
         return (
             <div className="header-popup">
                 <IconButton className="header-button"
@@ -87,7 +96,7 @@ class HeaderPopup extends PureComponent {
                             onTouchTap={this.showPopup}
                             touch={true}
                 >
-                    <FilterIcon isActive={!!anchor}/>
+                    <FilterIcon isActive={!!anchor || !!query}/>
                 </IconButton>
                 <Popover open={!!anchor}
                          anchorEl={anchor}

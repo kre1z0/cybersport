@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {hash} from 'immutable';
 
 import Loader from 'material-ui/CircularProgress';
 
@@ -10,7 +9,34 @@ import {getObjects} from '../../ducks/objects';
 
 import NewObjectWindow from './new-object-window';
 
-import './portfolio.scss'
+import './portfolio.scss';
+
+
+
+const tranformQuery = query => {
+  const columns = Object.keys(query);
+  
+  const sort = columns
+      .map(column => {
+          const sortType = query[column].sort;
+          if (!sortType || sortType === 0) return;
+          return `${column} ${sortType > 0 ? 'asc' : 'desc'}`;
+      })
+      .filter(i=>!!i);
+  
+  const filter = columns
+      .map(column => {
+          const filterString = query[column].filter;
+          if (!filterString || filterString.length === 0) return;
+          return `${column} like '%${filterString}%'`;
+      })
+      .filter(i=>!!i);
+  
+  return ({
+      sort: sort.length !== 0 ? sort : undefined,
+      filter: filter.length !== 0 ? filter.join(' && ') : undefined
+  });
+};
 
 class Portfolio extends Component {
     static propTypes = {
@@ -19,8 +45,7 @@ class Portfolio extends Component {
     
     state = {
         newObjectOpen: false,
-        filter: undefined,
-        sort: undefined
+        query: {}
     };
     
     componentDidMount () {
@@ -39,18 +64,31 @@ class Portfolio extends Component {
         this.closeNewObject();
     };
     
-    changeFilter = ({filter, sort}) => {
-        this.setState(state => ({
-            filter,
-            sort
-        }));
+    changeFilter = ({column, filter, sort}) => {
+        let query;
         
-        this.props.getObjects({filter, sort});
+        if(filter || sort) {
+            query = {
+                ...this.state.query,
+                [column]: {filter, sort}
+            };
+        } else {
+            query = {
+                ...this.state.query
+            };
+            delete query[column];
+        }
+        
+        this.setState(() => ({
+            query
+        }));
+
+        this.props.getObjects(tranformQuery(query));
     };
     
     render () {
         const {objects: {data, attributes, loading}, isAuth} = this.props;
-        const {newObjectOpen, filter, sort} = this.state;
+        const {newObjectOpen, query} = this.state;
         
         const dataJS = data.toJS();
         const attrJS = attributes.toJS();
@@ -69,14 +107,15 @@ class Portfolio extends Component {
                         : <Table cacheKey={hashKey}
                                  data={dataJS}
                                  columns={attrJS}
-                                 filter={filter}
-                                 sort={sort}
+                                 query={query}
                                  loader={loading && <Loader className="loader"/>}
                                  onFilterChange={this.changeFilter}
                           />
                     }
                     <NewObjectWindow open={newObjectOpen}
-                                     attributes={attrJS.filter(({name}) => name !== 'control' && name !== 'address_adjusted')}
+                                     attributes={
+                                         attrJS.filter(({name}) => name !== 'control' && name !== 'address_adjusted')
+                                     }
                                      onRequestClose={this.closeNewObject}
                                      onApply={this.addNewObject}
                     />
