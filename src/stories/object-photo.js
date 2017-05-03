@@ -24,7 +24,7 @@ const attr = [
 
 const object = {
   gid: 1,
-  image_name: 'http://dpchas.com.ua/sites/default/files/u85/sber.jpg;http://www.sberbank.ru/portalserver/content/atom/contentRepository/content/gamarnika4.jpg?id=7e09e8c2-b2f8-4105-9168-7019b5a92931;http://image.zn.ua/media/images/original/Mar2017/170335.jpeg',
+  image_name: 'http://dpchas.com.ua/sites/default/files/u85/sber.jpg;http://www.sberbank.ru/portalserver/content/atom/contentRepository/content/gamarnika4.jpg?id=7e09e8c2-b2f8-4105-9168-7019b5a92931;http://image.zn.ua/media/images/original/Mar2017/170335.jpeg;https://static.life.ru/posts/2017/04/1002145/gr/north/c13d7a6145a9d7d86ecc0c1277a1891f__1440x.jpg;http://interesnoe.info/pictures/art/1205792555-p1.jpg;https://unikassa.ru/wp-content/uploads/images/11277.jpg;http://image.zn.ua/media/images/original/Mar2017/170338.jpg',
   object_name: '0003',
   department: 'Волго-Вятский банк',
   target_segment: 'Сегмент 3',
@@ -94,6 +94,11 @@ class ModalWindowContainer extends Component {
                       label="Open window"
         />
         <ModalWindow
+                     bodyStyle={{
+                       padding: 0,
+                       display: 'table',
+                       height: '100%'
+                     }}
                      open={this.state.open}
                      onRequestClose={this.toggle}
         >

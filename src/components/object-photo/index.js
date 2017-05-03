@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import ImageGallery from 'react-image-gallery';
-import './react-image-gallery.scss'
 import ObjectPhotoItem from './object-photo-item'
 import './object-photo.scss'
 

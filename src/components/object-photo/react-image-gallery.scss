@@ -33,6 +33,11 @@
 
 .image-gallery-slide-wrapper {
   position: relative;
+  width: $photoGalleryWidth;
+  height: $photoGalleryWidth;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .image-gallery-fullscreen-button,
@@ -124,7 +129,8 @@
   }
 
   img {
-    width: 100%;
+    max-width: $photoGalleryWidth;
+    max-height: $photoGalleryWidth;
   }
 
   .image-gallery-description {
@@ -184,7 +190,7 @@
 }
 
 .image-gallery-thumbnails-wrapper {
-  padding-top: 50px;
+  padding-top: 10px;
   display: flex;
   justify-content: center;
 }
