@@ -4,13 +4,15 @@ import TextCell from './text-cell';
 import ImageCell from './img-cell';
 import ControlCell from './control-cell';
 import EditorCell from './editor-cell';
+import AddressCell from './address-cell';
 
 export const TYPES = {
     HEADER: 'header',
     TEXT: 'text',
     IMG: 'img',
     CONTROL: 'control',
-    EDITOR: 'editor'
+    EDITOR: 'editor',
+    ADDRESS: 'address'
 };
 
 const CellSwitcher = ({type, onCellClick, onCellChange, ...props}) => {
@@ -19,6 +21,7 @@ const CellSwitcher = ({type, onCellClick, onCellChange, ...props}) => {
         case TYPES.TEXT: return <TextCell {...props}/>;
         case TYPES.IMG: return <ImageCell {...props}/>;
         case TYPES.CONTROL: return <ControlCell {...props}/>;
+        case TYPES.ADDRESS: return <AddressCell {...props}/>;
         case TYPES.EDITOR: return <EditorCell {...props}
                                               onBlur={onCellChange}
                                   />;

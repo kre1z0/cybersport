@@ -9,7 +9,8 @@ const Attribute = Record({
     type: undefined,
     editorType: undefined,
     isEditable: undefined,
-    filterable: undefined
+    filterable: undefined,
+    isVisible: undefined
 });
 
 const ObjectsState = Record({

@@ -31,11 +31,16 @@
     color: $steel;
     font-weight: 400;
     padding-left: 1em;
-    padding-right: 1em;
+    padding-right: 3em;
+  }
+  .--address{
+    white-space: normal;
+    min-width: 27em;
   }
 
   .--img {
     justify-content: center;
+    cursor: pointer;
   }
 
   .--header {

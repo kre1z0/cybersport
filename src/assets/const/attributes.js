@@ -2,25 +2,28 @@ export default [
     {
         name: 'control',
         alias: '',
-        type: 'control'
+        type: 'control',
     },
     {
         name: 'image_name',
         alias: 'Фото',
         type: 'img',
         editorType: 'img-loader',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'gid',
         alias: 'ID',
         type: 'number',
-        filterable: true
+        filterable: true,
+        isVisible: true,
     },
     {
         name: 'object_name',
         alias: '№ в исходных данных',
-        type: 'number'
+        type: 'number',
+        isVisible: true,
     },
     {
         name: 'department',
@@ -28,55 +31,63 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        filterable: true
+        filterable: true,
+        isVisible: true,
     },
     {
         name: 'target_segment',
         alias: 'Целевой клиентский сегмент',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'responsible_employee_name',
         alias: 'Ответственный сотрудник ПМЗ',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'object_description',
         alias: 'Описание',
         type: 'text',
         editorType: 'text-area',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'address_region',
         alias: 'Регион расположения объекта',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'address_combined',
         alias: 'Адрес объекта (по договору)',
-        type: 'text',
-        editorType: 'text',
-        isEditable: true
+        type: 'address',
+        editorType: 'address',
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'address_adjusted',
         alias: 'Адрес объекта (скорректированный)',
         type: 'address',
-        editorType: 'address'
+        editorType: 'address',
+        isVisible: true,
     },
     {
         name: 'classifier1',
         alias: 'Вид обеспечения по классификатору (1 уровень)',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'classifier2',
@@ -84,7 +95,8 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        filterable: true
+        filterable: true,
+        isVisible: true,
     },
     {
         name: 'classifier3',
@@ -92,112 +104,128 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        filterable: true
+        filterable: true,
+        isVisible: true,
     },
     {
         name: 'classifier4',
         alias: 'Вид обеспечения по классификатору (4 уровень)',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'cadastr_no',
         alias: 'Кадастровый номер',
         type: 'text',
         editorType: 'text',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'building_type',
         alias: 'Тип',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'wall_material',
         alias: 'Материалы стен',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'construction_year',
         alias: 'Год постройки',
         type: 'text',
         editorType: 'text',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'red_line_position',
         alias: 'Расположен вблизи "красной линии',
         type: 'text',
         editorType: 'text',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'area',
         alias: 'Площадь, м2',
         type: 'number',
         editorType: 'number',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'floor_no',
         alias: 'Этаж расположения залога',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'separate_entrance',
         alias: 'Наличие отдельного входа',
         type: 'text',
         editorType: 'text',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'floor_qty',
         alias: 'Количество этажей в здании',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'room_qty',
         alias: 'Количество комнат',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'monthly_volume',
         alias: 'Среднемесячный пролив, л',
         type: 'text',
         editorType: 'text',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'has_store',
         alias: 'Наличие магазина',
         type: 'text',
         editorType: 'text',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'petrol_station_qty',
         alias: 'Количество заправочных островков',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'owner_name',
         alias: 'Наименование залогодателя',
         type: 'text',
         editorType: 'text',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'owner_inn',
@@ -205,14 +233,16 @@ export default [
         type: 'number',
         editorType: 'number',
         isEditable: true,
-        filterable: true
+        filterable: true,
+        isVisible: true,
     },
     {
         name: 'contacts',
         alias: 'Контактное лицо залогодателя',
         type: 'text',
         editorType: 'text',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'contract_no',
@@ -220,121 +250,139 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        filterable: true
+        filterable: true,
+        isVisible: true,
     },
     {
         name: 'contract_start_date',
         alias: 'Дата начала договора залога',
         type: 'date',
         editorType: 'date',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'contract_end_date',
         alias: 'Дата окончания договора залога',
         type: 'date',
         editorType: 'date',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'credit_inspector',
         alias: 'Кредитный инспектор',
         type: 'text',
         editorType: 'text',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'object_quality_category',
         alias: 'Категория качества (по договору)',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'actual_quality_category',
         alias: 'Категория качества (по итогам последней актуализации)',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'liquidity',
         alias: 'Ликвидность (по договору)',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'liquidity',
         alias: 'Ликвидность (по итогам последней актуализации)',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'value_type',
         alias: 'Вид стоимости',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'original_full_value',
         alias: 'Оценочная стоимость (по договору), руб.',
         type: 'number',
         editorType: 'number',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'actual_full_value',
         alias: 'Оценочная стоимость (по итогам последней актуализации), руб.',
         type: 'number',
         editorType: 'number',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'original_mortgage_value',
         alias: 'Залоговая стоимость (по договору), руб.',
         type: 'number',
         editorType: 'number',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'actual_mortgage_value',
         alias: 'Залоговая стоимость (о итогам последней актуализации), руб.',
         type: 'number',
         editorType: 'number',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'check_interval',
         alias: 'Периодичность выездной проверки, дн.',
         type: 'number',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'actualization_interval',
         alias: 'Периодичность актуализации, дн.',
         type: 'number',
         editorType: 'number',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     },
     {
         name: 'last_check_date',
         alias: 'Дата последней проверки',
-        type: 'date'
+        type: 'date',
+        isVisible: true,
     },
     {
         name: 'last_actualization_date',
         alias: 'Дата последней актуализации',
-        type: 'date'
+        type: 'date',
+        isVisible: true,
     },
     {
         name: 'check_result_code',
         alias: 'Коды результатов последнего мониторинга',
         type: 'text',
         editorType: 'select',
-        isEditable: true
+        isEditable: true,
+        isVisible: true,
     }
 ];

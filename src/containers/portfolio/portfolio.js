@@ -6,37 +6,12 @@ import Loader from 'material-ui/CircularProgress';
 import HeaderTitleBlock from '../../components/header-title-block';
 import Table from '../../components/table/simple-table';
 import {getObjects} from '../../ducks/objects';
+import {tranformQuery} from '../../evergis/helpers';
 
 import NewObjectWindow from './new-object-window';
+import ColumnsSettingsWindow from './columns-settings-window';
 
 import './portfolio.scss';
-
-
-
-const tranformQuery = query => {
-  const columns = Object.keys(query);
-  
-  const sort = columns
-      .map(column => {
-          const sortType = query[column].sort;
-          if (!sortType || sortType === 0) return;
-          return `${column} ${sortType > 0 ? 'asc' : 'desc'}`;
-      })
-      .filter(i=>!!i);
-  
-  const filter = columns
-      .map(column => {
-          const filterString = query[column].filter;
-          if (!filterString || filterString.length === 0) return;
-          return `${column} like '%${filterString}%'`;
-      })
-      .filter(i=>!!i);
-  
-  return ({
-      sort: sort.length !== 0 ? sort : undefined,
-      filter: filter.length !== 0 ? filter.join(' && ') : undefined
-  });
-};
 
 class Portfolio extends Component {
     static propTypes = {
@@ -45,6 +20,7 @@ class Portfolio extends Component {
     
     state = {
         newObjectOpen: false,
+        columnsSettingsOpen: false,
         query: {}
     };
     
@@ -59,6 +35,8 @@ class Portfolio extends Component {
     
     showNewObject = () => this.setState(() => ({newObjectOpen: true}));
     closeNewObject = () => this.setState(() => ({newObjectOpen: false}));
+    showColumnsSettings = () => this.setState(() => ({columnsSettingsOpen: true}));
+    closeColumnsSettings = () => this.setState(() => ({columnsSettingsOpen: false}));
     
     addNewObject = () => {
         this.closeNewObject();
@@ -88,7 +66,7 @@ class Portfolio extends Component {
     
     render () {
         const {objects: {data, attributes, loading}, isAuth} = this.props;
-        const {newObjectOpen, query} = this.state;
+        const {newObjectOpen, columnsSettingsOpen, query} = this.state;
         
         const dataJS = data.toJS();
         const attrJS = attributes.toJS();
@@ -100,6 +78,7 @@ class Portfolio extends Component {
 
                     <HeaderTitleBlock title="Реестр объектов залога"
                                       onNewObjectClick={this.showNewObject}
+                                      onSettingsClick={this.showColumnsSettings}
                     />
 
                     {!isAuth
@@ -118,6 +97,11 @@ class Portfolio extends Component {
                                      }
                                      onRequestClose={this.closeNewObject}
                                      onApply={this.addNewObject}
+                    />
+                    <ColumnsSettingsWindow attributes={
+                                             attrJS.filter(({name}) => name !== 'control')
+                                           }
+                                           open={columnsSettingsOpen}
                     />
                 </div>
             </div>
