@@ -33,11 +33,6 @@
 
 .image-gallery-slide-wrapper {
   position: relative;
-  width: $photoGalleryWidth;
-  height: $photoGalleryWidth;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .image-gallery-fullscreen-button,
@@ -118,12 +113,17 @@
   white-space: nowrap;
 }
 
-.image-gallery-slide {
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
+.image-gallery-image {
+  overflow: hidden;
+}
 
+.image-gallery-slide {
+  width: $photoGalleryWidth;
+  height: $photoGalleryWidth;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
   &.center {
     position: relative;
   }
