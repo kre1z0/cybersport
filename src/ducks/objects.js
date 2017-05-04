@@ -1,6 +1,7 @@
 import {createAction, createReducer} from 'redux-act';
 import {fetchObjects} from '../evergis/api';
 import {Record, List} from 'immutable';
+import initAttributesArray from '../assets/const/attributes';
 
 const Attribute = Record({
     name: undefined,
@@ -18,22 +19,6 @@ const ObjectsState = Record({
     loading: undefined,
     error: undefined
 });
-
-const initAttributesArray = [
-    {name: 'control', alias: '', type: 'control'},
-    {name: 'object_name', alias: 'ID', type: 'text'},
-    {name: 'image_name', alias: 'Фото', type: 'img', editorType: 'img-loader', isEditable: true},
-    {name: 'object_description', alias: 'Описание', type: 'text', editorType: 'text-area', isEditable: true, filterable: true},
-    {name: 'target_segment', alias: 'Целевой клиентский сегмент', type: 'text', editorType: 'select', isEditable: true, filterable: true},
-    {name: 'department', alias: 'ТБ', type: 'text', editorType: 'select', isEditable: true, filterable: true},
-    {name: 'responsible_employee_name', alias: 'Ответственный сотрудник ПМЗ', type: 'text', editorType: 'select', isEditable: true, filterable: true},
-    {name: 'address_region', alias: 'Регион расположения объекта', type: 'text', editorType: 'text', isEditable: true, filterable: true},
-    {name: 'address_combined', alias: 'Адрес объекта (по договору)', type: 'text', editorType: 'text', isEditable: true},
-    {name: 'address_adjusted', alias: 'Адрес объекта (скорректированный)', type: 'address', editorType: 'address', isEditable: true},
-    {name: 'classifier1', alias: 'Вид обеспечения по классификатору (1 уровень)', type: 'text',  editorType: 'select', isEditable: true, filterable: true},
-    {name: 'classifier2', alias: 'Вид обеспечения по классификатору (2 уровень)', type: 'text',  editorType: 'select', isEditable: true, filterable: true},
-    {name: 'classifier3', alias: 'Вид обеспечения по классификатору (3 уровень)', type: 'text',  editorType: 'select', isEditable: true, filterable: true}
-];
 
 const initAttributes = List(initAttributesArray.map(attr=>Attribute(attr)));
 
