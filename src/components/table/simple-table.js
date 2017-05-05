@@ -53,9 +53,10 @@ class TableComponent extends Component {
         const column = this.props.columns[columnIndex];
         return {
             type: TYPES.HEADER,
-            popup: column.type !== TYPES.CONTROL && column.filterable,
+            popup: column.type !== TYPES.CONTROL && column.type !== TYPES.IMG,
             content: column.alias,
             name: column.name,
+            filterable: column.filterable,
             onApply: onFilterChange,
             query: query[column.name]
         };

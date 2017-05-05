@@ -41,6 +41,8 @@ const setFilter = (filter) => () => ({filter});
 class HeaderPopup extends PureComponent {
     static propTypes = {
         columnName: PropTypes.string.isRequired,
+        filterable: PropTypes.bool,
+        query: PropTypes.object,
         onApply: PropTypes.func
     };
     
@@ -56,11 +58,17 @@ class HeaderPopup extends PureComponent {
     
     showPopup = ({target}) => this.setState(setAnchor(target));
     closePopup = () => {
+        this.setState(setSortType(0));
+        this.setState(setFilter(''));
+        this.setState(setAnchor(null))
+    };
+    
+    apply = () => {
         const {onApply, columnName} = this.props;
         const {sort, filter} = this.state;
         
         onApply && onApply({column: columnName, sort, filter});
-        this.setState(setAnchor(null));
+        this.closePopup();
     };
     
     reset = () => {
@@ -84,7 +92,7 @@ class HeaderPopup extends PureComponent {
     }
     
     render () {
-        const {columnName, query} = this.props;
+        const {columnName, query, filterable} = this.props;
         const {anchor, filter, sort} = this.state;
         const {getColumnsDataDistinct} = this.context;
    
@@ -114,13 +122,19 @@ class HeaderPopup extends PureComponent {
                                      value={sort}
                                      onChange={this.onSortTypeChange}
                         />
-    
-                        <label>Фильтр</label>
-                        <AutoComplete value={filter}
-                                      onChange={this.onFilterChange}
-                                      data={getColumnsDataDistinct(columnName)}
-                        />
+                        {filterable &&
+                            <label>Фильтр</label>
+                        }
+                        {filterable &&
+                            < AutoComplete value={filter}
+                                onChange={this.onFilterChange}
+                                data={getColumnsDataDistinct(columnName)}
+                            />
+                        }
                         <div className="clear-block">
+                            <FlatButton onTouchTap={this.apply}
+                                        label={'Применить'}
+                            />
                             <FlatButton onTouchTap={this.reset}
                                         secondary={true}
                                         label={'Сбросить все'}
