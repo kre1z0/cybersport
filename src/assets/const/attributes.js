@@ -47,6 +47,7 @@ export default [
         alias: 'Ответственный сотрудник ПМЗ',
         type: 'text',
         editorType: 'select',
+        filterable: true,
         isEditable: true,
         isVisible: true,
     },
