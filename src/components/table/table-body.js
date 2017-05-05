@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import cn from 'classnames';
 
 class Body extends Component {
     static propTypes = {
@@ -60,7 +61,7 @@ class Body extends Component {
                     }
                     <tbody>
                     {rowRenderHelper.map((r, rowIndex) => (
-                        <tr key={`tr-${rowIndex}`}>
+                        <tr key={`tr-${rowIndex}`} className={cn({'--odd': rowIndex % 2 === 0})}>
                             {colRenderHelper.map((c, columnIndex) => (
                                 <td key={`td-${columnIndex}`}
                                     onTouchTap={()=>{onCellClick&&onCellClick(rowIndex, columnIndex)}}

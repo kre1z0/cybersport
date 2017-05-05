@@ -2,10 +2,8 @@ import React from 'react';
 import HeaderPopup from './header-popup';
 
 
-const HeaderCell = ({name, content, query, onApply, style, popup, onClick}) => (
-    <div className="cell --header"
-         style={style}
-    >
+const HeaderCell = ({name, content, query, onApply, popup, onClick}) => (
+    <div className="cell --header">
         {popup &&
             <HeaderPopup columnName={name}
                          query={query}

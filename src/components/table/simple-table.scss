@@ -27,13 +27,12 @@
     border-bottom: 1px solid $paleGrey;
     align-items: center;
     white-space: nowrap;
-    background-color: #fff;
     color: $steel;
     font-weight: 400;
     padding-left: 1em;
     padding-right: 3em;
   }
-  .--address{
+  .--address {
     white-space: normal;
     min-width: 27em;
   }
@@ -54,7 +53,10 @@
     border-bottom: none;
   }
 
-  .--odd {
+  tr {
+    background-color: #fff;
+    &.--odd {
       background-color: $oddColor;
+    }
   }
 }
