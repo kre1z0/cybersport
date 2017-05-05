@@ -149,7 +149,7 @@ export default [
     },
     {
         name: 'red_line_position',
-        alias: 'Расположен вблизи "красной линии',
+        alias: 'Расположен вблизи "красной линии"',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -302,7 +302,7 @@ export default [
         isVisible: true,
     },
     {
-        name: 'liquidity',
+        name: 'actual_liquidity',
         alias: 'Ликвидность (по итогам последней актуализации)',
         type: 'text',
         editorType: 'select',

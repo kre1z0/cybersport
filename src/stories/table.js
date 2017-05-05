@@ -5,9 +5,8 @@ import {theme} from '../assets/theme';
 
 import Table from '../components/table/simple-table';
 
-import objects, {columns} from './objects-mock-data';
-
-console.log(objects, columns);
+import objects from './objects-mock-data';
+import columns from '../assets/const/attributes';
 
 storiesOf('Table',  Table)
     .addDecorator((story) => (
@@ -16,9 +15,10 @@ storiesOf('Table',  Table)
         </MuiThemeProvider>
     ))
     .add('Virtual table', () =>
-        <div style={{height: 500}}>
+        <div style={{height: 500, width: '100%'}}>
             <Table columns={columns}
                    data={objects}
+                   cacheKey={'key'}
             />
         </div>
     );

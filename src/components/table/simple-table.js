@@ -20,7 +20,9 @@ class TableComponent extends Component {
     };
     
     static defaultProps = {
-        rowHeight: 56
+        rowHeight: 56,
+        query: {},
+        cacheKey: Math.random().toString(36)
     };
     
     static childContextTypes = {
@@ -106,15 +108,17 @@ class TableComponent extends Component {
     };
     
     onColumnRef = (ref, columnIndex) => {
-        if (columnIndex in this._columnsWidth) return;
-
-        this._columnsWidth[columnIndex] = ref.offsetWidth;
-        
-        if (Object.keys(this._columnsWidth).length === this.props.columns.length) {
-            this.setState(state => ({
-                columnsWidth: this._columnsWidth
-            }));
-        }
+        setTimeout(() => {
+            if (columnIndex in this._columnsWidth || ref.offsetWidth === 0) return;
+    
+            this._columnsWidth[columnIndex] = ref.offsetWidth;
+    
+            if (Object.keys(this._columnsWidth).length === this.props.columns.length) {
+                this.setState(state => ({
+                    columnsWidth: this._columnsWidth
+                }));
+            }
+        }, 0)
     };
     
     onBodyScroll = ({target}) => {

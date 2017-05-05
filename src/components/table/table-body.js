@@ -65,7 +65,7 @@ class Body extends Component {
                             {colRenderHelper.map((c, columnIndex) => (
                                 <td key={`td-${columnIndex}`}
                                     onTouchTap={()=>{onCellClick&&onCellClick(rowIndex, columnIndex)}}
-                                    ref={ref => rowIndex === 0 && ref && columnRef(ref, columnIndex)}
+                                    ref={ref => ref && rowIndex === rowRenderHelper.length-1 && columnRef(ref, columnIndex)}
                                 >
                                     {
                                         cellRenderer(rowIndex, columnIndex)

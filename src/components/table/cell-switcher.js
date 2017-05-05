@@ -8,7 +8,7 @@ import AddressCell from './address-cell';
 
 import moment from 'moment';
 import numeral from 'numeral';
-import ru from 'numeral/locales/ru';
+import 'numeral/locales/ru';
 
 moment.locale('ru');
 numeral.locale('ru');
