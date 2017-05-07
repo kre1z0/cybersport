@@ -1,0 +1,64 @@
+@import "../../assets/base/colors";
+
+.map-popup {
+  width: 410px;
+  background-color: #fff;
+  position: absolute;
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.15);
+  .triangle-with-shadow {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    overflow: hidden;
+    left: -100px;
+    top: 50%;
+    margin-top: -50px;
+    &:after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: #fff;
+      transform: rotate(45deg);
+      top: 50%;
+      left: 94px;
+      margin-top: -25px;
+      box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.15);
+    }
+  }
+  .map-popup-header {
+    font-size: 1.285rem;
+    color: $darkGrey;
+    padding-bottom: 30px;
+    .billet {
+      color: #fff;
+      font-size: 0.785rem;
+      padding: 4px 5px;
+      display: inline-block;
+      font-weight: 500;
+      border-radius: 2px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px 0 rgba(100, 199, 108, 0.5);
+    }
+  }
+  .office-home-block {
+    padding-bottom: 30px;
+    .office-home-item {
+      padding-bottom: 20px;
+      .office-home-item-label {
+        color: $coolGrayTwo;
+        font-size: 0.928rem;
+        padding-bottom: 5px;
+      }
+      .office-home-item-content {
+        color: $darkGrey;
+        font-size: 1rem;
+      }
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+  }
+}
