@@ -232,8 +232,8 @@ export default [
     {
         name: 'owner_inn',
         alias: 'ИНН залогодателя',
-        type: 'number',
-        editorType: 'number',
+        type: 'text',
+        editorType: 'text',
         isEditable: true,
         filterable: true,
         isVisible: true,
