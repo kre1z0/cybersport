@@ -70,7 +70,7 @@ export default createReducer({
             .set('error', true),
     
     [updateAttributes]: (state, payload) =>
-        state.set('attributes', payload instanceof List ? payload : payload.map(attr=>Attribute(attr)))
+        state.set('attributes', payload instanceof List ? payload : payload.map(attr=>Attribute(attr))) //TODO
 }, initState)
 
 
