@@ -6,7 +6,6 @@ import Loader from 'material-ui/CircularProgress';
 import HeaderTitleBlock from '../../components/header-title-block';
 import Table from '../../components/table/simple-table';
 import {getObjects} from '../../ducks/objects';
-import {tranformQuery} from '../../evergis/helpers';
 
 import NewObjectWindow from './new-object-window';
 import ColumnsSettingsWindow from './columns-settings-window';
@@ -43,6 +42,8 @@ class Portfolio extends Component {
     };
     
     changeFilter = ({column, filter, sort}) => {
+        const {getObjects, isAuth} = this.props;
+        
         let query;
         
         if(filter || sort) {
@@ -61,7 +62,7 @@ class Portfolio extends Component {
             query
         }));
 
-        this.props.getObjects(tranformQuery(query));
+        isAuth && getObjects(query);
     };
     
     render () {
@@ -76,16 +77,20 @@ class Portfolio extends Component {
             <div className="portfolio-container --padding">
                 <div className="portfolio-content">
 
-                    <HeaderTitleBlock title="Реестр объектов залога"
-                                      onNewObjectClick={this.showNewObject}
-                                      onSettingsClick={this.showColumnsSettings}
-                    />
+                    {isAuth &&
+                        <HeaderTitleBlock title="Реестр объектов залога"
+                                          onNewObjectClick={this.showNewObject}
+                                          onSettingsClick={this.showColumnsSettings}
+                        />
+                    }
 
                     {!isAuth
                         ? <Loader className="loader"/>
                         : <Table cacheKey={hashKey}
                                  data={dataJS}
-                                 columns={attrJS}
+                                 columns={
+                                     attrJS.filter(({isVisible}) => isVisible)
+                                 }
                                  query={query}
                                  loader={loading && <Loader className="loader"/>}
                                  onFilterChange={this.changeFilter}
@@ -98,10 +103,8 @@ class Portfolio extends Component {
                                      onRequestClose={this.closeNewObject}
                                      onApply={this.addNewObject}
                     />
-                    <ColumnsSettingsWindow attributes={
-                                             attrJS.filter(({name}) => name !== 'control')
-                                           }
-                                           open={columnsSettingsOpen}
+                    <ColumnsSettingsWindow open={columnsSettingsOpen}
+                                           onRequestClose={this.closeColumnsSettings}
                     />
                 </div>
             </div>

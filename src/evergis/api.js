@@ -5,7 +5,7 @@ export const fetchObjects = ({filter, sort} = {}) => getConnector().api.getObjec
     serviceName: OBJECTS_SERVICE,
     condition: filter ? filter : undefined,
     startIndex: 0,
-    count: 500,
+    count: 3000,
     orderBy: sort ? sort : undefined,
     getGeometry: false
 }).then(({data, totalObjects}) => ({

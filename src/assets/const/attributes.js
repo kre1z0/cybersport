@@ -3,6 +3,7 @@ export default [
         name: 'control',
         alias: '',
         type: 'control',
+        isVisible: true,
     },
     {
         name: 'image_name',

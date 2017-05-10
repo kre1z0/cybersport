@@ -1,5 +1,6 @@
 import {createAction, createReducer} from 'redux-act';
 import {fetchObjects} from '../evergis/api';
+import {tranformQuery} from '../evergis/helpers';
 import {Record, List} from 'immutable';
 import initAttributesArray from '../assets/const/attributes';
 
@@ -35,6 +36,8 @@ export const fetch = createAction('objects/fetch');
 export const fetchSuccess = createAction('objects/fetch-success');
 export const fetchError = createAction('objects/fetch-error');
 
+export const updateAttributes = createAction('objects/update-attributes');
+
 const addEmployeeToQuery = (query, id) => {
     if (query.filter) {
         query.filter += `&& responsible_employee_id == ${id}`
@@ -47,7 +50,7 @@ const addEmployeeToQuery = (query, id) => {
 export const getObjects = (query = {}) => (dispatch, getState) => {
     const state = getState();
     dispatch(fetch());
-    fetchObjects(addEmployeeToQuery(query, state.user.employee_id))
+    fetchObjects(addEmployeeToQuery(tranformQuery(query), state.user.employee_id))
         .then(response => dispatch(fetchSuccess(response)))
         .catch(error => dispatch(fetchError()));
 };
@@ -58,14 +61,16 @@ export default createReducer({
     
     [fetchSuccess]: (state, {totalObjects, data}) =>
         state.set('loading', false)
-             .set('error', false)
-             .set('totalObjects', totalObjects)
-             .set('data', List(data)),
+            .set('error', false)
+            .set('totalObjects', totalObjects)
+            .set('data', List(data)),
     
     [fetchError]: (state, payload) =>
         state.set('loading', false)
-             .set('error', true)
+            .set('error', true),
     
+    [updateAttributes]: (state, payload) =>
+        state.set('attributes', payload instanceof List ? payload : payload.map(attr=>Attribute(attr)))
 }, initState)
 
 

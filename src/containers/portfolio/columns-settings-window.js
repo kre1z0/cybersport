@@ -1,4 +1,7 @@
 import React, {Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
+
+import {updateAttributes} from '../../ducks/objects';
 import ModalWindow from '../../components/modal-window';
 import RoundedButton from '../../components/button/rounded-button';
 import ColumnsSettings from '../../components/columns-settings';
@@ -6,16 +9,34 @@ import ColumnsSettings from '../../components/columns-settings';
 class NewObjectWindowContainer extends Component {
     static propTypes = {
         open: PropTypes.bool,
-        attributes: PropTypes.array,
+        initAttributes: PropTypes.object,
         onApply: PropTypes.func,
         onRequestClose: PropTypes.func
     };
     
+    state = {
+        attributes: this.props.initAttributes
+    };
+    
+    onChange = ({index, attribute, value}) => {
+        this.setState(({attributes}) => ({
+            attributes: attributes.updateIn([index, attribute], () => value)
+        }))
+    };
+    
+    onApply = () => {
+        const {onRequestClose, updateAttributes} = this.props;
+        const {attributes} = this.state;
+        updateAttributes && updateAttributes(attributes);
+        onRequestClose && onRequestClose();
+    };
+    
     render () {
-        const {open, attributes, onRequestClose, onApply} = this.props;
-        
+        const {open, onRequestClose} = this.props;
+        const {attributes} = this.state;
+
         return (
-            <ModalWindow title="Новый объект"
+            <ModalWindow title="Настройки реестра"
                          open={open}
                          actions={(
                              <div>
@@ -23,18 +44,26 @@ class NewObjectWindowContainer extends Component {
                                                 onTouchTap={onRequestClose}
                                  />
                                  <RoundedButton label="Сохранить"
-                                                onTouchTap={onApply}
+                                                onTouchTap={this.onApply}
                                                 primary={true}
                                  />
                              </div>
                          )}
                          onRequestClose={onRequestClose}
             >
-                <ColumnsSettings data={attributes}/>
+                <ColumnsSettings data={attributes.toJS()} onChange={this.onChange}/>
             </ModalWindow>
         )
     }
 }
 
-export default NewObjectWindowContainer;
+const mapProps = ({objects}) => ({
+    initAttributes: objects.attributes
+});
+
+const mapActions = {
+    updateAttributes
+};
+
+export default connect(mapProps, mapActions)(NewObjectWindowContainer);
 
