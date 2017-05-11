@@ -6767,8 +6767,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var sGis = {};
 
-    sGis.version = "0.2.4";
-    sGis.releaseDate = "06.03.2017";
+    sGis.version = "0.2.5";
+    sGis.releaseDate = "19.04.2017";
 
     var loadedModules = { 'sGis': sGis };
     var loadingDefs = [];
@@ -6786,7 +6786,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var loaded = 0;
         var list = loadingDefs.slice();
         var remains = [];
-        list.forEach(function (def, index) {
+        list.forEach(function (def) {
             var deps = [];
             for (var i = 0; i < def[1].length; i++) {
                 if (!loadedModules[def[1][i]]) {
@@ -6797,7 +6797,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 deps.push(loadedModules[def[1][i]]);
             }
 
-            if (loadedModules[def[0]]) debugger;
             var module = def[2].apply(this, deps);
             loadedModules[def[0]] = module;
             setModuleReference(module, def[0]);
@@ -6820,9 +6819,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         });
     } else if ((typeof module === "undefined" ? "undefined" : _typeof(module)) === 'object' && module.exports) {
         module.exports = sGis;
-    } 
+    }
         window.sGis = sGis;
-    
 
     function setModuleReference(module, name) {
         var ns = name.split('.');
@@ -8275,8 +8273,7 @@ sGis.module('init', ['sGis', 'Map', 'painter.DomPainter'], function (sGis, Map, 
         plugins = plugins.map(function (pluginDefinition) {
             var name = pluginDefinition.name;
             if (!sGis.plugins || !sGis.plugins[name]) {
-                console.warn('Plugin ' + name + ' is not available. Skipping.');
-                return null;
+                throw new Error('Plugin ' + name + ' is not available.');
             }
 
             return new sGis.plugins[name](map, painter.innerWrapper, pluginDefinition.properties);
@@ -8388,6 +8385,8 @@ sGis.module('Layer', ['utils', 'EventHandler'], function (utils, EventHandler) {
     }(EventHandler);
 
     Layer.prototype.delayedUpdate = false;
+
+    Layer.prototype.updateProhibited = false;
 
     utils.extend(Layer.prototype, defaults);
 
@@ -11882,6 +11881,70 @@ sGis.module('feature.Polyline', ['feature.Poly', 'symbol.polyline.Simple'], func
 });
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+sGis.module('serializer.symbolSerializer', ['utils', 'utils.Color'], function (utils, Color) {
+
+    'use strict';
+
+    var symbolDescriptions = {};
+
+    return {
+        registerSymbol: function registerSymbol(constructor, description, properties) {
+            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
+        },
+
+        serialize: function serialize(symbol) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            var keys = Object.keys(symbolDescriptions);
+            for (var i = 0; i < keys.length; i++) {
+                var desc = symbolDescriptions[keys[i]];
+
+                if (symbol instanceof desc.Constructor) {
+                    var _ret = function () {
+                        var serialized = { symbolName: keys[i] };
+                        desc.properties.forEach(function (prop) {
+                            var value = symbol[prop];
+                            if (colorsFormat) {
+                                var color = new Color(value);
+                                if (color.isValid) value = color.toString(colorsFormat);
+                            }
+                            serialized[prop] = value;
+                        });
+                        return {
+                            v: serialized
+                        };
+                    }();
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+            }
+
+            utils.error('Unknown type of symbol.');
+        },
+
+        deserialize: function deserialize(desc) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
+            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
+            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
+                var val = desc[prop];
+                if (colorsFormat) {
+                    var color = new Color(val);
+                    if (color.isValid && color.format === colorsFormat) val = color.toString('rgba');
+                }
+
+                symbol[prop] = val;
+            });
+
+            return symbol;
+        }
+    };
+});
+'use strict';
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12089,9 +12152,8 @@ sGis.module('render.Image', ['Point'], function (Point) {
             }
         }, {
             key: 'contains',
-            value: function contains(position) {
-                var point = new Point([position.x * resolution, position.y * resolution], this._bbox.crs);
-                return this._bbox.contains(point);
+            value: function contains() {
+                return false;
             }
         }, {
             key: 'getCache',
@@ -12283,67 +12345,59 @@ sGis.module('render.Polyline', ['utils', 'geotools'], function (utils, geotools)
 });
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-sGis.module('serializer.symbolSerializer', ['utils', 'utils.Color'], function (utils, Color) {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+sGis.module('render.VectorImage', {}, function () {
 
     'use strict';
 
-    var symbolDescriptions = {};
+    var VectorImage = function () {
+        function VectorImage(imageNode, position, properties) {
+            _classCallCheck(this, VectorImage);
 
-    return {
-        registerSymbol: function registerSymbol(constructor, description, properties) {
-            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
-        },
-
-        serialize: function serialize(symbol) {
-            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-            var keys = Object.keys(symbolDescriptions);
-            for (var i = 0; i < keys.length; i++) {
-                var desc = symbolDescriptions[keys[i]];
-
-                if (symbol instanceof desc.Constructor) {
-                    var _ret = function () {
-                        var serialized = { symbolName: keys[i] };
-                        desc.properties.forEach(function (prop) {
-                            var value = symbol[prop];
-                            if (colorsFormat) {
-                                var color = new Color(value);
-                                if (color.isValid) value = color.toString(colorsFormat);
-                            }
-                            serialized[prop] = value;
-                        });
-                        return {
-                            v: serialized
-                        };
-                    }();
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-                }
-            }
-
-            utils.error('Unknown type of symbol.');
-        },
-
-        deserialize: function deserialize(desc) {
-            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
-            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
-            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
-                var val = desc[prop];
-                if (colorsFormat) {
-                    var color = new Color(val);
-                    if (color.isValid && color.format === colorsFormat) val = color.toString('rgba');
-                }
-
-                symbol[prop] = val;
-            });
-
-            return symbol;
+            this._node = imageNode;
+            this._position = position;
+            Object.assign(this, properties);
         }
-    };
+
+        _createClass(VectorImage, [{
+            key: 'contains',
+            value: function contains(position) {
+                var _origin = _slicedToArray(this.origin, 2),
+                    x = _origin[0],
+                    y = _origin[1];
+
+                return position[0] >= x && position[0] <= x + this._node.width && position[1] >= y && position[1] <= y + this._node.height;
+            }
+        }, {
+            key: 'node',
+            get: function get() {
+                return this._node;
+            }
+        }, {
+            key: 'isVector',
+            get: function get() {
+                return true;
+            }
+        }, {
+            key: 'origin',
+            get: function get() {
+                return [this._position[0] + this.offset[0], this._position[1] + this.offset[1]];
+            }
+        }]);
+
+        return VectorImage;
+    }();
+
+    Object.assign(VectorImage.prototype, {
+        offset: [0, 0]
+    });
+
+    return VectorImage;
 });
 'use strict';
 
@@ -12355,7 +12409,112 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('symbol.Editor', ['Symbol', 'symbol.point.Point', 'symbol.point.Image', 'render.Point', 'render.Polyline', 'render.Polygon', 'render.Arc'], function (_Symbol, PointSymbol, PointImageSymbol, PointRender, PolylineRender, PolygonRender, ArcRender) {
+sGis.module('render.VectorLabel', ['render.VectorImage'], function (VectorImage) {
+
+    'use strict';
+
+    var VectorLabel = function (_VectorImage) {
+        _inherits(VectorLabel, _VectorImage);
+
+        function VectorLabel(position, text, properties) {
+            _classCallCheck(this, VectorLabel);
+
+            var canvas = document.createElement('canvas');
+            canvas.width = canvas.height = 0;
+
+            var _this = _possibleConstructorReturn(this, (VectorLabel.__proto__ || Object.getPrototypeOf(VectorLabel)).call(this, canvas, position, properties));
+
+            _this._text = text;
+            _this._render();
+            return _this;
+        }
+
+        _createClass(VectorLabel, [{
+            key: '_render',
+            value: function _render() {
+                var ctx = this.node.getContext('2d');
+                ctx.font = this.font;
+                var measure = ctx.measureText(this._text);
+
+                this.node.width = Math.ceil(measure.width);
+
+                var fontSize = parseInt(this.font) || 10;
+                this.node.height = Math.ceil(fontSize * 1.6);
+
+                var vAlign = this.vAlign;
+                var dy = 0;
+                if (vAlign === 1) {
+                    ctx.textBaseline = 'bottom';
+                    dy = this.node.height;
+                } else if (vAlign === 0) {
+                    ctx.textBaseline = 'middle';
+                    dy = this.node.height / 2;
+                } else {
+                    ctx.textBaseLine = 'top';
+                }
+
+                if (this.isFilled) {
+                    ctx.fillText(this._text, 0, dy);
+                } else {
+                    ctx.strokeText(this._text, 0, dy);
+                }
+
+                this._setOffset();
+            }
+        }, {
+            key: '_setOffset',
+            value: function _setOffset() {
+                var dx = 0;
+                var dy = 0;
+
+                if (this.hAlign === 1) {
+                    dx = -this.node.width;
+                } else if (this.hAlign === 0) {
+                    dx = -this.node.width / 2;
+                }
+
+                if (this.vAlign === 1) {
+                    dy = -this.node.height;
+                } else if (this.vAlign === 0) {
+                    dy = -this.node.height / 2;
+                }
+
+                this.offset = [dx, dy];
+            }
+        }, {
+            key: 'hAlign',
+            get: function get() {
+                return this.align.indexOf('right') >= 0 ? 1 : this.align.indexOf('center') >= 0 ? 0 : -1;
+            }
+        }, {
+            key: 'vAlign',
+            get: function get() {
+                return this.align.indexOf('bottom') >= 0 ? 1 : this.align.indexOf('middle') >= 0 ? 0 : -1;
+            }
+        }]);
+
+        return VectorLabel;
+    }(VectorImage);
+
+    Object.assign(VectorLabel.prototype, {
+        font: '10px arial',
+        align: 'center middle',
+        isFilled: true
+    });
+
+    return VectorLabel;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('symbol.Editor', ['Symbol', 'symbol.point.Point', 'symbol.point.Image', 'symbol.point.MaskedImage', 'render.Point', 'render.Polyline', 'render.Polygon', 'render.Arc'], function (_Symbol, PointSymbol, PointImageSymbol, PointMaskedImageSymbol, PointRender, PolylineRender, PolygonRender, ArcRender) {
 
     'use strict';
 
@@ -12394,8 +12553,8 @@ sGis.module('symbol.Editor', ['Symbol', 'symbol.point.Point', 'symbol.point.Imag
                             strokeWidth: parseFloat(baseRender[i].strokeWidth) + 2 * this.haloSize
                         });
                         break;
-                    } else if (this.baseSymbol instanceof PointImageSymbol) {
-                        halo = new ArcRender([baseRender[i].position[0] + +this.baseSymbol.anchorPoint.x, baseRender[i].position[1] + +this.baseSymbol.anchorPoint.y], {
+                    } else if (this.baseSymbol instanceof PointImageSymbol || this.baseSymbol instanceof PointMaskedImageSymbol) {
+                        halo = new ArcRender([baseRender[i].position[0] - +this.baseSymbol.anchorPoint.x + this.baseSymbol.width / 2, baseRender[i].position[1] - +this.baseSymbol.anchorPoint.x + this.baseSymbol.width / 2], {
                             fillColor: this.color,
                             radius: this.baseSymbol.width / 2 + this.haloSize,
                             strokeColor: 'transparent' });
@@ -12447,7 +12606,8 @@ sGis.module('symbol.image.Image', ['Symbol', 'render.Image', 'serializer.symbolS
             value: function renderFunction(feature, resolution, crs) {
                 var _this2 = this;
 
-                var render = new ImageRender(feature.src, feature.bbox);
+                var bbox = feature.bbox.projectTo(crs);
+                var render = new ImageRender(feature.src, bbox);
 
                 if (this.transitionTime > 0) {
                     render.opacity = 0;
@@ -13480,11 +13640,13 @@ sGis.module('utils', ['event'], function (ev) {
 });
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.Polygon', 'render.Polyline', 'utils'], function (Arc, Point, Polygon, Polyline, utils) {
+sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.Polygon', 'render.Polyline', 'render.VectorImage', 'utils'], function (Arc, Point, Polygon, Polyline, VectorImage, utils) {
 
     'use strict';
 
@@ -13511,7 +13673,7 @@ sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.
                 this._canvasNode.height = height;
                 this._isEmpty = true;
 
-                this._ctx.translate(-bbox.xMin / resolution, bbox.yMax / resolution);
+                this._ctx.translate(Math.round(-bbox.xMin / resolution), Math.round(bbox.yMax / resolution));
             }
         }, {
             key: 'draw',
@@ -13522,6 +13684,8 @@ sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.
                     this._drawPoint(render);
                 } else if (render instanceof Polyline || render instanceof Polygon) {
                     this._drawPoly(render);
+                } else if (render instanceof VectorImage) {
+                    this._drawImage(render);
                 } else {
                     utils.error('Unknown vector geometry type.');
                 }
@@ -13558,6 +13722,15 @@ sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.
             value: function _drawPoint(render) {
                 this._ctx.strokeStyle = this._ctx.fillStyle = render.color;
                 this._ctx.fillRect(render.coordinates[0], render.coordinates[1], 1, 1);
+            }
+        }, {
+            key: '_drawImage',
+            value: function _drawImage(render) {
+                var _render$origin = _slicedToArray(render.origin, 2),
+                    x = _render$origin[0],
+                    y = _render$origin[1];
+
+                this._ctx.drawImage(render.node, Math.round(x), Math.round(y));
             }
         }, {
             key: '_drawPoly',
@@ -14680,7 +14853,9 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                 var _this5 = this;
 
                 var bbox = this._master.bbox;
+
                 var newFeatures = this._layer.getFeatures(bbox, this._master.map.resolution);
+                if (this._layer.updateProhibited) return;
 
                 var _iteratorNormalCompletion7 = true;
                 var _didIteratorError7 = false;
@@ -16430,163 +16605,6 @@ sGis.module('controls.BaseLayerSwitch', ['utils', 'Control', 'Map', 'Layer', 'ev
 });
 'use strict';
 
-sGis.module('controls.Area', ['Control', 'controls.Polygon', 'Map', 'feature.Label', 'geotools', 'utils.proto'], function (Control, PolygonControl, Map, Label, geotools, proto) {
-    'use strict';
-
-    var Area = function Area(map, options) {
-        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
-        this._map = map;
-
-        this._polygonControl = new sGis.controls.Polygon(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red', fillColor: 'rgba(100, 100, 100, 0.5)' } });
-        sGis.utils.init(this, options);
-
-        this._polygonControl.addListener('drawingBegin', function () {
-            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
-
-            var feature = this._activeLayer.features[this._activeLayer.features.length - 1],
-                label = new sGis.feature.Label(feature.centroid, { content: '', crs: feature.crs, style: { css: 'sGis-distanceLabel', offset: { x: -50, y: -10 }, width: 120 } });
-
-            this.activeLayer.add(label);
-
-            map.addListener('mousemove.areaMeasureControl', function () {
-                label.coordinates = feature.centroid;
-                label.content = formatNumber(sGis.geotools.area(feature));
-            });
-        });
-
-        this._polygonControl.addListener('drawingFinish', function () {
-            map.removeListener('mousemove.areaMeasureControl');
-        });
-    };
-
-    Area.prototype = new sGis.Control({
-        _setActiveStatus: function _setActiveStatus(bool) {
-            this._polygonControl.isActive = bool;
-            this._active = bool;
-        }
-    });
-
-    sGis.utils.proto.setProperties(Area.prototype, {
-        activeLayer: {
-            get: function get() {
-                return this._polygonControl.activeLayer;
-            },
-            set: function set(layer) {
-                this._polygonControl.activeLayer = layer;
-            }
-        },
-
-        isActive: {
-            get: function get() {
-                return this._active;
-            },
-            set: function set(bool) {
-                this._setActiveStatus(bool);
-            }
-        }
-    });
-
-    function formatNumber(n) {
-        var s;
-        if (n < 10000) {
-            s = '' + n.toFixed(2) + 'м²';
-        } else if (n < 10000000) {
-            s = '' + (n / 10000).toFixed(2) + 'га';
-        } else {
-            s = '' + (n / 1000000).toFixed(2) + 'км²';
-            if (s.length > 10) {
-                for (var i = s.length - 9; i > 0; i -= 3) {
-                    s = s.substr(0, i) + ' ' + s.substr(i);
-                }
-            }
-        }
-        return s.replace('.', ',');
-    }
-
-    return Area;
-});
-'use strict';
-
-sGis.module('controls.Distance', ['utils', 'utils.proto', 'Map', 'controls.Polyline', 'geotools', 'Control'], function (utils, proto, Map, Polyline, geotools, Control) {
-    'use strict';
-
-    var Distance = function Distance(map, options) {
-        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
-        this._map = map;
-
-        this._polylineControl = new sGis.controls.Polyline(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red' } });
-        sGis.utils.init(this, options);
-
-        this._polylineControl.addListener('drawingBegin', function () {
-            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
-
-            var feature = this.activeLayer.features[this.activeLayer.features.length - 1],
-                coord = feature.rings[0],
-                label = new sGis.feature.Label(coord[1], { symbol: new sGis.symbol.label.Label({ css: 'sGis-symbol-label-center-top sGis-distanceLabel' }), crs: map.crs });
-
-            this.activeLayer.add(label);
-
-            map.addListener('mousemove.distanceMeasureControl', function () {
-                label.coordinates = feature.rings[0][feature.coordinates[0].length - 1];
-                label.content = formatNumber(sGis.geotools.length(feature));
-            });
-        });
-
-        this._polylineControl.addListener('drawingFinish', function () {
-            map.removeListener('mousemove.distanceMeasureControl');
-        });
-    };
-
-    Distance.prototype = new sGis.Control({
-        _setActiveStatus: function _setActiveStatus(bool) {
-            this._polylineControl.isActive = bool;
-            this._active = bool;
-        }
-    });
-
-    sGis.utils.proto.setProperties(Distance.prototype, {
-        activeLayer: {
-            get: function get() {
-                return this._polylineControl.activeLayer;
-            },
-            set: function set(layer) {
-                this._polylineControl.activeLayer = layer;
-            }
-        },
-
-        isActive: {
-            get: function get() {
-                return this._active;
-            },
-            set: function set(bool) {
-                this._setActiveStatus(bool);
-            }
-        }
-    });
-
-    function formatNumber(n) {
-        var s;
-        if (n > 10000) {
-            s = '' + (n / 1000).toFixed(2) + 'км';
-        } else {
-            s = '' + n.toFixed(2) + 'м';
-        }
-        return s.replace('.', ',');
-    }
-
-    function addStyleSheet() {
-        var styleSheet = document.createElement('style');
-        styleSheet.type = 'text/css';
-        styleSheet.innerHTML = '.sGis-distanceLabel {font-family: "PT Sans",Tahoma; font-size: 15px; background-color: rgba(200, 200, 255, 0.8);border: 1px solid black;border-radius: 5px; color: black;}';
-        document.head.appendChild(styleSheet);
-    }
-
-    addStyleSheet();
-
-    return Distance;
-});
-'use strict';
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16860,6 +16878,163 @@ sGis.module('decorations.ScaleSlider', ['utils', 'utils.proto', 'EventHandler'],
     document.head.appendChild(styles);
 
     return ScaleSlider;
+});
+'use strict';
+
+sGis.module('controls.Area', ['Control', 'controls.Polygon', 'Map', 'feature.Label', 'geotools', 'utils.proto'], function (Control, PolygonControl, Map, Label, geotools, proto) {
+    'use strict';
+
+    var Area = function Area(map, options) {
+        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
+        this._map = map;
+
+        this._polygonControl = new sGis.controls.Polygon(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red', fillColor: 'rgba(100, 100, 100, 0.5)' } });
+        sGis.utils.init(this, options);
+
+        this._polygonControl.addListener('drawingBegin', function () {
+            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
+
+            var feature = this._activeLayer.features[this._activeLayer.features.length - 1],
+                label = new sGis.feature.Label(feature.centroid, { content: '', crs: feature.crs, style: { css: 'sGis-distanceLabel', offset: { x: -50, y: -10 }, width: 120 } });
+
+            this.activeLayer.add(label);
+
+            map.addListener('mousemove.areaMeasureControl', function () {
+                label.coordinates = feature.centroid;
+                label.content = formatNumber(sGis.geotools.area(feature));
+            });
+        });
+
+        this._polygonControl.addListener('drawingFinish', function () {
+            map.removeListener('mousemove.areaMeasureControl');
+        });
+    };
+
+    Area.prototype = new sGis.Control({
+        _setActiveStatus: function _setActiveStatus(bool) {
+            this._polygonControl.isActive = bool;
+            this._active = bool;
+        }
+    });
+
+    sGis.utils.proto.setProperties(Area.prototype, {
+        activeLayer: {
+            get: function get() {
+                return this._polygonControl.activeLayer;
+            },
+            set: function set(layer) {
+                this._polygonControl.activeLayer = layer;
+            }
+        },
+
+        isActive: {
+            get: function get() {
+                return this._active;
+            },
+            set: function set(bool) {
+                this._setActiveStatus(bool);
+            }
+        }
+    });
+
+    function formatNumber(n) {
+        var s;
+        if (n < 10000) {
+            s = '' + n.toFixed(2) + 'м²';
+        } else if (n < 10000000) {
+            s = '' + (n / 10000).toFixed(2) + 'га';
+        } else {
+            s = '' + (n / 1000000).toFixed(2) + 'км²';
+            if (s.length > 10) {
+                for (var i = s.length - 9; i > 0; i -= 3) {
+                    s = s.substr(0, i) + ' ' + s.substr(i);
+                }
+            }
+        }
+        return s.replace('.', ',');
+    }
+
+    return Area;
+});
+'use strict';
+
+sGis.module('controls.Distance', ['utils', 'utils.proto', 'Map', 'controls.Polyline', 'geotools', 'Control'], function (utils, proto, Map, Polyline, geotools, Control) {
+    'use strict';
+
+    var Distance = function Distance(map, options) {
+        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
+        this._map = map;
+
+        this._polylineControl = new sGis.controls.Polyline(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red' } });
+        sGis.utils.init(this, options);
+
+        this._polylineControl.addListener('drawingBegin', function () {
+            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
+
+            var feature = this.activeLayer.features[this.activeLayer.features.length - 1],
+                coord = feature.rings[0],
+                label = new sGis.feature.Label(coord[1], { symbol: new sGis.symbol.label.Label({ css: 'sGis-symbol-label-center-top sGis-distanceLabel' }), crs: map.crs });
+
+            this.activeLayer.add(label);
+
+            map.addListener('mousemove.distanceMeasureControl', function () {
+                label.coordinates = feature.rings[0][feature.coordinates[0].length - 1];
+                label.content = formatNumber(sGis.geotools.length(feature));
+            });
+        });
+
+        this._polylineControl.addListener('drawingFinish', function () {
+            map.removeListener('mousemove.distanceMeasureControl');
+        });
+    };
+
+    Distance.prototype = new sGis.Control({
+        _setActiveStatus: function _setActiveStatus(bool) {
+            this._polylineControl.isActive = bool;
+            this._active = bool;
+        }
+    });
+
+    sGis.utils.proto.setProperties(Distance.prototype, {
+        activeLayer: {
+            get: function get() {
+                return this._polylineControl.activeLayer;
+            },
+            set: function set(layer) {
+                this._polylineControl.activeLayer = layer;
+            }
+        },
+
+        isActive: {
+            get: function get() {
+                return this._active;
+            },
+            set: function set(bool) {
+                this._setActiveStatus(bool);
+            }
+        }
+    });
+
+    function formatNumber(n) {
+        var s;
+        if (n > 10000) {
+            s = '' + (n / 1000).toFixed(2) + 'км';
+        } else {
+            s = '' + n.toFixed(2) + 'м';
+        }
+        return s.replace('.', ',');
+    }
+
+    function addStyleSheet() {
+        var styleSheet = document.createElement('style');
+        styleSheet.type = 'text/css';
+        styleSheet.innerHTML = '.sGis-distanceLabel {font-family: "PT Sans",Tahoma; font-size: 15px; background-color: rgba(200, 200, 255, 0.8);border: 1px solid black;border-radius: 5px; color: black;}';
+        document.head.appendChild(styleSheet);
+    }
+
+    addStyleSheet();
+
+    return Distance;
 });
 'use strict';
 
@@ -17874,6 +18049,7 @@ sGis.module('sp.ClusterLayer', ['Point', 'feature.Point', 'feature.Polygon', 'sp
 
                 if (this._currentBbox && bbox.equals(this._currentBbox)) return;
 
+                this.updateProhibited = true;
                 if (this._xhr) {
                     this._updateRequest = [bbox, resolution];
                     return;
@@ -17892,6 +18068,8 @@ sGis.module('sp.ClusterLayer', ['Point', 'feature.Point', 'feature.Polygon', 'sp
                             _this2._xhr = null;
                             return;
                         }
+
+                        _this2.updateProhibited = false;
 
                         if (_this2._updateRequest) {
                             _this2._update(_this2._updateRequest[0], _this2._updateRequest[1]);
@@ -17957,7 +18135,7 @@ sGis.module('sp.ClusterLayer', ['Point', 'feature.Point', 'feature.Polygon', 'sp
     return ClusterLayer;
 });
 
-sGis.module('sp.ClusterSymbol', ['utils', 'symbol.point.Point', 'render.Arc'], function (utils, PointSymbol, Arc) {
+sGis.module('sp.ClusterSymbol', ['utils', 'Symbol', 'symbol.point.Point', 'render.Arc', 'render.VectorLabel', 'serializer.symbolSerializer'], function (utils, _Symbol, PointSymbol, Arc, VectorLabel, symbolSerializer) {
     var ClusterSymbol = function (_PointSymbol) {
         _inherits(ClusterSymbol, _PointSymbol);
 
@@ -17970,18 +18148,28 @@ sGis.module('sp.ClusterSymbol', ['utils', 'symbol.point.Point', 'render.Arc'], f
         _createClass(ClusterSymbol, [{
             key: 'renderFunction',
             value: function renderFunction(feature, resolution, crs) {
+                if (this.singleObjectSymbol && feature.objectCount === 1) return this.singleObjectSymbol.renderFunction(feature, resolution, crs);
+
                 var renders = _get(ClusterSymbol.prototype.__proto__ || Object.getPrototypeOf(ClusterSymbol.prototype), 'renderFunction', this).call(this, feature, resolution, crs);
                 this._applySizeClassifier(renders[0], feature);
 
                 if (this.pieAggregationIndex >= 0) {
                     var pieChart = this._applyChartClassifier(feature, renders[0].center, renders[0].radius);
                     if (pieChart && pieChart.length > 0) {
-                        renders[0].radius *= 0.5;
+                        renders[0].radius -= this.clusterSize;
                         renders = pieChart.concat(renders);
                     }
                 }
 
+                if (this.labelText) renders.push(this._renderLabel(renders[0].center, feature));
+
                 return renders;
+            }
+        }, {
+            key: '_renderLabel',
+            value: function _renderLabel(position, feature) {
+                var text = this.labelText.replace('{__qty}', feature.objectCount || '');
+                return new VectorLabel(position, text, {});
             }
         }, {
             key: '_applySizeClassifier',
@@ -18060,8 +18248,22 @@ sGis.module('sp.ClusterSymbol', ['utils', 'symbol.point.Point', 'render.Arc'], f
                     sizeAggregationIndex: this.sizeAggregationIndex,
                     sizeAggregationMaxValue: this.sizeAggregationMaxValue,
                     pieAggregationIndex: this.pieAggregationIndex,
-                    _pieGroups: this._pieGroups
+                    _pieGroups: this._pieGroups,
+                    labelText: this.labelText,
+                    singleObjectSymbol: this.singleObjectSymbol && (this.singleObjectSymbol.serialize && this.singleObjectSymbol.serialize() || symbolSerializer.serialize(this.singleObjectSymbol))
                 };
+            }
+        }, {
+            key: 'singleObjectSymbol',
+            get: function get() {
+                return this._singleObjectSymbol;
+            },
+            set: function set(symbol) {
+                if (symbol instanceof _Symbol) {
+                    this._singleObjectSymbol = symbol;
+                } else {
+                    this._singleObjectSymbol = symbolSerializer.deserialize(symbol);
+                }
             }
         }]);
 
@@ -18074,7 +18276,7 @@ sGis.module('sp.ClusterSymbol', ['utils', 'symbol.point.Point', 'render.Arc'], f
         strokeColor: 'white',
         strokeWidth: 2,
 
-        clusterSize: 64,
+        clusterSize: 10,
 
         minSize: 0,
         maxSize: 0,
@@ -18082,8 +18284,10 @@ sGis.module('sp.ClusterSymbol', ['utils', 'symbol.point.Point', 'render.Arc'], f
         sizeAggregationMaxValue: 0,
 
         pieAggregationIndex: -1,
-        _pieGroups: {}
+        _pieGroups: {},
 
+        labelText: null,
+        _singleObjectSymbol: null
     });
 
     return ClusterSymbol;
@@ -18407,8 +18611,6 @@ sGis.module('sp.ControllerManager', ['utils', 'LayerGroup', 'sp.controllers.View
 });
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18458,37 +18660,16 @@ sGis.module('sp.DataFilter', ['serializer.symbolSerializer', 'sp.Labeling', 'sp.
         }, {
             key: '_serializeChildren',
             value: function _serializeChildren() {
-                var _this = this;
-
-                if (!this.childFilters || this.childFilters.length === 0) return null;
-                if (this.childFilters[0] instanceof DataFilter) {
-                    return this.childFilters.map(function (child) {
-                        return child.serialize();
-                    });
-                } else {
-                    var _ret = function () {
-                        var base = new DataFilter({ condition: _this.condition, symbol: _this.symbol });
-                        var unfolded = [base];
-                        _this.childFilters.forEach(function (child) {
-                            unfolded = child.unfold(unfolded);
-                        });
-
-                        if (unfolded.length === 0) return {
-                                v: null
-                            };
-                        return {
-                            v: unfolded.map(function (child) {
-                                return child.serialize();
-                            })
-                        };
-                    }();
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-                }
+                if (!this.childFilters) return null;
+                return this.childFilters.map(function (child) {
+                    return child.serialize();
+                });
             }
         }, {
             key: 'clone',
             value: function clone() {
+                var cloneSerializationDate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
                 return new DataFilter({
                     title: this.title,
                     condition: this.condition,
@@ -18502,7 +18683,7 @@ sGis.module('sp.DataFilter', ['serializer.symbolSerializer', 'sp.Labeling', 'sp.
 
                     aggregations: this.aggregations && this.aggregations.slice(),
 
-                    serializationData: this.serializationData
+                    serializationData: cloneSerializationDate ? this.serializationData : null
                 });
             }
         }], [{
@@ -18578,14 +18759,14 @@ sGis.module('sp.Labeling', [], function () {
         _createClass(Labeling, [{
             key: 'clone',
             value: function clone() {
-                var _this2 = this;
+                var _this = this;
 
                 var copy = new Labeling();
                 Object.keys(defaultLabeling).forEach(function (key) {
-                    copy[key] = _this2[key];
+                    copy[key] = _this[key];
                     if (key === 'border') copy[key] = {
-                        Brush: _this2.border.Brush,
-                        Thickness: _this2.border.Thickness
+                        Brush: _this.border.Brush,
+                        Thickness: _this.border.Thickness
                     };
                 });
                 return copy;
@@ -18593,16 +18774,16 @@ sGis.module('sp.Labeling', [], function () {
         }, {
             key: 'serialize',
             value: function serialize() {
-                var _this3 = this;
+                var _this2 = this;
 
                 if (!this.isActive) return null;
 
                 var result = {};
                 Object.keys(defaultLabeling).forEach(function (key) {
-                    result[key] = _this3[key];
+                    result[key] = _this2[key];
                     if (key === 'border') result[key] = {
-                        Brush: _this3.border.Brush,
-                        Thickness: _this3.border.Thickness
+                        Brush: _this2.border.Brush,
+                        Thickness: _this2.border.Thickness
                     };
                 });
 
@@ -18950,7 +19131,7 @@ sGis.module('sp.LayerManager', ['sp.ServiceGroup', 'sp.Project', 'sp.services.Se
             opacity: container.layer && container.layer.opacity,
             resolutionLimits: container.layer && container.layer.resolutionLimits,
             isDisplayed: container.service && container.service.isDisplayed,
-            filter: container.service && (container.service.tempFilterApplied && container.service.dataFilter.serialize() || container.service.view && container.service.view.tempFilterApplied && container.service.view.dataFilter.serialize()),
+            filter: container.service && (container.service.tempFilterApplied && container.service.dataFilter && container.service.dataFilter.serialize() || container.service.view && container.service.view.tempFilterApplied && container.service.view.dataFilter && container.service.view.dataFilter.serialize()),
             customFilter: container.service && (container.service.customFilter || container.service.view && container.service.view.customFilter),
             meta: container.service && container.service.meta,
             children: saveChildren(container.service)
@@ -18958,7 +19139,7 @@ sGis.module('sp.LayerManager', ['sp.ServiceGroup', 'sp.Project', 'sp.services.Se
     }
 
     function saveChildren(service) {
-        if (!service.children) return;
+        if (!service || !service.children) return;
         return service.children.map(function (container) {
             return saveContainer(container);
         });
@@ -19607,8 +19788,8 @@ sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 
         if (resolution) map.resolution = resolution;
     });
 
-    SpatialProcessor.version = "0.2.4";
-    SpatialProcessor.releaseDate = "06.03.2017";
+    SpatialProcessor.version = "0.2.5";
+    SpatialProcessor.releaseDate = "19.04.2017";
 
     sGis.spatialProcessor = sGis.sp;
 
@@ -20476,6 +20657,128 @@ sGis.module('sp.controllers.ViewableController', ['sp.controllers.Controller', '
     }(Controller);
 
     return ViewableController;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLayer', 'sp.ClusterSymbol'], function (Layer, ClusterLayer, DynamicLayer, ClusterSymbol) {
+
+    'use strict';
+
+    var DataViewLayer = function (_Layer) {
+        _inherits(DataViewLayer, _Layer);
+
+        function DataViewLayer(service) {
+            _classCallCheck(this, DataViewLayer);
+
+            var _this = _possibleConstructorReturn(this, (DataViewLayer.__proto__ || Object.getPrototypeOf(DataViewLayer)).call(this));
+
+            _this._service = service;
+
+            _this._dynamicLayer = new DynamicLayer(_this.getImageUrl.bind(_this), { crs: service.crs });
+
+            service.on('dataFilterChange', _this._updateDataFilter.bind(_this));
+            _this._updateDataFilter();
+
+            _this.redraw = _this.redraw.bind(_this);
+            return _this;
+        }
+
+        _createClass(DataViewLayer, [{
+            key: '_updateDataFilter',
+            value: function _updateDataFilter() {
+                this._resolutionGroups = [];
+                var filter = this._service.dataFilter;
+
+                if (filter) this._fillResolutionGroups(filter);
+            }
+        }, {
+            key: '_fillResolutionGroups',
+            value: function _fillResolutionGroups(filter) {
+                var _this2 = this;
+
+                if (filter.childFilters && filter.childFilters.length > 0) {
+                    filter.childFilters.forEach(function (x) {
+                        return _this2._fillResolutionGroups(x);
+                    });
+                    return;
+                }
+
+                if (filter.symbol && filter.symbol instanceof ClusterSymbol) {
+                    var layer = new ClusterLayer(this._service.url, this._service.connector.sessionId, filter.symbol);
+                    layer.aggregationParameters = [{ filters: filter.condition, aggregations: filter.aggregations && filter.aggregations.join(',') }];
+                    layer.algorithm = 'adjustedGrid';
+                    layer.on('propertyChange', function () {
+                        _this2.redraw();
+                    });
+                    this._resolutionGroups.push({ minResolution: filter.minResolution, maxResolution: filter.maxResolution, layer: layer });
+                } else {
+                    this._resolutionGroups.push({ minResolution: filter.minResolution, maxResolution: filter.maxResolution, layer: this._dynamicLayer });
+                }
+            }
+        }, {
+            key: 'getFeatures',
+            value: function getFeatures(bbox, resolution) {
+                if (!this.checkVisibility(resolution)) return [];
+
+                if (this._resolutionGroups.length === 0) return this._dynamicLayer.getFeatures(bbox, resolution);
+
+                var dynamicLayerUsed = false;
+                var features = [];
+                this._resolutionGroups.forEach(function (group) {
+                    if (group.minResolution > 0 && group.minResolution > resolution || group.maxResolution > 0 && group.maxResolution < resolution) return;
+
+                    features = features.concat(group.layer.getFeatures(bbox, resolution));
+                });
+
+                return features;
+            }
+        }, {
+            key: 'getImageUrl',
+            value: function getImageUrl(bbox, resolution) {
+                var imgWidth = Math.round((bbox.xMax - bbox.xMin) / resolution);
+                var imgHeight = Math.round((bbox.yMax - bbox.yMin) / resolution);
+                var sr = encodeURIComponent(bbox.crs.wkid || JSON.stringify(bbox.crs.description));
+
+                return this._service.url + 'export?' + 'dpi=96&' + 'transparent=true&' + 'bbox=' + bbox.xMin + '%2C' + bbox.yMin + '%2C' + bbox.xMax + '%2C' + bbox.yMax + '&' + 'bboxSR=' + sr + '&' + 'imageSR=' + sr + '&' + 'size=' + imgWidth + '%2C' + imgHeight + '&' + 'f=image' + this._service.connector.sessionSuffix;
+            }
+        }, {
+            key: 'forceUpdate',
+            value: function forceUpdate() {
+                this._dynamicLayer.forceUpdate();
+            }
+        }, {
+            key: 'opacity',
+            get: function get() {
+                return this._dynamicLayer.opacity;
+            },
+            set: function set(opacity) {
+                this._dynamicLayer.opacity = opacity;
+                this.fire('propertyChange', { property: 'opacity' });
+            }
+        }, {
+            key: 'updateProhibited',
+            get: function get() {
+                for (var i = 0; i < this._resolutionGroups.length; i++) {
+                    if (this._resolutionGroups[i].layer.updateProhibited) return true;
+                }
+                return false;
+            }
+        }]);
+
+        return DataViewLayer;
+    }(Layer);
+
+    DataViewLayer.prototype.delayedUpdate = true;
+
+    return DataViewLayer;
 });
 'use strict';
 
@@ -21592,120 +21895,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLayer', 'sp.ClusterSymbol'], function (Layer, ClusterLayer, DynamicLayer, ClusterSymbol) {
-
-    'use strict';
-
-    var DataViewLayer = function (_Layer) {
-        _inherits(DataViewLayer, _Layer);
-
-        function DataViewLayer(service) {
-            _classCallCheck(this, DataViewLayer);
-
-            var _this = _possibleConstructorReturn(this, (DataViewLayer.__proto__ || Object.getPrototypeOf(DataViewLayer)).call(this));
-
-            _this._service = service;
-
-            _this._dynamicLayer = new DynamicLayer(_this.getImageUrl.bind(_this), { crs: service.crs });
-
-            service.on('dataFilterChange', _this._updateDataFilter.bind(_this));
-            _this._updateDataFilter();
-
-            _this.redraw = _this.redraw.bind(_this);
-            return _this;
-        }
-
-        _createClass(DataViewLayer, [{
-            key: '_updateDataFilter',
-            value: function _updateDataFilter() {
-                this._resolutionGroups = [];
-                var filter = this._service.dataFilter;
-
-                if (filter) this._fillResolutionGroups(filter);
-            }
-        }, {
-            key: '_fillResolutionGroups',
-            value: function _fillResolutionGroups(filter) {
-                var _this2 = this;
-
-                if (filter.childFilters && filter.childFilters.length > 0) {
-                    filter.childFilters.forEach(function (x) {
-                        return _this2._fillResolutionGroups(x);
-                    });
-                    return;
-                }
-
-                if (filter.symbol && filter.symbol instanceof ClusterSymbol) {
-                    var layer = new ClusterLayer(this._service.url, this._service.connector.sessionId, filter.symbol);
-                    layer.aggregationParameters = [{ filters: filter.condition, aggregations: filter.aggregations && filter.aggregations.join(',') }];
-                    layer.algorithm = 'adjustedGrid';
-                    layer.on('propertyChange', function () {
-                        _this2.redraw();
-                    });
-                    this._resolutionGroups.push({ minResolution: filter.minResolution, maxResolution: filter.maxResolution, layer: layer });
-                } else {
-                    this._resolutionGroups.push({ minResolution: filter.minResolution, maxResolution: filter.maxResolution, layer: this._dynamicLayer });
-                }
-            }
-        }, {
-            key: 'getFeatures',
-            value: function getFeatures(bbox, resolution) {
-                if (!this.checkVisibility(resolution)) return [];
-
-                if (this._resolutionGroups.length === 0) return this._dynamicLayer.getFeatures(bbox, resolution);
-
-                var dynamicLayerUsed = false;
-                var features = [];
-                this._resolutionGroups.forEach(function (group) {
-                    if (group.minResolution > 0 && group.minResolution > resolution || group.maxResolution > 0 && group.maxResolution < resolution) return;
-
-                    features = features.concat(group.layer.getFeatures(bbox, resolution));
-                });
-
-                return features;
-            }
-        }, {
-            key: 'getImageUrl',
-            value: function getImageUrl(bbox, resolution) {
-                var imgWidth = Math.round((bbox.xMax - bbox.xMin) / resolution);
-                var imgHeight = Math.round((bbox.yMax - bbox.yMin) / resolution);
-                var sr = encodeURIComponent(bbox.crs.wkid || JSON.stringify(bbox.crs.description));
-
-                return this._service.url + 'export?' + 'dpi=96&' + 'transparent=true&' + 'bbox=' + bbox.xMin + '%2C' + bbox.yMin + '%2C' + bbox.xMax + '%2C' + bbox.yMax + '&' + 'bboxSR=' + sr + '&' + 'imageSR=' + sr + '&' + 'size=' + imgWidth + '%2C' + imgHeight + '&' + 'f=image' + this._service.connector.sessionSuffix;
-            }
-        }, {
-            key: 'forceUpdate',
-            value: function forceUpdate() {
-                this._dynamicLayer.forceUpdate();
-            }
-        }, {
-            key: 'opacity',
-            get: function get() {
-                return this._dynamicLayer.opacity;
-            },
-            set: function set(opacity) {
-                this._dynamicLayer.opacity = opacity;
-                this.fire('propertyChange', { property: 'opacity' });
-            }
-        }]);
-
-        return DataViewLayer;
-    }(Layer);
-
-    DataViewLayer.prototype.delayedUpdate = true;
-
-    return DataViewLayer;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 sGis.module('sp.services.DataSourceService', ['EventHandler', 'sp.controllers.TempView', 'sp.services.ServiceContainer'], function (EventHandler, TempView, ServiceContainer) {
 
         'use strict';
@@ -21924,7 +22113,7 @@ sGis.module('sp.services.DataViewService', ['sp.utils', 'sp.services.MapService'
                 var promise = utils.ajaxp({
                     url: this.url + 'setTempDataFilter?_sb=' + this.connector.sessionId,
                     type: 'POST',
-                    data: 'filterDescription=' + JSON.stringify(serialized)
+                    data: 'filterDescription=' + encodeURIComponent(JSON.stringify(serialized))
                 });
 
                 this.fire('dataFilterChange');
@@ -21934,11 +22123,12 @@ sGis.module('sp.services.DataViewService', ['sp.utils', 'sp.services.MapService'
         }, {
             key: 'setCustomFilter',
             value: function setCustomFilter(filter) {
+                this._dataFilter = null;
                 this._customFilter = filter;
                 return utils.ajaxp({
                     url: this.url + 'setTempDataFilter?_sb=' + this.connector.sessionId,
                     type: 'POST',
-                    data: 'filterDescription=' + JSON.stringify(filter)
+                    data: 'filterDescription=' + encodeURIComponent(JSON.stringify(filter))
                 });
             }
         }, {
@@ -22502,6 +22692,139 @@ sGis.module('sp.services.ServiceGroup', ['sp.ServiceGroup', 'sp.services.Service
     }, ServiceGroupService);
 
     return ServiceGroupService;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.services.StaticSourceService', ['sp.utils', 'sp.services.ServiceContainer', 'EventHandler'], function (utils, ServiceContainer, EventHandler) {
+
+    'use strict';
+
+    var StaticSourceService = function (_EventHandler) {
+        _inherits(StaticSourceService, _EventHandler);
+
+        function StaticSourceService(name, connector, serviceInfo) {
+            _classCallCheck(this, StaticSourceService);
+
+            var _this = _possibleConstructorReturn(this, (StaticSourceService.__proto__ || Object.getPrototypeOf(StaticSourceService)).call(this));
+
+            _this._seviceInfo = serviceInfo;
+            _this._connector = connector;
+            _this._name = name;
+            _this._url = _this._connector.url + _this._name + '/';
+            return _this;
+        }
+
+        _createClass(StaticSourceService, [{
+            key: 'upload',
+            value: function upload(fileName, file) {
+
+                if (!fileName || !file) {
+                    utils.error('Invalid parameters');
+                }
+
+                var data = new FormData();
+                data.append('file', file);
+
+                var self = this;
+                return utils.ajaxp({
+
+                    url: this._url + 'upload?fileName=' + fileName + this._connector.sessionSuffix,
+                    type: 'POST',
+                    data: data,
+                    contentType: 'super-binary'
+                }).then(function (response) {
+                    var respObject = JSON.parse(response[0]);
+                    if (respObject.success) {
+                        return self._url + 'download/' + fileName + self._connector.sessionSuffix;
+                    } else if (respObject.error) {
+                        utils.error(respObject.error.message);
+                    } else {
+                        utils.error(response[0]);
+                    }
+                }).catch(function (error) {
+                    utils.error(error);
+                });
+            }
+        }, {
+            key: 'delete',
+            value: function _delete(fileName) {
+
+                if (!fileName) {
+                    utils.error("File name not set");
+                }
+
+                return utils.ajaxp({ url: this._url + 'delete?fileName=' + fileName + this._connector.sessionSuffix }).then(function (response) {
+                    var respObject = JSON.parse(response[0]);
+                    if (respObject.success) {
+                        return respObject.success;
+                    } else if (respObject.error) {
+                        utils.error(respObject.error.message);
+                    } else {
+                        utils.error(response[0]);
+                    }
+                }).catch(function (error) {
+                    utils.error(error);
+                });
+            }
+        }, {
+            key: 'describe',
+            value: function describe(_ref) {
+                var _ref$fileName = _ref.fileName,
+                    fileName = _ref$fileName === undefined ? null : _ref$fileName,
+                    _ref$startFrom = _ref.startFrom,
+                    startFrom = _ref$startFrom === undefined ? null : _ref$startFrom,
+                    _ref$take = _ref.take,
+                    take = _ref$take === undefined ? null : _ref$take,
+                    _ref$orderBy = _ref.orderBy,
+                    orderBy = _ref$orderBy === undefined ? null : _ref$orderBy;
+
+
+                var params = Object.assign(arguments[0], { _sb: this._connector.sessionId });
+                var paramsString = Object.keys(params).filter(function (key) {
+                    return params[key] !== null && params[key] !== undefined;
+                }).map(function (key) {
+                    return key + '=' + encodeURIComponent(params[key]);
+                }).join('&');
+
+                return utils.ajaxp({
+
+                    url: this._url + 'describe?' + (paramsString ? this._url + paramsString : this._url)
+
+                }).then(function (response) {
+                    var respObject = JSON.parse(response[0]);
+
+                    if (respObject.filesInfo) {
+                        return respObject.filesInfo;
+                    } else if (respObject.error) {
+                        utils.error(respObject.error.message);
+                    } else {
+                        utils.error(response[0]);
+                    }
+                });
+            }
+        }, {
+            key: 'url',
+            get: function get() {
+                return this._url;
+            }
+        }]);
+
+        return StaticSourceService;
+    }(EventHandler);
+
+    ServiceContainer.register(function (serviceInfo) {
+        return serviceInfo.serviceType == 'StaticStorage';
+    }, StaticSourceService);
+
+    return StaticSourceService;
 });
 'use strict';
 

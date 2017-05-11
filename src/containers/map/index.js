@@ -3,8 +3,10 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import Loader from 'material-ui/CircularProgress';
 
-import {setCenter, setResolution} from '../../ducks/map';
+import {setCenter, setResolution, loadMapServices} from '../../ducks/map';
+import getLayerManager from '../../evergis/layer-manager';
 
 import Map from '../../components/map';
 
@@ -15,26 +17,44 @@ class MapContainer extends Component {
         setResolution: PropTypes.func
     };
     
+    componentWillReceiveProps ({loadMapServices, map, isAuth}) {
+        !this.props.isAuth && isAuth && loadMapServices();
+        
+        if (isAuth && map.services !== this.props.map.services) {
+            const layerManager = getLayerManager();
+            map.services.forEach(({name, isVisible}) => {
+                const service = layerManager.getService(name);
+                if (service) {
+                    service.isDisplayed = isVisible;
+                }
+            })
+        }
+    }
+    
     render () {
-        const {map, setCenter, setResolution} = this.props;
+        const {map, setCenter, setResolution, isAuth} = this.props;
         
         return (
-            <Map center={map.center}
-                 resolution={map.resolution}
-                 onCenterChange={setCenter}
-                 onResolutionChange={setResolution}
-            />
+            isAuth
+                ? <Map center={map.center}
+                     resolution={map.resolution}
+                     onCenterChange={setCenter}
+                     onResolutionChange={setResolution}
+                  />
+                : <Loader className="loader"/>
         );
     }
 }
 
-const mapProps = ({map}) => ({
-    map
+const mapProps = ({map, user: {employee_id}}) => ({
+    map,
+    isAuth: !!employee_id
 });
 
 const mapActions = {
     setCenter,
-    setResolution
+    setResolution,
+    loadMapServices
 };
 
 export default connect(mapProps, mapActions)(MapContainer);
