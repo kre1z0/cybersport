@@ -1,11 +1,40 @@
 import React from 'react';
+import IconButton from 'material-ui/IconButton';
 import MapPopupButton from '../button/map-popup-button';
 import MapPopupAvatar from './avatar'
 import MapPopupItem from './map-popup-item'
 import { isTextShort } from './isTextShort'
-import { softGreen, mango, waterMelon, coolGreyThree, brightLavender } from '../../assets/theme'
+import { PageBack, PageNext} from '../icons';
+import { coolGreyTwo, softGreen, mango, waterMelon, coolGreyThree, brightLavender } from '../../assets/theme'
 
-const ObjectContent = () => {
+const buttonStyle = {
+  width: 36,
+  height: 36,
+  padding: 0
+};
+
+const svgStyle = {
+  height: 10,
+  width: 6
+};
+
+const PageBackButton = (props) => (
+  <IconButton {...props}
+    style={buttonStyle}
+  >
+    <PageBack svgColor={coolGreyTwo} svgStyle={svgStyle} />
+  </IconButton>
+);
+
+const PageNextButton = (props) => (
+  <IconButton {...props}
+    style={buttonStyle}
+  >
+    <PageNext svgColor={coolGreyTwo} svgStyle={svgStyle} />
+  </IconButton>
+);
+
+const ObjectClusterContent = () => {
   return (
     <div className="object-content" >
 
@@ -71,9 +100,18 @@ const ObjectContent = () => {
       </div>
 
       <MapPopupButton style={{ width: 163 }} labelStyle={{ padding: 0 }} label="Показать в реестре" />
-      <MapPopupButton style={{ width: 163, float: 'right' }} label="Создать задачу" />
+      <MapPopupButton style={{ width: 163, float: 'right' }} labelStyle={{ padding: 0 }}
+        label="Плановая проверка"
+      />
+      <div className="object-cluster-footer">
+        <PageBackButton />
+        <div className="page-numbers">
+          3 из 333
+        </div>
+        <PageNextButton />
+      </div>
     </div>
   )
 };
 
-export default ObjectContent;
+export default ObjectClusterContent;

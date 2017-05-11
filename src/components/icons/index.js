@@ -27,4 +27,5 @@ export {default as MapIcon} from './map';
 export {default as ObjectsIcon} from './objects';
 export {default as AddPictureIcon} from './add-picture';
 export {default as CheckIcon} from './check';
-
+export {default as PageBack} from './page-back';
+export {default as PageNext} from './page-next';
