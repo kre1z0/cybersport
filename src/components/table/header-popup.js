@@ -12,7 +12,8 @@ import './header-popup.scss';
 const iconButtonStyle = {
     width: 40,
     height: 40,
-    padding: 0
+    padding: 0,
+    marginLeft: '-1rem'
 };
 
 const filterIconStyle = {
