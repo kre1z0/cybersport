@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 
 import {setCenter, setResolution, loadMapServices} from '../../ducks/map';
-import getLayerManager from '../../evergis/layer-manager';
+import getLayerManager, {isServicesLoaded} from '../../evergis/layer-manager';
 
 import Map from '../../components/map';
 
@@ -18,12 +18,13 @@ class MapContainer extends Component {
     };
     
     componentDidMount () {
-        const {loadMapServices, isAuth, map} = this.props;
-        isAuth && map.services.size === 0 && loadMapServices();
+        const {loadMapServices, isAuth} = this.props;
+
+        isAuth && !isServicesLoaded() && loadMapServices();
     }
     
     componentWillReceiveProps ({loadMapServices, map, isAuth}) {
-        !this.props.isAuth && isAuth && !map.loading && map.services.size === 0 && loadMapServices();
+        !this.props.isAuth && isAuth && !map.loading && !isServicesLoaded() && loadMapServices();
         
         if (isAuth && map.services !== this.props.map.services) {
             this.updateServices(map.services);

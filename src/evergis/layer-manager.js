@@ -8,4 +8,8 @@ const getLayerManager = (connector, map) => {
     return layerManager;
 };
 
+export const isServicesLoaded = () => {
+    return layerManager && layerManager.children.length > 0
+};
+
 export default getLayerManager;
