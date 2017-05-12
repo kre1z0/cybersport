@@ -10,11 +10,11 @@ export default function(sGis) {
 
 
     const COLORS = {
-        "1" : "green",
-        "2" : "orange",
-        "3" : "red",
-        "4" : "gray",
-        "5" : "purple"
+        "1" : "#64c76c",
+        "2" : "#ffad2b",
+        "3" : "#ff4057",
+        "4" : "#98a1ab",
+        "5" : "#df5dff"
     };
 
     const TYPES = {
