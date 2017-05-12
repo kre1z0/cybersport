@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import sGis from '../../assets/sgis';
+import getMap from '../../evergis/map';
 import debounce from 'lodash/debounce';
 
 import './map.scss';
@@ -32,34 +33,36 @@ class Map extends Component {
         }
     };
     
+    onBboxChange = debounce(({sourceObject: {resolution, position}})=>{
+        this.onResolutionChange(resolution);
+        this.onCenterChange(position);
+    }, 500);
+    
     componentDidMount () {
-        this.sgis = sGis.init({
+        this.map = getMap({
             wrapper: this.container,
             position: this.props.center,
             resolution: this.props.resolution,
-            layers: [ new sGis.TileLayer('http://b.tile.openstreetmap.org/{z}/{x}/{y}.png') ]
         });
         
-        this.sgis.map.on('bboxChange', debounce(({sourceObject: {resolution, position}})=>{
-                this.onResolutionChange(resolution);
-                this.onCenterChange(position);
-        }, 500))
+        this.map.on('bboxChange', this.onBboxChange)
     }
     
     componentWillReceiveProps (nextProps) {
         const newCenter = new sGis.Point(nextProps.center, sGis.CRS.webMercator);
         
-        if (!newCenter.equals(this.sgis.map.centerPoint)) {
-            this.sgis.map.position = newCenter.position;
+        if (!newCenter.equals(this.map.centerPoint)) {
+            this.map.position = newCenter.position;
         }
         
-        if (nextProps.resolution !== this.sgis.map.resolution) {
-            this.sgis.map.resolution = nextProps.resolution;
+        if (nextProps.resolution !== this.map.resolution) {
+            this.map.resolution = nextProps.resolution;
         }
     }
     
     componentWillUnmount () {
-        delete this.sgis;
+        this.map.removeListener('bboxChange', this.onBboxChange);
+        delete this.map;
     }
     
     render () {

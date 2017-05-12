@@ -56,7 +56,11 @@ class HeaderPopup extends PureComponent {
         filter: ''
     };
     
-    showPopup = ({target}) => this.setState(setAnchor(target));
+    showPopup = (e) => {
+        e.preventDefault();
+        this.setState(setAnchor(e.currentTarget));
+    };
+    
     closePopup = () => {
         this.setState(setSortType(0));
         this.setState(setFilter(''));
