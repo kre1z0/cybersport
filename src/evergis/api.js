@@ -35,11 +35,3 @@ export const getUserInfo = ({login}) =>
     }).then(({data}) => ({
         data: data && data[0] && transformResponseData(data)[0]
     }));
-
-export const initMap = ({ wrapper, position, resolution}) => {
-
-}
-
-export const getService = () => {
-
-}
