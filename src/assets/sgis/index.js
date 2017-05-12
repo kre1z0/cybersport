@@ -6820,7 +6820,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     } else if ((typeof module === "undefined" ? "undefined" : _typeof(module)) === 'object' && module.exports) {
         module.exports = sGis;
     }
-        window.sGis = sGis;
+    window.sGis = sGis;
 
     function setModuleReference(module, name) {
         var ns = name.split('.');
@@ -11881,70 +11881,6 @@ sGis.module('feature.Polyline', ['feature.Poly', 'symbol.polyline.Simple'], func
 });
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-sGis.module('serializer.symbolSerializer', ['utils', 'utils.Color'], function (utils, Color) {
-
-    'use strict';
-
-    var symbolDescriptions = {};
-
-    return {
-        registerSymbol: function registerSymbol(constructor, description, properties) {
-            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
-        },
-
-        serialize: function serialize(symbol) {
-            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-            var keys = Object.keys(symbolDescriptions);
-            for (var i = 0; i < keys.length; i++) {
-                var desc = symbolDescriptions[keys[i]];
-
-                if (symbol instanceof desc.Constructor) {
-                    var _ret = function () {
-                        var serialized = { symbolName: keys[i] };
-                        desc.properties.forEach(function (prop) {
-                            var value = symbol[prop];
-                            if (colorsFormat) {
-                                var color = new Color(value);
-                                if (color.isValid) value = color.toString(colorsFormat);
-                            }
-                            serialized[prop] = value;
-                        });
-                        return {
-                            v: serialized
-                        };
-                    }();
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-                }
-            }
-
-            utils.error('Unknown type of symbol.');
-        },
-
-        deserialize: function deserialize(desc) {
-            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
-            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
-            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
-                var val = desc[prop];
-                if (colorsFormat) {
-                    var color = new Color(val);
-                    if (color.isValid && color.format === colorsFormat) val = color.toString('rgba');
-                }
-
-                symbol[prop] = val;
-            });
-
-            return symbol;
-        }
-    };
-});
-'use strict';
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12503,6 +12439,70 @@ sGis.module('render.VectorLabel', ['render.VectorImage'], function (VectorImage)
     });
 
     return VectorLabel;
+});
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+sGis.module('serializer.symbolSerializer', ['utils', 'utils.Color'], function (utils, Color) {
+
+    'use strict';
+
+    var symbolDescriptions = {};
+
+    return {
+        registerSymbol: function registerSymbol(constructor, description, properties) {
+            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
+        },
+
+        serialize: function serialize(symbol) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            var keys = Object.keys(symbolDescriptions);
+            for (var i = 0; i < keys.length; i++) {
+                var desc = symbolDescriptions[keys[i]];
+
+                if (symbol instanceof desc.Constructor) {
+                    var _ret = function () {
+                        var serialized = { symbolName: keys[i] };
+                        desc.properties.forEach(function (prop) {
+                            var value = symbol[prop];
+                            if (colorsFormat) {
+                                var color = new Color(value);
+                                if (color.isValid) value = color.toString(colorsFormat);
+                            }
+                            serialized[prop] = value;
+                        });
+                        return {
+                            v: serialized
+                        };
+                    }();
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+            }
+
+            utils.error('Unknown type of symbol.');
+        },
+
+        deserialize: function deserialize(desc) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
+            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
+            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
+                var val = desc[prop];
+                if (colorsFormat) {
+                    var color = new Color(val);
+                    if (color.isValid && color.format === colorsFormat) val = color.toString('rgba');
+                }
+
+                symbol[prop] = val;
+            });
+
+            return symbol;
+        }
+    };
 });
 'use strict';
 
@@ -14154,21 +14154,32 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
 
                 this._eventDispatcher.remove();
                 this._eventDispatcher = null;
+
+                this._clearContainers();
+            }
+        }, {
+            key: '_clearContainers',
+            value: function _clearContainers() {
+                var _this4 = this;
+
+                this._containers.forEach(function (container, i) {
+                    _this4._removeContainer(i);
+                });
             }
         }, {
             key: 'resolveLayerOverlay',
             value: function resolveLayerOverlay() {
-                var _this4 = this;
+                var _this5 = this;
 
                 var prevContainerIndex = 0;
                 this._map.getLayers(true, true).forEach(function (layer) {
-                    var renderer = _this4._layerRenderers.get(layer);
+                    var renderer = _this5._layerRenderers.get(layer);
                     if (!renderer) return;
 
-                    var containerIndex = _this4._containers.indexOf(renderer.currentContainer);
+                    var containerIndex = _this5._containers.indexOf(renderer.currentContainer);
                     if (containerIndex < prevContainerIndex) {
                         renderer.moveToLastContainer();
-                        prevContainerIndex = _this4._containers.length - 1;
+                        prevContainerIndex = _this5._containers.length - 1;
                     } else {
                         prevContainerIndex = containerIndex;
                     }
@@ -14194,21 +14205,21 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
         }, {
             key: '_onMapDrag',
             value: function _onMapDrag(sGisEvent) {
-                var _this5 = this;
+                var _this6 = this;
 
                 setTimeout(function () {
                     if (sGisEvent.isCanceled()) return;
-                    _this5._map.move(sGisEvent.offset.x, sGisEvent.offset.y);
+                    _this6._map.move(sGisEvent.offset.x, sGisEvent.offset.y);
                 }, 0);
             }
         }, {
             key: '_onMapDblClick',
             value: function _onMapDblClick(sGisEvent) {
-                var _this6 = this;
+                var _this7 = this;
 
                 setTimeout(function () {
                     if (sGisEvent.isCanceled()) return;
-                    _this6._map.animateSetResolution(_this6._map.resolution / 2, sGisEvent.point);
+                    _this7._map.animateSetResolution(_this7._map.resolution / 2, sGisEvent.point);
                 }, 0);
             }
         }, {
@@ -14221,6 +14232,8 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
                 if (node) {
                     this._initDOM(node);
                     this._eventDispatcher = new EventDispatcher(this._layerWrapper, this);
+                    this._needUpdate = true;
+                    this._redrawNeeded = true;
                 }
             }
         }, {
@@ -16605,6 +16618,163 @@ sGis.module('controls.BaseLayerSwitch', ['utils', 'Control', 'Map', 'Layer', 'ev
 });
 'use strict';
 
+sGis.module('controls.Area', ['Control', 'controls.Polygon', 'Map', 'feature.Label', 'geotools', 'utils.proto'], function (Control, PolygonControl, Map, Label, geotools, proto) {
+    'use strict';
+
+    var Area = function Area(map, options) {
+        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
+        this._map = map;
+
+        this._polygonControl = new sGis.controls.Polygon(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red', fillColor: 'rgba(100, 100, 100, 0.5)' } });
+        sGis.utils.init(this, options);
+
+        this._polygonControl.addListener('drawingBegin', function () {
+            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
+
+            var feature = this._activeLayer.features[this._activeLayer.features.length - 1],
+                label = new sGis.feature.Label(feature.centroid, { content: '', crs: feature.crs, style: { css: 'sGis-distanceLabel', offset: { x: -50, y: -10 }, width: 120 } });
+
+            this.activeLayer.add(label);
+
+            map.addListener('mousemove.areaMeasureControl', function () {
+                label.coordinates = feature.centroid;
+                label.content = formatNumber(sGis.geotools.area(feature));
+            });
+        });
+
+        this._polygonControl.addListener('drawingFinish', function () {
+            map.removeListener('mousemove.areaMeasureControl');
+        });
+    };
+
+    Area.prototype = new sGis.Control({
+        _setActiveStatus: function _setActiveStatus(bool) {
+            this._polygonControl.isActive = bool;
+            this._active = bool;
+        }
+    });
+
+    sGis.utils.proto.setProperties(Area.prototype, {
+        activeLayer: {
+            get: function get() {
+                return this._polygonControl.activeLayer;
+            },
+            set: function set(layer) {
+                this._polygonControl.activeLayer = layer;
+            }
+        },
+
+        isActive: {
+            get: function get() {
+                return this._active;
+            },
+            set: function set(bool) {
+                this._setActiveStatus(bool);
+            }
+        }
+    });
+
+    function formatNumber(n) {
+        var s;
+        if (n < 10000) {
+            s = '' + n.toFixed(2) + 'м²';
+        } else if (n < 10000000) {
+            s = '' + (n / 10000).toFixed(2) + 'га';
+        } else {
+            s = '' + (n / 1000000).toFixed(2) + 'км²';
+            if (s.length > 10) {
+                for (var i = s.length - 9; i > 0; i -= 3) {
+                    s = s.substr(0, i) + ' ' + s.substr(i);
+                }
+            }
+        }
+        return s.replace('.', ',');
+    }
+
+    return Area;
+});
+'use strict';
+
+sGis.module('controls.Distance', ['utils', 'utils.proto', 'Map', 'controls.Polyline', 'geotools', 'Control'], function (utils, proto, Map, Polyline, geotools, Control) {
+    'use strict';
+
+    var Distance = function Distance(map, options) {
+        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
+        this._map = map;
+
+        this._polylineControl = new sGis.controls.Polyline(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red' } });
+        sGis.utils.init(this, options);
+
+        this._polylineControl.addListener('drawingBegin', function () {
+            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
+
+            var feature = this.activeLayer.features[this.activeLayer.features.length - 1],
+                coord = feature.rings[0],
+                label = new sGis.feature.Label(coord[1], { symbol: new sGis.symbol.label.Label({ css: 'sGis-symbol-label-center-top sGis-distanceLabel' }), crs: map.crs });
+
+            this.activeLayer.add(label);
+
+            map.addListener('mousemove.distanceMeasureControl', function () {
+                label.coordinates = feature.rings[0][feature.coordinates[0].length - 1];
+                label.content = formatNumber(sGis.geotools.length(feature));
+            });
+        });
+
+        this._polylineControl.addListener('drawingFinish', function () {
+            map.removeListener('mousemove.distanceMeasureControl');
+        });
+    };
+
+    Distance.prototype = new sGis.Control({
+        _setActiveStatus: function _setActiveStatus(bool) {
+            this._polylineControl.isActive = bool;
+            this._active = bool;
+        }
+    });
+
+    sGis.utils.proto.setProperties(Distance.prototype, {
+        activeLayer: {
+            get: function get() {
+                return this._polylineControl.activeLayer;
+            },
+            set: function set(layer) {
+                this._polylineControl.activeLayer = layer;
+            }
+        },
+
+        isActive: {
+            get: function get() {
+                return this._active;
+            },
+            set: function set(bool) {
+                this._setActiveStatus(bool);
+            }
+        }
+    });
+
+    function formatNumber(n) {
+        var s;
+        if (n > 10000) {
+            s = '' + (n / 1000).toFixed(2) + 'км';
+        } else {
+            s = '' + n.toFixed(2) + 'м';
+        }
+        return s.replace('.', ',');
+    }
+
+    function addStyleSheet() {
+        var styleSheet = document.createElement('style');
+        styleSheet.type = 'text/css';
+        styleSheet.innerHTML = '.sGis-distanceLabel {font-family: "PT Sans",Tahoma; font-size: 15px; background-color: rgba(200, 200, 255, 0.8);border: 1px solid black;border-radius: 5px; color: black;}';
+        document.head.appendChild(styleSheet);
+    }
+
+    addStyleSheet();
+
+    return Distance;
+});
+'use strict';
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16878,163 +17048,6 @@ sGis.module('decorations.ScaleSlider', ['utils', 'utils.proto', 'EventHandler'],
     document.head.appendChild(styles);
 
     return ScaleSlider;
-});
-'use strict';
-
-sGis.module('controls.Area', ['Control', 'controls.Polygon', 'Map', 'feature.Label', 'geotools', 'utils.proto'], function (Control, PolygonControl, Map, Label, geotools, proto) {
-    'use strict';
-
-    var Area = function Area(map, options) {
-        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
-        this._map = map;
-
-        this._polygonControl = new sGis.controls.Polygon(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red', fillColor: 'rgba(100, 100, 100, 0.5)' } });
-        sGis.utils.init(this, options);
-
-        this._polygonControl.addListener('drawingBegin', function () {
-            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
-
-            var feature = this._activeLayer.features[this._activeLayer.features.length - 1],
-                label = new sGis.feature.Label(feature.centroid, { content: '', crs: feature.crs, style: { css: 'sGis-distanceLabel', offset: { x: -50, y: -10 }, width: 120 } });
-
-            this.activeLayer.add(label);
-
-            map.addListener('mousemove.areaMeasureControl', function () {
-                label.coordinates = feature.centroid;
-                label.content = formatNumber(sGis.geotools.area(feature));
-            });
-        });
-
-        this._polygonControl.addListener('drawingFinish', function () {
-            map.removeListener('mousemove.areaMeasureControl');
-        });
-    };
-
-    Area.prototype = new sGis.Control({
-        _setActiveStatus: function _setActiveStatus(bool) {
-            this._polygonControl.isActive = bool;
-            this._active = bool;
-        }
-    });
-
-    sGis.utils.proto.setProperties(Area.prototype, {
-        activeLayer: {
-            get: function get() {
-                return this._polygonControl.activeLayer;
-            },
-            set: function set(layer) {
-                this._polygonControl.activeLayer = layer;
-            }
-        },
-
-        isActive: {
-            get: function get() {
-                return this._active;
-            },
-            set: function set(bool) {
-                this._setActiveStatus(bool);
-            }
-        }
-    });
-
-    function formatNumber(n) {
-        var s;
-        if (n < 10000) {
-            s = '' + n.toFixed(2) + 'м²';
-        } else if (n < 10000000) {
-            s = '' + (n / 10000).toFixed(2) + 'га';
-        } else {
-            s = '' + (n / 1000000).toFixed(2) + 'км²';
-            if (s.length > 10) {
-                for (var i = s.length - 9; i > 0; i -= 3) {
-                    s = s.substr(0, i) + ' ' + s.substr(i);
-                }
-            }
-        }
-        return s.replace('.', ',');
-    }
-
-    return Area;
-});
-'use strict';
-
-sGis.module('controls.Distance', ['utils', 'utils.proto', 'Map', 'controls.Polyline', 'geotools', 'Control'], function (utils, proto, Map, Polyline, geotools, Control) {
-    'use strict';
-
-    var Distance = function Distance(map, options) {
-        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
-        this._map = map;
-
-        this._polylineControl = new sGis.controls.Polyline(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red' } });
-        sGis.utils.init(this, options);
-
-        this._polylineControl.addListener('drawingBegin', function () {
-            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
-
-            var feature = this.activeLayer.features[this.activeLayer.features.length - 1],
-                coord = feature.rings[0],
-                label = new sGis.feature.Label(coord[1], { symbol: new sGis.symbol.label.Label({ css: 'sGis-symbol-label-center-top sGis-distanceLabel' }), crs: map.crs });
-
-            this.activeLayer.add(label);
-
-            map.addListener('mousemove.distanceMeasureControl', function () {
-                label.coordinates = feature.rings[0][feature.coordinates[0].length - 1];
-                label.content = formatNumber(sGis.geotools.length(feature));
-            });
-        });
-
-        this._polylineControl.addListener('drawingFinish', function () {
-            map.removeListener('mousemove.distanceMeasureControl');
-        });
-    };
-
-    Distance.prototype = new sGis.Control({
-        _setActiveStatus: function _setActiveStatus(bool) {
-            this._polylineControl.isActive = bool;
-            this._active = bool;
-        }
-    });
-
-    sGis.utils.proto.setProperties(Distance.prototype, {
-        activeLayer: {
-            get: function get() {
-                return this._polylineControl.activeLayer;
-            },
-            set: function set(layer) {
-                this._polylineControl.activeLayer = layer;
-            }
-        },
-
-        isActive: {
-            get: function get() {
-                return this._active;
-            },
-            set: function set(bool) {
-                this._setActiveStatus(bool);
-            }
-        }
-    });
-
-    function formatNumber(n) {
-        var s;
-        if (n > 10000) {
-            s = '' + (n / 1000).toFixed(2) + 'км';
-        } else {
-            s = '' + n.toFixed(2) + 'м';
-        }
-        return s.replace('.', ',');
-    }
-
-    function addStyleSheet() {
-        var styleSheet = document.createElement('style');
-        styleSheet.type = 'text/css';
-        styleSheet.innerHTML = '.sGis-distanceLabel {font-family: "PT Sans",Tahoma; font-size: 15px; background-color: rgba(200, 200, 255, 0.8);border: 1px solid black;border-radius: 5px; color: black;}';
-        document.head.appendChild(styleSheet);
-    }
-
-    addStyleSheet();
-
-    return Distance;
 });
 'use strict';
 
