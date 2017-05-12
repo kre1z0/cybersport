@@ -17,18 +17,27 @@ class MapContainer extends Component {
         setResolution: PropTypes.func
     };
     
+    componentDidMount () {
+        const {loadMapServices, isAuth, map} = this.props;
+        isAuth && map.services.size === 0 && loadMapServices();
+    }
+    
     componentWillReceiveProps ({loadMapServices, map, isAuth}) {
-        !this.props.isAuth && isAuth && loadMapServices();
+        !this.props.isAuth && isAuth && !map.loading && map.services.size === 0 && loadMapServices();
         
         if (isAuth && map.services !== this.props.map.services) {
-            const layerManager = getLayerManager();
-            map.services.forEach(({name, isVisible}) => {
-                const service = layerManager.getService(name);
-                if (service) {
-                    service.isDisplayed = isVisible;
-                }
-            })
+            this.updateServices(map.services);
         }
+    }
+    
+    updateServices (services) {
+        const layerManager = getLayerManager();
+        services.forEach(({name, isVisible}) => {
+            const service = layerManager.getService(name);
+            if (service) {
+                service.isDisplayed = isVisible;
+            }
+        });
     }
     
     render () {

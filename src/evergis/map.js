@@ -1,9 +1,13 @@
 import sGis from '../assets/sgis';
 
 let initedSGis;
-const getMap = ({ wrapper, position, resolution}) =>{
+const getMap = ({ wrapper, position, resolution}) => {
     if (initedSGis) {
-        initedSGis.painter.wrapper = wrapper;
+        if (resolution && wrapper && position) {
+            initedSGis.map.resolution = resolution;
+            initedSGis.map.position = position;
+            initedSGis.painter.wrapper = wrapper;
+        }
         return initedSGis.map;
     }
     
