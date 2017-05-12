@@ -1,5 +1,5 @@
 import {createAction, createReducer} from 'redux-act';
-import {fetchObjects} from '../evergis/api';
+import {fetchObjects, fetchObjectsAttributeDefinition} from '../evergis/api';
 import {tranformQuery} from '../evergis/helpers';
 import {Record, List} from 'immutable';
 import initAttributesArray from '../assets/const/attributes';
@@ -11,7 +11,8 @@ const Attribute = Record({
     editorType: undefined,
     isEditable: undefined,
     filterable: undefined,
-    isVisible: undefined
+    isVisible: undefined,
+    domain: undefined
 });
 
 const ObjectsState = Record({
@@ -35,6 +36,7 @@ const initState = new ObjectsState({
 export const fetch = createAction('objects/fetch');
 export const fetchSuccess = createAction('objects/fetch-success');
 export const fetchError = createAction('objects/fetch-error');
+export const setDomens = createAction('objects/set-domens');
 
 export const updateAttributes = createAction('objects/update-attributes');
 
@@ -50,9 +52,15 @@ const addEmployeeToQuery = (query, id) => {
 export const getObjects = (query = {}) => (dispatch, getState) => {
     const state = getState();
     dispatch(fetch());
-    fetchObjects(addEmployeeToQuery(tranformQuery(query), state.user.employee_id))
-        .then(response => dispatch(fetchSuccess(response)))
-        .catch(error => dispatch(fetchError()));
+    return Promise.all([
+        fetchObjects(addEmployeeToQuery(tranformQuery(query), state.user.employee_id)),
+        fetchObjectsAttributeDefinition()
+    ])
+    .then(([objectsRes, defRes]) => {
+        dispatch(fetchSuccess(objectsRes));
+        dispatch(setDomens(defRes))
+    })
+    .catch(error => dispatch(fetchError()));
 };
 
 export default createReducer({
@@ -70,7 +78,15 @@ export default createReducer({
             .set('error', true),
     
     [updateAttributes]: (state, payload) =>
-        state.set('attributes', payload instanceof List ? payload : payload.map(attr=>Attribute(attr))) //TODO
+        state.set('attributes', payload instanceof List ? payload : payload.map(attr=>Attribute(attr))), //TODO
+    
+    [setDomens]: (state, payload) =>
+        state.set(
+            'attributes',
+            state.attributes.map(attribute =>
+                attribute.set('domain', payload[attribute.name])
+            )
+        )
 }, initState)
 
 

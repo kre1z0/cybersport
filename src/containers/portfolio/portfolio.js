@@ -25,11 +25,15 @@ class Portfolio extends Component {
     
     componentDidMount () {
         const {getObjects, isAuth} = this.props;
-        isAuth && getObjects();
+        if (isAuth) {
+            getObjects();
+        }
     }
 
     componentWillReceiveProps ({getObjects, isAuth}) {
-        !this.props.isAuth && isAuth && getObjects();
+        if (!this.props.isAuth && isAuth) {
+            getObjects();
+        }
     }
     
     showNewObject = () => this.setState(() => ({newObjectOpen: true}));

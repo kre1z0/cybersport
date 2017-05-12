@@ -29,21 +29,26 @@ export const loadServices = createAction('map/load-services');
 export const loadServicesSuccess = createAction('map/load-services-success');
 export const loadServicesError = createAction('map/load-services-error');
 
-export const loadMapServices = (names = [OSM, GIS, OBJECTS_SERVICE, EMPLOYEES_SERVICE]) => dispatch => {
+const isVisible = (name, {basemap}) => (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
+
+export const loadMapServices = (names = [OSM, GIS, OBJECTS_SERVICE, EMPLOYEES_SERVICE]) => (dispatch, getState)=> {
     dispatch(loadServices);
     const map = getMap({});
     const connector = getConnector();
     const layerManager = getLayerManager(connector, map);
     
-    Promise.all(names.map(name => layerManager.loadWithPromise(name)))
+    return Promise.all(names.map(name => layerManager.loadWithPromise(name)))
         .then(containers => {
+            
             applyObjectsStyle(containers.find(({name}) => name === OBJECTS_SERVICE));
-            dispatch(loadServicesSuccess(containers));
+            
+            const state = getState();
+            const containersState = containers.map(({name}) => ({name, isVisible: isVisible(name, state.map)}));
+            dispatch(loadServicesSuccess(containersState));
+            return containersState;
         })
         .catch(error => dispatch(loadServicesError()));
 };
-
-const isVisible = (name, {basemap}) => (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
 
 export default createReducer({
     [setCenter]: (state, payload) =>
@@ -65,7 +70,7 @@ export default createReducer({
             .set(
                 'services',
                 new Map(payload.map(
-                    ({name}, order) => [name, new Service({name, order, isVisible:  isVisible(name, state)})]
+                    ({name, isVisible}, order) => [name, new Service({name, order, isVisible})]
                 ))),
     
     [loadServicesError]: (state, payload) =>

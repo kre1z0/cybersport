@@ -1,7 +1,7 @@
 import {createAction, createReducer} from 'redux-act';
 import {Record} from 'immutable';
 
-import {getSession, getUserInfo} from '../evergis/api';
+import {fetchSession, fetchUserInfo} from '../evergis/api';
 
 const User = Record({
     full_name: '',
@@ -23,9 +23,9 @@ const fetch = createAction('user/fetch');
 const fetchSuccess = createAction('user/fetch-success');
 const fetchError = createAction('user/fetch-error');
 
-export const getUser = () => (dispatch) => {
+export const getUser = () => dispatch => {
     dispatch(login());
-    getSession()
+    return fetchSession()
         .then(response => {
             dispatch(loginSuccess(response));
             return response;
@@ -33,7 +33,7 @@ export const getUser = () => (dispatch) => {
         .catch(error => dispatch(loginError(error)))
         .then(({login}) => {
             dispatch(fetch());
-            return getUserInfo({login});
+            return fetchUserInfo({login});
         })
         .then(({data}) => {
             dispatch(fetchSuccess(data));

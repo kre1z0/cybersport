@@ -15,11 +15,20 @@ export const keyValueArrayToObject = (array) =>
     }, {});
 
 export const normalizeData = (data) =>
-    data.map(({attributes}) =>
-    attributes && keyValueArrayToObject(attributes));
+    data.map(({attributes}) => attributes && keyValueArrayToObject(attributes));
+
+export const normalizeAttributeDefinition = (attributeDefinition) =>
+    attributeDefinition.attributes
+        .map(({name, domainsValues}) =>({Key: name, Value: domainsValues}));
 
 export const transformResponseData = (data) =>
     data && normalizeData(data);
+
+export const transformAttributeDefinition = (attributeDefinition) =>
+    attributeDefinition &&
+    keyValueArrayToObject(
+        normalizeAttributeDefinition(attributeDefinition)
+    );
 
 
 export const getAuthUrl = (spUrl) =>
@@ -59,4 +68,14 @@ export const applyObjectsStyle = service => {
     service.service.setDataFilter(filter);
     
     return service;
+};
+
+export const initService = (connector, name) => {
+    const container =  new sGis.sp.services.ServiceContainer(connector, name);
+    return new Promise((res, rej) => {
+        container.on('stateUpdate', () => {
+            if (container.error) rej(container.error);
+            res(container.service);
+        });
+    })
 };

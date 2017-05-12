@@ -15,7 +15,7 @@ export const isServicesLoaded = () => {
 
 export const getServiceDefinition = (name) => {
     const service = layerManager && layerManager.getService(name, true);
-    return service && service.attributeDefinition;
+    return service && service.attributesDefinition;
 };
 
 export const getObjectsDefinition = () => getServiceDefinition(OBJECTS_SERVICE);

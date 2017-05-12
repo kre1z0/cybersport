@@ -1,5 +1,12 @@
 import getConnector from './connector';
-import {OBJECTS_SERVICE, EMPLOYEES_SERVICE, getAuthUrl, transformResponseData,} from './helpers';
+import {
+    OBJECTS_SERVICE,
+    EMPLOYEES_SERVICE,
+    getAuthUrl,
+    transformResponseData,
+    initService,
+    transformAttributeDefinition
+} from './helpers';
 
 export const fetchObjects = ({filter, sort} = {}) =>
     getConnector().api.getObjects({
@@ -16,7 +23,7 @@ export const fetchObjects = ({filter, sort} = {}) =>
 
 let authConfigUrl = process.env.NODE_ENV === 'development' ? '/auth.dev.json' : '/auth.json';
 
-export const getSession = () =>
+export const fetchSession = () =>
     fetch(authConfigUrl)
         .then(response => response.json())
         .then(({url, authUrl = getAuthUrl(url), ...opts}) =>
@@ -26,7 +33,7 @@ export const getSession = () =>
                     sessionId
                 }))
         );
-export const getUserInfo = ({login}) =>
+export const fetchUserInfo = ({login}) =>
     getConnector().api.getObjects({
         serviceName: EMPLOYEES_SERVICE,
         startIndex: 0,
@@ -36,10 +43,8 @@ export const getUserInfo = ({login}) =>
         data: data && data[0] && transformResponseData(data)[0]
     }));
 
-export const initMap = ({ wrapper, position, resolution}) => {
+export const fetchAttributeDefinition = (name) =>
+    initService(getConnector(), name)
+        .then(service => transformAttributeDefinition(service.attributesDefinition));
 
-}
-
-export const getService = () => {
-
-}
+export const fetchObjectsAttributeDefinition = () => fetchAttributeDefinition(OBJECTS_SERVICE);
