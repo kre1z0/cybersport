@@ -386,5 +386,11 @@ export default [
         editorType: 'select',
         isEditable: true,
         isVisible: true,
+    },
+    {
+        name: 'NOT_EXIST', //todo
+        alias: 'Плановая дата проверки',
+        type: 'date',
+        isVisible: true,
     }
 ];
