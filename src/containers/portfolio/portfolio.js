@@ -36,13 +36,27 @@ class Portfolio extends Component {
         }
     }
     
-    showNewObject = () => this.setState(() => ({newObjectOpen: true}));
+    showNewObject = (e) => {
+        e.preventDefault();
+        this.setState(() => ({newObjectOpen: true}));
+    };
     closeNewObject = () => this.setState(() => ({newObjectOpen: false}));
-    showColumnsSettings = () => this.setState(() => ({columnsSettingsOpen: true}));
+    showColumnsSettings = (e) => {
+        e.preventDefault();
+        this.setState(() => ({columnsSettingsOpen: true}));
+    };
     closeColumnsSettings = () => this.setState(() => ({columnsSettingsOpen: false}));
     
     addNewObject = () => {
         this.closeNewObject();
+    };
+    
+    clearFilter = () => {
+        const {getObjects, isAuth} = this.props;
+        this.setState(() => ({
+            query: {}
+        }));
+        isAuth && getObjects({});
     };
     
     changeFilter = ({column, filter, sort}) => {
@@ -85,6 +99,7 @@ class Portfolio extends Component {
                         <HeaderTitleBlock title="Реестр объектов залога"
                                           onNewObjectClick={this.showNewObject}
                                           onSettingsClick={this.showColumnsSettings}
+                                          onClearFilterClick={this.clearFilter}
                         />
                     }
 

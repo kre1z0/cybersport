@@ -14,7 +14,7 @@ export const TYPES = {
     DATE: 'date'
 };
 
-const InputSwitcher = ({type, ...props}) => {
+const InputSwitcher = ({type, data, ...props}) => {
     switch (type) {
         case TYPES.IMG:
             return <ImageLoader {...props}/>;
@@ -25,9 +25,13 @@ const InputSwitcher = ({type, ...props}) => {
         case TYPES.NUMBER:
             return <TextInput {...props}/>;
         case TYPES.SELECT:
-            return <SelectField {...props}/>;
+            return <SelectField data={data}
+                                {...props}
+                   />;
         case TYPES.TEXT_AREA:
-            return <TextInput multiLine={true} {...props}/>;
+            return <TextInput multiLine={true}
+                              {...props}
+                   />;
         case TYPES.DATE:
             return <DatePicker {...props}/>;
         default:

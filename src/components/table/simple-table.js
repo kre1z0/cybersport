@@ -42,7 +42,7 @@ class TableComponent extends Component {
                     return uniq(
                         this.props.data
                             .filter(item => item[columnName])
-                            .map(item => item[columnName])
+                            .map(item => `${item[columnName]}`)
                     )
                 }
             }

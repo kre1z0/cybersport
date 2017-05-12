@@ -51,10 +51,11 @@ class AutoCompleteInput extends Component {
     };
 
     filterData(value){
-        const result = value === ''
-                            ? []
-                            : this.props.data
-                                    .filter(item => item.toLowerCase().search(value.toLowerCase()) !== -1);
+        const result =
+            value === ''
+                ? []
+                : this.props.data
+                .filter(item => item.toLowerCase().search(value.toLowerCase()) !== -1);
         return result;
     }
 
