@@ -396,5 +396,6 @@ export default [
         alias: 'Плановая дата проверки',
         type: 'date',
         isVisible: true,
+        filterable: true
     }
 ];
