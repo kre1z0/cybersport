@@ -371,13 +371,17 @@ export default [
         name: 'last_check_date',
         alias: 'Дата последней проверки',
         type: 'date',
+        editorType: 'date',
         isVisible: true,
+        isEditable: true,
     },
     {
         name: 'last_actualization_date',
         alias: 'Дата последней актуализации',
         type: 'date',
+        editorType: 'date',
         isVisible: true,
+        isEditable: true,
     },
     {
         name: 'check_result_code',
@@ -388,7 +392,7 @@ export default [
         isVisible: true,
     },
     {
-        name: 'NOT_EXIST', //todo
+        name: 'planned_audit_date',
         alias: 'Плановая дата проверки',
         type: 'date',
         isVisible: true,

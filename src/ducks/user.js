@@ -1,7 +1,7 @@
 import {createAction, createReducer} from 'redux-act';
 import {Record} from 'immutable';
 
-import {getSession, getUserInfo} from '../evergis/api';
+import {fetchSession, fetchUserInfo} from '../evergis/api';
 
 const User = Record({
     full_name: '',
@@ -21,25 +21,22 @@ const loginError = createAction('user/login-error');
 
 const fetch = createAction('user/fetch');
 const fetchSuccess = createAction('user/fetch-success');
-const fetchError = createAction('user/fetch-error');
 
-export const getUser = () => (dispatch) => {
+export const getUser = () => dispatch => {
     dispatch(login());
-    getSession()
+    return fetchSession()
         .then(response => {
             dispatch(loginSuccess(response));
             return response;
         })
-        .catch(error => dispatch(loginError(error)))
         .then(({login}) => {
             dispatch(fetch());
-            return getUserInfo({login});
+            return fetchUserInfo({login});
         })
         .then(({data}) => {
             dispatch(fetchSuccess(data));
         })
-        .catch(error => dispatch(fetchError(error)))
-    
+        .catch(error => dispatch(loginError(error.message || error)));
 };
 
 export default createReducer({
@@ -53,7 +50,7 @@ export default createReducer({
     
     [loginError]: (state, payload) =>
         state.set('loading', false)
-             .set('error', true),
+             .set('error', payload),
     
     [fetch]: (state, payload) =>
         state.set('loading', true),
@@ -64,12 +61,7 @@ export default createReducer({
             .set('full_name', full_name)
             .set('tb_name', tb_name)
             .set('role_name', role_name)
-            .set('employee_id', employee_id),
-    
-    [fetchError]: (state, payload) =>
-        state.set('loading', false)
-            .set('error', true),
-    
+            .set('employee_id', employee_id)
 }, initState)
 
 

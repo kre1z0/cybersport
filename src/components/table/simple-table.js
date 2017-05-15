@@ -31,11 +31,21 @@ class TableComponent extends Component {
     
     getChildContext() {
         return ({
-            getColumnsDataDistinct: (columnName) => uniq(
-                this.props.data
-                    .filter(item => item[columnName])
-                    .map(item => item[columnName])
-            )
+            getColumnsDataDistinct: (columnName) => {
+                const column = this.props.columns
+                    .find(({name}) => name === columnName);
+                if (!column) {
+                    return [];
+                } else if (column.domain) {
+                    return column.domain;
+                } else {
+                    return uniq(
+                        this.props.data
+                            .filter(item => item[columnName])
+                            .map(item => `${item[columnName]}`)
+                    )
+                }
+            }
         })
     }
     
