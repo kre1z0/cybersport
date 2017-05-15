@@ -7,7 +7,8 @@ const NEW_OBJECT_COLUMNS = [
     'control',
     'object_name',
     'address_adjusted',
-    'planned_audit_date'
+    'planned_audit_date',
+    'gid'
 ];
 
 class NewObjectWindowContainer extends Component {
@@ -26,7 +27,7 @@ class NewObjectWindowContainer extends Component {
         this.setState(({object}) => ({
             object: {
                 ...object,
-                [name]: value
+                [name]: value.id === undefined ? value : value.id
             }
         }))
     };

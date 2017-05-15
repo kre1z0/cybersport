@@ -131,13 +131,21 @@ class SelectFieldInput extends Component {
             popoverPosition: this.selectBoxRef
         })
     }
+    
+    getSelectedValue(value) {
+        const {multiple, data} = this.props;
+        if (multiple) {
+            return `Выбрано ${value.length} объекта(ов)`;
+        } else {
+            const selectedValue = data.find((elem) => elem.id === value);
+            return selectedValue && selectedValue.text;
+        }
+    }
 
     render(){
         const { data, value, className, style, itemStyle, maxHeight } = this.props;
         const { focused, popoverPosition, open } = this.state;
-        const selectedValue = this.props.multiple
-            ? `Выбрано ${value.length} объекта(ов)`
-            : typeof value !== 'undefined' && data.find((elem) => elem.id === value).text;
+        const selectedValue = this.getSelectedValue(value);
         const mergedClassName = classNames('select-field-input', className);
         return (
             <div className={mergedClassName}>

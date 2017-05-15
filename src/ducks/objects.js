@@ -78,7 +78,13 @@ export default createReducer({
             .set('error', true),
     
     [updateAttributes]: (state, payload) =>
-        state.set('attributes', payload instanceof List ? payload : payload.map(attr=>Attribute(attr))), //TODO
+        state.set(
+            'attributes',
+            state.attributes.mergeDeepWith(
+                (oldVal, newVal) => newVal === undefined ? oldVal : newVal,
+                payload
+            )
+        ), //TODO
     
     [setDomens]: (state, payload) =>
         state.set(
@@ -87,7 +93,7 @@ export default createReducer({
                 attribute.set('domain', payload[attribute.name])
             )
         )
-}, initState)
+}, initState);
 
 
 

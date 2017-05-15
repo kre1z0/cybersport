@@ -33,6 +33,7 @@ export const fetchSession = () =>
                     sessionId
                 }))
         );
+
 export const fetchUserInfo = ({login}) =>
     getConnector().api.getObjects({
         serviceName: EMPLOYEES_SERVICE,

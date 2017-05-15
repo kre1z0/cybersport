@@ -30,7 +30,6 @@ export const transformAttributeDefinition = (attributeDefinition) =>
         normalizeAttributeDefinition(attributeDefinition)
     );
 
-
 export const getAuthUrl = (spUrl) =>
     spUrl.replace('SpatialProcessor/IIS/', 'Strategis.Server.Authorization/Authorize.svc/Login');
 
