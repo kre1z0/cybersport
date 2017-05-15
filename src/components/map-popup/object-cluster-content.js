@@ -1,11 +1,26 @@
 import React from 'react';
 import IconButton from 'material-ui/IconButton';
-import MapPopupButton from '../button/map-popup-button';
 import MapPopupAvatar from './avatar'
 import MapPopupItem from './map-popup-item'
 import { isTextShort } from './isTextShort'
 import { PageBack, PageNext} from '../icons';
-import { coolGreyTwo, softGreen, mango, waterMelon, coolGreyThree, brightLavender } from '../../assets/theme'
+import { coolGreyTwo, softGreen, paleGrey, darkGrey, mango, waterMelon, coolGreyThree, brightLavender } from '../../assets/theme';
+import RoundedButton from '../../components/button/rounded-button'
+
+const roundedButtonStyle = {
+  width: 163,
+  margin: 0,
+  boxShadow: 'none',
+  border: '1px solid',
+  borderColor: paleGrey,
+};
+
+const labelButtonStyle = {
+  padding: 0,
+  textTransform: 'none',
+  color: darkGrey,
+  fontWeight: 400
+}
 
 const buttonStyle = {
   width: 36,
@@ -99,10 +114,12 @@ const ObjectClusterContent = () => {
         </div>
       </div>
 
-      <MapPopupButton style={{ width: 163 }} labelStyle={{ padding: 0 }} label="Показать в реестре" />
-      <MapPopupButton style={{ width: 163, float: 'right' }} labelStyle={{ padding: 0 }}
-        label="Плановая проверка"
-      />
+      <RoundedButton style={roundedButtonStyle} labelStyle={labelButtonStyle} label="Показать в реестре" />
+      <div style={{float: 'right'}}>
+        <RoundedButton style={roundedButtonStyle} labelStyle={labelButtonStyle}
+          label="Плановая проверка"
+        />
+      </div>
       <div className="object-cluster-footer">
         <PageBackButton />
         <div className="page-numbers">

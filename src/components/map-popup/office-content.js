@@ -1,7 +1,23 @@
 import React from 'react';
-import MapPopupButton from '../button/map-popup-button';
 import MapPopupItem from './map-popup-item'
 import { isTextShort } from './isTextShort'
+import { paleGrey, darkGrey } from '../../assets/theme'
+import RoundedButton from '../../components/button/rounded-button'
+
+const buttonStyle = {
+  width: 171,
+  margin: 0,
+  boxShadow: 'none',
+  border: '1px solid',
+  borderColor: paleGrey,
+};
+
+const labelButtonStyle = {
+  padding: 0,
+  textTransform: 'none',
+  color: darkGrey,
+  fontWeight: 400
+};
 
 const OfficeContent = () => (
   <div className="office-content" >
@@ -20,7 +36,7 @@ const OfficeContent = () => (
         half={isTextShort(['г. Москва, Проспект Мира, д. 1'])}
       />
     </div>
-    <MapPopupButton style={{width: 171}} label="Реестр сотрудников" />
+    <RoundedButton style={buttonStyle} labelStyle={labelButtonStyle} label="Реестр сотрудников" />
   </div>
 );
 

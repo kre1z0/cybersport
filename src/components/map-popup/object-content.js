@@ -1,9 +1,24 @@
 import React from 'react';
-import MapPopupButton from '../button/map-popup-button';
 import MapPopupAvatar from './avatar'
 import MapPopupItem from './map-popup-item'
 import { isTextShort } from './isTextShort'
-import { softGreen, mango, waterMelon, coolGreyThree, brightLavender } from '../../assets/theme'
+import { softGreen, paleGrey, darkGrey, mango, waterMelon, coolGreyThree, brightLavender } from '../../assets/theme'
+import RoundedButton from '../../components/button/rounded-button'
+
+const buttonStyle = {
+  width: 163,
+  margin: 0,
+  boxShadow: 'none',
+  border: '1px solid',
+  borderColor: paleGrey,
+};
+
+const labelButtonStyle = {
+  padding: 0,
+  textTransform: 'none',
+  color: darkGrey,
+  fontWeight: 400
+};
 
 const ObjectContent = () => {
   return (
@@ -70,8 +85,10 @@ const ObjectContent = () => {
         </div>
       </div>
 
-      <MapPopupButton style={{ width: 163 }} labelStyle={{ padding: 0 }} label="Показать в реестре" />
-      <MapPopupButton style={{ width: 163, float: 'right' }} label="Создать задачу" />
+      <RoundedButton style={buttonStyle} labelStyle={labelButtonStyle} label="Показать в реестре" />
+      <div style={{float: 'right'}}>
+        <RoundedButton style={buttonStyle} labelStyle={labelButtonStyle} label="Создать задачу" />
+      </div>
     </div>
   )
 };
