@@ -9,7 +9,6 @@ const ColorSwitcher = (percent) => {
 };
 
 const ProgressCell = ({rowIndex, percent, ...props}) => {
-  console.log('percent', percent)
   return (
     <div className="cell">
       <div className="plan-progress-bar">
