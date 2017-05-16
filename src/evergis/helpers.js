@@ -5,6 +5,7 @@ export const OBJECTS_SERVICE = 'sber_objects';
 export const EMPLOYEES_SERVICE = 'sber_employees';
 export const OSM = 'osm';
 export const GIS = '2gis';
+export const STATIC_SERVICE = 'sber_objects_static';
 
 export const BASEMAPS = [OSM, GIS];
 
@@ -72,9 +73,18 @@ export const applyObjectsStyle = service => {
 export const initService = (connector, name) => {
     const container =  new sGis.sp.services.ServiceContainer(connector, name);
     return new Promise((res, rej) => {
-        container.on('stateUpdate', () => {
+        container.once('stateUpdate', () => {
             if (container.error) rej(container.error);
             res(container.service);
         });
     })
+};
+
+export const addEmployeeToQuery = (query, id) => {
+    if (query.filter) {
+        query.filter += `&& responsible_employee_id == ${id}`
+    } else {
+        query.filter = `responsible_employee_id == ${id}`
+    }
+    return query;
 };

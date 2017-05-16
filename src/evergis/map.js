@@ -22,4 +22,6 @@ const getMap = ({ wrapper, position, resolution}) => {
 
 export default getMap;
 
+export const getMapPoint = (position = [0, 0]) =>  new sGis.feature.Point(position, {crs: initedSGis.map.crs});
+
 

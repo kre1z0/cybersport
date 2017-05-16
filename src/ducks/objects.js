@@ -1,6 +1,11 @@
 import {createAction, createReducer} from 'redux-act';
-import {fetchObjects, fetchObjectsAttributeDefinition} from '../evergis/api';
-import {tranformQuery} from '../evergis/helpers';
+import {
+    fetchObjects,
+    fetchObjectsAttributeDefinition,
+    createObjectFeature,
+    fetchStaticService
+} from '../evergis/api';
+import {tranformQuery, addEmployeeToQuery} from '../evergis/helpers';
 import {Record, List} from 'immutable';
 import initAttributesArray from '../assets/const/attributes';
 
@@ -20,7 +25,8 @@ const ObjectsState = Record({
     data: undefined,
     attributes: undefined,
     loading: undefined,
-    error: undefined
+    error: undefined,
+    staticServiceUrl: undefined
 });
 
 const initAttributes = List(initAttributesArray.map(attr=>Attribute(attr)));
@@ -36,31 +42,40 @@ const initState = new ObjectsState({
 export const fetch = createAction('objects/fetch');
 export const fetchSuccess = createAction('objects/fetch-success');
 export const fetchError = createAction('objects/fetch-error');
+
 export const setDomens = createAction('objects/set-domens');
 
 export const updateAttributes = createAction('objects/update-attributes');
 
-const addEmployeeToQuery = (query, id) => {
-    if (query.filter) {
-        query.filter += `&& responsible_employee_id == ${id}`
-    } else {
-        query.filter = `responsible_employee_id == ${id}`
-    }
-    return query;
+export const setStaticServiceURL = createAction('objects/set-static-service-url');
+
+export const commonError = createAction('objects/common-error');
+
+export const create = createAction('objects/create');
+export const createSuccess = createAction('objects/create-success');
+export const createError = createAction('objects/create-error');
+
+export const addObject = (attributes) => dispatch => {
+    dispatch(create());
+    return createObjectFeature(attributes)
+        .then(response => dispatch(createSuccess(response)))
+        .catch(error => dispatch(createError(error)));
 };
 
 export const getObjects = (query = {}) => (dispatch, getState) => {
     const state = getState();
     dispatch(fetch());
     return Promise.all([
-        fetchObjects(addEmployeeToQuery(tranformQuery(query), state.user.employee_id)),
         fetchObjectsAttributeDefinition()
+            .then(definition => dispatch(setDomens(definition)))
+            .catch(error => dispatch(fetchError(error))),
+        fetchStaticService()
+            .then((staticService) =>
+                dispatch(setStaticServiceURL(staticService && staticService.getSourceUrl('{{filename}}')))),
+        fetchObjects(addEmployeeToQuery(tranformQuery(query), state.user.employee_id))
+            .then((objects) => dispatch(fetchSuccess(objects))),
     ])
-    .then(([objectsRes, defRes]) => {
-        dispatch(fetchSuccess(objectsRes));
-        dispatch(setDomens(defRes))
-    })
-    .catch(error => dispatch(fetchError()));
+    .catch(error => dispatch(commonError(error)));
 };
 
 export default createReducer({
@@ -92,7 +107,23 @@ export default createReducer({
             state.attributes.map(attribute =>
                 attribute.set('domain', payload[attribute.name])
             )
-        )
+        ),
+    
+    [setStaticServiceURL]: (state, payload) =>
+        state.set('staticServiceUrl', payload),
+    
+    [commonError]: (state, payload) =>
+        state.set('loading', false)
+            .set('error', true),
+    
+    [create]: (state, payload) =>
+        state,
+    
+    [createSuccess]: (state, payload) =>
+        state,
+    
+    [createError]: (state, payload) =>
+        state
 }, initState);
 
 

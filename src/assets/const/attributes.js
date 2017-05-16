@@ -173,8 +173,8 @@ export default [
         isEditable: true,
         isVisible: true,
         validation: {
-            type: Number,
-            min: 1, max: 100
+            type: [Number, 'Здание целиком', 'Подвал', 'Цокольный этаж'],
+            min: 1, max: 20
         }
     },
     {
@@ -189,9 +189,13 @@ export default [
         name: 'floor_qty',
         alias: 'Количество этажей в здании',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         isEditable: true,
         isVisible: true,
+        validation: {
+            type: Number,
+            min: 1, max: 100
+        }
     },
     {
         name: 'room_qty',
@@ -201,7 +205,7 @@ export default [
         isEditable: true,
         isVisible: true,
         validation: {
-            type: [Number, String],
+            type: [Number, 'Студия'],
             min: 1, max: 20
         }
     },

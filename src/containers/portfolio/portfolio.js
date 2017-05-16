@@ -84,7 +84,7 @@ class Portfolio extends Component {
     };
     
     render () {
-        const {objects: {data, attributes, loading}, isAuth} = this.props;
+        const {objects: {data, attributes, loading, staticServiceUrl}, isAuth} = this.props;
         const {newObjectOpen, columnsSettingsOpen, query} = this.state;
         
         const dataJS = data.toJS();
@@ -106,7 +106,13 @@ class Portfolio extends Component {
                     {!isAuth
                         ? <Loader className="loader"/>
                         : <Table cacheKey={hashKey}
-                                 data={dataJS}
+                                 data={
+                                     dataJS.map(object => ({
+                                         ...object,
+                                         image_name: staticServiceUrl &&
+                                         staticServiceUrl.replace('{{filename}}', object.image_name)
+                                     }))
+                                 }
                                  columns={
                                      attrJS.filter(({isVisible}) => isVisible)
                                  }

@@ -6820,7 +6820,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     } else if ((typeof module === "undefined" ? "undefined" : _typeof(module)) === 'object' && module.exports) {
         module.exports = sGis;
     }
-    window.sGis = sGis;
+        window.sGis = sGis;
+
 
     function setModuleReference(module, name) {
         var ns = name.split('.');
@@ -15593,6 +15594,228 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+sGis.module('symbol.polygon.BrushFill', ['Symbol', 'symbol.polyline.Simple', 'render.Polygon', 'utils.Color', 'serializer.symbolSerializer'], function (_Symbol, PolylineSymbol, PolygonRender, Color, symbolSerializer) {
+
+    'use strict';
+
+    var ALPHA_NORMALIZER = 65025;
+
+    var PolygonSymbol = function (_Symbol2) {
+        _inherits(PolygonSymbol, _Symbol2);
+
+        function PolygonSymbol(properties) {
+            _classCallCheck(this, PolygonSymbol);
+
+            var _this = _possibleConstructorReturn(this, (PolygonSymbol.__proto__ || Object.getPrototypeOf(PolygonSymbol)).call(this, properties));
+
+            _this._updateBrush();
+            return _this;
+        }
+
+        _createClass(PolygonSymbol, [{
+            key: 'renderFunction',
+            value: function renderFunction(feature, resolution, crs) {
+                var coordinates = PolylineSymbol._getRenderedCoordinates(feature, resolution, crs);
+                if (!coordinates) return [];
+                return [new PolygonRender(coordinates, { strokeColor: this.strokeColor, strokeWidth: this.strokeWidth, fillStyle: 'image', fillImage: this._brush, lineDash: this.lineDash })];
+            }
+        }, {
+            key: '_updateBrush',
+            value: function _updateBrush() {
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                var brush = this.fillBrush;
+                var foreground = new Color(this.fillForeground);
+                var background = new Color(this.fillBackground);
+
+                canvas.height = brush.length;
+                canvas.width = brush[0].length;
+
+                for (var i = 0, l = brush.length; i < l; i++) {
+                    for (var j = 0, m = brush[i].length; j < m; j++) {
+                        var srcA = brush[i][j] * foreground.a / ALPHA_NORMALIZER,
+                            dstA = background.a / 255 * (1 - srcA),
+                            a = +Math.min(1, srcA + dstA).toFixed(2),
+                            r = Math.round(Math.min(255, background.r * dstA + foreground.r * srcA)),
+                            g = Math.round(Math.min(255, background.g * dstA + foreground.g * srcA)),
+                            b = Math.round(Math.min(255, background.b * dstA + foreground.b * srcA));
+
+                        ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+                        ctx.fillRect(j, i, 1, 1);
+                    }
+                }
+
+                this._brush = new Image();
+                this._brush.src = canvas.toDataURL();
+            }
+        }, {
+            key: 'fillBrush',
+            get: function get() {
+                return this._fillBrush;
+            },
+            set: function set(brush) {
+                this._fillBrush = brush;
+                this._updateBrush();
+            }
+        }, {
+            key: 'fillBackground',
+            get: function get() {
+                return this._fillBackground;
+            },
+            set: function set(color) {
+                this._fillBackground = color;
+                this._updateBrush();
+            }
+        }, {
+            key: 'fillForeground',
+            get: function get() {
+                return this._fillForeground;
+            },
+            set: function set(color) {
+                this._fillForegroudn = color;
+                this._updateBrush();
+            }
+        }]);
+
+        return PolygonSymbol;
+    }(_Symbol);
+
+    PolygonSymbol.prototype._fillBrush = [[255, 255, 0, 0, 0, 0, 0, 0, 255, 255], [255, 255, 255, 0, 0, 0, 0, 0, 0, 255], [255, 255, 255, 255, 0, 0, 0, 0, 0, 0], [0, 255, 255, 255, 255, 0, 0, 0, 0, 0], [0, 0, 255, 255, 255, 255, 0, 0, 0, 0], [0, 0, 0, 255, 255, 255, 255, 0, 0, 0], [0, 0, 0, 0, 255, 255, 255, 255, 0, 0], [0, 0, 0, 0, 0, 255, 255, 255, 255, 0], [0, 0, 0, 0, 0, 0, 255, 255, 255, 255], [255, 0, 0, 0, 0, 0, 0, 255, 255, 255]];
+
+    PolygonSymbol.prototype._fillBackground = 'transparent';
+    PolygonSymbol.prototype._fillForeground = 'black';
+
+    PolygonSymbol.prototype.strokeColor = 'black';
+
+    PolygonSymbol.prototype.strokeWidth = 1;
+
+    PolygonSymbol.prototype.lineDash = [];
+
+    symbolSerializer.registerSymbol(PolygonSymbol, 'polygon.BrushFill', ['fillBrush', 'fillBackground', 'fillForeground', 'strokeColor', 'strokeWidth']);
+
+    return PolygonSymbol;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('symbol.polygon.ImageFill', ['Symbol', 'symbol.polyline.Simple', 'render.Polygon', 'serializer.symbolSerializer'], function (_Symbol, PolylineSymbol, PolygonRender, symbolSerializer) {
+
+    'use strict';
+
+    var PolygonSymbol = function (_Symbol2) {
+        _inherits(PolygonSymbol, _Symbol2);
+
+        function PolygonSymbol(properties) {
+            _classCallCheck(this, PolygonSymbol);
+
+            var _this = _possibleConstructorReturn(this, (PolygonSymbol.__proto__ || Object.getPrototypeOf(PolygonSymbol)).call(this, properties));
+
+            if (!_this._image) _this.src = _this._src;
+            return _this;
+        }
+
+        _createClass(PolygonSymbol, [{
+            key: 'renderFunction',
+            value: function renderFunction(feature, resolution, crs) {
+                if (!this._image.complete) {
+                    this._image.onload = feature.redraw.bind(feature);
+                    return [];
+                }
+                var coordinates = PolylineSymbol._getRenderedCoordinates(feature, resolution, crs);
+                if (!coordinates) return [];
+                return [new PolygonRender(coordinates, { strokeColor: this.strokeColor, strokeWidth: this.strokeWidth, fillStyle: 'image', fillImage: this._image, lineDash: this.lineDash })];
+            }
+        }, {
+            key: 'src',
+            get: function get() {
+                return this._src;
+            },
+            set: function set(src) {
+                this._src = src;
+                this._image = new Image();
+                this._image.src = src;
+            }
+        }]);
+
+        return PolygonSymbol;
+    }(_Symbol);
+
+    PolygonSymbol.prototype._src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+
+    PolygonSymbol.prototype.strokeColor = 'black';
+
+    PolygonSymbol.prototype.strokeWidth = 1;
+
+    PolygonSymbol.prototype.lineDash = [];
+
+    symbolSerializer.registerSymbol(PolygonSymbol, 'polygon.ImageFill', ['src', 'strokeColor', 'strokeWidth']);
+
+    return PolygonSymbol;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('symbol.polygon.Simple', ['Symbol', 'symbol.polyline.Simple', 'render.Polygon', 'serializer.symbolSerializer'], function (_Symbol, PolylineSymbol, PolygonRender, symbolSerializer) {
+
+    'use strict';
+
+    var PolygonSymbol = function (_Symbol2) {
+        _inherits(PolygonSymbol, _Symbol2);
+
+        function PolygonSymbol(properties) {
+            _classCallCheck(this, PolygonSymbol);
+
+            return _possibleConstructorReturn(this, (PolygonSymbol.__proto__ || Object.getPrototypeOf(PolygonSymbol)).call(this, properties));
+        }
+
+        _createClass(PolygonSymbol, [{
+            key: 'renderFunction',
+            value: function renderFunction(feature, resolution, crs) {
+                var coordinates = PolylineSymbol._getRenderedCoordinates(feature, resolution, crs);
+                if (!coordinates) return [];
+                return [new PolygonRender(coordinates, { strokeColor: this.strokeColor, strokeWidth: this.strokeWidth, fillColor: this.fillColor, lineDash: this.lineDash })];
+            }
+        }]);
+
+        return PolygonSymbol;
+    }(_Symbol);
+
+    PolygonSymbol.prototype.fillColor = 'transparent';
+
+    PolygonSymbol.prototype.strokeColor = 'black';
+
+    PolygonSymbol.prototype.strokeWidth = 1;
+
+    PolygonSymbol.prototype.lineDash = [];
+
+    symbolSerializer.registerSymbol(PolygonSymbol, 'polygon.Simple', ['fillColor', 'strokeColor', 'strokeWidth']);
+
+    return PolygonSymbol;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 sGis.module('symbol.point.Image', ['Symbol', 'render.HtmlElement', 'serializer.symbolSerializer'], function (_Symbol, HtmlElement, symbolSerializer) {
 
     'use strict';
@@ -15886,228 +16109,6 @@ sGis.module('symbol.point.Square', ['Symbol', 'render.Polygon', 'serializer.symb
     symbolSerializer.registerSymbol(SquareSymbol, 'point.Square', ['size', 'offset', 'fillColor', 'strokeColor', 'strokeWidth']);
 
     return SquareSymbol;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('symbol.polygon.BrushFill', ['Symbol', 'symbol.polyline.Simple', 'render.Polygon', 'utils.Color', 'serializer.symbolSerializer'], function (_Symbol, PolylineSymbol, PolygonRender, Color, symbolSerializer) {
-
-    'use strict';
-
-    var ALPHA_NORMALIZER = 65025;
-
-    var PolygonSymbol = function (_Symbol2) {
-        _inherits(PolygonSymbol, _Symbol2);
-
-        function PolygonSymbol(properties) {
-            _classCallCheck(this, PolygonSymbol);
-
-            var _this = _possibleConstructorReturn(this, (PolygonSymbol.__proto__ || Object.getPrototypeOf(PolygonSymbol)).call(this, properties));
-
-            _this._updateBrush();
-            return _this;
-        }
-
-        _createClass(PolygonSymbol, [{
-            key: 'renderFunction',
-            value: function renderFunction(feature, resolution, crs) {
-                var coordinates = PolylineSymbol._getRenderedCoordinates(feature, resolution, crs);
-                if (!coordinates) return [];
-                return [new PolygonRender(coordinates, { strokeColor: this.strokeColor, strokeWidth: this.strokeWidth, fillStyle: 'image', fillImage: this._brush, lineDash: this.lineDash })];
-            }
-        }, {
-            key: '_updateBrush',
-            value: function _updateBrush() {
-                var canvas = document.createElement('canvas');
-                var ctx = canvas.getContext('2d');
-                var brush = this.fillBrush;
-                var foreground = new Color(this.fillForeground);
-                var background = new Color(this.fillBackground);
-
-                canvas.height = brush.length;
-                canvas.width = brush[0].length;
-
-                for (var i = 0, l = brush.length; i < l; i++) {
-                    for (var j = 0, m = brush[i].length; j < m; j++) {
-                        var srcA = brush[i][j] * foreground.a / ALPHA_NORMALIZER,
-                            dstA = background.a / 255 * (1 - srcA),
-                            a = +Math.min(1, srcA + dstA).toFixed(2),
-                            r = Math.round(Math.min(255, background.r * dstA + foreground.r * srcA)),
-                            g = Math.round(Math.min(255, background.g * dstA + foreground.g * srcA)),
-                            b = Math.round(Math.min(255, background.b * dstA + foreground.b * srcA));
-
-                        ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
-                        ctx.fillRect(j, i, 1, 1);
-                    }
-                }
-
-                this._brush = new Image();
-                this._brush.src = canvas.toDataURL();
-            }
-        }, {
-            key: 'fillBrush',
-            get: function get() {
-                return this._fillBrush;
-            },
-            set: function set(brush) {
-                this._fillBrush = brush;
-                this._updateBrush();
-            }
-        }, {
-            key: 'fillBackground',
-            get: function get() {
-                return this._fillBackground;
-            },
-            set: function set(color) {
-                this._fillBackground = color;
-                this._updateBrush();
-            }
-        }, {
-            key: 'fillForeground',
-            get: function get() {
-                return this._fillForeground;
-            },
-            set: function set(color) {
-                this._fillForegroudn = color;
-                this._updateBrush();
-            }
-        }]);
-
-        return PolygonSymbol;
-    }(_Symbol);
-
-    PolygonSymbol.prototype._fillBrush = [[255, 255, 0, 0, 0, 0, 0, 0, 255, 255], [255, 255, 255, 0, 0, 0, 0, 0, 0, 255], [255, 255, 255, 255, 0, 0, 0, 0, 0, 0], [0, 255, 255, 255, 255, 0, 0, 0, 0, 0], [0, 0, 255, 255, 255, 255, 0, 0, 0, 0], [0, 0, 0, 255, 255, 255, 255, 0, 0, 0], [0, 0, 0, 0, 255, 255, 255, 255, 0, 0], [0, 0, 0, 0, 0, 255, 255, 255, 255, 0], [0, 0, 0, 0, 0, 0, 255, 255, 255, 255], [255, 0, 0, 0, 0, 0, 0, 255, 255, 255]];
-
-    PolygonSymbol.prototype._fillBackground = 'transparent';
-    PolygonSymbol.prototype._fillForeground = 'black';
-
-    PolygonSymbol.prototype.strokeColor = 'black';
-
-    PolygonSymbol.prototype.strokeWidth = 1;
-
-    PolygonSymbol.prototype.lineDash = [];
-
-    symbolSerializer.registerSymbol(PolygonSymbol, 'polygon.BrushFill', ['fillBrush', 'fillBackground', 'fillForeground', 'strokeColor', 'strokeWidth']);
-
-    return PolygonSymbol;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('symbol.polygon.ImageFill', ['Symbol', 'symbol.polyline.Simple', 'render.Polygon', 'serializer.symbolSerializer'], function (_Symbol, PolylineSymbol, PolygonRender, symbolSerializer) {
-
-    'use strict';
-
-    var PolygonSymbol = function (_Symbol2) {
-        _inherits(PolygonSymbol, _Symbol2);
-
-        function PolygonSymbol(properties) {
-            _classCallCheck(this, PolygonSymbol);
-
-            var _this = _possibleConstructorReturn(this, (PolygonSymbol.__proto__ || Object.getPrototypeOf(PolygonSymbol)).call(this, properties));
-
-            if (!_this._image) _this.src = _this._src;
-            return _this;
-        }
-
-        _createClass(PolygonSymbol, [{
-            key: 'renderFunction',
-            value: function renderFunction(feature, resolution, crs) {
-                if (!this._image.complete) {
-                    this._image.onload = feature.redraw.bind(feature);
-                    return [];
-                }
-                var coordinates = PolylineSymbol._getRenderedCoordinates(feature, resolution, crs);
-                if (!coordinates) return [];
-                return [new PolygonRender(coordinates, { strokeColor: this.strokeColor, strokeWidth: this.strokeWidth, fillStyle: 'image', fillImage: this._image, lineDash: this.lineDash })];
-            }
-        }, {
-            key: 'src',
-            get: function get() {
-                return this._src;
-            },
-            set: function set(src) {
-                this._src = src;
-                this._image = new Image();
-                this._image.src = src;
-            }
-        }]);
-
-        return PolygonSymbol;
-    }(_Symbol);
-
-    PolygonSymbol.prototype._src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-
-    PolygonSymbol.prototype.strokeColor = 'black';
-
-    PolygonSymbol.prototype.strokeWidth = 1;
-
-    PolygonSymbol.prototype.lineDash = [];
-
-    symbolSerializer.registerSymbol(PolygonSymbol, 'polygon.ImageFill', ['src', 'strokeColor', 'strokeWidth']);
-
-    return PolygonSymbol;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('symbol.polygon.Simple', ['Symbol', 'symbol.polyline.Simple', 'render.Polygon', 'serializer.symbolSerializer'], function (_Symbol, PolylineSymbol, PolygonRender, symbolSerializer) {
-
-    'use strict';
-
-    var PolygonSymbol = function (_Symbol2) {
-        _inherits(PolygonSymbol, _Symbol2);
-
-        function PolygonSymbol(properties) {
-            _classCallCheck(this, PolygonSymbol);
-
-            return _possibleConstructorReturn(this, (PolygonSymbol.__proto__ || Object.getPrototypeOf(PolygonSymbol)).call(this, properties));
-        }
-
-        _createClass(PolygonSymbol, [{
-            key: 'renderFunction',
-            value: function renderFunction(feature, resolution, crs) {
-                var coordinates = PolylineSymbol._getRenderedCoordinates(feature, resolution, crs);
-                if (!coordinates) return [];
-                return [new PolygonRender(coordinates, { strokeColor: this.strokeColor, strokeWidth: this.strokeWidth, fillColor: this.fillColor, lineDash: this.lineDash })];
-            }
-        }]);
-
-        return PolygonSymbol;
-    }(_Symbol);
-
-    PolygonSymbol.prototype.fillColor = 'transparent';
-
-    PolygonSymbol.prototype.strokeColor = 'black';
-
-    PolygonSymbol.prototype.strokeWidth = 1;
-
-    PolygonSymbol.prototype.lineDash = [];
-
-    symbolSerializer.registerSymbol(PolygonSymbol, 'polygon.Simple', ['fillColor', 'strokeColor', 'strokeWidth']);
-
-    return PolygonSymbol;
 });
 'use strict';
 
@@ -20681,7 +20682,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLayer', 'sp.ClusterSymbol'], function (Layer, ClusterLayer, DynamicLayer, ClusterSymbol) {
+sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLayer', 'sp.layers.HeatMapLayer', 'sp.ClusterSymbol'], function (Layer, ClusterLayer, DynamicLayer, HeatMapLayer, ClusterSymbol) {
 
     'use strict';
 
@@ -20695,7 +20696,7 @@ sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLaye
 
             _this._service = service;
 
-            _this._dynamicLayer = new DynamicLayer(_this.getImageUrl.bind(_this), { crs: service.crs });
+            _this._dynamicLayer = new HeatMapLayer(service);
 
             service.on('dataFilterChange', _this._updateDataFilter.bind(_this));
             _this._updateDataFilter();
@@ -20792,6 +20793,50 @@ sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLaye
     DataViewLayer.prototype.delayedUpdate = true;
 
     return DataViewLayer;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.layers.HeatMapLayer', ['DynamicLayer'], function (DynamicLayer) {
+    var HeatMapLayer = function (_DynamicLayer) {
+        _inherits(HeatMapLayer, _DynamicLayer);
+
+        function HeatMapLayer(service) {
+            _classCallCheck(this, HeatMapLayer);
+
+            var _this = _possibleConstructorReturn(this, (HeatMapLayer.__proto__ || Object.getPrototypeOf(HeatMapLayer)).call(this, getImageUrl, service.crs));
+
+            _this._service = service;
+
+            var self = _this;
+            function getImageUrl(bbox, resolution) {
+                return self.getImageUrl(bbox, resolution);
+            }
+            return _this;
+        }
+
+        _createClass(HeatMapLayer, [{
+            key: 'getImageUrl',
+            value: function getImageUrl(bbox, resolution) {
+                var imgWidth = Math.round((bbox.xMax - bbox.xMin) / resolution);
+                var imgHeight = Math.round((bbox.yMax - bbox.yMin) / resolution);
+                var sr = encodeURIComponent(bbox.crs.wkid || JSON.stringify(bbox.crs.description));
+
+                return this._service.url + 'heatmap?' + 'dpi=96&' + 'transparent=true&' + 'bbox=' + bbox.xMin + '%2C' + bbox.yMin + '%2C' + bbox.xMax + '%2C' + bbox.yMax + '&' + 'bboxSR=' + sr + '&' + 'imageSR=' + sr + '&' + 'size=' + imgWidth + '%2C' + imgHeight + '&' + 'f=image' + this._service.connector.sessionSuffix;
+            }
+        }]);
+
+        return HeatMapLayer;
+    }(DynamicLayer);
+
+    return HeatMapLayer;
 });
 'use strict';
 
@@ -22736,6 +22781,15 @@ sGis.module('sp.services.StaticSourceService', ['sp.utils', 'sp.services.Service
         }
 
         _createClass(StaticSourceService, [{
+            key: 'getSourceUrl',
+            value: function getSourceUrl(fileName) {
+                if (!fileName) {
+                    utils.error('Invalid parameters');
+                }
+
+                return this.url + 'download/' + fileName + '?' + this._connector.sessionSuffix;
+            }
+        }, {
             key: 'upload',
             value: function upload(fileName, file) {
 
@@ -22928,4 +22982,6 @@ sGis.module('sp.services.TileService', ['sp.services.MapService', 'TileLayer', '
     }, TileService);
 
     return TileService;
-}); /* eslint-enable */
+});
+
+/* eslint-enable */
