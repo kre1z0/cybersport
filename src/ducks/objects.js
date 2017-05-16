@@ -72,7 +72,12 @@ export const getObjects = (query = {}) => (dispatch, getState) => {
         fetchStaticService()
             .then((staticService) =>
                 dispatch(setStaticServiceURL(staticService && staticService.getSourceUrl('{{filename}}')))),
-        fetchObjects(addEmployeeToQuery(tranformQuery(query), state.user.employee_id))
+        fetchObjects(
+                addEmployeeToQuery(
+                    tranformQuery(query),
+                    state.user.employee_id
+                )
+            )
             .then((objects) => dispatch(fetchSuccess(objects))),
     ])
     .catch(error => dispatch(commonError(error)));
