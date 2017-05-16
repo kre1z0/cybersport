@@ -37,6 +37,11 @@ class Body extends Component {
                this.props.selectedCell !== nextProps.selectedCell;
     }
     
+    onColumnRef = (callback, rowIndex, columnIndex, rowRenderHelper) =>
+        ref =>
+            ref && rowIndex === rowRenderHelper.length-1 &&
+                callback(ref, columnIndex);
+    
     render () {
         const {onScroll, hiddenHeaderRenderer, cellRenderer, columnRef, onCellClick} = this.props;
         const {colRenderHelper, rowRenderHelper} = this.state;
@@ -65,7 +70,7 @@ class Body extends Component {
                             {colRenderHelper.map((c, columnIndex) => (
                                 <td key={`td-${columnIndex}`}
                                     onTouchTap={()=>{onCellClick&&onCellClick(rowIndex, columnIndex)}}
-                                    ref={ref => ref && rowIndex === rowRenderHelper.length-1 && columnRef(ref, columnIndex)}
+                                    ref={this.onColumnRef(columnRef, rowIndex, columnIndex, rowRenderHelper)}
                                 >
                                     {
                                         cellRenderer(rowIndex, columnIndex)

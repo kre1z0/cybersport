@@ -73,10 +73,10 @@ export const getObjects = (query = {}) => (dispatch, getState) => {
             .then((staticService) =>
                 dispatch(setStaticServiceURL(staticService && staticService.getSourceUrl('{{filename}}')))),
         fetchObjects(
-                addEmployeeToQuery(
-                    tranformQuery(query),
+                /*addEmployeeToQuery(*/
+                    tranformQuery(query)/*,
                     state.user.employee_id
-                )
+                )*/
             )
             .then((objects) => dispatch(fetchSuccess(objects))),
     ])

@@ -111,7 +111,7 @@ class Portfolio extends Component {
                                  data={
                                      dataJS.map(object => ({
                                          ...object,
-                                         image_name: staticServiceUrl &&
+                                         image_name: staticServiceUrl && object.image_name &&
                                          staticServiceUrl.replace('{{filename}}', object.image_name)
                                      }))
                                  }

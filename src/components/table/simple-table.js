@@ -169,6 +169,7 @@ class TableComponent extends Component {
                           hiddenHeaderRenderer={this.hiddenHeaderRenderer}
                           cacheKey={cacheKey}
                           selectedCell={selectedCell}
+                          visibility={[0, 20]}
                     />
                 }
             </div>
