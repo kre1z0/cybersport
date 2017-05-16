@@ -48,8 +48,9 @@ export const tranformQuery = query => {
     const filter = columns
         .map(column => {
             const filterString = query[column].filter;
+            const isString = query[column].type !== 'number';
             if (!filterString || filterString.length === 0) return;
-            return `${column} like '%${filterString}%'`;
+            return `${column} ${isString ? 'like' : '=='} ${isString ? `'%${filterString}%'` : filterString}`;
         })
         .filter(i=>!!i);
     

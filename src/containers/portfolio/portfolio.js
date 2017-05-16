@@ -60,14 +60,16 @@ class Portfolio extends Component {
     };
     
     changeFilter = ({column, filter, sort}) => {
-        const {getObjects, isAuth} = this.props;
+        const {getObjects, isAuth, objects: {attributes}} = this.props;
         
         let query;
+        
+        const columnDefinition = attributes.toJS().find(({name})=> name === column);
         
         if(filter || sort) {
             query = {
                 ...this.state.query,
-                [column]: {filter, sort}
+                [column]: {filter, sort, type: columnDefinition && columnDefinition.type}
             };
         } else {
             query = {
