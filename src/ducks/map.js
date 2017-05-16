@@ -3,7 +3,7 @@ import {Record, Map} from 'immutable';
 import getLayerManager from '../evergis/layer-manager';
 import getMap from '../evergis/map';
 import getConnector from '../evergis/connector';
-import {OBJECTS_SERVICE, EMPLOYEES_SERVICE, OSM, GIS, BASEMAPS, applyObjectsStyle} from '../evergis/helpers';
+import {OBJECTS_SERVICE, EMPLOYEES_SERVICE, OSM, GIS, BASEMAPS, OFFICES_SERVICE, applyObjectsStyle} from '../evergis/helpers';
 
 const Service = Record({
     name: undefined,
@@ -31,7 +31,7 @@ export const loadServicesError = createAction('map/load-services-error');
 
 const isVisible = (name, {basemap}) => (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
 
-export const loadMapServices = (names = [OSM, GIS, OBJECTS_SERVICE, EMPLOYEES_SERVICE]) => (dispatch, getState)=> {
+export const loadMapServices = (names = [OSM, GIS, EMPLOYEES_SERVICE, OFFICES_SERVICE, OBJECTS_SERVICE]) => (dispatch, getState)=> {
     dispatch(loadServices);
     const map = getMap({});
     const connector = getConnector();

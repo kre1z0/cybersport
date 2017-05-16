@@ -2,7 +2,8 @@ import sGis from '../assets/sgis';
 import addSberSymbol from '../assets/sgis/SberObjectSymbol';
 
 export const OBJECTS_SERVICE = 'sber_objects';
-export const EMPLOYEES_SERVICE = 'sber_employees';
+export const EMPLOYEES_SERVICE = 'sber_employees_pin';
+export const OFFICES_SERVICE = 'sber_offices_pin';
 export const OSM = 'osm';
 export const GIS = '2gis';
 export const STATIC_SERVICE = 'sber_objects_static';
