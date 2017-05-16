@@ -124,11 +124,7 @@ class Portfolio extends Component {
                           />
                     }
                     <NewObjectWindow open={newObjectOpen}
-                                     attributes={
-                                         attrJS.filter(({name}) => name !== 'control' && name !== 'address_adjusted')
-                                     }
                                      onRequestClose={this.closeNewObject}
-                                     onApply={this.addNewObject}
                     />
                     <ColumnsSettingsWindow open={columnsSettingsOpen}
                                            onRequestClose={this.closeColumnsSettings}
