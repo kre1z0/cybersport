@@ -1,6 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import cn from 'classnames';
 
+const noRenderStyle = {
+    height: 56
+};
+
 class Body extends Component {
     static propTypes = {
         columnCount: PropTypes.number,
@@ -17,7 +21,8 @@ class Body extends Component {
     };
     
     state = {
-        colRenderHelper: (new Array(this.props.columnCount)).fill(1),
+        renderedRowsCount: 10,
+        colRenderHelper: (new Array(Math.min(this.props.columnCount, 10))).fill(1),
         rowRenderHelper: (new Array(this.props.rowCount)).fill(1)
     };
     
@@ -43,7 +48,7 @@ class Body extends Component {
                 callback(ref, columnIndex);
     
     render () {
-        const {onScroll, hiddenHeaderRenderer, cellRenderer, columnRef, onCellClick} = this.props;
+        const {onScroll, hiddenHeaderRenderer, cellRenderer, columnRef, onCellClick, visibility: [min, max]} = this.props;
         const {colRenderHelper, rowRenderHelper} = this.state;
         
         return (
@@ -67,16 +72,21 @@ class Body extends Component {
                     <tbody>
                     {rowRenderHelper.map((r, rowIndex) => (
                         <tr key={`tr-${rowIndex}`} className={cn({'--odd': rowIndex % 2 === 0})}>
-                            {colRenderHelper.map((c, columnIndex) => (
-                                <td key={`td-${columnIndex}`}
-                                    onTouchTap={()=>{onCellClick&&onCellClick(rowIndex, columnIndex)}}
-                                    ref={this.onColumnRef(columnRef, rowIndex, columnIndex, rowRenderHelper)}
-                                >
-                                    {
-                                        cellRenderer(rowIndex, columnIndex)
-                                    }
-                                </td>
-                            ))}
+                            {rowIndex >= min && rowIndex < max
+                                ? colRenderHelper.map((c, columnIndex) => (
+                                    <td key={`td-${columnIndex}`}
+                                        onTouchTap={() => {
+                                            onCellClick && onCellClick(rowIndex, columnIndex)
+                                        }}
+                                        ref={this.onColumnRef(columnRef, rowIndex, columnIndex, rowRenderHelper)}
+                                    >
+                                        {
+                                            cellRenderer(rowIndex, columnIndex)
+                                        }
+                                    </td>
+                                    ))
+                                : <td style={noRenderStyle}>No render</td>
+                            }
                         </tr>
                     ))}
                     </tbody>
