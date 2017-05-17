@@ -25,8 +25,7 @@ const ObjectsState = Record({
     data: undefined,
     attributes: undefined,
     loading: undefined,
-    error: undefined,
-    staticServiceUrl: undefined
+    error: undefined
 });
 
 const initAttributes = List(initAttributesArray.map(attr=>Attribute(attr)));
@@ -47,8 +46,6 @@ export const setDomens = createAction('objects/set-domens');
 
 export const updateAttributes = createAction('objects/update-attributes');
 
-export const setStaticServiceURL = createAction('objects/set-static-service-url');
-
 export const commonError = createAction('objects/common-error');
 
 export const create = createAction('objects/create');
@@ -67,18 +64,15 @@ export const getObjects = (query = {}) => (dispatch, getState) => {
     dispatch(fetch());
     return Promise.all([
         fetchObjectsAttributeDefinition()
-            .then(definition => dispatch(setDomens(definition)))
-            .catch(error => dispatch(fetchError(error))),
-        fetchStaticService()
-            .then((staticService) =>
-                dispatch(setStaticServiceURL(staticService && staticService.getSourceUrl('{{filename}}')))),
+            .then(definition => dispatch(setDomens(definition))),
         fetchObjects(
                 /*addEmployeeToQuery(*/
                     tranformQuery(query)/*,
                     state.user.employee_id
                 )*/
             )
-            .then((objects) => dispatch(fetchSuccess(objects))),
+            .then((objects) => dispatch(fetchSuccess(objects)))
+            .catch(error => dispatch(fetchError(error))),
     ])
     .catch(error => dispatch(commonError(error)));
 };
@@ -113,9 +107,6 @@ export default createReducer({
                 attribute.set('domain', payload[attribute.name])
             )
         ),
-    
-    [setStaticServiceURL]: (state, payload) =>
-        state.set('staticServiceUrl', payload),
     
     [commonError]: (state, payload) =>
         state.set('loading', false)

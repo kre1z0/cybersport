@@ -45,7 +45,8 @@ class Map extends Component {
             resolution: this.props.resolution,
         });
         
-        this.map.on('bboxChange', this.onBboxChange)
+        this.map.on('bboxChange', this.onBboxChange);
+        this.map.on('click', this.props.onMapPick);
     }
     
     componentWillReceiveProps (nextProps) {

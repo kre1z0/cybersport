@@ -5,21 +5,15 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 
-import {setCenter, setResolution, setObjectsDataFilter, loadMapServices} from '../../ducks/map';
+import {setCenter, setResolution, setObjectsDataFilter, loadMapServices, pickObject} from '../../ducks/map';
 import getLayerManager, {isServicesLoaded} from '../../evergis/layer-manager';
 import {setDataFilters} from '../../evergis/api';
 
 import Map from '../../components/map';
-import MapControl from '../../components/map-controls'
-import LayersList from '../../components/map-controls/layers-list';
+import LayersList from './layer-list';
+import FeaturePopup from './feature-popup';
 
 import './map.scss';
-
-const layerListStyle = {
-    position: 'absolute',
-    top: '1rem',
-    left: '1rem'
-};
 
 class MapContainer extends Component {
     static propTypes = {
@@ -88,7 +82,11 @@ class MapContainer extends Component {
         }
         return toServiceFilter;
     }
-    
+
+    onMapPick = (e) => {
+        this.props.pickObject(e.point);
+    };
+
     render () {
         const {map, setCenter, setResolution, setObjectsDataFilter, isAuth} = this.props;
         
@@ -100,12 +98,12 @@ class MapContainer extends Component {
                                resolution={map.resolution}
                                onCenterChange={setCenter}
                                onResolutionChange={setResolution}
+                               onMapPick={this.onMapPick}
                     />
                         : <Loader className="loader"/>
                 }
-                <MapControl style={layerListStyle}>
-                    <LayersList objectsDataFilter={map.objectsDataFilter} onChangeItem={setObjectsDataFilter}/>
-                </MapControl>
+                <LayersList objectsDataFilter={map.objectsDataFilter} onChangeItem={setObjectsDataFilter}/>
+                <FeaturePopup/>
             </div>
         );
     }
@@ -120,7 +118,8 @@ const mapActions = {
     setCenter,
     setResolution,
     setObjectsDataFilter,
-    loadMapServices
+    loadMapServices,
+    pickObject
 };
 
 export default connect(mapProps, mapActions)(MapContainer);

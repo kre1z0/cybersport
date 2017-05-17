@@ -8,10 +8,6 @@ import AddressCell from './address-cell';
 
 import moment from 'moment';
 import numeral from 'numeral';
-import 'numeral/locales/ru';
-
-moment.locale('ru');
-numeral.locale('ru');
 
 export const TYPES = {
     HEADER: 'header',

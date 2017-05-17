@@ -25,11 +25,11 @@ const CloseWindowButton = (props) => (
 
 class MapPopup extends Component {
   render() {
-    const {children} = this.props
+    const {children, style} = this.props
     return (
-      <div className='map-popup'>
+      <div className='map-popup' style={style}>
         <CloseWindowButton />
-        <div className="triangle-with-shadow" />
+        {/*<div className="triangle-with-shadow" />*/}
         {children}
       </div>
     )
