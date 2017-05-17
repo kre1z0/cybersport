@@ -119,7 +119,7 @@ class Portfolio extends Component {
                                      attrJS.filter(({isVisible}) => isVisible)
                                  }
                                  query={query}
-                                 loader={loading && <Loader className="loader"/>}
+                                 loader={loading && <Loader className="loader overlay"/>}
                                  onFilterChange={this.changeFilter}
                           />
                     }

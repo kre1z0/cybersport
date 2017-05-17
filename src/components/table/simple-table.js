@@ -166,8 +166,7 @@ class TableComponent extends Component {
                         cellRenderer={this.headerRenderer}
     
                 />
-                {loader ||
-                    <Body columnCount={columns.length}
+                <Body columnCount={columns.length}
                           rowCount={data.length}
                           columnRef={this.onColumnRef}
                           onScroll={this.onBodyScroll}
@@ -177,8 +176,8 @@ class TableComponent extends Component {
                           cacheKey={cacheKey}
                           selectedCell={selectedCell}
                           visibility={visibility}
-                    />
-                }
+                />
+                {loader}
             </div>
         )
     }

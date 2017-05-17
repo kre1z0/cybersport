@@ -36,13 +36,30 @@ class NewObjectWindowContainer extends Component {
     };
     
     onApply = () => {
-        const {addObject, onRequestClose} = this.props;
+        const {addObject, onRequestClose, objects} = this.props;
         const {object} = this.state;
+    
+        const attributes = objects.attributes.toJS();
+        const newObject = {...object};
         
-        addObject(object)
+        attributes.forEach(({name, domain}) => {
+            if (domain && name in newObject) {
+                newObject[name] = domain[newObject[name]];
+            }
+        });
+
+        addObject(newObject)
             .then(response => onRequestClose())
             .catch(error => console.log(error));
     };
+    
+    componentWillReceiveProps ({open}) {
+        if (!this.props.open && open) {
+            this.setState(state => ({
+                object: {}
+            }))
+        }
+    }
     
     render () {
         const {open, objects, onRequestClose} = this.props;
