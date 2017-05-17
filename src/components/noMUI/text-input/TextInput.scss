@@ -1,0 +1,18 @@
+@import "../../../assets/base/colors.scss";
+
+.sberTextInputWrapper{
+  .sberTextInput{
+    background-color: #fff;
+    border: 1px solid $paleGrey;
+    border-radius: 2px;
+    line-height: 2.286rem;
+    font-size: 1rem;
+    padding: 0 0.8571rem;
+    &.big{
+      line-height: 4.143rem;
+    }
+    &:focus{
+      border-color: $softGreen;
+    }
+  }
+}

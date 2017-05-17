@@ -15,5 +15,6 @@ import Icons from './icons';
 import NewObjectWindow from './new-object-window';
 import ColumnsSettings from './columns-settings';
 import ObjectAddress from './object-address';
+import noMUI from './noMUI';
 import MapControls from './map-controls';
 import MapPopups from './map-popup';

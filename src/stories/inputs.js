@@ -176,38 +176,7 @@ storiesOf('Inputs',  [AutoCompleteInput, DatePicker, SelectFieldInput, TextInput
 
                 return (
                     <div>
-                        <div style={{width: '300px', display: 'inline-block'}}>
-                            <TextInput value={value1} onChange={this.handlerChange1} />
-                        </div>
-                        <div style={{width: '300px', display: 'inline-block'}}>
-                            <TextInput
-                                value={value1}
-                                style={{
-                                    backgroundColor: 'green'
-                                }}
-                                inputStyle={{
-                                    color: 'yellow'
-                                }}
-                                onChange={this.handlerChange1} />
-                        </div>
-                        <br/>
-                        <div style={{width: '300px', display: 'inline-block'}}>
-                            <TextInput value={value2} multiLine onChange={this.handlerChange2} />
-                        </div>
-                        <div style={{width: '300px', display: 'inline-block'}}>
-                            <TextInput
-                                style={{
-                                    backgroundColor: 'red'
-                                }}
-                                textAreaStyle={{
-                                    color: 'blue'
-                                }}
-                                focusOnMount
-                                onBlur={()=>{console.log('unfocused')}}
-                                value={value2}
-                                multiLine
-                                onChange={this.handlerChange2} />
-                        </div>
+
                     </div>
                 )
             }
