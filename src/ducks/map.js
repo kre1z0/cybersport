@@ -17,7 +17,14 @@ const MapState = Record({
     loading: false,
     error: false,
     services: new Map(),
-    basemap: GIS
+    basemap: GIS,
+    objectsDataFilter: {
+        1: true,
+        2: true,
+        3: true,
+        4: true,
+        5: true
+    }
 });
 
 const initState = new MapState();
@@ -28,6 +35,7 @@ export const setResolution = createAction('map/set-resolution');
 export const loadServices = createAction('map/load-services');
 export const loadServicesSuccess = createAction('map/load-services-success');
 export const loadServicesError = createAction('map/load-services-error');
+export const setObjectsDataFilter = createAction('map/set-object-data-filter');
 
 const isVisible = (name, {basemap}) => (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
 
@@ -76,5 +84,8 @@ export default createReducer({
     [loadServicesError]: (state, payload) =>
         state.set('loading', false)
             .set('error', payload),
+
+    [setObjectsDataFilter]: (state, payload) =>
+        state.set('objectsDataFilter', {...state.objectsDataFilter, ...{[payload.layerNumber]: payload.checked}})
     
 }, initState)
