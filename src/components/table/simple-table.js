@@ -53,7 +53,8 @@ class TableComponent extends Component {
         selectedCell: null,
         columnsWidth: {},
         scrollLeft: 0,
-        isEdit: false
+        isEdit: false,
+        visibility: [0, 20]
     };
     
     _columnsWidth = {};
@@ -120,24 +121,30 @@ class TableComponent extends Component {
     
     onColumnRef = (ref, columnIndex) => {
         setTimeout(() => {
-            if (columnIndex in this._columnsWidth || ref.offsetWidth === 0) return;
+            if (this._columnsWidth[columnIndex] === ref.offsetWidth || ref.offsetWidth === 0) return;
     
             this._columnsWidth[columnIndex] = ref.offsetWidth;
-    
+
             if (Object.keys(this._columnsWidth).length === this.props.columns.length) {
                 this.setState(state => ({
                     columnsWidth: this._columnsWidth
                 }));
             }
-        }, 0)
+        }, 100)
     };
     
     onBodyScroll = ({target}) => {
         const scrollLeft = target.scrollLeft;
+        const scrolledRows = Math.max(0, Math.round(target.scrollTop / 56) - 1);
         if (scrollLeft !== this.state.scrollLeft) {
             this.setState(state => ({
                 scrollLeft
             }));
+        }
+        if (scrolledRows !== this.state.visibility[0]) {
+            this.setState({
+                visibility: [scrolledRows, scrolledRows + 20]
+            })
         }
     };
     
@@ -150,7 +157,7 @@ class TableComponent extends Component {
     
     render () {
         const {columns, data, cacheKey, loader} = this.props;
-        const {scrollLeft, selectedCell} = this.state;
+        const {scrollLeft, selectedCell, visibility} = this.state;
         
         return (
             <div className="sber-grid">
@@ -169,6 +176,7 @@ class TableComponent extends Component {
                           hiddenHeaderRenderer={this.hiddenHeaderRenderer}
                           cacheKey={cacheKey}
                           selectedCell={selectedCell}
+                          visibility={visibility}
                     />
                 }
             </div>

@@ -47,7 +47,7 @@ export default [
         name: 'responsible_employee_name',
         alias: 'Ответственный сотрудник ПМЗ',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         filterable: true,
         isEditable: true,
         isVisible: true,
@@ -169,9 +169,13 @@ export default [
         name: 'floor_no',
         alias: 'Этаж расположения залога',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         isEditable: true,
         isVisible: true,
+        validation: {
+            type: [Number, 'Здание целиком', 'Подвал', 'Цокольный этаж'],
+            min: 1, max: 20
+        }
     },
     {
         name: 'separate_entrance',
@@ -185,17 +189,25 @@ export default [
         name: 'floor_qty',
         alias: 'Количество этажей в здании',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         isEditable: true,
         isVisible: true,
+        validation: {
+            type: Number,
+            min: 1, max: 100
+        }
     },
     {
         name: 'room_qty',
         alias: 'Количество комнат',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         isEditable: true,
         isVisible: true,
+        validation: {
+            type: [Number, 'Студия'],
+            min: 1, max: 20
+        }
     },
     {
         name: 'monthly_volume',
@@ -217,9 +229,13 @@ export default [
         name: 'petrol_station_qty',
         alias: 'Количество заправочных островков',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         isEditable: true,
         isVisible: true,
+        validation: {
+            type: Number,
+            min: 1, max: 15
+        }
     },
     {
         name: 'owner_name',
@@ -396,5 +412,6 @@ export default [
         alias: 'Плановая дата проверки',
         type: 'date',
         isVisible: true,
+        filterable: true
     }
 ];

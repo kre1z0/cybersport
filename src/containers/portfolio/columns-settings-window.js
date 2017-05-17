@@ -6,7 +6,7 @@ import ModalWindow from '../../components/modal-window';
 import RoundedButton from '../../components/button/rounded-button';
 import ColumnsSettings from '../../components/columns-settings';
 
-class NewObjectWindowContainer extends Component {
+class ColumnsSettingsContainer extends Component {
     static propTypes = {
         open: PropTypes.bool,
         initAttributes: PropTypes.object,
@@ -65,5 +65,5 @@ const mapActions = {
     updateAttributes
 };
 
-export default connect(mapProps, mapActions)(NewObjectWindowContainer);
+export default connect(mapProps, mapActions)(ColumnsSettingsContainer);
 

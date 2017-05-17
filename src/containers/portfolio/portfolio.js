@@ -60,14 +60,16 @@ class Portfolio extends Component {
     };
     
     changeFilter = ({column, filter, sort}) => {
-        const {getObjects, isAuth} = this.props;
+        const {getObjects, isAuth, objects: {attributes}} = this.props;
         
         let query;
+        
+        const columnDefinition = attributes.toJS().find(({name})=> name === column);
         
         if(filter || sort) {
             query = {
                 ...this.state.query,
-                [column]: {filter, sort}
+                [column]: {filter, sort, type: columnDefinition && columnDefinition.type}
             };
         } else {
             query = {
@@ -84,7 +86,7 @@ class Portfolio extends Component {
     };
     
     render () {
-        const {objects: {data, attributes, loading}, isAuth} = this.props;
+        const {objects: {data, attributes, loading, staticServiceUrl}, isAuth} = this.props;
         const {newObjectOpen, columnsSettingsOpen, query} = this.state;
         
         const dataJS = data.toJS();
@@ -106,7 +108,13 @@ class Portfolio extends Component {
                     {!isAuth
                         ? <Loader className="loader"/>
                         : <Table cacheKey={hashKey}
-                                 data={dataJS}
+                                 data={
+                                     dataJS.map(object => ({
+                                         ...object,
+                                         image_name: staticServiceUrl && object.image_name &&
+                                         staticServiceUrl.replace('{{filename}}', object.image_name)
+                                     }))
+                                 }
                                  columns={
                                      attrJS.filter(({isVisible}) => isVisible)
                                  }
@@ -116,11 +124,7 @@ class Portfolio extends Component {
                           />
                     }
                     <NewObjectWindow open={newObjectOpen}
-                                     attributes={
-                                         attrJS.filter(({name}) => name !== 'control' && name !== 'address_adjusted')
-                                     }
                                      onRequestClose={this.closeNewObject}
-                                     onApply={this.addNewObject}
                     />
                     <ColumnsSettingsWindow open={columnsSettingsOpen}
                                            onRequestClose={this.closeColumnsSettings}

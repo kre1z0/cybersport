@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 
 import {setCenter, setResolution, loadMapServices} from '../../ducks/map';
-import getLayerManager, {isServicesLoaded, getObjectsDefinition} from '../../evergis/layer-manager';
+import getLayerManager, {isServicesLoaded} from '../../evergis/layer-manager';
 
 import Map from '../../components/map';
 

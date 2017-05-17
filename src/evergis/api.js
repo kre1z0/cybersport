@@ -1,7 +1,10 @@
 import getConnector from './connector';
+import getDataAccessService from './data-access';
+import {getMapPoint} from './map';
 import {
     OBJECTS_SERVICE,
     EMPLOYEES_SERVICE,
+    STATIC_SERVICE,
     getAuthUrl,
     transformResponseData,
     initService,
@@ -49,3 +52,17 @@ export const fetchAttributeDefinition = (name) =>
         .then(service => transformAttributeDefinition(service.attributesDefinition));
 
 export const fetchObjectsAttributeDefinition = () => fetchAttributeDefinition(OBJECTS_SERVICE);
+
+export const createFeature = (attributes, serviceName, geometry = getMapPoint()) =>
+    getDataAccessService(getConnector())
+        .createFeature({
+            attributes,
+            serviceName,
+            geometry
+        });
+
+export const createObjectFeature = (attributes) =>
+    createFeature(attributes, OBJECTS_SERVICE);
+
+export const fetchStaticService = () =>
+    initService(getConnector(), STATIC_SERVICE);
