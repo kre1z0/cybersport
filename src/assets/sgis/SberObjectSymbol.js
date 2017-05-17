@@ -54,7 +54,7 @@ export default function(sGis) {
         }
 
         renderFunction(feature, resolution, crs) {
-            if (!feature.aggregations || !feature.aggregations[this._aggregationIndex] || !feature.aggregations[this._typeAggregationIndex]) return [];
+            if (!feature.aggregations || !feature.aggregations[this._aggregationIndex] || !feature.aggregations[this._typeAggregationIndex] || !feature.aggregations[this._aggregationIndex][0] || !feature.aggregations[this._typeAggregationIndex][0]) return [];
 
             let status = feature.aggregations[this._aggregationIndex][0].value;
             let type = feature.aggregations[this._typeAggregationIndex][0].value;
