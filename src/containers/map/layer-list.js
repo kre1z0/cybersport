@@ -1,0 +1,32 @@
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+
+import MapControl from '../../components/map-controls';
+import LayersList from '../../components/map-controls/layers-list';
+
+
+const layerListStyle = {
+    position: 'absolute',
+    top: '1rem',
+    left: '1rem'
+};
+
+class LayerList extends Component {
+    render () {
+        return (
+            <MapControl style={layerListStyle}>
+                <LayersList/>
+            </MapControl>
+        )
+    }
+}
+
+const mapProps = ({map}) => ({
+    map
+});
+
+const mapActions = {
+
+};
+
+export default connect(mapProps, mapActions)(LayerList);

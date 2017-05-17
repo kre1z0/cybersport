@@ -9,16 +9,9 @@ import {setCenter, setResolution, loadMapServices} from '../../ducks/map';
 import getLayerManager, {isServicesLoaded} from '../../evergis/layer-manager';
 
 import Map from '../../components/map';
-import MapControl from '../../components/map-controls';
-import LayersList from '../../components/map-controls/layers-list';
+import LayersList from './layer-list';
 
 import './map.scss';
-
-const layerListStyle = {
-    position: 'absolute',
-    top: '1rem',
-    left: '1rem'
-};
 
 class MapContainer extends Component {
     static propTypes = {
@@ -68,9 +61,7 @@ class MapContainer extends Component {
                     />
                         : <Loader className="loader"/>
                 }
-                <MapControl style={layerListStyle}>
-                    <LayersList/>
-                </MapControl>
+                <LayersList/>
             </div>
         );
     }
