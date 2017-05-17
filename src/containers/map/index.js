@@ -9,7 +9,7 @@ import {setCenter, setResolution, loadMapServices} from '../../ducks/map';
 import getLayerManager, {isServicesLoaded} from '../../evergis/layer-manager';
 
 import Map from '../../components/map';
-import MapControl from '../../components/map-controls'
+import MapControl from '../../components/map-controls';
 import LayersList from '../../components/map-controls/layers-list';
 
 import './map.scss';
@@ -55,7 +55,7 @@ class MapContainer extends Component {
     }
     
     render () {
-        const {map, setCenter, setResolution, isAuth} = this.props;
+        const {map, setCenter, setResolution, isAuth, selectedMapFeatures = true} = this.props;
         
         return (
             <div className="map-container">
@@ -76,9 +76,10 @@ class MapContainer extends Component {
     }
 }
 
-const mapProps = ({map, user: {employee_id}}) => ({
+const mapProps = ({map, user: {employee_id}, selectedMapFeatures}) => ({
     map,
-    isAuth: !!employee_id
+    isAuth: !!employee_id,
+    selectedMapFeatures
 });
 
 const mapActions = {
