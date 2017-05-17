@@ -3,6 +3,7 @@ export {default as AnalyticIcon} from './analytic';
 export {default as BurgerIcon} from './burger';
 export {default as ClearFiltersIcon} from './clear-filters';
 export {default as CloseWindowIcon} from './close-window';
+export {default as CloseMapPopupIcon} from './close-map-popup';
 export {default as ContextIcon} from './context';
 export {default as DownloadIcon} from './download';
 export {default as DragIcon} from './drag';
@@ -26,4 +27,5 @@ export {default as MapIcon} from './map';
 export {default as ObjectsIcon} from './objects';
 export {default as AddPictureIcon} from './add-picture';
 export {default as CheckIcon} from './check';
-
+export {default as PageBack} from './page-back';
+export {default as PageNext} from './page-next';
