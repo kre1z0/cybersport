@@ -2,8 +2,9 @@ import React from 'react';
 import MapPopupAvatar from './avatar'
 import MapPopupItem from './map-popup-item'
 import { isTextShort } from './isTextShort'
-import { softGreen, paleGrey, darkGrey, mango, waterMelon, coolGreyThree, brightLavender } from '../../assets/theme'
+import { softGreen, paleGrey, darkGrey } from '../../assets/theme'
 import RoundedButton from '../../components/button/rounded-button';
+import MapPopupHeader from './map-popup-header';
 
 import moment from 'moment';
 import numeral from 'numeral';
@@ -43,18 +44,15 @@ const ObjectContent = ({
                                gid,
                                object_description,
                                last_check_date,
-                               last_actualization_date
+                               last_actualization_date,
+                               status
                            },
                            staticServiceUrl
                        }) => {
   return (
     <div className="object-content" >
-
-      <div className="map-popup-header" >
-        <div style={{ backgroundColor: softGreen }} className="billet" >
-          проверен без нарушений
-        </div>
-      </div>
+        
+        <MapPopupHeader status={status}/>
 
       <MapPopupAvatar img={staticServiceUrl && image_name && staticServiceUrl.replace('{{filename}}', image_name)}
                       label={gid}
