@@ -100,7 +100,7 @@ class Body extends Component {
                             </tr>
                         )
                     })}
-                    <tr><td style={{height: (rowCount - max) * 56}}/></tr>
+                    <tr><td style={{height: Math.max(rowCount - max, 0) * 56}}/></tr>
                     </tbody>
                 </table>
             </div>
