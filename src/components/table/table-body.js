@@ -22,7 +22,7 @@ class Body extends Component {
     
     state = {
         renderedRowsCount: 10,
-        colRenderHelper: (new Array(Math.min(this.props.columnCount, 10))).fill(1),
+        colRenderHelper: (new Array(this.props.columnCount)).fill(1),
         rowRenderHelper: (new Array(this.props.rowCount)).fill(1)
     };
     
@@ -39,16 +39,24 @@ class Body extends Component {
 
     shouldComponentUpdate (nextProps) {
         return this.props.cacheKey !== nextProps.cacheKey ||
+               this.props.visibility !== nextProps.visibility ||
                this.props.selectedCell !== nextProps.selectedCell;
     }
     
-    onColumnRef = (callback, rowIndex, columnIndex, rowRenderHelper) =>
+    onColumnRef = (callback, rowIndex, columnIndex, max) =>
         ref =>
-            ref && rowIndex === rowRenderHelper.length-1 &&
+            ref && rowIndex === max &&
                 callback(ref, columnIndex);
     
     render () {
-        const {onScroll, hiddenHeaderRenderer, cellRenderer, columnRef, onCellClick, visibility: [min, max]} = this.props;
+        const {
+            onScroll,
+            hiddenHeaderRenderer, cellRenderer,
+            columnRef,
+            onCellClick,
+            visibility: [min, max],
+            rowCount
+        } = this.props;
         const {colRenderHelper, rowRenderHelper} = this.state;
         
         return (
@@ -70,25 +78,29 @@ class Body extends Component {
                     </thead>
                     }
                     <tbody>
-                    {rowRenderHelper.map((r, rowIndex) => (
-                        <tr key={`tr-${rowIndex}`} className={cn({'--odd': rowIndex % 2 === 0})}>
-                            {rowIndex >= min && rowIndex < max
-                                ? colRenderHelper.map((c, columnIndex) => (
-                                    <td key={`td-${columnIndex}`}
-                                        onTouchTap={() => {
-                                            onCellClick && onCellClick(rowIndex, columnIndex)
-                                        }}
-                                        ref={this.onColumnRef(columnRef, rowIndex, columnIndex, rowRenderHelper)}
-                                    >
-                                        {
-                                            cellRenderer(rowIndex, columnIndex)
-                                        }
-                                    </td>
+                    <tr><td style={{height: min * 56}}/></tr>
+                    {rowRenderHelper.slice(min, max).map((r, rowIndex) => {
+                        let newRowIndex = min + rowIndex;
+                        return (
+                            <tr key={`tr-${newRowIndex}`} className={cn({'--odd': newRowIndex % 2 === 0})}>
+                                {
+                                    colRenderHelper.map((c, columnIndex) => (
+                                        <td key={`td-${columnIndex}`}
+                                            onTouchTap={() => {
+                                                onCellClick && onCellClick(newRowIndex, columnIndex)
+                                            }}
+                                            ref={this.onColumnRef(columnRef, newRowIndex, columnIndex, max - 1)}
+                                        >
+                                            {
+                                                cellRenderer(newRowIndex, columnIndex)
+                                            }
+                                        </td>
                                     ))
-                                : <td style={noRenderStyle}>No render</td>
-                            }
-                        </tr>
-                    ))}
+                                }
+                            </tr>
+                        )
+                    })}
+                    <tr><td style={{height: (rowCount - max) * 56}}/></tr>
                     </tbody>
                 </table>
             </div>
