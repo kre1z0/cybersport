@@ -6,7 +6,6 @@ import Loader from 'material-ui/CircularProgress';
 import HeaderTitleBlock from '../../components/header-title-block';
 import Table from '../../components/table/simple-table';
 import {getObjects} from '../../ducks/objects';
-import {tranformQuery} from '../../evergis/helpers';
 
 import NewObjectWindow from './new-object-window';
 import ColumnsSettingsWindow from './columns-settings-window';
@@ -26,29 +25,51 @@ class Portfolio extends Component {
     
     componentDidMount () {
         const {getObjects, isAuth} = this.props;
-        isAuth && getObjects();
+        if (isAuth) {
+            getObjects();
+        }
     }
 
     componentWillReceiveProps ({getObjects, isAuth}) {
-        !this.props.isAuth && isAuth && getObjects();
+        if (!this.props.isAuth && isAuth) {
+            getObjects();
+        }
     }
     
-    showNewObject = () => this.setState(() => ({newObjectOpen: true}));
+    showNewObject = (e) => {
+        e.preventDefault();
+        this.setState(() => ({newObjectOpen: true}));
+    };
     closeNewObject = () => this.setState(() => ({newObjectOpen: false}));
-    showColumnsSettings = () => this.setState(() => ({columnsSettingsOpen: true}));
+    showColumnsSettings = (e) => {
+        e.preventDefault();
+        this.setState(() => ({columnsSettingsOpen: true}));
+    };
     closeColumnsSettings = () => this.setState(() => ({columnsSettingsOpen: false}));
     
     addNewObject = () => {
         this.closeNewObject();
     };
     
+    clearFilter = () => {
+        const {getObjects, isAuth} = this.props;
+        this.setState(() => ({
+            query: {}
+        }));
+        isAuth && getObjects({});
+    };
+    
     changeFilter = ({column, filter, sort}) => {
+        const {getObjects, isAuth, objects: {attributes}} = this.props;
+        
         let query;
+        
+        const columnDefinition = attributes.toJS().find(({name})=> name === column);
         
         if(filter || sort) {
             query = {
                 ...this.state.query,
-                [column]: {filter, sort}
+                [column]: {filter, sort, type: columnDefinition && columnDefinition.type}
             };
         } else {
             query = {
@@ -61,11 +82,11 @@ class Portfolio extends Component {
             query
         }));
 
-        this.props.getObjects(tranformQuery(query));
+        isAuth && getObjects(query);
     };
     
     render () {
-        const {objects: {data, attributes, loading}, isAuth} = this.props;
+        const {objects: {data, attributes, loading, staticServiceUrl}, isAuth} = this.props;
         const {newObjectOpen, columnsSettingsOpen, query} = this.state;
         
         const dataJS = data.toJS();
@@ -76,32 +97,37 @@ class Portfolio extends Component {
             <div className="portfolio-container --padding">
                 <div className="portfolio-content">
 
-                    <HeaderTitleBlock title="Реестр объектов залога"
-                                      onNewObjectClick={this.showNewObject}
-                                      onSettingsClick={this.showColumnsSettings}
-                    />
+                    {isAuth &&
+                        <HeaderTitleBlock title="Реестр объектов залога"
+                                          onNewObjectClick={this.showNewObject}
+                                          onSettingsClick={this.showColumnsSettings}
+                                          onClearFilterClick={this.clearFilter}
+                        />
+                    }
 
                     {!isAuth
                         ? <Loader className="loader"/>
                         : <Table cacheKey={hashKey}
-                                 data={dataJS}
-                                 columns={attrJS}
+                                 data={
+                                     dataJS.map(object => ({
+                                         ...object,
+                                         image_name: staticServiceUrl && object.image_name &&
+                                         staticServiceUrl.replace('{{filename}}', object.image_name)
+                                     }))
+                                 }
+                                 columns={
+                                     attrJS.filter(({isVisible}) => isVisible)
+                                 }
                                  query={query}
                                  loader={loading && <Loader className="loader"/>}
                                  onFilterChange={this.changeFilter}
                           />
                     }
                     <NewObjectWindow open={newObjectOpen}
-                                     attributes={
-                                         attrJS.filter(({name}) => name !== 'control' && name !== 'address_adjusted')
-                                     }
                                      onRequestClose={this.closeNewObject}
-                                     onApply={this.addNewObject}
                     />
-                    <ColumnsSettingsWindow attributes={
-                                             attrJS.filter(({name}) => name !== 'control')
-                                           }
-                                           open={columnsSettingsOpen}
+                    <ColumnsSettingsWindow open={columnsSettingsOpen}
+                                           onRequestClose={this.closeColumnsSettings}
                     />
                 </div>
             </div>

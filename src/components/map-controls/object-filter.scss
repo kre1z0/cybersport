@@ -1,0 +1,32 @@
+@import "../../assets/base/colors";
+
+.object-filter {
+  .object-filter-block {
+    padding-bottom: 30px;
+  }
+  .object-filter-item {
+    padding-bottom: 20px;
+    .label {
+      font-size: 0.928rem;
+      line-height: normal;
+      color: $coolGrayTwo;
+      padding-bottom: 10px;
+    }
+    .date {
+      display: flex;
+      .date-picker-input {
+        &:first-child {
+          .text-input {
+            border-right-color: transparent;
+            &.focused {
+              border-right-color: $softGreen;
+            }
+          }
+        }
+      }
+    }
+  }
+  .object-filter-center {
+    text-align: center;
+  }
+}

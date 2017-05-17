@@ -7,7 +7,7 @@ import {theme} from '../assets/theme';
 import ModalWindow from '../components/modal-window';
 import RoundedButton from '../components/button/rounded-button';
 
-import NewObjectWindow from '../components/new-object-window'
+import NewObjectWindow from '../components/new-object-window/new-object-window'
 
 import {columns} from './objects-mock-data';
 

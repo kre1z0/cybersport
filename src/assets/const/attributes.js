@@ -3,6 +3,7 @@ export default [
         name: 'control',
         alias: '',
         type: 'control',
+        isVisible: true,
     },
     {
         name: 'image_name',
@@ -46,7 +47,8 @@ export default [
         name: 'responsible_employee_name',
         alias: 'Ответственный сотрудник ПМЗ',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
+        filterable: true,
         isEditable: true,
         isVisible: true,
     },
@@ -167,9 +169,13 @@ export default [
         name: 'floor_no',
         alias: 'Этаж расположения залога',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         isEditable: true,
         isVisible: true,
+        validation: {
+            type: [Number, 'Здание целиком', 'Подвал', 'Цокольный этаж'],
+            min: 1, max: 20
+        }
     },
     {
         name: 'separate_entrance',
@@ -183,17 +189,25 @@ export default [
         name: 'floor_qty',
         alias: 'Количество этажей в здании',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         isEditable: true,
         isVisible: true,
+        validation: {
+            type: Number,
+            min: 1, max: 100
+        }
     },
     {
         name: 'room_qty',
         alias: 'Количество комнат',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         isEditable: true,
         isVisible: true,
+        validation: {
+            type: [Number, 'Студия'],
+            min: 1, max: 20
+        }
     },
     {
         name: 'monthly_volume',
@@ -215,9 +229,13 @@ export default [
         name: 'petrol_station_qty',
         alias: 'Количество заправочных островков',
         type: 'text',
-        editorType: 'select',
+        editorType: 'text',
         isEditable: true,
         isVisible: true,
+        validation: {
+            type: Number,
+            min: 1, max: 15
+        }
     },
     {
         name: 'owner_name',
@@ -230,8 +248,8 @@ export default [
     {
         name: 'owner_inn',
         alias: 'ИНН залогодателя',
-        type: 'number',
-        editorType: 'number',
+        type: 'text',
+        editorType: 'text',
         isEditable: true,
         filterable: true,
         isVisible: true,
@@ -369,13 +387,17 @@ export default [
         name: 'last_check_date',
         alias: 'Дата последней проверки',
         type: 'date',
+        editorType: 'date',
         isVisible: true,
+        isEditable: true,
     },
     {
         name: 'last_actualization_date',
         alias: 'Дата последней актуализации',
         type: 'date',
+        editorType: 'date',
         isVisible: true,
+        isEditable: true,
     },
     {
         name: 'check_result_code',
@@ -384,5 +406,12 @@ export default [
         editorType: 'select',
         isEditable: true,
         isVisible: true,
+    },
+    {
+        name: 'planned_audit_date',
+        alias: 'Плановая дата проверки',
+        type: 'date',
+        isVisible: true,
+        filterable: true
     }
 ];

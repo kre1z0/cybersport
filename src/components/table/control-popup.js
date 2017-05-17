@@ -30,7 +30,11 @@ class ControlPopup extends  PureComponent {
         anchor: null
     };
     
-    showPopup = ({target}) => this.setState(setAnchor(target));
+    showPopup = (e) => {
+        e.preventDefault();
+        this.setState(setAnchor(e.currentTarget));
+    };
+    
     closePopup = () => this.setState(setAnchor(null));
     
     render () {

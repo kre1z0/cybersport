@@ -13,7 +13,7 @@ const ViewButtonStyle = {
   padding: 0
 };
 
-const ColumnsSettingsItem = ({alias, isVisible, ...props}) => (
+const ColumnsSettingsItem = ({alias, isVisible, index, onVisibilityChange, ...props}) => (
   <div className="columns-settings-item">
     <div className="columns-settings-dnd">
       <DragIcon style={{height: '0.785rem'}}/>
@@ -21,6 +21,7 @@ const ColumnsSettingsItem = ({alias, isVisible, ...props}) => (
     <div className="columns-settings-ico">
       <IconButton  style={ViewButtonStyle}
                    iconStyle={ViewIconStyle}
+                   onTouchTap={() => onVisibilityChange(index, !isVisible)}
       >
         <ViewIcon isVisible={isVisible} />
       </IconButton>
