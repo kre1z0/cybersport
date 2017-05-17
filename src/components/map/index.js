@@ -67,7 +67,7 @@ class Map extends Component {
     
     render () {
         return (
-            <div className="map-container" ref={container => this.container = container}>
+            <div className="map-wrapper" ref={container => this.container = container}>
     
             </div>
         );
