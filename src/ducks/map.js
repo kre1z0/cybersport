@@ -17,7 +17,8 @@ const MapState = Record({
     loading: false,
     error: false,
     services: new Map(),
-    basemap: GIS
+    basemap: GIS,
+    selectedObjects: undefined
 });
 
 const initState = new MapState();
