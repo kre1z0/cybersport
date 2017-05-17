@@ -10,6 +10,7 @@ import getLayerManager, {isServicesLoaded} from '../../evergis/layer-manager';
 
 import Map from '../../components/map';
 import LayersList from './layer-list';
+import FeaturePopup from './feature-popup';
 
 import './map.scss';
 
@@ -48,11 +49,11 @@ class MapContainer extends Component {
     }
     
     onMapPick = (e) => {
-        this.props.pickObject(e.point)
+        this.props.pickObject(e.point);
     };
     
     render () {
-        const {map, setCenter, setResolution, isAuth, selectedMapFeatures = true} = this.props;
+        const {map, setCenter, setResolution, isAuth} = this.props;
         
         return (
             <div className="map-container">
@@ -67,15 +68,15 @@ class MapContainer extends Component {
                         : <Loader className="loader"/>
                 }
                 <LayersList/>
+                <FeaturePopup/>
             </div>
         );
     }
 }
 
-const mapProps = ({map, user: {employee_id}, selectedMapFeatures}) => ({
+const mapProps = ({map, user: {employee_id}}) => ({
     map,
-    isAuth: !!employee_id,
-    selectedMapFeatures
+    isAuth: !!employee_id
 });
 
 const mapActions = {

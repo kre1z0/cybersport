@@ -4,7 +4,7 @@ import getLayerManager from '../evergis/layer-manager';
 import getMap from '../evergis/map';
 import getConnector from '../evergis/connector';
 import {OBJECTS_SERVICE, EMPLOYEES_SERVICE, OSM, GIS, BASEMAPS, OFFICES_SERVICE, applyObjectsStyle} from '../evergis/helpers';
-import {pickByGeometry} from '../evergis/api';
+import {pickByGeometry, fetchStaticService} from '../evergis/api';
 
 const Service = Record({
     name: undefined,
@@ -41,7 +41,9 @@ export const loadMapServices = (names = [OSM, GIS, EMPLOYEES_SERVICE, OFFICES_SE
     const connector = getConnector();
     const layerManager = getLayerManager(connector, map);
     
-    return Promise.all(names.map(name => layerManager.loadWithPromise(name)))
+    return Promise.all(
+            names.map(name => layerManager.loadWithPromise(name)),
+        )
         .then(containers => {
             
             applyObjectsStyle(containers.find(({name}) => name === OBJECTS_SERVICE));

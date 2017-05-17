@@ -29,7 +29,7 @@ class MapPopup extends Component {
     return (
       <div className='map-popup' style={style}>
         <CloseWindowButton />
-        <div className="triangle-with-shadow" />
+        {/*<div className="triangle-with-shadow" />*/}
         {children}
       </div>
     )

@@ -5,18 +5,25 @@ import ObjectContent from '../../components/map-popup/object-content';
 
 class FeaturePopup extends Component {
     render () {
-        const {selectedMapFeatures} = this.props;
+        const {selectedObjects, staticServiceUrl} = this.props;
         return (
-            selectedMapFeatures &&
-            <MapPopups>
-                <ObjectContent />
-            </MapPopups>
+            selectedObjects && selectedObjects.length > 0
+            ? <MapPopups style={{
+                top: '1rem',
+                right: '1rem'
+              }}>
+                <ObjectContent object={selectedObjects[0]}
+                               staticServiceUrl={staticServiceUrl}
+                />
+              </MapPopups>
+            : null
         )
     }
 }
 
-const mapProps = ({selectedMapFeatures}) => ({
-    selectedMapFeatures
+const mapProps = ({map: {selectedObjects}, user: {staticServiceUrl} }) => ({
+    selectedObjects,
+    staticServiceUrl
 });
 
 const mapActions = {
