@@ -96,7 +96,7 @@ export const applyObjectsStyle = service => {
                 "fillColor": "rgba(255,255,255,1)",
                 "strokeColor": "rgba(255,255,255,0)",
                 "strokeWidth": 0,
-                "clusterSize": 6,
+                "clusterSize": 8,
                 "minSize": 30,
                 "maxSize": 70,
                 "gridSize":60,
