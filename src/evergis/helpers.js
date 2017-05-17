@@ -2,9 +2,11 @@ import sGis from '../assets/sgis';
 import addSberSymbol from '../assets/sgis/SberObjectSymbol';
 
 export const OBJECTS_SERVICE = 'sber_objects';
-export const EMPLOYEES_SERVICE = 'sber_employees';
+export const EMPLOYEES_SERVICE = 'sber_employees_pin';
+export const OFFICES_SERVICE = 'sber_offices_pin';
 export const OSM = 'osm';
 export const GIS = '2gis';
+export const STATIC_SERVICE = 'sber_objects_static';
 
 export const BASEMAPS = [OSM, GIS];
 
@@ -47,8 +49,9 @@ export const tranformQuery = query => {
     const filter = columns
         .map(column => {
             const filterString = query[column].filter;
+            const isString = query[column].type !== 'number';
             if (!filterString || filterString.length === 0) return;
-            return `${column} like '%${filterString}%'`;
+            return `${column} ${isString ? 'like' : '=='} ${isString ? `'%${filterString}%'` : filterString}`;
         })
         .filter(i=>!!i);
     
@@ -127,9 +130,18 @@ export const applyObjectsStyle = service => {
 export const initService = (connector, name) => {
     const container =  new sGis.sp.services.ServiceContainer(connector, name);
     return new Promise((res, rej) => {
-        container.on('stateUpdate', () => {
+        container.once('stateUpdate', () => {
             if (container.error) rej(container.error);
             res(container.service);
         });
     })
+};
+
+export const addEmployeeToQuery = (query, id) => {
+    if (query.filter) {
+        query.filter += `&& responsible_employee_id == ${id}`
+    } else {
+        query.filter = `responsible_employee_id == ${id}`
+    }
+    return query;
 };

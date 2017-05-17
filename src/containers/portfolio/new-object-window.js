@@ -1,4 +1,7 @@
 import React, {Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
+import {addObject} from '../../ducks/objects';
+
 import ModalWindow from '../../components/modal-window';
 import RoundedButton from '../../components/button/rounded-button';
 import NewObjectWindow from '../../components/new-object-window/new-object-window';
@@ -32,9 +35,20 @@ class NewObjectWindowContainer extends Component {
         }))
     };
     
-    render () {
-        const {open, attributes, onRequestClose, onApply} = this.props;
+    onApply = () => {
+        const {addObject, onRequestClose} = this.props;
         const {object} = this.state;
+        
+        addObject(object)
+            .then(response => onRequestClose())
+            .catch(error => console.log(error));
+    };
+    
+    render () {
+        const {open, objects, onRequestClose} = this.props;
+        const {object} = this.state;
+        
+        const attributes = objects.attributes.toJS();
         
         return (
             <ModalWindow title="Новый объект"
@@ -45,7 +59,7 @@ class NewObjectWindowContainer extends Component {
                                                 onTouchTap={onRequestClose}
                                  />
                                  <RoundedButton label="Сохранить"
-                                                onTouchTap={onApply}
+                                                onTouchTap={this.onApply}
                                                 primary={true}
                                  />
                              </div>
@@ -60,5 +74,12 @@ class NewObjectWindowContainer extends Component {
         )
     }
 }
+const mapProps = ({objects}) => ({
+    objects
+});
 
-export default NewObjectWindowContainer;
+const mapActions = {
+    addObject
+};
+
+export default connect(mapProps, mapActions)(NewObjectWindowContainer);
