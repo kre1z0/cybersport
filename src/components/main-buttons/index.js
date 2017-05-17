@@ -20,7 +20,7 @@ const Icons = {
 
 const MainButton = ({id, isActive, label, onTouchTap, icon, ...props}) => (
   <div className='home-button'
-    onClick={onTouchTap}
+       onTouchTap={onTouchTap}
     {...props}
   >
     <div className='home-button-ico'>{icon}</div>
@@ -54,7 +54,6 @@ class MainButtons extends Component {
     render () {
         const {buttons} = this.props;
         const {activeButton} = this.state;
-        console.log(activeButton)
         return (
             <div className="main-buttons">
                 {buttons.map(({id, icon, label, onTouchTap, ...props}) => {
