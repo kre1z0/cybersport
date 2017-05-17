@@ -4,6 +4,7 @@ import getLayerManager from '../evergis/layer-manager';
 import getMap from '../evergis/map';
 import getConnector from '../evergis/connector';
 import {OBJECTS_SERVICE, EMPLOYEES_SERVICE, OSM, GIS, BASEMAPS, OFFICES_SERVICE, applyObjectsStyle} from '../evergis/helpers';
+import {pickByGeometry} from '../evergis/api';
 
 const Service = Record({
     name: undefined,
@@ -17,7 +18,8 @@ const MapState = Record({
     loading: false,
     error: false,
     services: new Map(),
-    basemap: GIS
+    basemap: GIS,
+    selectedObjects: []
 });
 
 const initState = new MapState();
@@ -28,6 +30,8 @@ export const setResolution = createAction('map/set-resolution');
 export const loadServices = createAction('map/load-services');
 export const loadServicesSuccess = createAction('map/load-services-success');
 export const loadServicesError = createAction('map/load-services-error');
+
+export const selectObject = createAction('map/select-object');
 
 const isVisible = (name, {basemap}) => (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
 
@@ -49,6 +53,10 @@ export const loadMapServices = (names = [OSM, GIS, EMPLOYEES_SERVICE, OFFICES_SE
         })
         .catch(error => dispatch(loadServicesError()));
 };
+
+export const pickObject = (point) => dispatch => pickByGeometry(point)
+        .then(response => dispatch(selectObject(response)))
+        .catch(error => dispatch(selectObject([])));
 
 export default createReducer({
     [setCenter]: (state, payload) =>
@@ -76,5 +84,8 @@ export default createReducer({
     [loadServicesError]: (state, payload) =>
         state.set('loading', false)
             .set('error', payload),
+    
+    [selectObject]: (state, payload) =>
+        state.set('selectedObjects', payload)
     
 }, initState)

@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 
-import {setCenter, setResolution, loadMapServices} from '../../ducks/map';
+import {setCenter, setResolution, loadMapServices, pickObject} from '../../ducks/map';
 import getLayerManager, {isServicesLoaded} from '../../evergis/layer-manager';
 
 import Map from '../../components/map';
@@ -47,6 +47,10 @@ class MapContainer extends Component {
         });
     }
     
+    onMapPick = (e) => {
+        this.props.pickObject(e.point)
+    };
+    
     render () {
         const {map, setCenter, setResolution, isAuth, selectedMapFeatures = true} = this.props;
         
@@ -58,6 +62,7 @@ class MapContainer extends Component {
                                resolution={map.resolution}
                                onCenterChange={setCenter}
                                onResolutionChange={setResolution}
+                               onMapPick={this.onMapPick}
                     />
                         : <Loader className="loader"/>
                 }
@@ -76,7 +81,8 @@ const mapProps = ({map, user: {employee_id}, selectedMapFeatures}) => ({
 const mapActions = {
     setCenter,
     setResolution,
-    loadMapServices
+    loadMapServices,
+    pickObject
 };
 
 export default connect(mapProps, mapActions)(MapContainer);

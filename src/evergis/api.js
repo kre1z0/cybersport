@@ -1,6 +1,6 @@
 import getConnector from './connector';
 import getDataAccessService from './data-access';
-import {getMapPoint} from './map';
+import getMap, {getMapPoint} from './map';
 import {
     OBJECTS_SERVICE,
     EMPLOYEES_SERVICE,
@@ -66,3 +66,10 @@ export const createObjectFeature = (attributes) =>
 
 export const fetchStaticService = () =>
     initService(getConnector(), STATIC_SERVICE);
+
+export const pickByGeometry = (point) =>
+    getConnector().api.pickByGeometry({
+        geometry: point,
+        services: [OBJECTS_SERVICE],
+        resolution: getMap({}).resolution
+    }).then(features => transformResponseData(features));
