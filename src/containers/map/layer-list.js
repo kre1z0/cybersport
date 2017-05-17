@@ -13,9 +13,10 @@ const layerListStyle = {
 
 class LayerList extends Component {
     render () {
+        const {objectsDataFilter, onChangeItem} = this.props;
         return (
             <MapControl style={layerListStyle}>
-                <LayersList/>
+                <LayersList objectsDataFilter={objectsDataFilter} onChangeItem={onChangeItem}/>
             </MapControl>
         )
     }
