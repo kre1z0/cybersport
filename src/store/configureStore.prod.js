@@ -10,13 +10,20 @@ import reducers, {StateRecord} from '../ducks';
 const configureStore = (preloadedState = new StateRecord()) => {
     
     const middlewares = compose(
-        applyMiddleware(thunk, createActionBuffer(REHYDRATE)),
+        applyMiddleware(
+            thunk,
+            createActionBuffer(REHYDRATE)
+        ),
         autoRehydrate()
     );
     
     const store = createStore(reducers, preloadedState, middlewares);
     
-    persistStore(store, {storage: localForage, blacklist: ['user', 'objects']});
+    persistStore(store, {
+        storage: localForage,
+        //blacklist: ['user', 'objects'],
+        whitelist: []
+    });
     
     return store;
 };
