@@ -13,7 +13,10 @@ const Service = Record({
 });
 
 const MapState = Record({
-    center: [4194282.0079564173, 7506654.32236642],
+    center: [
+        5477310.877466004,
+        7517826.314514717
+    ],
     resolution: 76.43702828515632,
     loading: false,
     error: false,
