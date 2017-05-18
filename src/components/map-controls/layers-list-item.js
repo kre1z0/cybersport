@@ -17,7 +17,7 @@ const LayersListItem = ({ backgroundColor, boxShadowColor, imgSrc, label, checke
   return (
     <div className="layers-list-item" >
       <div className='checkbox-wrapper' >
-        <Checkbox onCheck={(e, checked) => {onChange({layerNumber, checked})}} checked={checked} iconStyle={{ margin: 0 }} />
+        <Checkbox onCheck={(e, checked) => { onChange({layerNumber, checked})}} checked={checked} iconStyle={{ margin: 0 }} />
       </div>
       {imgSrc === undefined ? balun : img}
       <div className="label" >

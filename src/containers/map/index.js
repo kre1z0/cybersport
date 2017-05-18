@@ -5,13 +5,16 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 
-import {setCenter, setResolution, setObjectsDataFilter, loadMapServices, pickObject} from '../../ducks/map';
+import {setCenter, setResolution, loadMapServices, pickObject} from '../../ducks/map';
 import getLayerManager, {isServicesLoaded} from '../../evergis/layer-manager';
 import {setDataFilters} from '../../evergis/api';
 
 import Map from '../../components/map';
 import LayersList from './layer-list';
 import FeaturePopup from './feature-popup';
+
+
+import {OBJECTS_SERVICE, OFFICES_SERVICE, EMPLOYEES_SERVICE} from '../../evergis/helpers';
 
 import './map.scss';
 
@@ -35,22 +38,32 @@ class MapContainer extends Component {
     }
     
     componentWillReceiveProps ({loadMapServices, map, isAuth}) {
-        if(!this.props.isAuth && isAuth && !map.loading && !isServicesLoaded()) {
-            loadMapServices().then(services => {
-                this.updateServices(services, map);
-            });
-        }
+        if(isAuth){
+            if(!this.props.isAuth && !map.loading && !isServicesLoaded()) {
+                loadMapServices().then(services => {
+                    this.updateServices(services, map);
+                });
+            }
 
-        let checkStatus = false;
-        for(let i in map.objectsDataFilter){
-            if(this.props.map.objectsDataFilter[i] !== map.objectsDataFilter[i]) checkStatus = true;
-        }
-        if(checkStatus && isAuth) {
-            const layerManager = getLayerManager();
-            const sber_service = layerManager.getService('sber_objects');
-            let df = sber_service.dataFilter;
-            df.condition = this.setFilter(map.objectsDataFilter);
-            sber_service.setDataFilter(df);
+            if(this.props.map.objectsDataFilter !== map.objectsDataFilter) {
+                const layerManager = getLayerManager();
+                const sber_service = layerManager.getService(OBJECTS_SERVICE);
+                let df = sber_service.dataFilter;
+                df.condition = this.setFilter(map.objectsDataFilter.toJS());
+                sber_service.setDataFilter(df);
+            }
+
+            if(this.props.map.showOffices !== map.showOffices){
+                const layerManager = getLayerManager();
+                const offices_service = layerManager.getService(OFFICES_SERVICE);
+                offices_service.isDisplayed = map.showOffices
+            }
+
+            if(this.props.map.showHomeAddress !== map.showHomeAddress){
+                const layerManager = getLayerManager();
+                const employess_service = layerManager.getService(EMPLOYEES_SERVICE);
+                employess_service.isDisplayed = map.showHomeAddress
+            }
         }
     }
     
@@ -59,9 +72,9 @@ class MapContainer extends Component {
         services.forEach(({name, isVisible}) => {
             const service = layerManager.getService(name);
 
-            if(name === 'sber_objects') {
+            if(name === OBJECTS_SERVICE) {
                 let df = service.dataFilter;
-                df.condition = this.setFilter(map.objectsDataFilter);
+                df.condition = this.setFilter(map.objectsDataFilter.toJS());
                 service.setDataFilter(df);
             }
 
@@ -88,7 +101,7 @@ class MapContainer extends Component {
     };
 
     render () {
-        const {map, setCenter, setResolution, setObjectsDataFilter, isAuth} = this.props;
+        const {map, setCenter, setResolution, isAuth} = this.props;
         
         return (
             <div className="map-container">
@@ -102,7 +115,7 @@ class MapContainer extends Component {
                     />
                         : <Loader className="loader"/>
                 }
-                <LayersList objectsDataFilter={map.objectsDataFilter} onChangeItem={setObjectsDataFilter}/>
+                <LayersList />
                 <FeaturePopup/>
             </div>
         );
@@ -117,7 +130,6 @@ const mapProps = ({map, user: {employee_id}}) => ({
 const mapActions = {
     setCenter,
     setResolution,
-    setObjectsDataFilter,
     loadMapServices,
     pickObject
 };
