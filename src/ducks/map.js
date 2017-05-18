@@ -103,12 +103,10 @@ export default createReducer({
             .set('error', payload),
 
     [setObjectsDataFilter]: (state, {layerNumber, checked}) =>
-        state.setIn(['objectsDataFilter', layerNumber], checked),
+        state.setIn(['objectsDataFilter', layerNumber.toString()], checked),
 
     [setShowOffices]: (state, payload) =>
-    {
-        return state.set('showOffices', payload.checked)
-    },
+        state.set('showOffices', payload.checked),
 
     [setShowHomeAddress]: (state, payload) =>
         state.set('showHomeAddress', payload.checked),
