@@ -13,8 +13,8 @@ const Item = ({item, onClick, selected}) => {
     return <div onClick={() => {onClick(item.value)}} className={cn("item", {selected})} dangerouslySetInnerHTML={{__html: item.text}} />
 };
 
-const ItemList = ({items, onSelect, selectItemIndex}) => {
-    return <div className="item-list">
+const ItemList = ({items, onSelect, selectItemIndex, className}) => {
+    return <div className={cn("item-list", className)}>
         {items.map((item, index) => <Item onClick={onSelect} selected={selectItemIndex === index} key={item.value} item={item} />)}
     </div>
 };
@@ -91,14 +91,24 @@ class AutoComplete extends Component {
         }
     };
 
+    static propTypes = {
+        values: PropTypes.array,
+        value: PropTypes.string,
+        onChange: PropTypes.func,
+        className: PropTypes.string,
+        style: PropTypes.object,
+        itemListClassName: PropTypes.string
+    };
 
     render(){
-        const { value } = this.props;
+        const { value, className, style, itemListClassName } = this.props;
         const { items, selectItemIndex } = this.state;
 
-        return <div ref={el => this.el = el} className="sberAutoComplete">
-            <TextInput onChange={this.onChange} value={value} onKeyDown={this.keyUp} />
-            <ItemList onSelect={this.onSelect} selectItemIndex={selectItemIndex} items={items} />
+        const mergedClassName = cn("sberAutoComplete", className);
+
+        return <div ref={el => this.el = el} className={mergedClassName} style={style} >
+            <TextInput onChange={this.onChange} value={value} inputProps={{onKeyDown: this.keyUp}} />
+            <ItemList className={itemListClassName} onSelect={this.onSelect} selectItemIndex={selectItemIndex} items={items} />
         </div>
     }
 }

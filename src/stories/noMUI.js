@@ -13,7 +13,7 @@ storiesOf('noMUI', [TextInput, AutoComplete, Select, TextArea])
     .add('text input', () => {
 
         const ToggleSpan = ({value, editing, onEdit, onChange}) => editing
-                                                    ? <TextInput className="big" focus value={value} onChange={onChange} onBlur={()=>{onEdit(false)}} />
+                                                    ? <TextInput className="big" focus value={value} onChange={onChange} inputProps={{onBlur: () => {onEdit(false)}}} />
                                                     : <span onClick={() => {onEdit(true)}}>{value}</span>;
 
         class TextInputDemo extends Component {
@@ -135,9 +135,21 @@ storiesOf('noMUI', [TextInput, AutoComplete, Select, TextArea])
 
     .add('text area', () => {
         class TextAreaDemo extends Component {
+            state = {
+                value: 'Text area'
+            };
+
+            handleChange = (value) => {
+                this.setState({
+                    value
+                })
+            };
+
             render(){
+                const { value } = this.state;
+
                 return <div>
-                    <TextArea/>
+                    <TextArea value={value} onChange={this.handleChange}/>
                 </div>
             }
         }

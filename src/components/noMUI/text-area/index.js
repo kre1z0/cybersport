@@ -3,10 +3,21 @@
  */
 import React, {Component} from 'react';
 
+import './TextArea.scss';
+
 class TextArea extends Component {
+
+
+    handleChange = ({target}) => {
+        const {onChange} = this.props;
+        onChange && onChange(target.value);
+    };
+
     render(){
+        const {value} = this.props;
+
         return <div className="sberTextArea">
-            <textarea />
+            <textarea value={value} onChange={this.handleChange} />
         </div>
     }
 }

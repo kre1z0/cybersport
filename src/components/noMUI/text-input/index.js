@@ -9,36 +9,37 @@ import './TextInput.scss';
 
 class TextInput extends Component {
     static propTypes = {
+        value: PropTypes.string,
         className: PropTypes.string,
         wrapperClassName: PropTypes.string,
-        value: PropTypes.string,
         style: PropTypes.object,
-        wrapperStyle: PropTypes.object
+        wrapperStyle: PropTypes.object,
+        inputProps: PropTypes.object,
+        wrapperProps: PropTypes.object,
+
+        focus: PropTypes.bool
     };
 
     onChange = ({target}) => {
         const { onChange } = this.props;
-
         onChange && onChange(target.value)
     };
 
     render(){
-        const { focus, value, className, wrapperClassName, style, wrapperStyle, onKeyDown, onKeyUp, ...otherProps } = this.props;
+        const { focus, value, className, wrapperClassName, style, wrapperStyle, inputProps, wrapperProps } = this.props;
 
         const mergedClassName = cn("sberTextInput", className);
         const mergedWrapperClassName = cn("sberTextInputWrapper", wrapperClassName);
 
-        return <div className={mergedWrapperClassName} style={wrapperStyle}>
+        return <div {...wrapperProps} className={mergedWrapperClassName} style={wrapperStyle}>
             <input
-                {...otherProps}
+                {...inputProps}
                 ref={input => input && focus && input.focus()}
                 className={mergedClassName}
                 style={style}
                 type="text"
                 value={value}
                 onChange={this.onChange}
-                onKeyDown={onKeyDown}
-                onKeyUp={onKeyUp}
             />
         </div>
     }
