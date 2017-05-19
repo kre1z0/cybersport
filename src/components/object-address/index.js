@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Map from '../map'
 import ObjectAddressItem from './object-address-item'
 import './object-address.scss'

@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import TaskContainer from './task-container';
 
 import {macaroniAndCheese, coolGrayTwo, softGreen} from '../../assets/theme';

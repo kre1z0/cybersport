@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react';
+import React, { PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import Popover from 'material-ui/Popover';
 import FlatButton from '../button/flat-button';

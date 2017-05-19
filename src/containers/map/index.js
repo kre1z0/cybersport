@@ -1,7 +1,8 @@
 /**
  * Created by tporyadin on 3/6/2017.
  */
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 

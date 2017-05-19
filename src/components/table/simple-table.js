@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq'
 
 import CellSwitcher, {TYPES} from './cell-switcher';
