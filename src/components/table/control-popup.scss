@@ -1,6 +1,8 @@
 
-.header-popup-content {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+:global {
+  .header-popup-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
 }

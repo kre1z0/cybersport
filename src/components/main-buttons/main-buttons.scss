@@ -1,47 +1,49 @@
 @import "../../assets/base/media";
 
-.main-buttons {
-  margin-top: 40px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: stretch;
-  max-width: 760px;
-
-  .home-button {
-    margin-bottom: 40px;
-    background-color: #fff;
-    height: 110px;
-    width: 47.4%;
+:global {
+  .main-buttons {
+    margin-top: 40px;
     display: flex;
-    align-items: center;
-    box-shadow: 0 5px 15px 0 rgba(164, 168, 171, 0.25);
-    &:hover {
-      cursor: pointer;
-    }
-    .home-button-ico {
-      padding-left: 35px;
-    }
-    .home-button-label {
-      padding: 0 30px;
-      font-size: 1.286rem;
-    }
-  }
-  @media #{$phone} {
-    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    max-width: 760px;
+
     .home-button {
-      height: 65px;
-      margin-bottom: 10px;
+      margin-bottom: 40px;
+      background-color: #fff;
+      height: 110px;
+      width: 47.4%;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 5px 15px 0 rgba(164, 168, 171, 0.25);
+      &:hover {
+        cursor: pointer;
+      }
       .home-button-ico {
-        padding-left: 10px;
-        svg {
-          width: 30px !important;
-          height: 32px !important;
-        }
+        padding-left: 35px;
       }
       .home-button-label {
-        padding: 0 10px;
-        font-size: 1rem;
+        padding: 0 30px;
+        font-size: 1.286rem;
+      }
+    }
+    @media #{$phone} {
+      margin-top: 10px;
+      .home-button {
+        height: 65px;
+        margin-bottom: 10px;
+        .home-button-ico {
+          padding-left: 10px;
+          svg {
+            width: 30px !important;
+            height: 32px !important;
+          }
+        }
+        .home-button-label {
+          padding: 0 10px;
+          font-size: 1rem;
+        }
       }
     }
   }

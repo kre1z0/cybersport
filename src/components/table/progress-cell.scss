@@ -1,16 +1,18 @@
 @import "../../assets/base/colors.scss";
 
-.plan-progress-bar {
-  width: 119px;
-  height: 6px;
-  border-radius: 3px;
-  background-color: $mainBackground;
-  .plan-progress-bar-percent {
-    height: 100%;
+:global {
+  .plan-progress-bar {
+    width: 119px;
+    height: 6px;
     border-radius: 3px;
+    background-color: $mainBackground;
+    .plan-progress-bar-percent {
+      height: 100%;
+      border-radius: 3px;
+    }
   }
-}
 
-.plan-progress-bar-label {
-  padding-left: 10px;
+  .plan-progress-bar-label {
+    padding-left: 10px;
+  }
 }

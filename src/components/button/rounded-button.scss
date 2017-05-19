@@ -1,3 +1,5 @@
-.rounded-button *{
-  border-radius: 17px;
+:global {
+  .rounded-button *{
+    border-radius: 17px;
+  }
 }

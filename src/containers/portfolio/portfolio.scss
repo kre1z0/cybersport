@@ -1,11 +1,13 @@
-.portfolio-container {
-  height: 100%;
-
-  .portfolio-content {
+:global {
+  .portfolio-container {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
 
+    .portfolio-content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+  }
 }
 

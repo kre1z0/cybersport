@@ -1,19 +1,21 @@
 @import "../../assets/base/colors";
-.header-popup-content {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  label {
-    font-size: .93rem;
-    color: $coolGrayTwo;
-    margin-bottom: .5rem;
-    font-weight: 300;
-  }
-  .select-field-input, .auto-complete-input{
-    margin-bottom: 1.5rem;
-  }
+:global {
+  .header-popup-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    label {
+      font-size: .93rem;
+      color: $coolGrayTwo;
+      margin-bottom: .5rem;
+      font-weight: 300;
+    }
+    .select-field-input, .auto-complete-input{
+      margin-bottom: 1.5rem;
+    }
 
-  .clear-block {
-    text-align: center;
+    .clear-block {
+      text-align: center;
+    }
   }
 }

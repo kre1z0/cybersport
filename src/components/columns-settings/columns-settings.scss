@@ -1,26 +1,28 @@
 @import "../../assets/base/colors";
 @import "../../assets/base/media";
 
-.columns-settings {
-  margin: -21px;
-  .columns-settings-item {
-    padding: 5px 21px;
-    display: flex;
-    align-items: center;
-    border-top: 1px solid $paleGrey;
-    &:first-child {
-      border-top: none;
+:global {
+  .columns-settings {
+    margin: -21px;
+    .columns-settings-item {
+      padding: 5px 21px;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid $paleGrey;
+      &:first-child {
+        border-top: none;
+      }
+      @media #{$phone} {
+        padding: 5px 12px;
+      }
+      .columns-settings-dnd {
+        padding-right: 5px;
+      }
     }
-    @media #{$phone} {
-      padding: 5px 12px;
+    .columns-settings-title {
+      font-size: 1rem;
+      color: $darkGrey;
+      padding-left: 10px;
     }
-    .columns-settings-dnd {
-      padding-right: 5px;
-    }
-  }
-  .columns-settings-title {
-    font-size: 1rem;
-    color: $darkGrey;
-    padding-left: 10px;
   }
 }

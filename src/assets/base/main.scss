@@ -1,54 +1,56 @@
 @import "./colors.scss";
 
-html {
-  box-sizing: border-box;
-  font-family: FedraSans, 'sans-serif';
-  font-size: 14px;
-  background: $mainBackground;
-}
-
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
-*:focus {
-  outline: none;
-}
-
-html,
-body,
-#root,
-.app-container {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-.pages-container {
-  height: calc(100% - 80px);
-  overflow: hidden;
-}
-
-.--padding {
-  padding: 20px;
-}
-
-.loader {
-  width: 100%!important;
-  height: 100%!important;
-  display: flex!important;
-  align-items: center!important;
-  justify-content: center!important;
-  &.overlay {
-    position: absolute!important;
-    top: 0;
-    left: 0;
-    background-color: rgba(255,255,255,.5);
-    z-index: 999;
+:global {
+  html {
+    box-sizing: border-box;
+    font-family: FedraSans, 'sans-serif';
+    font-size: 14px;
+    background: $mainBackground;
   }
-}
 
-a,
-button {
-  user-select: none;
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+  *:focus {
+    outline: none;
+  }
+
+  html,
+  body,
+  #root,
+  .app-container {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .pages-container {
+    height: calc(100% - 80px);
+    overflow: hidden;
+  }
+
+  .--padding {
+    padding: 20px;
+  }
+
+  .loader {
+    width: 100%!important;
+    height: 100%!important;
+    display: flex!important;
+    align-items: center!important;
+    justify-content: center!important;
+    &.overlay {
+      position: absolute!important;
+      top: 0;
+      left: 0;
+      background-color: rgba(255,255,255,.5);
+      z-index: 999;
+    }
+  }
+
+  a,
+  button {
+    user-select: none;
+  }
 }
