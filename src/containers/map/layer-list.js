@@ -8,12 +8,12 @@ import { setObjectsDataFilter, setShowOffices, setShowHomeAddress } from '../../
 const layerListStyle = {
     position: 'absolute',
     top: '1rem',
-    left: '1rem'
+    left: '5rem'
 };
 
 class LayerList extends Component {
     render () {
-        const { setObjectsDataFilter, setShowOffices, setShowHomeAddress,    map} = this.props;
+        const { setObjectsDataFilter, setShowOffices, setShowHomeAddress, map} = this.props;
         return (
             <MapControl style={layerListStyle}>
                 <LayersList
