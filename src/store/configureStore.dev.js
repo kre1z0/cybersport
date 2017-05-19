@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {persistStore, autoRehydrate} from 'redux-persist-immutable';
 import {REHYDRATE} from 'redux-persist-immutable/constants';
