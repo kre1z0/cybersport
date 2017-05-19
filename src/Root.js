@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Provider} from 'react-redux';
-import {BrowserRouter as Router, Switch} from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {theme} from './assets/theme';
+import { theme } from './assets/theme';
 
-import Routes, {LoginRoute} from './routes';
+import Routes, { LoginRoute } from './routes';
 import App from './containers/App';
 
 import 'reset.css/reset.css';
@@ -14,20 +14,20 @@ import './assets/base/main.scss';
 
 class Root extends Component {
     static propTypes = {
-        store: PropTypes.object.isRequired
+        store: PropTypes.object.isRequired,
     };
-    
-    render () {
-        const {store} = this.props;
+
+    render() {
+        const { store } = this.props;
         return (
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={theme}>
                     <Router>
                         <Switch>
-                        {LoginRoute}
-                        <App>
-                            {Routes}
-                        </App>
+                            {LoginRoute}
+                            <App>
+                                {Routes}
+                            </App>
                         </Switch>
                     </Router>
                 </MuiThemeProvider>
