@@ -8,7 +8,7 @@ import { setObjectsDataFilter, setShowOffices, setShowHomeAddress } from '../../
 const layerListStyle = {
     position: 'absolute',
     top: '1rem',
-    left: '1rem'
+    left: '5rem'
 };
 
 class LayerList extends Component {

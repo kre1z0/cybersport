@@ -13,12 +13,28 @@ import Map from '../../components/map';
 import LayersList from './layer-list';
 import FeaturePopup from './feature-popup';
 
+import CircleButton from '../../components/button/circle-button';
+import {MapLayers} from '../../components/icons';
 
 import {OBJECTS_SERVICE, OFFICES_SERVICE, EMPLOYEES_SERVICE} from '../../evergis/helpers';
 
 import './map.scss';
 
+const floatButtonStyles = {
+    button: {
+        position: 'absolute',
+        top: '1rem',
+        left: '1rem',
+        zIndex: 1
+    },
+    svg: {height: '15px', width: '16px', verticalAlign: 'sub'}
+};
+
 class MapContainer extends Component {
+    state= {
+        showPopup: false
+    };
+
     static propTypes = {
         map: PropTypes.object,
         setCenter: PropTypes.func,
@@ -100,8 +116,15 @@ class MapContainer extends Component {
         this.props.pickObject(e.point);
     };
 
+    handleShowPopup = () => {
+        this.setState( state => ({
+            showPopup: !state.showPopup
+        }) )
+    };
+
     render () {
         const {map, setCenter, setResolution, isAuth} = this.props;
+        const { showPopup } = this.state;
         
         return (
             <div className="map-container">
@@ -115,7 +138,8 @@ class MapContainer extends Component {
                     />
                         : <Loader className="loader"/>
                 }
-                <LayersList />
+                <CircleButton style={floatButtonStyles.button} backgroundColor="#fff" onTouchTap={this.handleShowPopup}><MapLayers style={floatButtonStyles.svg} isActive={showPopup} /></CircleButton>
+                {showPopup && <LayersList />}
                 <FeaturePopup/>
             </div>
         );
