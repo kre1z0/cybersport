@@ -68,6 +68,7 @@
     "react-dev-utils": "^1.0.0",
     "react-error-overlay": "^1.0.0",
     "react-hot-loader": "next",
+    "react-styleguidist": "^5.2.1",
     "sass-loader": "^6.0.5",
     "style-loader": "0.17.0",
     "url-loader": "0.5.8",
@@ -80,8 +81,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build"
   },
   "jest": {
     "collectCoverageFrom": [
