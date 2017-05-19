@@ -46,13 +46,13 @@ const LayersList = ({objectsDataFilter, showOffices, showHomeAddress, onChangeIt
       <LayersListItem
         onChange={setShowOffices}
         checked={showOffices}
-        label={'Домашние адреса сотрудников'}
+        label={'Офисы ПМЗ'}
         imgSrc={pmz}
       />
       <LayersListItem
         onChange={setShowHomeAddress}
         checked={showHomeAddress}
-        label={'Офисы ПМЗ'}
+        label={'Домашние адреса сотрудников'}
         imgSrc={home}
       />
     </div>

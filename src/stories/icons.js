@@ -14,6 +14,7 @@ import {
     HomeIcon,
     InspectionsIcon,
     MapIcon,
+    MapLayers,
     ObjectsIcon,
     PinIcon,
     PlusIcon,
@@ -44,6 +45,7 @@ storiesOf('Icons', [
     HomeIcon,
     InspectionsIcon,
     MapIcon,
+    MapLayers,
     ObjectsIcon,
     PinIcon,
     PlusIcon,
@@ -76,6 +78,7 @@ storiesOf('Icons', [
     .add('home', () => (<div><HomeIcon/><HomeIcon isActive/></div>))
     .add('inspections', () => (<div><InspectionsIcon/><InspectionsIcon isActive/></div>))
     .add('map', () => (<div><MapIcon/><MapIcon isActive/></div>))
+    .add('map_layers', () => (<div><MapLayers/><MapLayers isActive/></div>))
     .add('objects', () => (<div><ObjectsIcon/><ObjectsIcon isActive/></div>))
     .add('pin', () => (<PinIcon/>))
     .add('plus', () => (<PlusIcon/>))
