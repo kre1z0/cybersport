@@ -15,7 +15,8 @@ class Select extends Component {
         items: PropTypes.array,
         big: PropTypes.bool,
         placeholder: PropTypes.string,
-        selectItemFormatter: PropTypes.func
+        selectItemFormatter: PropTypes.func,
+        style: PropTypes.object
     };
 
     static defaultProps = {
@@ -77,13 +78,13 @@ class Select extends Component {
 
     render(){
         const { open, focus } = this.state;
-        const { value, items, big, multi, placeholder, selectItemFormatter } = this.props;
+        const { value, items, big, multi, placeholder, selectItemFormatter, style } = this.props;
         const label = multi
             ? selectItemFormatter(items
                 .filter(item => value.indexOf(item.value) !== -1))
             : items.find(item => item.value === value);
 
-        return <div className="sberSelect" ref={el => this.el = el}>
+        return <div className="sberSelect" style={style} ref={el => this.el = el}>
             <div onTouchTap={this.open} className={cn("select-field", {big}, {focus})}>
                 {label
                     && <span>{label.text || label}</span>

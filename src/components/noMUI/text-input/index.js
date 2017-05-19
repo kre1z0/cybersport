@@ -16,6 +16,7 @@ class TextInput extends Component {
         wrapperStyle: PropTypes.object,
         inputProps: PropTypes.object,
         wrapperProps: PropTypes.object,
+        onChange: PropTypes.func,
 
         focus: PropTypes.bool
     };
