@@ -32,7 +32,7 @@ const filters = [
     },
 ];
 
-const LayersList = ({objectsDataFilter, onChangeItem}) => (
+const LayersList = ({objectsDataFilter, showOffices, showHomeAddress, onChangeItem, setShowOffices, setShowHomeAddress}) => (
   <div className="layers-list">
       {filters.map((filter, index) => <LayersListItem
           onChange={onChangeItem}
@@ -44,12 +44,16 @@ const LayersList = ({objectsDataFilter, onChangeItem}) => (
       />)}
     <div className="layers-list-block">
       <LayersListItem
-        label={'Офисы ПМЗ'}
-        imgSrc={home}
-      />
-      <LayersListItem
+        onChange={setShowOffices}
+        checked={showOffices}
         label={'Домашние адреса сотрудников'}
         imgSrc={pmz}
+      />
+      <LayersListItem
+        onChange={setShowHomeAddress}
+        checked={showHomeAddress}
+        label={'Офисы ПМЗ'}
+        imgSrc={home}
       />
     </div>
   </div>

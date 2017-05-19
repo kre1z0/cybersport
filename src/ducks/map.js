@@ -22,13 +22,15 @@ const MapState = Record({
     error: false,
     services: new Map(),
     basemap: GIS,
-    objectsDataFilter: {
+    objectsDataFilter: new Map({
         1: true,
         2: true,
         3: true,
         4: true,
         5: true
-    },
+    }),
+    showOffices: true,
+    showHomeAddress: true,
     selectedObjects: []
 });
 
@@ -41,6 +43,8 @@ export const loadServices = createAction('map/load-services');
 export const loadServicesSuccess = createAction('map/load-services-success');
 export const loadServicesError = createAction('map/load-services-error');
 export const setObjectsDataFilter = createAction('map/set-object-data-filter');
+export const setShowOffices = createAction('map/set-show-offices');
+export const setShowHomeAddress = createAction('map/set-show-home-address');
 
 export const selectObject = createAction('map/select-object');
 
@@ -98,8 +102,14 @@ export default createReducer({
         state.set('loading', false)
             .set('error', payload),
 
-    [setObjectsDataFilter]: (state, payload) =>
-        state.set('objectsDataFilter', {...state.objectsDataFilter, ...{[payload.layerNumber]: payload.checked}}),
+    [setObjectsDataFilter]: (state, {layerNumber, checked}) =>
+        state.setIn(['objectsDataFilter', layerNumber.toString()], checked),
+
+    [setShowOffices]: (state, payload) =>
+        state.set('showOffices', payload.checked),
+
+    [setShowHomeAddress]: (state, payload) =>
+        state.set('showHomeAddress', payload.checked),
 
     [selectObject]: (state, payload) =>
         state.set('selectedObjects', payload)
