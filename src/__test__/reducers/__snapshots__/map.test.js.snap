@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`map reducers should return initial state 1`] = `
 Object {
   "center": Array [

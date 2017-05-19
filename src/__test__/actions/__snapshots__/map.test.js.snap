@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`map actions should create an action to reset center 1`] = `
 Object {
   "payload": undefined,
