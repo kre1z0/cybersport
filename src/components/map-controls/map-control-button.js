@@ -14,11 +14,11 @@ const iconStyle = {
   height: 16
 };
 
-const MapControlButton = ({ ico, isActive, ...props }) => (
+const MapControlButton = ({ icon, isActive, ...props }) => (
   <IconButton {...props} style={buttonStyle}
     iconStyle={iconStyle}
   >
-    {ico}
+    {icon}
   </IconButton>
 );
 

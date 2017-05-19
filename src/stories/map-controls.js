@@ -28,25 +28,25 @@ storiesOf('MapControls', [LayersList, ObjectFilter])
 ).add('MapControlButtons', () =>
   <div style={{padding: 50, backgroundColor: '#fff'}}>
     <span style={{padding: 10}}>
-     <MapControlButton ico={<BasemapsIcon isActive={false} />} />
+     <MapControlButton icon={<BasemapsIcon isActive={false} />} />
     </span>
     <span style={{padding: 10}}>
-      <MapControlButton ico={<BasemapsIcon isActive={true} />} />
+      <MapControlButton icon={<BasemapsIcon isActive={true} />} />
     </span>
     <span style={{padding: 10}}>
-      <MapControlButton ico={<MapSearch />} />
+      <MapControlButton icon={<MapSearch />} />
     </span>
     <span style={{padding: 10}}>
-      <MapControlButton ico={<MapLayers />} />
+      <MapControlButton icon={<MapLayers />} />
     </span>
     <span style={{padding: 10}}>
-      <MapControlButton ico={<MapLayers isActive={true} />} />
+      <MapControlButton icon={<MapLayers isActive={true} />} />
     </span>
     <span style={{padding: 10}}>
-      <MapControlButton ico={<MapPlus />} />
+      <MapControlButton icon={<MapPlus />} />
     </span>
     <span style={{padding: 10}}>
-      <MapControlButton ico={<MapMinus />} />
+      <MapControlButton icon={<MapMinus />} />
     </span>
   </div>
 );
