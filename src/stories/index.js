@@ -3,7 +3,6 @@ import '../assets/fonts/fonts.scss';
 import '../assets/base/main.scss';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
 
 import Map from './map';
 import Inputs from './inputs';
@@ -17,3 +16,5 @@ import ColumnsSettings from './columns-settings';
 import ObjectAddress from './object-address';
 import MapControls from './map-controls';
 import MapPopups from './map-popup';
+
+injectTapEventPlugin();

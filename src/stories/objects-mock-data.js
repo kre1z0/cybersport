@@ -1,17 +1,83 @@
 export const columns = [
-    {name: 'control', alias: '', type: 'control'},
-    {name: 'object_name', alias: 'ID', type: 'text'},
-    {name: 'image_name', alias: 'Фото', type: 'img', editorType: 'img-loader', isEditable: true},
-    {name: 'object_description', alias: 'Описание', type: 'text', editorType: 'text-area', isEditable: true},
-    {name: 'target_segment', alias: 'Целевой клиентский сегмент', type: 'text', editorType: 'select', isEditable: true},
-    {name: 'department', alias: 'ТБ', type: 'text', editorType: 'select', isEditable: true},
-    {name: 'responsible_employee_name', alias: 'Ответственный сотрудник ПМЗ', type: 'text', editorType: 'select', isEditable: true},
-    {name: 'address_region', alias: 'Регион расположения объекта', type: 'text', editorType: 'text', isEditable: true},
-    {name: 'address_combined', alias: 'Адрес объекта (по договору)', type: 'text', editorType: 'text', isEditable: true},
-    {name: 'address_adjusted', alias: 'Адрес объекта (скорректированный)', type: 'address', editorType: 'address', isEditable: true},
-    {name: 'classifier1', alias: 'Вид обеспечения по классификатору (1 уровень)', type: 'text',  editorType: 'select', isEditable: true},
-    {name: 'classifier2', alias: 'Вид обеспечения по классификатору (2 уровень)', type: 'text',  editorType: 'select', isEditable: true},
-    {name: 'classifier3', alias: 'Вид обеспечения по классификатору (3 уровень)', type: 'text',  editorType: 'select', isEditable: true}
+    { name: 'control', alias: '', type: 'control' },
+    { name: 'object_name', alias: 'ID', type: 'text' },
+    {
+        name: 'image_name',
+        alias: 'Фото',
+        type: 'img',
+        editorType: 'img-loader',
+        isEditable: true,
+    },
+    {
+        name: 'object_description',
+        alias: 'Описание',
+        type: 'text',
+        editorType: 'text-area',
+        isEditable: true,
+    },
+    {
+        name: 'target_segment',
+        alias: 'Целевой клиентский сегмент',
+        type: 'text',
+        editorType: 'select',
+        isEditable: true,
+    },
+    {
+        name: 'department',
+        alias: 'ТБ',
+        type: 'text',
+        editorType: 'select',
+        isEditable: true,
+    },
+    {
+        name: 'responsible_employee_name',
+        alias: 'Ответственный сотрудник ПМЗ',
+        type: 'text',
+        editorType: 'select',
+        isEditable: true,
+    },
+    {
+        name: 'address_region',
+        alias: 'Регион расположения объекта',
+        type: 'text',
+        editorType: 'text',
+        isEditable: true,
+    },
+    {
+        name: 'address_combined',
+        alias: 'Адрес объекта (по договору)',
+        type: 'text',
+        editorType: 'text',
+        isEditable: true,
+    },
+    {
+        name: 'address_adjusted',
+        alias: 'Адрес объекта (скорректированный)',
+        type: 'address',
+        editorType: 'address',
+        isEditable: true,
+    },
+    {
+        name: 'classifier1',
+        alias: 'Вид обеспечения по классификатору (1 уровень)',
+        type: 'text',
+        editorType: 'select',
+        isEditable: true,
+    },
+    {
+        name: 'classifier2',
+        alias: 'Вид обеспечения по классификатору (2 уровень)',
+        type: 'text',
+        editorType: 'select',
+        isEditable: true,
+    },
+    {
+        name: 'classifier3',
+        alias: 'Вид обеспечения по классификатору (3 уровень)',
+        type: 'text',
+        editorType: 'select',
+        isEditable: true,
+    },
 ];
 
 export default [
@@ -67,7 +133,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 2,
@@ -121,7 +187,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 3,
@@ -175,7 +241,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 4,
@@ -229,7 +295,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '10.'
+        check_result_code: '10.',
     },
     {
         gid: 5,
@@ -283,7 +349,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '10.'
+        check_result_code: '10.',
     },
     {
         gid: 6,
@@ -337,7 +403,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '10.'
+        check_result_code: '10.',
     },
     {
         gid: 7,
@@ -391,7 +457,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '10.'
+        check_result_code: '10.',
     },
     {
         gid: 8,
@@ -445,7 +511,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 9,
@@ -499,7 +565,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 10,
@@ -553,7 +619,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 11,
@@ -607,7 +673,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 12,
@@ -661,7 +727,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 13,
@@ -715,7 +781,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 14,
@@ -769,7 +835,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 15,
@@ -823,7 +889,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 16,
@@ -877,7 +943,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 17,
@@ -931,7 +997,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 18,
@@ -985,7 +1051,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 19,
@@ -1039,7 +1105,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 20,
@@ -1093,7 +1159,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 21,
@@ -1147,7 +1213,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 22,
@@ -1201,7 +1267,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 23,
@@ -1255,7 +1321,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 24,
@@ -1309,7 +1375,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 25,
@@ -1363,7 +1429,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 26,
@@ -1417,7 +1483,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 27,
@@ -1471,7 +1537,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 28,
@@ -1525,7 +1591,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 29,
@@ -1579,7 +1645,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 30,
@@ -1633,7 +1699,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 31,
@@ -1687,7 +1753,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 32,
@@ -1741,7 +1807,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 33,
@@ -1795,7 +1861,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 34,
@@ -1849,7 +1915,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 35,
@@ -1903,7 +1969,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 36,
@@ -1957,7 +2023,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 37,
@@ -2011,7 +2077,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '10.'
+        check_result_code: '10.',
     },
     {
         gid: 38,
@@ -2065,7 +2131,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '10.'
+        check_result_code: '10.',
     },
     {
         gid: 39,
@@ -2119,7 +2185,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '10.'
+        check_result_code: '10.',
     },
     {
         gid: 40,
@@ -2173,7 +2239,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '10.'
+        check_result_code: '10.',
     },
     {
         gid: 41,
@@ -2227,7 +2293,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '10.'
+        check_result_code: '10.',
     },
     {
         gid: 42,
@@ -2281,7 +2347,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 43,
@@ -2335,7 +2401,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 44,
@@ -2389,7 +2455,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 45,
@@ -2443,7 +2509,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 46,
@@ -2497,7 +2563,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 47,
@@ -2551,7 +2617,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 48,
@@ -2605,7 +2671,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 49,
@@ -2659,7 +2725,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 50,
@@ -2713,7 +2779,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 51,
@@ -2767,7 +2833,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 52,
@@ -2821,7 +2887,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 53,
@@ -2875,7 +2941,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 54,
@@ -2929,7 +2995,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 55,
@@ -2983,7 +3049,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 56,
@@ -3037,7 +3103,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 57,
@@ -3091,7 +3157,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 58,
@@ -3145,7 +3211,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 59,
@@ -3199,7 +3265,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 60,
@@ -3253,7 +3319,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 61,
@@ -3307,7 +3373,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 62,
@@ -3361,7 +3427,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 63,
@@ -3415,7 +3481,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 64,
@@ -3469,7 +3535,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 65,
@@ -3523,7 +3589,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 66,
@@ -3577,7 +3643,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 67,
@@ -3631,7 +3697,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 68,
@@ -3685,7 +3751,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 69,
@@ -3739,7 +3805,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 70,
@@ -3793,7 +3859,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 71,
@@ -3847,7 +3913,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 72,
@@ -3901,7 +3967,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 73,
@@ -3955,7 +4021,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 74,
@@ -4009,7 +4075,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 75,
@@ -4063,7 +4129,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 76,
@@ -4117,7 +4183,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 77,
@@ -4171,7 +4237,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 78,
@@ -4225,7 +4291,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 79,
@@ -4279,7 +4345,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 80,
@@ -4333,7 +4399,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 81,
@@ -4387,7 +4453,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 82,
@@ -4441,7 +4507,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 83,
@@ -4495,7 +4561,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 84,
@@ -4549,7 +4615,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 85,
@@ -4603,7 +4669,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 86,
@@ -4657,7 +4723,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 87,
@@ -4711,7 +4777,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 88,
@@ -4765,7 +4831,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 89,
@@ -4819,7 +4885,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 90,
@@ -4873,7 +4939,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 91,
@@ -4927,7 +4993,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 92,
@@ -4981,7 +5047,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 93,
@@ -5035,7 +5101,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 94,
@@ -5089,7 +5155,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 95,
@@ -5143,7 +5209,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 96,
@@ -5197,7 +5263,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: ''
+        check_result_code: '',
     },
     {
         gid: 97,
@@ -5251,7 +5317,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 98,
@@ -5305,7 +5371,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 99,
@@ -5359,7 +5425,7 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
+        check_result_code: '1.1./9./10.',
     },
     {
         gid: 100,
@@ -5413,6 +5479,6 @@ export default [
         credit_inspector: '',
         responsible_employee_name: 'Сотрудник 95',
         responsible_employee_id: null,
-        check_result_code: '1.1./9./10.'
-    }
+        check_result_code: '1.1./9./10.',
+    },
 ];

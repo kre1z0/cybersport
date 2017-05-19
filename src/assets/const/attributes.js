@@ -174,8 +174,9 @@ export default [
         isVisible: true,
         validation: {
             type: [Number, 'Здание целиком', 'Подвал', 'Цокольный этаж'],
-            min: 1, max: 20
-        }
+            min: 1,
+            max: 20,
+        },
     },
     {
         name: 'separate_entrance',
@@ -194,8 +195,9 @@ export default [
         isVisible: true,
         validation: {
             type: Number,
-            min: 1, max: 100
-        }
+            min: 1,
+            max: 100,
+        },
     },
     {
         name: 'room_qty',
@@ -206,8 +208,9 @@ export default [
         isVisible: true,
         validation: {
             type: [Number, 'Студия'],
-            min: 1, max: 20
-        }
+            min: 1,
+            max: 20,
+        },
     },
     {
         name: 'monthly_volume',
@@ -234,8 +237,9 @@ export default [
         isVisible: true,
         validation: {
             type: Number,
-            min: 1, max: 15
-        }
+            min: 1,
+            max: 15,
+        },
     },
     {
         name: 'owner_name',
@@ -412,6 +416,6 @@ export default [
         alias: 'Плановая проверка',
         type: 'date',
         isVisible: true,
-        filterable: true
-    }
+        filterable: true,
+    },
 ];

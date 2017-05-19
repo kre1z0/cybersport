@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import AutoComplete from 'material-ui/AutoComplete';
@@ -13,15 +13,21 @@ const styles = {
         fontSize: 'inherit',
         padding: '0 0.8571rem',
         lineHeight: '2.286rem',
-        height: '2.286rem'
+        height: '2.286rem',
     },
     MENU: {
         maxHeight: '200px',
         overflowY: 'auto',
-        overflowX: 'hidden'
+        overflowX: 'hidden',
     },
-    MENU_LIST: {paddingTop: '0px', paddingBottom: '0px'},
-    MENU_ITEM: {fontSize: '', lineHeight: '2.286rem', minHeight: 'inherit', display: 'flex', alignItems: 'center'}
+    MENU_LIST: { paddingTop: '0px', paddingBottom: '0px' },
+    MENU_ITEM: {
+        fontSize: '',
+        lineHeight: '2.286rem',
+        minHeight: 'inherit',
+        display: 'flex',
+        alignItems: 'center',
+    },
 };
 
 class AutoCompleteInput extends Component {
@@ -38,74 +44,82 @@ class AutoCompleteInput extends Component {
         focusOnMount: PropTypes.bool,
 
         onChange: PropTypes.func,
-        onBlur: PropTypes.func
+        onBlur: PropTypes.func,
     };
 
     static defaultProps = {
-        data: []
+        data: [],
     };
 
     state = {
         filteredData: [],
         focused: false,
-        blockFocus: false
+        blockFocus: false,
     };
 
-    filterData(value){
-        const result =
-            value === ''
-                ? []
-                : this.props.data
-                .filter(item => item.toLowerCase().search(value.toLowerCase()) !== -1);
+    filterData(value) {
+        const result = value === ''
+            ? []
+            : this.props.data.filter(
+                  item => item.toLowerCase().search(value.toLowerCase()) !== -1,
+              );
         return result;
     }
 
-    handleUpdateInput = (value) => {
+    handleUpdateInput = value => {
         const { onChange } = this.props;
         this.setState({
-            filteredData: this.filterData(value)
+            filteredData: this.filterData(value),
         });
 
-        onChange && onChange(value)
+        onChange && onChange(value);
     };
 
     handleFocus = () => {
         this.setState({
-            focused: true
-        })
+            focused: true,
+        });
     };
 
     handleBlur = () => {
         const { onBlur } = this.props;
-        if(this.state.blockFocus) return;
+        if (this.state.blockFocus) return;
         this.setState({
-            focused: false
+            focused: false,
         });
         onBlur && onBlur();
     };
 
-    handleKeyDown = (e) => {
+    handleKeyDown = e => {
         this.setState({
-            blockFocus: e.keyCode === 40
+            blockFocus: e.keyCode === 40,
         });
     };
 
     handleSelectItem = () => {
         this.setState({
             blockFocus: false,
-            focused: false
-        })
+            focused: false,
+        });
     };
 
-    componentDidMount(){
-        this.props.focusOnMount && this.setState({
-            focused: true
-        })
+    componentDidMount() {
+        this.props.focusOnMount &&
+            this.setState({
+                focused: true,
+            });
     }
 
     render() {
-        const { filteredData, focused} = this.state;
-        const { className, style, menuStyle, listStyle, itemStyle, value } = this.props;
+        const { filteredData, focused } = this.state;
+        const {
+            className,
+            style,
+            menuStyle,
+            listStyle,
+            itemStyle,
+            value,
+        } = this.props;
         const mergedClassName = cn('auto-complete-input', className);
 
         return (
@@ -114,20 +128,24 @@ class AutoCompleteInput extends Component {
                     animated={false}
                     hintText=" "
                     dataSource={filteredData}
-                    dataSourceConfig={{ text: 'text', value: 'id'}}
+                    dataSourceConfig={{ text: 'text', value: 'id' }}
                     onUpdateInput={this.handleUpdateInput}
                     fullWidth={true}
                     underlineShow={false}
                     style={styles.ROOT}
-                    textFieldStyle={{...styles.INPUT, ...style}}
-                    menuStyle={{...styles.MENU, ...menuStyle}}
-                    listStyle={{...styles.MENU_LIST, ...listStyle}}
+                    textFieldStyle={{ ...styles.INPUT, ...style }}
+                    menuStyle={{ ...styles.MENU, ...menuStyle }}
+                    listStyle={{ ...styles.MENU_LIST, ...listStyle }}
                     openOnFocus={true}
                     className={`text-input ${focused ? 'focused' : ''}`}
                     menuProps={{
                         className: 'auto-complete-menu',
-                        menuItemStyle: {...styles.MENU_ITEM, ...itemStyle, ...{height: (style && style.height) || 'auto'}},
-                        listStyle: {backgroundColor: 'red'}
+                        menuItemStyle: {
+                            ...styles.MENU_ITEM,
+                            ...itemStyle,
+                            ...{ height: (style && style.height) || 'auto' },
+                        },
+                        listStyle: { backgroundColor: 'red' },
                     }}
                     ref={input => input && focused && input.focus()}
                     searchText={value}

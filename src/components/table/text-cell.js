@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TextCell = ({rowIndex, content, ...props}) => (
+const TextCell = ({ rowIndex, content, ...props }) => (
     <div className="cell">
         {content}
     </div>

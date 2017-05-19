@@ -1,14 +1,20 @@
 /**
  * Created by tporyadin on 3/6/2017.
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 
-import {setCenter, setResolution, setObjectsDataFilter, loadMapServices, pickObject} from '../../ducks/map';
-import getLayerManager, {isServicesLoaded} from '../../evergis/layer-manager';
-import {setDataFilters} from '../../evergis/api';
+import {
+    setCenter,
+    setResolution,
+    setObjectsDataFilter,
+    loadMapServices,
+    pickObject,
+} from '../../ducks/map';
+import getLayerManager, { isServicesLoaded } from '../../evergis/layer-manager';
+import { setDataFilters } from '../../evergis/api';
 
 import Map from '../../components/map';
 import LayersList from './layer-list';
@@ -23,30 +29,38 @@ class MapContainer extends Component {
         setResolution: PropTypes.func,
         setObjectsDataFilter: PropTypes.func,
         loadMapServices: PropTypes.func,
-        isAuth: PropTypes.bool
+        isAuth: PropTypes.bool,
     };
-    
-    componentDidMount () {
-        const {loadMapServices, isAuth} = this.props;
+
+    componentDidMount() {
+        const { loadMapServices, isAuth } = this.props;
         if (isAuth && !isServicesLoaded()) {
             loadMapServices().then(services => {
                 this.updateServices(services, this.props.map);
             });
         }
     }
-    
-    componentWillReceiveProps ({loadMapServices, map, isAuth}) {
-        if(!this.props.isAuth && isAuth && !map.loading && !isServicesLoaded()) {
+
+    componentWillReceiveProps({ loadMapServices, map, isAuth }) {
+        if (
+            !this.props.isAuth &&
+            isAuth &&
+            !map.loading &&
+            !isServicesLoaded()
+        ) {
             loadMapServices().then(services => {
                 this.updateServices(services, map);
             });
         }
 
         let checkStatus = false;
-        for(let i in map.objectsDataFilter){
-            if(this.props.map.objectsDataFilter[i] !== map.objectsDataFilter[i]) checkStatus = true;
+        for (let i in map.objectsDataFilter) {
+            if (
+                this.props.map.objectsDataFilter[i] !== map.objectsDataFilter[i]
+            )
+                checkStatus = true;
         }
-        if(checkStatus && isAuth) {
+        if (checkStatus && isAuth) {
             const layerManager = getLayerManager();
             const sber_service = layerManager.getService('sber_objects');
             let df = sber_service.dataFilter;
@@ -54,13 +68,13 @@ class MapContainer extends Component {
             sber_service.setDataFilter(df);
         }
     }
-    
-    updateServices (services, map) {
+
+    updateServices(services, map) {
         const layerManager = getLayerManager();
-        services.forEach(({name, isVisible}) => {
+        services.forEach(({ name, isVisible }) => {
             const service = layerManager.getService(name);
 
-            if(name === 'sber_objects') {
+            if (name === 'sber_objects') {
                 let df = service.dataFilter;
                 df.condition = this.setFilter(map.objectsDataFilter);
                 service.setDataFilter(df);
@@ -72,47 +86,55 @@ class MapContainer extends Component {
         });
     }
 
-    setFilter(filter){
+    setFilter(filter) {
         let filterArray = [];
         let toServiceFilter = null;
-        for(let f in filter){
-            if(!filter[f]) filterArray.push('status != ' + f)
+        for (let f in filter) {
+            if (!filter[f]) filterArray.push('status != ' + f);
         }
-        if(filterArray.length > 0){
-            toServiceFilter = filterArray.join(' && ')
+        if (filterArray.length > 0) {
+            toServiceFilter = filterArray.join(' && ');
         }
         return toServiceFilter;
     }
 
-    onMapPick = (e) => {
+    onMapPick = e => {
         this.props.pickObject(e.point);
     };
 
-    render () {
-        const {map, setCenter, setResolution, setObjectsDataFilter, isAuth} = this.props;
-        
+    render() {
+        const {
+            map,
+            setCenter,
+            setResolution,
+            setObjectsDataFilter,
+            isAuth,
+        } = this.props;
+
         return (
             <div className="map-container">
-                {
-                    isAuth
-                        ? <Map center={map.center}
-                               resolution={map.resolution}
-                               onCenterChange={setCenter}
-                               onResolutionChange={setResolution}
-                               onMapPick={this.onMapPick}
-                    />
-                        : <Loader className="loader"/>
-                }
-                <LayersList objectsDataFilter={map.objectsDataFilter} onChangeItem={setObjectsDataFilter}/>
-                <FeaturePopup/>
+                {isAuth
+                    ? <Map
+                          center={map.center}
+                          resolution={map.resolution}
+                          onCenterChange={setCenter}
+                          onResolutionChange={setResolution}
+                          onMapPick={this.onMapPick}
+                      />
+                    : <Loader className="loader" />}
+                <LayersList
+                    objectsDataFilter={map.objectsDataFilter}
+                    onChangeItem={setObjectsDataFilter}
+                />
+                <FeaturePopup />
             </div>
         );
     }
 }
 
-const mapProps = ({map, user: {employee_id}}) => ({
+const mapProps = ({ map, user: { employee_id } }) => ({
     map,
-    isAuth: !!employee_id
+    isAuth: !!employee_id,
 });
 
 const mapActions = {
@@ -120,10 +142,7 @@ const mapActions = {
     setResolution,
     setObjectsDataFilter,
     loadMapServices,
-    pickObject
+    pickObject,
 };
 
 export default connect(mapProps, mapActions)(MapContainer);
-
-
-

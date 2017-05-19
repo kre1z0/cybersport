@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Calendar from 'material-ui/DatePicker';
 import CalendarIcon from '../icons/calendar';
@@ -12,24 +12,24 @@ const styles = {
     },
     CALENDAR: {
         paddingBottom: '1rem',
-        minHeight: 'auto'
+        minHeight: 'auto',
     },
     INPUT: {
         fontSize: 'inherit',
         height: '100%',
         padding: '0 0.8571rem',
-        paddingLeft: '2rem'
-    }
+        paddingLeft: '2rem',
+    },
 };
 
 class DatePicker extends Component {
-    constructor(props){
+    constructor(props) {
         super();
         this.state = {
             focused: false,
             blockFocus: false,
-            value: props.value
-        }
+            value: props.value,
+        };
     }
 
     static propTypes = {
@@ -41,18 +41,17 @@ class DatePicker extends Component {
         inputStyle: PropTypes.object,
 
         onChange: PropTypes.func,
-        onBlur: PropTypes.func
-
+        onBlur: PropTypes.func,
     };
 
     handleFocus = () => {
         this.setState({
-            focused: true
-        })
+            focused: true,
+        });
     };
 
     handleBlur = (n, date) => {
-        if(this.props.onChange){
+        if (this.props.onChange) {
             this.props.onChange(date);
         }
         this.handleHide();
@@ -61,22 +60,27 @@ class DatePicker extends Component {
     handleHide = () => {
         const { onBlur } = this.props;
         this.setState({
-            focused: false
+            focused: false,
         });
         onBlur && onBlur();
     };
 
-
-
-    render(){
-        const { value, className, style, calendarStyle, inputStyle, ...other } = this.props;
+    render() {
+        const {
+            value,
+            className,
+            style,
+            calendarStyle,
+            inputStyle,
+            ...other
+        } = this.props;
         const mergedClassName = cn('date-picker-input', className);
 
         let DateTimeFormat = global.Intl.DateTimeFormat;
         return (
             <div className={mergedClassName}>
                 <div className="icon-wrapper">
-                    <CalendarIcon style={{height: '1rem', width: '1rem'}} />
+                    <CalendarIcon style={{ height: '1rem', width: '1rem' }} />
                 </div>
                 <Calendar
                     {...other}
@@ -87,9 +91,12 @@ class DatePicker extends Component {
                     container="inline"
                     fullWidth={true}
                     underlineShow={false}
-                    dialogContainerStyle={{...styles.CALENDAR, ...calendarStyle}}
-                    style={{...styles.ROOT, ...style}}
-                    textFieldStyle={{...styles.INPUT, ...inputStyle}}
+                    dialogContainerStyle={{
+                        ...styles.CALENDAR,
+                        ...calendarStyle,
+                    }}
+                    style={{ ...styles.ROOT, ...style }}
+                    textFieldStyle={{ ...styles.INPUT, ...inputStyle }}
                     hideCalendarDate={true}
                     className={`text-input ${this.state.focused ? 'focused' : ''}`}
                     mode="landscape"
@@ -100,7 +107,7 @@ class DatePicker extends Component {
                     value={value}
                 />
             </div>
-        )
+        );
     }
 }
 

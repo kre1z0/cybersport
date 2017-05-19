@@ -7,13 +7,20 @@ import RaisedButton from 'material-ui/RaisedButton';
  */
 import './rounded-button.scss';
 
-const RoundedButton = ({overlayStyle, style, buttonStyle, labelStyle, ...props}) => (
-    <RaisedButton {...props}
-                  className="rounded-button"
-                  labelStyle={labelStyle}
-                  overlayStyle={{...overlayStyle, borderRadius: 17}}
-                  style={{marginLeft: 10, marginRight: 10, ...style, borderRadius: 17}}
-                  buttonStyle={{...buttonStyle, borderRadius: 17}}
+const RoundedButton = ({
+    overlayStyle,
+    style,
+    buttonStyle,
+    labelStyle,
+    ...props
+}) => (
+    <RaisedButton
+        {...props}
+        className="rounded-button"
+        labelStyle={labelStyle}
+        overlayStyle={{ ...overlayStyle, borderRadius: 17 }}
+        style={{ marginLeft: 10, marginRight: 10, ...style, borderRadius: 17 }}
+        buttonStyle={{ ...buttonStyle, borderRadius: 17 }}
     />
 );
 

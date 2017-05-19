@@ -22,16 +22,16 @@ export const theme = getMuiTheme({
     fontSize: '14px',
     appBar: {
         height: 80,
-        color: softGreen
+        color: softGreen,
     },
     svgIcon: {
-        color: coolGreyTwo
+        color: coolGreyTwo,
     },
     palette: {
         primary1Color: softGreen,
-        accent1Color: dustyOrange
+        accent1Color: dustyOrange,
     },
     datePicker: {
-        selectColor: softGreen
-    }
+        selectColor: softGreen,
+    },
 });

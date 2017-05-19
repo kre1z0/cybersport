@@ -1,24 +1,23 @@
 import React from 'react';
 import Avatar from 'material-ui/Avatar';
 
-import {BackIcon, UserIcon} from '../../components/icons';
+import { BackIcon, UserIcon } from '../../components/icons';
 
-import {silver} from '../../assets/theme'
+import { silver } from '../../assets/theme';
 import './SidebarProfile.scss';
 
 const avatarStyle = {
     width: '70px',
     height: '70px',
     backgroundColor: '#fff',
-    boxShadow: '0 8px 15px 0 rgba(0, 0, 0, 0.07)'
+    boxShadow: '0 8px 15px 0 rgba(0, 0, 0, 0.07)',
 };
 
-const SidebarProfile = ({full_name, tb_name, role_name, toggleSidebar}) => (
-
+const SidebarProfile = ({ full_name, tb_name, role_name, toggleSidebar }) => (
     <div className="sidebar-profile">
 
         <a className="back" onTouchTap={toggleSidebar}>
-            <BackIcon style={{width: '20px', height: '14px'}} />
+            <BackIcon style={{ width: '20px', height: '14px' }} />
         </a>
 
         <div className="user-block">
@@ -33,7 +32,6 @@ const SidebarProfile = ({full_name, tb_name, role_name, toggleSidebar}) => (
         <a className="logout">Выход</a>
 
     </div>
-
 );
 
 export default SidebarProfile;

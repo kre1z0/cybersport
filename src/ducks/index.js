@@ -10,12 +10,12 @@ export const StateRecord = new Record({
     user: undefined,
     plan: undefined,
     map: undefined,
-    objects: undefined
+    objects: undefined,
 });
 
 export default combineReducers({
     map,
     user,
     plan,
-    objects
-})
+    objects,
+});

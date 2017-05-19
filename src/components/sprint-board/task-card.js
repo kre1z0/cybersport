@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class TaskCard extends Component {
@@ -6,15 +6,13 @@ class TaskCard extends Component {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         avatar: PropTypes.string,
-        task: PropTypes.array.isRequired
+        task: PropTypes.array.isRequired,
     };
-    
-    render () {
-        const {id, name} = this.props;
-        
-        return (
-            <div>{`${id}: ${name}`}</div>
-        )
+
+    render() {
+        const { id, name } = this.props;
+
+        return <div>{`${id}: ${name}`}</div>;
     }
 }
 

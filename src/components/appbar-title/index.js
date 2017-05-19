@@ -5,10 +5,9 @@ import './appbar-title.scss';
 
 const AppbarTitle = () => (
     <div className="appbar-title">
-        <img className="logo" src={Logo} alt="сбербанк"/>
+        <img className="logo" src={Logo} alt="сбербанк" />
         <h1>геомониторинг залогов</h1>
     </div>
 );
 
 export default AppbarTitle;
-

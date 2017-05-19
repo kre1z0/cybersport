@@ -10,42 +10,46 @@ export const STATIC_SERVICE = 'sber_objects_static';
 
 export const BASEMAPS = [OSM, GIS];
 
-export const keyValueArrayToObject = (array) =>
-    array.reduce((prev, {Key, Value}) => {
+export const keyValueArrayToObject = array =>
+    array.reduce((prev, { Key, Value }) => {
         prev[Key] = Value;
         return prev;
     }, {});
 
-export const normalizeData = (data) =>
-    data.map(({attributes}) => attributes && keyValueArrayToObject(attributes));
-
-export const normalizeAttributeDefinition = (attributeDefinition) =>
-    attributeDefinition.attributes
-        .map(({name, domainsValues}) =>({Key: name, Value: domainsValues}));
-
-export const transformResponseData = (data) =>
-    data && normalizeData(data);
-
-export const transformAttributeDefinition = (attributeDefinition) =>
-    attributeDefinition &&
-    keyValueArrayToObject(
-        normalizeAttributeDefinition(attributeDefinition)
+export const normalizeData = data =>
+    data.map(
+        ({ attributes }) => attributes && keyValueArrayToObject(attributes),
     );
 
-export const getAuthUrl = (spUrl) =>
-    spUrl.replace('SpatialProcessor/IIS/', 'Strategis.Server.Authorization/Authorize.svc/Login');
+export const normalizeAttributeDefinition = attributeDefinition =>
+    attributeDefinition.attributes.map(({ name, domainsValues }) => ({
+        Key: name,
+        Value: domainsValues,
+    }));
+
+export const transformResponseData = data => data && normalizeData(data);
+
+export const transformAttributeDefinition = attributeDefinition =>
+    attributeDefinition &&
+    keyValueArrayToObject(normalizeAttributeDefinition(attributeDefinition));
+
+export const getAuthUrl = spUrl =>
+    spUrl.replace(
+        'SpatialProcessor/IIS/',
+        'Strategis.Server.Authorization/Authorize.svc/Login',
+    );
 
 export const tranformQuery = query => {
     const columns = Object.keys(query);
-    
+
     const sort = columns
         .map(column => {
             const sortType = query[column].sort;
             if (!sortType || sortType === 0) return;
             return `${column} ${sortType > 0 ? 'asc' : 'desc'}`;
         })
-        .filter(i=>!!i);
-    
+        .filter(i => !!i);
+
     const filter = columns
         .map(column => {
             const filterString = query[column].filter;
@@ -53,26 +57,26 @@ export const tranformQuery = query => {
             if (!filterString || filterString.length === 0) return;
             return `${column} ${isString ? 'like' : '=='} ${isString ? `'%${filterString}%'` : filterString}`;
         })
-        .filter(i=>!!i);
-    
-    return ({
+        .filter(i => !!i);
+
+    return {
         sort: sort.length !== 0 ? sort : undefined,
-        filter: filter.length !== 0 ? filter.join(' && ') : undefined
-    });
+        filter: filter.length !== 0 ? filter.join(' && ') : undefined,
+    };
 };
 
 export const applyObjectsStyle = service => {
     if (!service) return;
     addSberSymbol(sGis);
     let filterText = {
-        "Title": null,
-        "Symbol": null,
-        "Condition": null,
-        "Labeling": null,
-        "MaxResolution": 0,
-        "MinResolution": 0,
-        "ChildFilters": [],
-        "SerializationData": `{
+        Title: null,
+        Symbol: null,
+        Condition: null,
+        Labeling: null,
+        MaxResolution: 0,
+        MinResolution: 0,
+        ChildFilters: [],
+        SerializationData: `{
             "serializationData": [{
                 "classifierType": null,
                 "propertyName": "clusterSize",
@@ -121,30 +125,30 @@ export const applyObjectsStyle = service => {
             },
             "clusterLabel": null,
             "aggregations": ["distinct(status)", "distinct(classifier2)", "distinct(classifier2)"]
-        }`
+        }`,
     };
     let filter = sGis.sp.DataFilter.deserialize(filterText);
-    
+
     service.service.setDataFilter(filter);
-    
+
     return service;
 };
 
 export const initService = (connector, name) => {
-    const container =  new sGis.sp.services.ServiceContainer(connector, name);
+    const container = new sGis.sp.services.ServiceContainer(connector, name);
     return new Promise((res, rej) => {
         container.once('stateUpdate', () => {
             if (container.error) rej(container.error);
             res(container.service);
         });
-    })
+    });
 };
 
 export const addEmployeeToQuery = (query, id) => {
     if (query.filter) {
-        query.filter += `&& responsible_employee_id == ${id}`
+        query.filter += `&& responsible_employee_id == ${id}`;
     } else {
-        query.filter = `responsible_employee_id == ${id}`
+        query.filter = `responsible_employee_id == ${id}`;
     }
     return query;
 };

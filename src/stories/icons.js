@@ -25,10 +25,10 @@ import {
     ViewIcon,
     WayBackIcon,
     WayForwardIcon,
-    CheckIcon
+    CheckIcon,
 } from '../components/icons';
 
-import {theme} from '../assets/theme';
+import { theme } from '../assets/theme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 storiesOf('Icons', [
@@ -55,37 +55,38 @@ storiesOf('Icons', [
     ViewIcon,
     WayBackIcon,
     WayForwardIcon,
-    CheckIcon
+    CheckIcon,
 ])
-    .addDecorator((story) => (
+    .addDecorator(story => (
         <MuiThemeProvider muiTheme={theme}>
             {story()}
         </MuiThemeProvider>
     ))
-    .add('add', () => (<AddIcon/>))
-    .add('analytic', () => (<div><AnalyticIcon/><AnalyticIcon isActive/></div>))
-    .add('burger', () => (<BurgerIcon/>))
-    .add('clear filters', () => (<ClearFiltersIcon/>))
-    .add('close window', () => (<CloseWindowIcon/>))
-    .add('check', () => (
-        <CheckIcon/>))
-    .add('download', () => (<DownloadIcon/>))
-    .add('drag', () => (<DragIcon/>))
-    .add('employees', () => (<div><EmployeesIcon/><EmployeesIcon isActive/></div>))
-    .add('filter', () => (<FilterIcon/>))
-    .add('home', () => (<div><HomeIcon/><HomeIcon isActive/></div>))
-    .add('inspections', () => (<div><InspectionsIcon/><InspectionsIcon isActive/></div>))
-    .add('map', () => (<div><MapIcon/><MapIcon isActive/></div>))
-    .add('objects', () => (<div><ObjectsIcon/><ObjectsIcon isActive/></div>))
-    .add('pin', () => (<PinIcon/>))
-    .add('plus', () => (<PlusIcon/>))
-    .add('redo', () => (<RedoIcon/>))
-    .add('settings', () => (<SettingsIcon/>))
-    .add('undo', () => (<UndoIcon/>))
-    .add('upload', () => (<UploadIcon/>))
-    .add('user', () => (<UserIcon/>))
-    .add('view', () => (<ViewIcon/>))
-    .add('way back', () => (<WayBackIcon/>))
-    .add('way forward', () => (<WayForwardIcon/>))
-
-    
+    .add('add', () => <AddIcon />)
+    .add('analytic', () => <div><AnalyticIcon /><AnalyticIcon isActive /></div>)
+    .add('burger', () => <BurgerIcon />)
+    .add('clear filters', () => <ClearFiltersIcon />)
+    .add('close window', () => <CloseWindowIcon />)
+    .add('check', () => <CheckIcon />)
+    .add('download', () => <DownloadIcon />)
+    .add('drag', () => <DragIcon />)
+    .add('employees', () => (
+        <div><EmployeesIcon /><EmployeesIcon isActive /></div>
+    ))
+    .add('filter', () => <FilterIcon />)
+    .add('home', () => <div><HomeIcon /><HomeIcon isActive /></div>)
+    .add('inspections', () => (
+        <div><InspectionsIcon /><InspectionsIcon isActive /></div>
+    ))
+    .add('map', () => <div><MapIcon /><MapIcon isActive /></div>)
+    .add('objects', () => <div><ObjectsIcon /><ObjectsIcon isActive /></div>)
+    .add('pin', () => <PinIcon />)
+    .add('plus', () => <PlusIcon />)
+    .add('redo', () => <RedoIcon />)
+    .add('settings', () => <SettingsIcon />)
+    .add('undo', () => <UndoIcon />)
+    .add('upload', () => <UploadIcon />)
+    .add('user', () => <UserIcon />)
+    .add('view', () => <ViewIcon />)
+    .add('way back', () => <WayBackIcon />)
+    .add('way forward', () => <WayForwardIcon />);

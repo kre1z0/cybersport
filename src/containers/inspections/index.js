@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Inspections extends Component {
-    render () {
-        
+    render() {
         return (
             <div className="--padding">
                 Inspections
@@ -12,13 +11,8 @@ class Inspections extends Component {
     }
 }
 
-const mapProps = () => ({
+const mapProps = () => ({});
 
-});
-
-const mapActions = {
-
-};
+const mapActions = {};
 
 export default connect(mapProps, mapActions)(Inspections);
-

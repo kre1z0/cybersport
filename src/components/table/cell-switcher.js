@@ -17,32 +17,37 @@ export const TYPES = {
     EDITOR: 'editor',
     ADDRESS: 'address',
     DATE: 'date',
-    NUMBER: 'number'
+    NUMBER: 'number',
 };
 
-const CellSwitcher = ({type, onCellClick, onCellChange, ...props}) => {
+const CellSwitcher = ({ type, onCellClick, onCellChange, ...props }) => {
     switch (type) {
-        case TYPES.HEADER: return <HeaderCell {...props}/>;
-        case TYPES.TEXT: return <TextCell {...props}/>;
-        case TYPES.IMG: return <ImageCell {...props}/>;
-        case TYPES.CONTROL: return <ControlCell {...props}/>;
-        case TYPES.ADDRESS: return <AddressCell {...props}/>;
+        case TYPES.HEADER:
+            return <HeaderCell {...props} />;
+        case TYPES.TEXT:
+            return <TextCell {...props} />;
+        case TYPES.IMG:
+            return <ImageCell {...props} />;
+        case TYPES.CONTROL:
+            return <ControlCell {...props} />;
+        case TYPES.ADDRESS:
+            return <AddressCell {...props} />;
         case TYPES.DATE: {
-            const content = props.content ? moment(props.content).format('L') : '';
-            return <TextCell {...props}
-                             content={content}
-            />;
+            const content = props.content
+                ? moment(props.content).format('L')
+                : '';
+            return <TextCell {...props} content={content} />;
         }
-        case TYPES.EDITOR: return <EditorCell {...props}
-                                              onBlur={onCellChange}
-                                  />;
+        case TYPES.EDITOR:
+            return <EditorCell {...props} onBlur={onCellChange} />;
         case TYPES.NUMBER: {
-            const content = props.content ? numeral(props.content).format('0,0') : '';
-            return <TextCell {...props}
-                             content={content}
-            />;
+            const content = props.content
+                ? numeral(props.content).format('0,0')
+                : '';
+            return <TextCell {...props} content={content} />;
         }
-        default: return <TextCell {...props}/>;
+        default:
+            return <TextCell {...props} />;
     }
 };
 

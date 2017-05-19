@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import ProgressChart from '../../components/progress-chart';
 import MainButtons from '../../components/main-buttons';
@@ -14,48 +14,54 @@ class Home extends Component {
         goPortfolio: PropTypes.func.isRequired,
         goMap: PropTypes.func.isRequired,
         goInspections: PropTypes.func.isRequired,
-        goAnalytic: PropTypes.func.isRequired
+        goAnalytic: PropTypes.func.isRequired,
     };
 
-    render () {
-        const {goPortfolio, goMap, goInspections, goAnalytic, plan: {progress}} = this.props;
-    
+    render() {
+        const {
+            goPortfolio,
+            goMap,
+            goInspections,
+            goAnalytic,
+            plan: { progress },
+        } = this.props;
+
         const buttons = [
             {
                 id: 1,
                 label: 'Залоговый портфель',
                 icon: 'objects',
-                onTouchTap: goPortfolio
+                onTouchTap: goPortfolio,
             },
             {
                 id: 2,
                 label: 'Проверки',
                 icon: 'inspections',
-                onTouchTap: goInspections
+                onTouchTap: goInspections,
             },
             {
                 id: 3,
                 label: 'Карта залогов',
                 icon: 'map',
-                onTouchTap: goMap
+                onTouchTap: goMap,
             },
             {
                 id: 4,
                 label: 'Аналитика',
                 icon: 'analytic',
-                onTouchTap: goAnalytic
-            }
+                onTouchTap: goAnalytic,
+            },
         ];
 
         return (
             <div className="home-container --padding">
                 <div className="home-content">
 
-                    <ProgressChart value={progress}
-                                   month="март"/>
-                    <MainButtons buttons={buttons}
-                                 onMouseEnter={this.handleEnterButton}
-                                 onMouseLeave={this.handleLeaveButton}
+                    <ProgressChart value={progress} month="март" />
+                    <MainButtons
+                        buttons={buttons}
+                        onMouseEnter={this.handleEnterButton}
+                        onMouseLeave={this.handleLeaveButton}
                     />
 
                 </div>
@@ -64,15 +70,10 @@ class Home extends Component {
     }
 }
 
-const mapProps = ({plan}) => ({
-    plan
+const mapProps = ({ plan }) => ({
+    plan,
 });
 
-const mapActions = {
-
-};
+const mapActions = {};
 
 export default withRouter(connect(mapProps, mapActions)(Home));
-
-
-

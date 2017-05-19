@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Analytics extends Component {
-    render () {
-        
+    render() {
         return (
             <div className="--padding">
                 Analytics
@@ -12,12 +11,8 @@ class Analytics extends Component {
     }
 }
 
-const mapProps = () => ({
+const mapProps = () => ({});
 
-});
-
-const mapActions = {
-
-};
+const mapActions = {};
 
 export default connect(mapProps, mapActions)(Analytics);
