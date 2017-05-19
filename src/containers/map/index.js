@@ -13,7 +13,8 @@ import Map from '../../components/map';
 import LayersList from './layer-list';
 import FeaturePopup from './feature-popup';
 
-import CircleButton from '../../components/button/circle-button';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+
 import {MapLayers} from '../../components/icons';
 
 import {OBJECTS_SERVICE, OFFICES_SERVICE, EMPLOYEES_SERVICE} from '../../evergis/helpers';
@@ -138,7 +139,12 @@ class MapContainer extends Component {
                     />
                         : <Loader className="loader"/>
                 }
-                <CircleButton style={floatButtonStyles.button} backgroundColor="#fff" onTouchTap={this.handleShowPopup}><MapLayers style={floatButtonStyles.svg} isActive={showPopup} /></CircleButton>
+                <FloatingActionButton
+                    style={floatButtonStyles.button}
+                    backgroundColor="#fff"
+                    onTouchTap={this.handleShowPopup}>
+                    <MapLayers style={floatButtonStyles.svg} isActive={showPopup} />
+                </FloatingActionButton>
                 {showPopup && <LayersList />}
                 <FeaturePopup/>
             </div>
