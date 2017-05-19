@@ -39,7 +39,8 @@ const configureStore = (preloadedState = new StateRecord()) => {
     
     persistStore(store, {
         storage: localForage,
-        blacklist: ['user', 'objects']
+        //blacklist: ['user', 'objects'],
+        whitelist: []
     });
     
     return store;

@@ -11881,70 +11881,6 @@ sGis.module('feature.Polyline', ['feature.Poly', 'symbol.polyline.Simple'], func
 });
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-sGis.module('serializer.symbolSerializer', ['utils', 'utils.Color'], function (utils, Color) {
-
-    'use strict';
-
-    var symbolDescriptions = {};
-
-    return {
-        registerSymbol: function registerSymbol(constructor, description, properties) {
-            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
-        },
-
-        serialize: function serialize(symbol) {
-            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-            var keys = Object.keys(symbolDescriptions);
-            for (var i = 0; i < keys.length; i++) {
-                var desc = symbolDescriptions[keys[i]];
-
-                if (symbol instanceof desc.Constructor) {
-                    var _ret = function () {
-                        var serialized = { symbolName: keys[i] };
-                        desc.properties.forEach(function (prop) {
-                            var value = symbol[prop];
-                            if (colorsFormat) {
-                                var color = new Color(value);
-                                if (color.isValid) value = color.toString(colorsFormat);
-                            }
-                            serialized[prop] = value;
-                        });
-                        return {
-                            v: serialized
-                        };
-                    }();
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-                }
-            }
-
-            utils.error('Unknown type of symbol.');
-        },
-
-        deserialize: function deserialize(desc) {
-            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
-            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
-            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
-                var val = desc[prop];
-                if (colorsFormat) {
-                    var color = new Color(val);
-                    if (color.isValid && color.format === colorsFormat) val = color.toString('rgba');
-                }
-
-                symbol[prop] = val;
-            });
-
-            return symbol;
-        }
-    };
-});
-'use strict';
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12503,6 +12439,70 @@ sGis.module('render.VectorLabel', ['render.VectorImage'], function (VectorImage)
     });
 
     return VectorLabel;
+});
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+sGis.module('serializer.symbolSerializer', ['utils', 'utils.Color'], function (utils, Color) {
+
+    'use strict';
+
+    var symbolDescriptions = {};
+
+    return {
+        registerSymbol: function registerSymbol(constructor, description, properties) {
+            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
+        },
+
+        serialize: function serialize(symbol) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            var keys = Object.keys(symbolDescriptions);
+            for (var i = 0; i < keys.length; i++) {
+                var desc = symbolDescriptions[keys[i]];
+
+                if (symbol instanceof desc.Constructor) {
+                    var _ret = function () {
+                        var serialized = { symbolName: keys[i] };
+                        desc.properties.forEach(function (prop) {
+                            var value = symbol[prop];
+                            if (colorsFormat) {
+                                var color = new Color(value);
+                                if (color.isValid) value = color.toString(colorsFormat);
+                            }
+                            serialized[prop] = value;
+                        });
+                        return {
+                            v: serialized
+                        };
+                    }();
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+            }
+
+            utils.error('Unknown type of symbol.');
+        },
+
+        deserialize: function deserialize(desc) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
+            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
+            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
+                var val = desc[prop];
+                if (colorsFormat) {
+                    var color = new Color(val);
+                    if (color.isValid && color.format === colorsFormat) val = color.toString('rgba');
+                }
+
+                symbol[prop] = val;
+            });
+
+            return symbol;
+        }
+    };
 });
 'use strict';
 
@@ -18206,7 +18206,7 @@ sGis.module('sp.ClusterSymbol', ['utils', 'Symbol', 'symbol.point.Point', 'rende
                 var totalCount = feature.objectCount;
 
                 if (!aggr) return;
-                var startAngle = 0;
+                var startAngle = -Math.PI / 2;
                 var pies = aggr.filter(function (x) {
                     return x.count > 0;
                 }).map(function (x) {
@@ -18263,7 +18263,8 @@ sGis.module('sp.ClusterSymbol', ['utils', 'Symbol', 'symbol.point.Point', 'rende
                     pieAggregationIndex: this.pieAggregationIndex,
                     _pieGroups: this._pieGroups,
                     labelText: this.labelText,
-                    singleObjectSymbol: this.singleObjectSymbol && (this.singleObjectSymbol.serialize && this.singleObjectSymbol.serialize() || symbolSerializer.serialize(this.singleObjectSymbol))
+                    singleObjectSymbol: this.singleObjectSymbol && (this.singleObjectSymbol.serialize && this.singleObjectSymbol.serialize() || symbolSerializer.serialize(this.singleObjectSymbol)),
+                    gridSize: this.gridSize
                 };
             }
         }, {
@@ -18300,7 +18301,8 @@ sGis.module('sp.ClusterSymbol', ['utils', 'Symbol', 'symbol.point.Point', 'rende
         _pieGroups: {},
 
         labelText: null,
-        _singleObjectSymbol: null
+        _singleObjectSymbol: null,
+        gridSize: 100
     });
 
     return ClusterSymbol;
@@ -20728,6 +20730,7 @@ sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLaye
                 if (filter.symbol && filter.symbol instanceof ClusterSymbol) {
                     var layer = new ClusterLayer(this._service.url, this._service.connector.sessionId, filter.symbol);
                     layer.aggregationParameters = [{ filters: filter.condition, aggregations: filter.aggregations && filter.aggregations.join(',') }];
+                    if (filter.symbol.gridSize) layer.clusterSize = filter.symbol.gridSize;
                     layer.algorithm = 'adjustedGrid';
                     layer.on('propertyChange', function () {
                         _this2.redraw();

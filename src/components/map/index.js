@@ -45,7 +45,8 @@ class Map extends Component {
             resolution: this.props.resolution,
         });
         
-        this.map.on('bboxChange', this.onBboxChange)
+        this.map.on('bboxChange', this.onBboxChange);
+        this.map.on('click', this.props.onMapPick);
     }
     
     componentWillReceiveProps (nextProps) {
@@ -67,7 +68,7 @@ class Map extends Component {
     
     render () {
         return (
-            <div className="map-container" ref={container => this.container = container}>
+            <div className="map-wrapper" ref={container => this.container = container}>
     
             </div>
         );

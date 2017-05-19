@@ -37,7 +37,7 @@ export default [
     },
     {
         name: 'target_segment',
-        alias: 'Целевой клиентский сегмент',
+        alias: 'Клиентский сегмент',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -45,7 +45,7 @@ export default [
     },
     {
         name: 'responsible_employee_name',
-        alias: 'Ответственный сотрудник ПМЗ',
+        alias: 'Ответственный',
         type: 'text',
         editorType: 'text',
         filterable: true,
@@ -62,7 +62,7 @@ export default [
     },
     {
         name: 'address_region',
-        alias: 'Регион расположения объекта',
+        alias: 'Регион объекта',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -70,7 +70,7 @@ export default [
     },
     {
         name: 'address_combined',
-        alias: 'Адрес объекта (по договору)',
+        alias: 'Адрес объекта (договор)',
         type: 'address',
         editorType: 'address',
         isEditable: true,
@@ -78,14 +78,14 @@ export default [
     },
     {
         name: 'address_adjusted',
-        alias: 'Адрес объекта (скорректированный)',
+        alias: 'Адрес объекта (исправленный)',
         type: 'address',
         editorType: 'address',
         isVisible: true,
     },
     {
         name: 'classifier1',
-        alias: 'Вид обеспечения по классификатору (1 уровень)',
+        alias: '1 уровень классификатора',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -93,7 +93,7 @@ export default [
     },
     {
         name: 'classifier2',
-        alias: 'Вид обеспечения по классификатору (2 уровень)',
+        alias: '2 уровень классификатора',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -102,7 +102,7 @@ export default [
     },
     {
         name: 'classifier3',
-        alias: 'Вид обеспечения по классификатору (3 уровень)',
+        alias: '3 уровень классификатора',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -111,7 +111,7 @@ export default [
     },
     {
         name: 'classifier4',
-        alias: 'Вид обеспечения по классификатору (4 уровень)',
+        alias: '4 уровень классификатора',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -135,7 +135,7 @@ export default [
     },
     {
         name: 'wall_material',
-        alias: 'Материалы стен',
+        alias: 'Материал',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -143,7 +143,7 @@ export default [
     },
     {
         name: 'construction_year',
-        alias: 'Год постройки',
+        alias: 'Год',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -151,7 +151,7 @@ export default [
     },
     {
         name: 'red_line_position',
-        alias: 'Расположен вблизи "красной линии"',
+        alias: 'Близость к "красной линии"',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -167,7 +167,7 @@ export default [
     },
     {
         name: 'floor_no',
-        alias: 'Этаж расположения залога',
+        alias: 'Этаж',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -179,7 +179,7 @@ export default [
     },
     {
         name: 'separate_entrance',
-        alias: 'Наличие отдельного входа',
+        alias: 'Отдельный вход',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -187,7 +187,7 @@ export default [
     },
     {
         name: 'floor_qty',
-        alias: 'Количество этажей в здании',
+        alias: 'Этажность',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -199,7 +199,7 @@ export default [
     },
     {
         name: 'room_qty',
-        alias: 'Количество комнат',
+        alias: 'Комнаты',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -211,7 +211,7 @@ export default [
     },
     {
         name: 'monthly_volume',
-        alias: 'Среднемесячный пролив, л',
+        alias: 'Пролив, л/мес.',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -219,7 +219,7 @@ export default [
     },
     {
         name: 'has_store',
-        alias: 'Наличие магазина',
+        alias: 'Магазин',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -227,7 +227,7 @@ export default [
     },
     {
         name: 'petrol_station_qty',
-        alias: 'Количество заправочных островков',
+        alias: 'Заправочные островки',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -239,7 +239,7 @@ export default [
     },
     {
         name: 'owner_name',
-        alias: 'Наименование залогодателя',
+        alias: 'Заправочные островки',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -247,7 +247,7 @@ export default [
     },
     {
         name: 'owner_inn',
-        alias: 'ИНН залогодателя',
+        alias: 'ИНН',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -256,7 +256,7 @@ export default [
     },
     {
         name: 'contacts',
-        alias: 'Контактное лицо залогодателя',
+        alias: 'Контактное лицо',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -264,7 +264,7 @@ export default [
     },
     {
         name: 'contract_no',
-        alias: '№ договора залога',
+        alias: '№ договора',
         type: 'text',
         editorType: 'text',
         isEditable: true,
@@ -273,7 +273,7 @@ export default [
     },
     {
         name: 'contract_start_date',
-        alias: 'Дата начала договора залога',
+        alias: 'Начало договора',
         type: 'date',
         editorType: 'date',
         isEditable: true,
@@ -281,7 +281,7 @@ export default [
     },
     {
         name: 'contract_end_date',
-        alias: 'Дата окончания договора залога',
+        alias: 'Окончание договора',
         type: 'date',
         editorType: 'date',
         isEditable: true,
@@ -297,7 +297,7 @@ export default [
     },
     {
         name: 'object_quality_category',
-        alias: 'Категория качества (по договору)',
+        alias: 'Категория (договор)',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -305,7 +305,7 @@ export default [
     },
     {
         name: 'actual_quality_category',
-        alias: 'Категория качества (по итогам последней актуализации)',
+        alias: 'Категория (актуализация)',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -313,7 +313,7 @@ export default [
     },
     {
         name: 'liquidity',
-        alias: 'Ликвидность (по договору)',
+        alias: 'Ликвидность (договор)',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -321,7 +321,7 @@ export default [
     },
     {
         name: 'actual_liquidity',
-        alias: 'Ликвидность (по итогам последней актуализации)',
+        alias: 'Ликвидность (актуализация)',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -337,7 +337,7 @@ export default [
     },
     {
         name: 'original_full_value',
-        alias: 'Оценочная стоимость (по договору), руб.',
+        alias: 'Оценочная стоимость (договор), руб.',
         type: 'number',
         editorType: 'number',
         isEditable: true,
@@ -345,7 +345,7 @@ export default [
     },
     {
         name: 'actual_full_value',
-        alias: 'Оценочная стоимость (по итогам последней актуализации), руб.',
+        alias: 'Оценочная стоимость (актуализация), руб.',
         type: 'number',
         editorType: 'number',
         isEditable: true,
@@ -353,7 +353,7 @@ export default [
     },
     {
         name: 'original_mortgage_value',
-        alias: 'Залоговая стоимость (по договору), руб.',
+        alias: 'Залоговая стоимость (договор), руб.',
         type: 'number',
         editorType: 'number',
         isEditable: true,
@@ -361,7 +361,7 @@ export default [
     },
     {
         name: 'actual_mortgage_value',
-        alias: 'Залоговая стоимость (о итогам последней актуализации), руб.',
+        alias: 'Залоговая стоимость (актуализация), руб.',
         type: 'number',
         editorType: 'number',
         isEditable: true,
@@ -369,7 +369,7 @@ export default [
     },
     {
         name: 'check_interval',
-        alias: 'Периодичность выездной проверки, дн.',
+        alias: 'Период проверки, дн.',
         type: 'number',
         editorType: 'select',
         isEditable: true,
@@ -377,7 +377,7 @@ export default [
     },
     {
         name: 'actualization_interval',
-        alias: 'Периодичность актуализации, дн.',
+        alias: 'Период актуализации, дн.',
         type: 'number',
         editorType: 'number',
         isEditable: true,
@@ -385,7 +385,7 @@ export default [
     },
     {
         name: 'last_check_date',
-        alias: 'Дата последней проверки',
+        alias: 'Последняя проверка',
         type: 'date',
         editorType: 'date',
         isVisible: true,
@@ -393,7 +393,7 @@ export default [
     },
     {
         name: 'last_actualization_date',
-        alias: 'Дата последней актуализации',
+        alias: 'Последняя актуализация',
         type: 'date',
         editorType: 'date',
         isVisible: true,
@@ -401,7 +401,7 @@ export default [
     },
     {
         name: 'check_result_code',
-        alias: 'Коды результатов последнего мониторинга',
+        alias: 'Коды мониторинга',
         type: 'text',
         editorType: 'select',
         isEditable: true,
@@ -409,7 +409,7 @@ export default [
     },
     {
         name: 'planned_audit_date',
-        alias: 'Плановая дата проверки',
+        alias: 'Плановая проверка',
         type: 'date',
         isVisible: true,
         filterable: true

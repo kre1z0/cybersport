@@ -86,7 +86,7 @@ class Portfolio extends Component {
     };
     
     render () {
-        const {objects: {data, attributes, loading, staticServiceUrl}, isAuth} = this.props;
+        const {objects: {data, attributes, loading}, isAuth, staticServiceUrl} = this.props;
         const {newObjectOpen, columnsSettingsOpen, query} = this.state;
         
         const dataJS = data.toJS();
@@ -119,7 +119,7 @@ class Portfolio extends Component {
                                      attrJS.filter(({isVisible}) => isVisible)
                                  }
                                  query={query}
-                                 loader={loading && <Loader className="loader"/>}
+                                 loader={loading && <Loader className="loader overlay"/>}
                                  onFilterChange={this.changeFilter}
                           />
                     }
@@ -135,9 +135,10 @@ class Portfolio extends Component {
     }
 }
 
-const mapProps = ({objects, user: {employee_id}}) => ({
+const mapProps = ({objects, user: {employee_id, staticServiceUrl}}) => ({
     objects,
-    isAuth: !!employee_id
+    isAuth: !!employee_id,
+    staticServiceUrl
 });
 
 const mapActions = {

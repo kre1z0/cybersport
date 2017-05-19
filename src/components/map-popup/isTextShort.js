@@ -1,7 +1,7 @@
 export function isTextShort(stringArray) {
   let half = true;
   stringArray.forEach((item) => {
-    if (item.length > 22) {
+    if (item && item.length > 22) {
       half = false
     }
   })

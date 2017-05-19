@@ -16,9 +16,9 @@ const dragButtonStyle = {
 
 class MapControl extends Component {
   render() {
-    const {children} = this.props
+    const {children, style} = this.props;
     return (
-      <div className='map-control-popup'>
+      <div className='map-control-popup' style={style}>
         <div className="map-popup-control-header">
           Объекты залога
           <IconButton  style={dragButtonStyle}

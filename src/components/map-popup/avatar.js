@@ -7,15 +7,15 @@ const avatarStyle = {
   width: '46px'
 };
 
-const MapPopupAvatar = () => (
+const MapPopupAvatar = ({img, label, text}) => (
   <div className="map-popup-avatar">
-    <Avatar style={avatarStyle} src='https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1'/>
+    <Avatar style={avatarStyle} src={img}/>
     <div className="map-popup-avatar-flex">
       <div className="map-popup-avatar-label">
-        Сотрудник
+          {label}
       </div>
       <div className="map-popup-avatar-content">
-        Иванов. И.И.
+          {text}
       </div>
     </div>
   </div>
