@@ -81,8 +81,9 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "styleguide": "styleguidist server",
-    "styleguide:build": "styleguidist build"
+    "styleguide": "styleguidist server --config config/styleguide.config.js",
+    "styleguide:build": "styleguidist build --config config/styleguide.config.js",
+    "auto-build": "yarn && yarn run build && yarn run styleguide:build"
   },
   "jest": {
     "collectCoverageFrom": [

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TaskContainer from './task-container';
 
-import { macaroniAndCheese, coolGrayTwo, softGreen } from '../../assets/theme';
+import { macaroniAndCheese, coolGreyTwo, softGreen } from '../../assets/theme';
 
 const colorMap = {
-    1: coolGrayTwo,
+    1: coolGreyTwo,
     2: macaroniAndCheese,
     3: softGreen,
 };

@@ -3,6 +3,7 @@ process.env.NODE_ENV = 'styleguide';
 module.exports = {
     components: '../src/components/**/[a-zA-Z]*.js',
     webpackConfig: require('./webpack.config.styleguide'),
+    styleguideDir: '../storybook-static',
     ignore: [
         '**/__tests__/**',
         '**/*.test.js',
