@@ -17,3 +17,4 @@ import ColumnsSettings from './columns-settings';
 import ObjectAddress from './object-address';
 import MapControls from './map-controls';
 import MapPopups from './map-popup';
+import ObjectPhoto from './object-photo';

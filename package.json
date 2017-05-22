@@ -15,6 +15,7 @@
     "react": "^15.4.2",
     "react-countup": "^2.0.3",
     "react-dom": "^15.4.2",
+    "react-image-gallery": "^0.7.15",
     "react-redux": "^5.0.3",
     "react-router-dom": "^4.0.0",
     "react-tap-event-plugin": "^2.0.1",

@@ -1,0 +1,43 @@
+@import "../../assets/base/colors";
+@import "../../assets/base/media";
+$photoGalleryWidth: 500px;
+@import "react-image-gallery";
+
+.object-photo {
+  display: flex;
+  .object-photo-left-col {
+    position: relative;
+    padding: 10px 0;
+    width: $photoGalleryWidth;
+    background-color: $darkGrey;
+  }
+  .object-photo-right-col {
+    width: calc(100% - #{$photoGalleryWidth});
+    max-height: 630px;
+    overflow-y: auto;
+    .right-col-header {
+      color: $darkGrey;
+      font-size: 1.285rem;
+      padding: 30px;
+      border-bottom: 1px solid $paleGrey;
+    }
+    .right-col-content {
+      padding: 20px 30px;
+      .object-photo-item {
+        padding-top: 15px;
+        .object-photo-item-title {
+          color: $coolGrayTwo;
+          font-size: 0.928rem;
+          padding-bottom: 5px;
+        }
+        .object-photo-item-content {
+          color: $darkGrey;
+          font-size: 1rem;
+        }
+        &:first-child {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
