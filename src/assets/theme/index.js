@@ -34,4 +34,7 @@ export const theme = getMuiTheme({
     datePicker: {
         selectColor: softGreen,
     },
+    floatingActionButton: {
+        buttonSize: '44px'
+    }
 });
