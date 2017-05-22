@@ -1,22 +1,27 @@
-import {createAction, createReducer} from 'redux-act';
-import {Record, Map} from 'immutable';
+import { createAction, createReducer } from 'redux-act';
+import { Record, Map } from 'immutable';
 import getLayerManager from '../evergis/layer-manager';
 import getMap from '../evergis/map';
 import getConnector from '../evergis/connector';
-import {OBJECTS_SERVICE, EMPLOYEES_SERVICE, OSM, GIS, BASEMAPS, OFFICES_SERVICE, applyObjectsStyle} from '../evergis/helpers';
-import {pickByGeometry, fetchStaticService} from '../evergis/api';
+import {
+    OBJECTS_SERVICE,
+    EMPLOYEES_SERVICE,
+    OSM,
+    GIS,
+    BASEMAPS,
+    OFFICES_SERVICE,
+    applyObjectsStyle,
+} from '../evergis/helpers';
+import { pickByGeometry, fetchStaticService } from '../evergis/api';
 
 const Service = Record({
     name: undefined,
     isVisible: undefined,
-    order: undefined
+    order: undefined,
 });
 
 const MapState = Record({
-    center: [
-        5477310.877466004,
-        7517826.314514717
-    ],
+    center: [5477310.877466004, 7517826.314514717],
     resolution: 76.43702828515632,
     loading: false,
     error: false,
@@ -27,11 +32,11 @@ const MapState = Record({
         2: true,
         3: true,
         4: true,
-        5: true
+        5: true,
     }),
     showOffices: true,
     showHomeAddress: true,
-    selectedObjects: []
+    selectedObjects: [],
 });
 
 const initState = new MapState();
@@ -48,70 +53,78 @@ export const setShowHomeAddress = createAction('map/set-show-home-address');
 
 export const selectObject = createAction('map/select-object');
 
-const isVisible = (name, {basemap}) => (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
+const isVisible = (name, { basemap }) =>
+    (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
 
-export const loadMapServices = (names = [OSM, GIS, EMPLOYEES_SERVICE, OFFICES_SERVICE, OBJECTS_SERVICE]) => (dispatch, getState)=> {
+export const loadMapServices = (
+    names = [OSM, GIS, EMPLOYEES_SERVICE, OFFICES_SERVICE, OBJECTS_SERVICE],
+) => (dispatch, getState) => {
     dispatch(loadServices);
     const map = getMap({});
     const connector = getConnector();
     const layerManager = getLayerManager(connector, map);
-    
-    return Promise.all(
-            names.map(name => layerManager.loadWithPromise(name)),
-        )
+
+    return Promise.all(names.map(name => layerManager.loadWithPromise(name)))
         .then(containers => {
-            
-            applyObjectsStyle(containers.find(({name}) => name === OBJECTS_SERVICE));
-            
+            applyObjectsStyle(
+                containers.find(({ name }) => name === OBJECTS_SERVICE),
+            );
+
             const state = getState();
-            const containersState = containers.map(({name}) => ({name, isVisible: isVisible(name, state.map)}));
+            const containersState = containers.map(({ name }) => ({
+                name,
+                isVisible: isVisible(name, state.map),
+            }));
             dispatch(loadServicesSuccess(containersState));
             return containersState;
         })
         .catch(error => dispatch(loadServicesError()));
 };
 
-export const pickObject = (point) => dispatch => pickByGeometry(point)
+export const pickObject = point => dispatch =>
+    pickByGeometry(point)
         .then(response => dispatch(selectObject(response)))
         .catch(error => dispatch(selectObject([])));
 
-export default createReducer({
-    [setCenter]: (state, payload) =>
-        state.set('center', payload),
-    
-    [resetMap]: (state, payload) =>
-        initState,
-    
-    [setResolution]: (state, payload) =>
-        state.set('resolution', payload),
-    
-    [loadServices]: (state, payload) =>
-        state.set('loading', true)
-            .set('error', false),
-    
-    [loadServicesSuccess]: (state, payload) =>
-        state.set('loading', false)
-            .set('error', false)
-            .set(
-                'services',
-                new Map(payload.map(
-                    ({name, isVisible}, order) => [name, new Service({name, order, isVisible})]
-                ))),
-    
-    [loadServicesError]: (state, payload) =>
-        state.set('loading', false)
-            .set('error', payload),
+export default createReducer(
+    {
+        [setCenter]: (state, payload) => state.set('center', payload),
 
-    [setObjectsDataFilter]: (state, {layerNumber, checked}) =>
-        state.setIn(['objectsDataFilter', layerNumber.toString()], checked),
+        [resetMap]: (state, payload) => initState,
 
-    [setShowOffices]: (state, payload) =>
-        state.set('showOffices', payload.checked),
+        [setResolution]: (state, payload) => state.set('resolution', payload),
 
-    [setShowHomeAddress]: (state, payload) =>
-        state.set('showHomeAddress', payload.checked),
+        [loadServices]: (state, payload) =>
+            state.set('loading', true).set('error', false),
 
-    [selectObject]: (state, payload) =>
-        state.set('selectedObjects', payload)
+        [loadServicesSuccess]: (state, payload) =>
+            state
+                .set('loading', false)
+                .set('error', false)
+                .set(
+                    'services',
+                    new Map(
+                        payload.map(({ name, isVisible }, order) => [
+                            name,
+                            new Service({ name, order, isVisible }),
+                        ]),
+                    ),
+                ),
 
-}, initState)
+        [loadServicesError]: (state, payload) =>
+            state.set('loading', false).set('error', payload),
+
+        [setObjectsDataFilter]: (state, { layerNumber, checked }) =>
+            state.setIn(['objectsDataFilter', layerNumber.toString()], checked),
+
+        [setShowOffices]: (state, payload) =>
+            state.set('showOffices', payload.checked),
+
+        [setShowHomeAddress]: (state, payload) =>
+            state.set('showHomeAddress', payload.checked),
+
+        [selectObject]: (state, payload) =>
+            state.set('selectedObjects', payload),
+    },
+    initState,
+);

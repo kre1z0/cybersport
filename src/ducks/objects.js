@@ -67,12 +67,7 @@ export const getObjects = (query = {}) => (dispatch, getState) => {
             dispatch(setDomens(definition)),
         ),
         fetchObjects(
-            /*addEmployeeToQuery(*/
-            tranformQuery(
-                query,
-            ) /*,
-                    state.user.employee_id
-                )*/,
+            addEmployeeToQuery(tranformQuery(query), state.user.employee_id),
         )
             .then(objects => dispatch(fetchSuccess(objects)))
             .catch(error => dispatch(fetchError(error))),

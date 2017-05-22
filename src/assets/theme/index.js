@@ -35,6 +35,6 @@ export const theme = getMuiTheme({
         selectColor: softGreen,
     },
     floatingActionButton: {
-        buttonSize: '44px'
-    }
+        buttonSize: '44px',
+    },
 });
