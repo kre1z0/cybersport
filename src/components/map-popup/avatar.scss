@@ -1,0 +1,19 @@
+@import "../../assets/base/colors";
+
+.map-popup-avatar {
+  display: flex;
+  align-items: center;
+  padding-bottom: 30px;
+  .map-popup-avatar-flex {
+    padding-left: 10px;
+    .map-popup-avatar-label {
+      color: $steel;
+      font-size: 1rem;
+      padding-bottom: 5px;
+    }
+    .map-popup-avatar-content {
+      font-size: 1.285rem;
+      color: $darkGrey;
+    }
+  }
+}

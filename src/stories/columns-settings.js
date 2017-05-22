@@ -7,7 +7,7 @@ import {theme} from '../assets/theme';
 import ModalWindow from '../components/modal-window';
 import RoundedButton from '../components/button/rounded-button';
 
-import {attributes} from './new-object-window'
+import {columns} from './objects-mock-data'
 import ColumnsSettings from '../components/columns-settings'
 
 const Actions = (
@@ -37,7 +37,7 @@ class ModalWindowContainer extends Component {
                      actions={Actions}
                      onRequestClose={this.toggle}
         >
-          <ColumnsSettings data={attributes} />
+          <ColumnsSettings data={columns.filter(({type})=>type!=='control')} />
         </ModalWindow>
       </div>
     )

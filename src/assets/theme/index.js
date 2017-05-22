@@ -11,6 +11,11 @@ export const steel = '#81878f';
 export const macaroniAndCheese = '#f7c134';
 export const dustyOrange = '#eb7f2e';
 export const softGreen = '#64c76c';
+export const limeGreen = '#add54c';
+export const mango = '#ffad2b';
+export const waterMelon = '#ff4057';
+export const coolGreyThree = '#98a1ab';
+export const brightLavender = '#df5dff';
 
 export const theme = getMuiTheme({
     fontFamily: 'FedraSans',
@@ -28,5 +33,8 @@ export const theme = getMuiTheme({
     },
     datePicker: {
         selectColor: softGreen
+    },
+    floatingActionButton: {
+        buttonSize: '44px'
     }
 });

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import classnames from 'classnames';
 
 import TextInput from '../text-input';
 
@@ -15,12 +14,9 @@ class EditorCell extends Component {
     };
     
     render () {
-        const {rowIndex, content} = this.props;
+        const {content} = this.props;
         return (
-            <div className={classnames(
-                'cell',
-                {'--odd': rowIndex % 2 === 0}
-            )}
+            <div className="cell"
                  onClick={this.onCellClick}
             >
                 <TextInput style={{height: '100%'}}

@@ -12,7 +12,8 @@ import './header-popup.scss';
 const iconButtonStyle = {
     width: 40,
     height: 40,
-    padding: 0
+    padding: 0,
+    marginLeft: '-1rem'
 };
 
 const filterIconStyle = {
@@ -41,6 +42,8 @@ const setFilter = (filter) => () => ({filter});
 class HeaderPopup extends PureComponent {
     static propTypes = {
         columnName: PropTypes.string.isRequired,
+        filterable: PropTypes.bool,
+        query: PropTypes.object,
         onApply: PropTypes.func
     };
     
@@ -50,35 +53,54 @@ class HeaderPopup extends PureComponent {
     
     state = {
         anchor: null,
-        sort: 1,
+        sort: 0,
         filter: ''
     };
     
-    showPopup = ({target}) => this.setState(setAnchor(target));
+    showPopup = (e) => {
+        e.preventDefault();
+        this.setState(setAnchor(e.currentTarget));
+    };
+    
     closePopup = () => {
-        const {onApply} = this.props;
+        this.setState(setSortType(0));
+        this.setState(setFilter(''));
+        this.setState(setAnchor(null))
+    };
+    
+    apply = () => {
+        const {onApply, columnName} = this.props;
         const {sort, filter} = this.state;
         
-        onApply && onApply({sort, filter});
-        this.setState(setAnchor(null));
+        onApply && onApply({column: columnName, sort, filter});
+        this.closePopup();
     };
     
     reset = () => {
-        const {onApply} = this.props;
+        const {onApply, columnName} = this.props;
         this.setState(setSortType(0));
         this.setState(setFilter(''));
         this.setState(setAnchor(null));
-        onApply && onApply({sort: 0, filter: ''});
+        onApply && onApply({column: columnName});
     };
     
     onSortTypeChange = ({id}) => this.setState(setSortType(id));
     onFilterChange = (filter) => this.setState(setFilter(filter));
     
+    componentWillReceiveProps ({query}) {
+        if (query && this.props.query !== query) {
+            this.setState(() => ({
+                sort: query.sort,
+                filter: query.filter
+            }));
+        }
+    }
+    
     render () {
-        const {columnName} = this.props;
+        const {columnName, query, filterable} = this.props;
         const {anchor, filter, sort} = this.state;
         const {getColumnsDataDistinct} = this.context;
-
+   
         return (
             <div className="header-popup">
                 <IconButton className="header-button"
@@ -87,7 +109,7 @@ class HeaderPopup extends PureComponent {
                             onTouchTap={this.showPopup}
                             touch={true}
                 >
-                    <FilterIcon isActive={!!anchor}/>
+                    <FilterIcon isActive={!!anchor || !!query}/>
                 </IconButton>
                 <Popover open={!!anchor}
                          anchorEl={anchor}
@@ -105,13 +127,19 @@ class HeaderPopup extends PureComponent {
                                      value={sort}
                                      onChange={this.onSortTypeChange}
                         />
-    
-                        <label>Фильтр</label>
-                        <AutoComplete value={filter}
-                                      onChange={this.onFilterChange}
-                                      data={getColumnsDataDistinct(columnName)}
-                        />
+                        {filterable &&
+                            <label>Фильтр</label>
+                        }
+                        {filterable &&
+                            < AutoComplete value={filter}
+                                onChange={this.onFilterChange}
+                                data={getColumnsDataDistinct(columnName)}
+                            />
+                        }
                         <div className="clear-block">
+                            <FlatButton onTouchTap={this.apply}
+                                        label={'Применить'}
+                            />
                             <FlatButton onTouchTap={this.reset}
                                         secondary={true}
                                         label={'Сбросить все'}

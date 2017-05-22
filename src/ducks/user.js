@@ -1,11 +1,20 @@
 import {createAction, createReducer} from 'redux-act';
-import {getSession, getUserInfo} from '../evergis/api';
+import {Record} from 'immutable';
 
-const initState = {
+import {fetchSession, fetchUserInfo, fetchStaticService} from '../evergis/api';
+
+const User = Record({
     full_name: '',
     tb_name: '',
-    role_name: ''
-};
+    role_name: '',
+    employee_id: undefined,
+    login: '',
+    loading: false,
+    error: false,
+    staticServiceUrl: undefined
+});
+
+const initState = new User();
 
 const login = createAction('user/login');
 const loginSuccess = createAction('user/login-success');
@@ -13,58 +22,55 @@ const loginError = createAction('user/login-error');
 
 const fetch = createAction('user/fetch');
 const fetchSuccess = createAction('user/fetch-success');
-const fetchError = createAction('user/fetch-error');
 
-export const getUser = () => (dispatch) => {
+export const setStaticServiceURL = createAction('objects/set-static-service-url');
+
+export const getUser = () => dispatch => {
     dispatch(login());
-    getSession()
+    return fetchSession()
         .then(response => {
             dispatch(loginSuccess(response));
             return response;
         })
-        .catch(error => dispatch(loginError(error)))
         .then(({login}) => {
             dispatch(fetch());
-            return getUserInfo({login});
+            return fetchUserInfo({login});
         })
         .then(({data}) => {
             dispatch(fetchSuccess(data));
+            return fetchStaticService()
+                .then((staticService) =>
+                    dispatch(setStaticServiceURL(staticService && staticService.getSourceUrl('{{filename}}'))))
         })
-        .catch(error => dispatch(fetchError(error)))
-    
+        .catch(error => dispatch(loginError(error.message || error)));
 };
 
 export default createReducer({
-    [login]: (state, payload) => ({
-        ...state,
-        loading: true
-    }),
-    [loginSuccess]: (state, payload) => ({
-        ...state,
-        loading: false,
-        error: false,
-        ...payload
-    }),
-    [loginError]: (state, payload) => ({
-        ...state,
-        loading: false,
-        error: true
-    }),
-    [fetch]: (state, payload) => ({
-        ...state,
-        loading: true
-    }),
-    [fetchSuccess]: (state, payload) => ({
-        ...state,
-        loading: false,
-        error: false,
-        ...payload
-    }),
-    [fetchError]: (state, payload) => ({
-        ...state,
-        loading: false,
-        error: true
-    })
+    [login]: (state, payload) =>
+        state.set('loading', true),
+    
+    [loginSuccess]: (state, {login}) =>
+        state.set('loading', false)
+             .set('error', false)
+             .set('login', login),
+    
+    [loginError]: (state, payload) =>
+        state.set('loading', false)
+             .set('error', payload),
+    
+    [fetch]: (state, payload) =>
+        state.set('loading', true),
+    
+    [fetchSuccess]: (state, {full_name, tb_name, role_name, employee_id}) =>
+        state.set('loading', false)
+            .set('error', false)
+            .set('full_name', full_name)
+            .set('tb_name', tb_name)
+            .set('role_name', role_name)
+            .set('employee_id', employee_id),
+    
+    [setStaticServiceURL]: (state, payload) =>
+        state.set('staticServiceUrl', payload),
 }, initState)
 
 

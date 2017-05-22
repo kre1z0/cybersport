@@ -51,10 +51,11 @@ class AutoCompleteInput extends Component {
     };
 
     filterData(value){
-        const result = value === ''
-                            ? []
-                            : this.props.data
-                                    .filter(item => item.toLowerCase().search(value.toLowerCase()) !== -1);
+        const result =
+            value === ''
+                ? []
+                : this.props.data
+                .filter(item => item.toLowerCase().search(value.toLowerCase()) !== -1);
         return result;
     }
 
@@ -102,8 +103,8 @@ class AutoCompleteInput extends Component {
     }
 
     render() {
-        const { filteredData, focused, value } = this.state;
-        const { className, style, menuStyle, listStyle, itemStyle } = this.props;
+        const { filteredData, focused} = this.state;
+        const { className, style, menuStyle, listStyle, itemStyle, value } = this.props;
         const mergedClassName = cn('auto-complete-input', className);
 
         return (

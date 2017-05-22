@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import TextField from 'material-ui/TextField';
+import {darkGrey} from '../../assets/theme';
 
 import "./TextInput.scss";
 
@@ -14,10 +15,12 @@ const styles = {
         paddingRight: '12px'
     },
     TEXTAREA: {
-        margin: '0'
+        margin: '0',
+        color: darkGrey
     },
     INPUT: {
-        margin: '0'
+        margin: '0',
+        color: darkGrey
     }
 };
 

@@ -3,6 +3,7 @@
 .select-field-input{
   display: inline-block;
   width: 100%;
+  color: $darkGrey;
   .select-box{
     display: inline-flex;
     align-items: center;
@@ -30,6 +31,7 @@
     .text{
       user-select: none;
       margin-left: 12px;
+      font-size: 1rem;
     }
     .arrow{
       position: absolute;

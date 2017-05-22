@@ -1,22 +1,29 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import {persistStore, autoRehydrate} from 'redux-persist';
-import {REHYDRATE} from 'redux-persist/constants';
+import {persistStore, autoRehydrate} from 'redux-persist-immutable';
+import {REHYDRATE} from 'redux-persist-immutable/constants';
 import createActionBuffer from 'redux-action-buffer';
 import localForage from 'localforage';
 
-import reducers from '../ducks';
+import reducers, {StateRecord} from '../ducks';
 
-const configureStore = preloadedState => {
+const configureStore = (preloadedState = new StateRecord()) => {
     
     const middlewares = compose(
-        applyMiddleware(thunk, createActionBuffer(REHYDRATE)),
+        applyMiddleware(
+            thunk,
+            createActionBuffer(REHYDRATE)
+        ),
         autoRehydrate()
     );
     
     const store = createStore(reducers, preloadedState, middlewares);
     
-    persistStore(store, {storage: localForage, blacklist: ['user', 'objects']});
+    persistStore(store, {
+        storage: localForage,
+        //blacklist: ['user', 'objects'],
+        whitelist: []
+    });
     
     return store;
 };

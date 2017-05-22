@@ -5,9 +5,12 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "dom-helpers": "^3.2.1",
+    "immutable": "^3.8.1",
     "localforage": "^1.5.0",
     "lodash": "^4.17.4",
     "material-ui": "^0.17.1",
+    "moment": "^2.18.1",
+    "numeral": "^2.0.6",
     "postcss-flexbugs-fixes": "^2.1.1",
     "react": "^15.4.2",
     "react-countup": "^2.0.3",
@@ -19,7 +22,8 @@
     "redux": "^3.6.0",
     "redux-act": "^1.2.0",
     "redux-action-buffer": "^1.0.1",
-    "redux-persist": "^4.4.2",
+    "redux-immutable": "^4.0.0",
+    "redux-persist-immutable": "^4.2.0",
     "redux-thunk": "^2.2.0",
     "reset.css": "^2.0.2"
   },

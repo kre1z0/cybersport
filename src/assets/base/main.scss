@@ -26,8 +26,26 @@ body,
 
 .pages-container {
   height: calc(100% - 80px);
-  padding: 20px;
   overflow: hidden;
+}
+
+.--padding {
+  padding: 20px;
+}
+
+.loader {
+  width: 100%!important;
+  height: 100%!important;
+  display: flex!important;
+  align-items: center!important;
+  justify-content: center!important;
+  &.overlay {
+    position: absolute!important;
+    top: 0;
+    left: 0;
+    background-color: rgba(255,255,255,.5);
+    z-index: 999;
+  }
 }
 
 a,

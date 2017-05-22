@@ -5,7 +5,7 @@ class Analytics extends Component {
     render () {
         
         return (
-            <div>
+            <div className="--padding">
                 Analytics
             </div>
         );
