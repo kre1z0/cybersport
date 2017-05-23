@@ -1,10 +1,5 @@
 import { createAction, createReducer } from 'redux-act';
-import {
-    fetchObjects,
-    fetchObjectsAttributeDefinition,
-    createObjectFeature,
-    fetchStaticService,
-} from '../evergis/api';
+import { fetchObjects, createObjectFeature } from '../evergis/api';
 import { tranformQuery, addEmployeeToQuery } from '../evergis/helpers';
 import { Record, List } from 'immutable';
 import initAttributesArray from '../assets/const/attributes';
@@ -17,7 +12,6 @@ const Attribute = Record({
     isEditable: undefined,
     filterable: undefined,
     isVisible: undefined,
-    domain: undefined,
 });
 
 const ObjectsState = Record({
@@ -42,11 +36,7 @@ export const fetch = createAction('objects/fetch');
 export const fetchSuccess = createAction('objects/fetch-success');
 export const fetchError = createAction('objects/fetch-error');
 
-export const setDomens = createAction('objects/set-domens');
-
 export const updateAttributes = createAction('objects/update-attributes');
-
-export const commonError = createAction('objects/common-error');
 
 export const create = createAction('objects/create');
 export const createSuccess = createAction('objects/create-success');
@@ -62,16 +52,11 @@ export const addObject = attributes => dispatch => {
 export const getObjects = (query = {}) => (dispatch, getState) => {
     const state = getState();
     dispatch(fetch());
-    return Promise.all([
-        fetchObjectsAttributeDefinition().then(definition =>
-            dispatch(setDomens(definition)),
-        ),
-        fetchObjects(
-            addEmployeeToQuery(tranformQuery(query), state.user.employee_id),
-        )
-            .then(objects => dispatch(fetchSuccess(objects)))
-            .catch(error => dispatch(fetchError(error))),
-    ]).catch(error => dispatch(commonError(error)));
+    return fetchObjects(
+        addEmployeeToQuery(tranformQuery(query), state.user.employee_id),
+    )
+        .then(objects => dispatch(fetchSuccess(objects)))
+        .catch(error => dispatch(fetchError(error)));
 };
 
 export default createReducer(
@@ -97,17 +82,6 @@ export default createReducer(
                     payload,
                 ),
             ), //TODO
-
-        [setDomens]: (state, payload) =>
-            state.set(
-                'attributes',
-                state.attributes.map(attribute =>
-                    attribute.set('domain', payload[attribute.name]),
-                ),
-            ),
-
-        [commonError]: (state, payload) =>
-            state.set('loading', false).set('error', true),
 
         [create]: (state, payload) => state,
 

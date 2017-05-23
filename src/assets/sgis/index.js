@@ -16776,6 +16776,282 @@ sGis.module('controls.Distance', ['utils', 'utils.proto', 'Map', 'controls.Polyl
 });
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('decorations.ScaleSlider', ['utils', 'utils.proto', 'EventHandler'], function (utils, proto, EventHandler) {
+    'use strict';
+
+    var defaults = {
+        _gridCss: 'sGis-decorations-scaleSlider-grid',
+        _gridWidth: 8,
+        _gridHeight: 120,
+        _gridTop: 50,
+        _gridLeft: 50,
+        _sliderCss: 'sGis-decorations-scaleSlider-slider',
+        _sliderWidth: 25,
+        _sliderHeight: 10,
+        _eventNamespace: '.sGis-decorations-scaleSlider'
+    };
+
+    var ScaleSlider = function (_EventHandler) {
+        _inherits(ScaleSlider, _EventHandler);
+
+        function ScaleSlider(map, options) {
+            _classCallCheck(this, ScaleSlider);
+
+            var _this = _possibleConstructorReturn(this, (ScaleSlider.__proto__ || Object.getPrototypeOf(ScaleSlider)).call(this));
+
+            _this._map = map;
+            _this._createGrid();
+            _this._createSlider();
+
+            sGis.utils.init(_this, options);
+            _this.updateDisplay();
+            _this._setListeners();
+            return _this;
+        }
+
+        _createClass(ScaleSlider, [{
+            key: 'updateDisplay',
+            value: function updateDisplay() {
+                var wrapper = this._map.innerWrapper;
+                if (wrapper) {
+                    wrapper.appendChild(this._grid);
+                    wrapper.appendChild(this._slider);
+                } else if (this._grid.parentNode) {
+                    this._grid.parentNode.removeChild(this._grid);
+                    this._slider.parentNode.removeChild(this._grid);
+                }
+            }
+        }, {
+            key: '_setListeners',
+            value: function _setListeners() {
+                this._map.on('wrapperSet', this.updateDisplay.bind(this));
+
+                this.on('drag', function () {
+                    this._moveSlider(sGisEvent.offset.yPx);
+                });
+
+                this.on('dragEnd', function () {
+                    this._map.painter.allowUpdate();
+                    this._map.adjustResolution();
+                });
+            }
+        }, {
+            key: '_createGrid',
+            value: function _createGrid() {
+                var grid = document.createElement('div');
+                grid.style.position = 'absolute';
+                grid.style.width = this._gridWidth + 'px';
+                grid.style.height = this._gridHeight + 'px';
+                grid.style.top = this._gridTop + 'px';
+                grid.style.left = this._gridLeft + 'px';
+                grid.className = this._gridCss;
+
+                this._grid = grid;
+            }
+        }, {
+            key: '_createSlider',
+            value: function _createSlider() {
+                var slider = document.createElement('div');
+
+                slider.style.position = 'absolute';
+                slider.style.width = this._sliderWidth + 'px';
+                slider.style.height = this._sliderHeight + 'px';
+                slider.style.top = this._getSliderPosition() + 'px';
+                slider.style.left = this._getSliderLeft() + 'px';
+                slider.className = this._sliderCss;
+
+                this._slider = slider;
+                this._setSliderEvents();
+            }
+        }, {
+            key: '_getSliderLeft',
+            value: function _getSliderLeft() {
+                return this._gridLeft + (this._gridWidth - this._sliderWidth) / 2;
+            }
+        }, {
+            key: '_getSliderPosition',
+            value: function _getSliderPosition() {
+                var height = this._gridHeight - this._sliderHeight;
+                var maxResolution = this._map.maxResolution;
+                var minResolution = this._map.minResolution;
+                var curResolution = this._map.resolution;
+
+                var offset = height * Math.log2(curResolution / minResolution) / Math.log2(maxResolution / minResolution);
+                if (sGis.utils.is.number(offset)) {
+                    return offset + this._gridTop;
+                } else {
+                    return this._gridTop;
+                }
+            }
+        }, {
+            key: '_setSliderEvents',
+            value: function _setSliderEvents() {
+                var self = this;
+                this._map.addListener('dragStart' + this._eventNamespace, function (sGisEvent) {
+                    if (sGisEvent.browserEvent.target === self._slider) {
+                        sGisEvent.draggingObject = self;
+                        self._map.painter.prohibitUpdate();
+                        sGisEvent.stopPropagation();
+                    }
+                });
+
+                this._map.addListener('layerAdd layerRemove bboxChangeEnd', this._updateSliderPosition.bind(this));
+            }
+        }, {
+            key: '_updateSliderPosition',
+            value: function _updateSliderPosition() {
+                this._slider.style.top = this._getSliderPosition() + 'px';
+            }
+        }, {
+            key: '_moveSlider',
+            value: function _moveSlider(delta) {
+                var offset = parseInt(this._slider.style.top) - this._gridTop;
+                offset -= delta;
+                if (offset < 0) {
+                    offset = 0;
+                } else if (offset > this._gridHeight - this._sliderHeight) {
+                    offset = this._gridHeight - this._sliderHeight;
+                }
+
+                this._slider.style.top = this._gridTop + offset + 'px';
+
+                var height = this._gridHeight - this._sliderHeight;
+                var maxResolution = this._map.maxResolution;
+                var minResolution = this._map.minResolution;
+
+                this._map.resolution = minResolution * Math.pow(2, offset * Math.log2(maxResolution / minResolution) / height);
+            }
+        }]);
+
+        return ScaleSlider;
+    }(EventHandler);
+
+    utils.extend(ScaleSlider.prototype, defaults);
+
+    Object.defineProperties(ScaleSlider.prototype, {
+        map: {
+            get: function get() {
+                return this._map;
+            }
+        },
+
+        gridCss: {
+            get: function get() {
+                return this._gridCss;
+            },
+            set: function set(css) {
+                sGis.utils.validate(css, 'string');
+                this._gridCss = css;
+                this._grid.className = css;
+            }
+        },
+
+        gridWidth: {
+            get: function get() {
+                return this._gridWidth;
+            },
+            set: function set(w) {
+                sGis.utils.validate(w, 'number');
+                this._gridWidth = w;
+
+                this._grid.style.width = w + 'px';
+            }
+        },
+
+        gridHeight: {
+            get: function get() {
+                return this._gridHeight;
+            },
+            set: function set(h) {
+                sGis.utils.validate(h, 'number');
+                this._gridHeight = h;
+
+                this._grid.style.height = h + 'px';
+            }
+        },
+
+        gridTop: {
+            get: function get() {
+                return this._gridTop;
+            },
+            set: function set(n) {
+                sGis.utils.validate(n, 'number');
+                this._gridTop = n;
+                this._grid.style.top = n + 'px';
+            }
+        },
+
+        gridLeft: {
+            get: function get() {
+                return this._gridLeft;
+            },
+            set: function set(n) {
+                sGis.utils.validate(n, 'number');
+                this._gridLeft = n;
+                this._grid.style.left = n + 'px';
+            }
+        },
+
+        sliderCss: {
+            get: function get() {
+                return this._sliderCss;
+            },
+            set: function set(css) {
+                sGis.utils.validate(css, 'string');
+                this._sliderCss = css;
+                this._slider.className = css;
+            }
+        },
+
+        sliderWidth: {
+            get: function get() {
+                return this._sliderWidth;
+            },
+            set: function set(w) {
+                sGis.utils.validate(w, 'number');
+                this._sliderWidth = w;
+
+                this._slider.style.width = w + 'px';
+                this._slider.style.left = this._getSliderLeft() + 'px';
+            }
+        },
+
+        sliderHeight: {
+            get: function get() {
+                return this._sliderHeight;
+            },
+            set: function set(h) {
+                sGis.utils.validate(h, 'number');
+                this._sliderHeight = h;
+
+                this._slider.style.height = h + 'px';
+            }
+        }
+    });
+
+    var defaultCss = '.sGis-decorations-scaleSlider-grid {' + 'border: 1px solid gray; ' + 'background-color: #CCCCCC; ' + 'border-radius: 5px;} ' + '.sGis-decorations-scaleSlider-slider {' + 'border: 1px solid gray;' + 'background-color: white;' + 'border-radius: 5px;' + 'cursor: pointer;}',
+        styles = document.createElement('style');
+    styles.type = 'text/css';
+    if (styles.styleSheet) {
+        styles.styleSheet.cssText = defaultCss;
+    } else {
+        styles.appendChild(document.createTextNode(defaultCss));
+    }
+
+    document.head.appendChild(styles);
+
+    return ScaleSlider;
+});
+'use strict';
+
 sGis.module('decorations.Scale', ['utils'], function (utils) {
     'use strict';
 
@@ -17081,282 +17357,6 @@ sGis.module('plugins.ZoomButtons', ['utils'], function (utils) {
     ZoomButtons.prototype._position = 'top left';
 
     return ZoomButtons;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('decorations.ScaleSlider', ['utils', 'utils.proto', 'EventHandler'], function (utils, proto, EventHandler) {
-    'use strict';
-
-    var defaults = {
-        _gridCss: 'sGis-decorations-scaleSlider-grid',
-        _gridWidth: 8,
-        _gridHeight: 120,
-        _gridTop: 50,
-        _gridLeft: 50,
-        _sliderCss: 'sGis-decorations-scaleSlider-slider',
-        _sliderWidth: 25,
-        _sliderHeight: 10,
-        _eventNamespace: '.sGis-decorations-scaleSlider'
-    };
-
-    var ScaleSlider = function (_EventHandler) {
-        _inherits(ScaleSlider, _EventHandler);
-
-        function ScaleSlider(map, options) {
-            _classCallCheck(this, ScaleSlider);
-
-            var _this = _possibleConstructorReturn(this, (ScaleSlider.__proto__ || Object.getPrototypeOf(ScaleSlider)).call(this));
-
-            _this._map = map;
-            _this._createGrid();
-            _this._createSlider();
-
-            sGis.utils.init(_this, options);
-            _this.updateDisplay();
-            _this._setListeners();
-            return _this;
-        }
-
-        _createClass(ScaleSlider, [{
-            key: 'updateDisplay',
-            value: function updateDisplay() {
-                var wrapper = this._map.innerWrapper;
-                if (wrapper) {
-                    wrapper.appendChild(this._grid);
-                    wrapper.appendChild(this._slider);
-                } else if (this._grid.parentNode) {
-                    this._grid.parentNode.removeChild(this._grid);
-                    this._slider.parentNode.removeChild(this._grid);
-                }
-            }
-        }, {
-            key: '_setListeners',
-            value: function _setListeners() {
-                this._map.on('wrapperSet', this.updateDisplay.bind(this));
-
-                this.on('drag', function () {
-                    this._moveSlider(sGisEvent.offset.yPx);
-                });
-
-                this.on('dragEnd', function () {
-                    this._map.painter.allowUpdate();
-                    this._map.adjustResolution();
-                });
-            }
-        }, {
-            key: '_createGrid',
-            value: function _createGrid() {
-                var grid = document.createElement('div');
-                grid.style.position = 'absolute';
-                grid.style.width = this._gridWidth + 'px';
-                grid.style.height = this._gridHeight + 'px';
-                grid.style.top = this._gridTop + 'px';
-                grid.style.left = this._gridLeft + 'px';
-                grid.className = this._gridCss;
-
-                this._grid = grid;
-            }
-        }, {
-            key: '_createSlider',
-            value: function _createSlider() {
-                var slider = document.createElement('div');
-
-                slider.style.position = 'absolute';
-                slider.style.width = this._sliderWidth + 'px';
-                slider.style.height = this._sliderHeight + 'px';
-                slider.style.top = this._getSliderPosition() + 'px';
-                slider.style.left = this._getSliderLeft() + 'px';
-                slider.className = this._sliderCss;
-
-                this._slider = slider;
-                this._setSliderEvents();
-            }
-        }, {
-            key: '_getSliderLeft',
-            value: function _getSliderLeft() {
-                return this._gridLeft + (this._gridWidth - this._sliderWidth) / 2;
-            }
-        }, {
-            key: '_getSliderPosition',
-            value: function _getSliderPosition() {
-                var height = this._gridHeight - this._sliderHeight;
-                var maxResolution = this._map.maxResolution;
-                var minResolution = this._map.minResolution;
-                var curResolution = this._map.resolution;
-
-                var offset = height * Math.log2(curResolution / minResolution) / Math.log2(maxResolution / minResolution);
-                if (sGis.utils.is.number(offset)) {
-                    return offset + this._gridTop;
-                } else {
-                    return this._gridTop;
-                }
-            }
-        }, {
-            key: '_setSliderEvents',
-            value: function _setSliderEvents() {
-                var self = this;
-                this._map.addListener('dragStart' + this._eventNamespace, function (sGisEvent) {
-                    if (sGisEvent.browserEvent.target === self._slider) {
-                        sGisEvent.draggingObject = self;
-                        self._map.painter.prohibitUpdate();
-                        sGisEvent.stopPropagation();
-                    }
-                });
-
-                this._map.addListener('layerAdd layerRemove bboxChangeEnd', this._updateSliderPosition.bind(this));
-            }
-        }, {
-            key: '_updateSliderPosition',
-            value: function _updateSliderPosition() {
-                this._slider.style.top = this._getSliderPosition() + 'px';
-            }
-        }, {
-            key: '_moveSlider',
-            value: function _moveSlider(delta) {
-                var offset = parseInt(this._slider.style.top) - this._gridTop;
-                offset -= delta;
-                if (offset < 0) {
-                    offset = 0;
-                } else if (offset > this._gridHeight - this._sliderHeight) {
-                    offset = this._gridHeight - this._sliderHeight;
-                }
-
-                this._slider.style.top = this._gridTop + offset + 'px';
-
-                var height = this._gridHeight - this._sliderHeight;
-                var maxResolution = this._map.maxResolution;
-                var minResolution = this._map.minResolution;
-
-                this._map.resolution = minResolution * Math.pow(2, offset * Math.log2(maxResolution / minResolution) / height);
-            }
-        }]);
-
-        return ScaleSlider;
-    }(EventHandler);
-
-    utils.extend(ScaleSlider.prototype, defaults);
-
-    Object.defineProperties(ScaleSlider.prototype, {
-        map: {
-            get: function get() {
-                return this._map;
-            }
-        },
-
-        gridCss: {
-            get: function get() {
-                return this._gridCss;
-            },
-            set: function set(css) {
-                sGis.utils.validate(css, 'string');
-                this._gridCss = css;
-                this._grid.className = css;
-            }
-        },
-
-        gridWidth: {
-            get: function get() {
-                return this._gridWidth;
-            },
-            set: function set(w) {
-                sGis.utils.validate(w, 'number');
-                this._gridWidth = w;
-
-                this._grid.style.width = w + 'px';
-            }
-        },
-
-        gridHeight: {
-            get: function get() {
-                return this._gridHeight;
-            },
-            set: function set(h) {
-                sGis.utils.validate(h, 'number');
-                this._gridHeight = h;
-
-                this._grid.style.height = h + 'px';
-            }
-        },
-
-        gridTop: {
-            get: function get() {
-                return this._gridTop;
-            },
-            set: function set(n) {
-                sGis.utils.validate(n, 'number');
-                this._gridTop = n;
-                this._grid.style.top = n + 'px';
-            }
-        },
-
-        gridLeft: {
-            get: function get() {
-                return this._gridLeft;
-            },
-            set: function set(n) {
-                sGis.utils.validate(n, 'number');
-                this._gridLeft = n;
-                this._grid.style.left = n + 'px';
-            }
-        },
-
-        sliderCss: {
-            get: function get() {
-                return this._sliderCss;
-            },
-            set: function set(css) {
-                sGis.utils.validate(css, 'string');
-                this._sliderCss = css;
-                this._slider.className = css;
-            }
-        },
-
-        sliderWidth: {
-            get: function get() {
-                return this._sliderWidth;
-            },
-            set: function set(w) {
-                sGis.utils.validate(w, 'number');
-                this._sliderWidth = w;
-
-                this._slider.style.width = w + 'px';
-                this._slider.style.left = this._getSliderLeft() + 'px';
-            }
-        },
-
-        sliderHeight: {
-            get: function get() {
-                return this._sliderHeight;
-            },
-            set: function set(h) {
-                sGis.utils.validate(h, 'number');
-                this._sliderHeight = h;
-
-                this._slider.style.height = h + 'px';
-            }
-        }
-    });
-
-    var defaultCss = '.sGis-decorations-scaleSlider-grid {' + 'border: 1px solid gray; ' + 'background-color: #CCCCCC; ' + 'border-radius: 5px;} ' + '.sGis-decorations-scaleSlider-slider {' + 'border: 1px solid gray;' + 'background-color: white;' + 'border-radius: 5px;' + 'cursor: pointer;}',
-        styles = document.createElement('style');
-    styles.type = 'text/css';
-    if (styles.styleSheet) {
-        styles.styleSheet.cssText = defaultCss;
-    } else {
-        styles.appendChild(document.createTextNode(defaultCss));
-    }
-
-    document.head.appendChild(styles);
-
-    return ScaleSlider;
 });
 'use strict';
 
@@ -18116,17 +18116,18 @@ sGis.module('sp.ClusterLayer', ['Point', 'feature.Point', 'feature.Polygon', 'sp
                         objectCount: cluster.ObjectCount,
                         aggregations: cluster.Aggregations,
                         setNo: cluster.SetNo,
+                        ids: cluster.Ids,
                         boundingPolygon: new Polygon(cluster.BoundingGeometry, { crs: crs }) }));
                 });
 
                 this._features = features;
-                this.fire('propertyChange', 'features');
+                this.fire('propertyChange', { property: 'features' });
             }
         }, {
             key: 'redraw',
             value: function redraw() {
                 delete this._currentBbox;
-                this.fire('propertyChange', 'features');
+                this.fire('propertyChange');
             }
         }, {
             key: 'symbol',
@@ -20684,7 +20685,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLayer', 'sp.layers.HeatMapLayer', 'sp.ClusterSymbol'], function (Layer, ClusterLayer, DynamicLayer, HeatMapLayer, ClusterSymbol) {
+sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLayer', 'sp.ClusterSymbol'], function (Layer, ClusterLayer, DynamicLayer, ClusterSymbol) {
 
     'use strict';
 
@@ -20699,7 +20700,6 @@ sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLaye
             _this._service = service;
 
             _this._dynamicLayer = new DynamicLayer(_this.getImageUrl.bind(_this), { crs: service.crs });
-
 
             service.on('dataFilterChange', _this._updateDataFilter.bind(_this));
             _this._updateDataFilter();
@@ -20789,6 +20789,13 @@ sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLaye
                 }
                 return false;
             }
+        }, {
+            key: 'childLayers',
+            get: function get() {
+                return this._resolutionGroups.map(function (group) {
+                    return group.layer;
+                });
+            }
         }]);
 
         return DataViewLayer;
@@ -20797,50 +20804,6 @@ sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLaye
     DataViewLayer.prototype.delayedUpdate = true;
 
     return DataViewLayer;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('sp.layers.HeatMapLayer', ['DynamicLayer'], function (DynamicLayer) {
-    var HeatMapLayer = function (_DynamicLayer) {
-        _inherits(HeatMapLayer, _DynamicLayer);
-
-        function HeatMapLayer(service) {
-            _classCallCheck(this, HeatMapLayer);
-
-            var _this = _possibleConstructorReturn(this, (HeatMapLayer.__proto__ || Object.getPrototypeOf(HeatMapLayer)).call(this, getImageUrl, service.crs));
-
-            _this._service = service;
-
-            var self = _this;
-            function getImageUrl(bbox, resolution) {
-                return self.getImageUrl(bbox, resolution);
-            }
-            return _this;
-        }
-
-        _createClass(HeatMapLayer, [{
-            key: 'getImageUrl',
-            value: function getImageUrl(bbox, resolution) {
-                var imgWidth = Math.round((bbox.xMax - bbox.xMin) / resolution);
-                var imgHeight = Math.round((bbox.yMax - bbox.yMin) / resolution);
-                var sr = encodeURIComponent(bbox.crs.wkid || JSON.stringify(bbox.crs.description));
-
-                return this._service.url + 'heatmap?' + 'dpi=96&' + 'transparent=true&' + 'bbox=' + bbox.xMin + '%2C' + bbox.yMin + '%2C' + bbox.xMax + '%2C' + bbox.yMax + '&' + 'bboxSR=' + sr + '&' + 'imageSR=' + sr + '&' + 'size=' + imgWidth + '%2C' + imgHeight + '&' + 'f=image' + this._service.connector.sessionSuffix;
-            }
-        }]);
-
-        return HeatMapLayer;
-    }(DynamicLayer);
-
-    return HeatMapLayer;
 });
 'use strict';
 

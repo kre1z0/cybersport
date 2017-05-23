@@ -11,8 +11,9 @@ import {
     BASEMAPS,
     OFFICES_SERVICE,
     applyObjectsStyle,
+    applyClusterEvents,
 } from '../evergis/helpers';
-import { pickByGeometry, fetchStaticService } from '../evergis/api';
+import { pickByGeometry } from '../evergis/api';
 
 const Service = Record({
     name: undefined,
@@ -66,9 +67,12 @@ export const loadMapServices = (
 
     return Promise.all(names.map(name => layerManager.loadWithPromise(name)))
         .then(containers => {
-            applyObjectsStyle(
-                containers.find(({ name }) => name === OBJECTS_SERVICE),
+            const objectsService = containers.find(
+                ({ name }) => name === OBJECTS_SERVICE,
             );
+            applyObjectsStyle(objectsService);
+
+            applyClusterEvents(objectsService);
 
             const state = getState();
             const containersState = containers.map(({ name }) => ({

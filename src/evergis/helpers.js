@@ -152,3 +152,28 @@ export const addEmployeeToQuery = (query, id) => {
     }
     return query;
 };
+
+export const applyClusterEvents = container => {
+    const clusterLayers = container.layer.childLayers.filter(
+        layer => layer instanceof sGis.sp.ClusterLayer,
+    );
+
+    console.info('clusterLayers', clusterLayers);
+
+    container.service.on('dataFilterChange', e =>
+        console.info('dataFilerChange', e),
+    );
+
+    clusterLayers.forEach(layer => {
+        console.info('clusterLayer', layer);
+        layer.on('propertyChange', ev => {
+            console.info('features', layer._features, ev);
+            if (ev.property !== 'features') return;
+            layer._features.forEach(feature =>
+                feature.on('click', ev => console.info('click', ev)),
+            );
+        });
+    });
+
+    return container;
+};

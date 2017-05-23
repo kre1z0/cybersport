@@ -1,7 +1,7 @@
 import React from 'react';
 import TextInput from '../text-input';
 import SelectField from '../select-field';
-import ImageLoader from '../img-loader';
+import ImageLoader from '../img-loader/img-loader';
 import DatePicker from '../date-picker';
 
 export const TYPES = {

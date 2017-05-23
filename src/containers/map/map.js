@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Loader from 'material-ui/CircularProgress';
+import withAuth from '../../hoc/withAuth';
 
 import {
     setCenter,
@@ -12,8 +12,8 @@ import {
     loadMapServices,
     pickObject,
 } from '../../ducks/map';
+import { getDomainsIfNeeded } from '../../ducks/domains';
 import getLayerManager, { isServicesLoaded } from '../../evergis/layer-manager';
-import { setDataFilters } from '../../evergis/api';
 
 import Map from '../../components/map';
 import LayersList from './layer-list';
@@ -56,45 +56,34 @@ class MapContainer extends Component {
     };
 
     componentDidMount() {
-        const { loadMapServices, isAuth } = this.props;
-        if (isAuth && !isServicesLoaded()) {
-            loadMapServices().then(services => {
-                this.updateServices(services, this.props.map);
-            });
-        }
+        const { loadMapServices, getDomainsIfNeeded, map } = this.props;
+        loadMapServices().then(services => {
+            this.updateServices(services, map);
+        });
+        getDomainsIfNeeded();
     }
 
     componentWillReceiveProps({ loadMapServices, map, isAuth }) {
-        if (isAuth) {
-            if (!this.props.isAuth && !map.loading && !isServicesLoaded()) {
-                loadMapServices().then(services => {
-                    this.updateServices(services, map);
-                });
-            }
+        if (this.props.map.objectsDataFilter !== map.objectsDataFilter) {
+            const layerManager = getLayerManager();
+            const sber_service = layerManager.getService(OBJECTS_SERVICE);
+            let df = sber_service.dataFilter;
+            df.condition = this.setFilter(map.objectsDataFilter.toJS());
+            sber_service.setDataFilter(df);
+        }
 
-            if (this.props.map.objectsDataFilter !== map.objectsDataFilter) {
-                const layerManager = getLayerManager();
-                const sber_service = layerManager.getService(OBJECTS_SERVICE);
-                let df = sber_service.dataFilter;
-                df.condition = this.setFilter(map.objectsDataFilter.toJS());
-                sber_service.setDataFilter(df);
-            }
+        if (this.props.map.showOffices !== map.showOffices) {
+            const layerManager = getLayerManager();
+            const offices_service = layerManager.getService(OFFICES_SERVICE);
+            offices_service.isDisplayed = map.showOffices;
+        }
 
-            if (this.props.map.showOffices !== map.showOffices) {
-                const layerManager = getLayerManager();
-                const offices_service = layerManager.getService(
-                    OFFICES_SERVICE,
-                );
-                offices_service.isDisplayed = map.showOffices;
-            }
-
-            if (this.props.map.showHomeAddress !== map.showHomeAddress) {
-                const layerManager = getLayerManager();
-                const employess_service = layerManager.getService(
-                    EMPLOYEES_SERVICE,
-                );
-                employess_service.isDisplayed = map.showHomeAddress;
-            }
+        if (this.props.map.showHomeAddress !== map.showHomeAddress) {
+            const layerManager = getLayerManager();
+            const employess_service = layerManager.getService(
+                EMPLOYEES_SERVICE,
+            );
+            employess_service.isDisplayed = map.showHomeAddress;
         }
     }
 
@@ -138,20 +127,18 @@ class MapContainer extends Component {
     };
 
     render() {
-        const { map, setCenter, setResolution, isAuth } = this.props;
+        const { map, setCenter, setResolution } = this.props;
         const { showPopup } = this.state;
 
         return (
             <div className="map-container">
-                {isAuth
-                    ? <Map
-                          center={map.center}
-                          resolution={map.resolution}
-                          onCenterChange={setCenter}
-                          onResolutionChange={setResolution}
-                          onMapPick={this.onMapPick}
-                      />
-                    : <Loader className="loader" />}
+                <Map
+                    center={map.center}
+                    resolution={map.resolution}
+                    onCenterChange={setCenter}
+                    onResolutionChange={setResolution}
+                    onMapPick={this.onMapPick}
+                />
                 <FloatingActionButton
                     style={floatButtonStyles.button}
                     backgroundColor="#fff"
@@ -169,9 +156,8 @@ class MapContainer extends Component {
     }
 }
 
-const mapProps = ({ map, user: { employee_id } }) => ({
+const mapProps = ({ map }) => ({
     map,
-    isAuth: !!employee_id,
 });
 
 const mapActions = {
@@ -179,6 +165,7 @@ const mapActions = {
     setResolution,
     loadMapServices,
     pickObject,
+    getDomainsIfNeeded,
 };
 
-export default connect(mapProps, mapActions)(MapContainer);
+export default connect(mapProps, mapActions)(withAuth(MapContainer));

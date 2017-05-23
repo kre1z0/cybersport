@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Home from './containers/home';
 import Portfolio from './containers/portfolio/portfolio';
-import Map from './containers/map';
+import Map from './containers/map/map';
 import Employees from './containers/employees';
 import Inspections from './containers/inspections';
 import Analytics from './containers/analytics';

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import Loader from 'material-ui/CircularProgress';
-
 import HeaderTitleBlock from '../../components/header-title-block';
 import Table from '../../components/table/simple-table';
 import { getObjects } from '../../ducks/objects';
+import { getDomainsIfNeeded } from '../../ducks/domains';
+import withAuth from '../../hoc/withAuth';
 
 import NewObjectWindow from './new-object-window';
 import ColumnsSettingsWindow from './columns-settings-window';
@@ -25,16 +25,8 @@ class Portfolio extends Component {
     };
 
     componentDidMount() {
-        const { getObjects, isAuth } = this.props;
-        if (isAuth) {
-            getObjects();
-        }
-    }
-
-    componentWillReceiveProps({ getObjects, isAuth }) {
-        if (!this.props.isAuth && isAuth) {
-            getObjects();
-        }
+        this.props.getObjects({});
+        this.props.getDomainsIfNeeded();
     }
 
     showNewObject = e => {
@@ -96,7 +88,6 @@ class Portfolio extends Component {
     render() {
         const {
             objects: { data, attributes, loading },
-            isAuth,
             staticServiceUrl,
         } = this.props;
         const { newObjectOpen, columnsSettingsOpen, query } = this.state;
@@ -109,37 +100,31 @@ class Portfolio extends Component {
             <div className="portfolio-container --padding">
                 <div className="portfolio-content">
 
-                    {isAuth &&
-                        <HeaderTitleBlock
-                            title="Реестр объектов залога"
-                            onNewObjectClick={this.showNewObject}
-                            onSettingsClick={this.showColumnsSettings}
-                            onClearFilterClick={this.clearFilter}
-                        />}
+                    <HeaderTitleBlock
+                        title="Реестр объектов залога"
+                        onNewObjectClick={this.showNewObject}
+                        onSettingsClick={this.showColumnsSettings}
+                        onClearFilterClick={this.clearFilter}
+                    />
 
-                    {!isAuth
-                        ? <Loader className="loader" />
-                        : <Table
-                              cacheKey={hashKey}
-                              data={dataJS.map(object => ({
-                                  ...object,
-                                  image_name: staticServiceUrl &&
-                                      object.image_name &&
-                                      staticServiceUrl.replace(
-                                          '{{filename}}',
-                                          object.image_name,
-                                      ),
-                              }))}
-                              columns={attrJS.filter(
-                                  ({ isVisible }) => isVisible,
-                              )}
-                              query={query}
-                              loader={
-                                  loading &&
-                                      <Loader className="loader overlay" />
-                              }
-                              onFilterChange={this.changeFilter}
-                          />}
+                    <Table
+                        cacheKey={hashKey}
+                        data={dataJS.map(object => ({
+                            ...object,
+                            image_name: staticServiceUrl &&
+                                object.image_name &&
+                                staticServiceUrl.replace(
+                                    '{{filename}}',
+                                    object.image_name,
+                                ),
+                        }))}
+                        columns={attrJS.filter(({ isVisible }) => isVisible)}
+                        query={query}
+                        loader={
+                            loading && <Loader className="loader overlay" />
+                        }
+                        onFilterChange={this.changeFilter}
+                    />
                     <NewObjectWindow
                         open={newObjectOpen}
                         onRequestClose={this.closeNewObject}
@@ -154,14 +139,14 @@ class Portfolio extends Component {
     }
 }
 
-const mapProps = ({ objects, user: { employee_id, staticServiceUrl } }) => ({
+const mapProps = ({ objects, user: { staticServiceUrl } }) => ({
     objects,
-    isAuth: !!employee_id,
     staticServiceUrl,
 });
 
 const mapActions = {
     getObjects,
+    getDomainsIfNeeded,
 };
 
-export default connect(mapProps, mapActions)(Portfolio);
+export default connect(mapProps, mapActions)(withAuth(Portfolio));
