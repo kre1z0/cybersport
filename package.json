@@ -70,6 +70,8 @@
     "react-error-overlay": "^1.0.0",
     "react-hot-loader": "next",
     "react-styleguidist": "^5.2.1",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6",
     "sass-loader": "^6.0.5",
     "style-loader": "0.17.0",
     "url-loader": "0.5.8",

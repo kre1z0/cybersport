@@ -11,77 +11,106 @@ import TextArea from '../components/noMUI/text-area';
 
 storiesOf('noMUI', [TextInput, AutoComplete, Select, TextArea])
     .add('text input', () => {
-
-        const ToggleSpan = ({value, editing, onEdit, onChange}) => editing
-                                                    ? <TextInput className="big" focus value={value} onChange={onChange} inputProps={{onBlur: () => {onEdit(false)}}} />
-                                                    : <span onClick={() => {onEdit(true)}}>{value}</span>;
+        const ToggleSpan = ({ value, editing, onEdit, onChange }) =>
+            editing
+                ? <TextInput
+                      className="big"
+                      focus
+                      value={value}
+                      onChange={onChange}
+                      inputProps={{
+                          onBlur: () => {
+                              onEdit(false);
+                          },
+                      }}
+                  />
+                : <span
+                      onClick={() => {
+                          onEdit(true);
+                      }}
+                  >
+                      {value}
+                  </span>;
 
         class TextInputDemo extends Component {
-
             state = {
-                value: "Test value",
-                toggleSpanEditing: false
+                value: 'Test value',
+                toggleSpanEditing: false,
             };
 
-            onChange = (value) => {
+            onChange = value => {
                 this.setState({
-                    value
-                })
+                    value,
+                });
             };
 
-            onEdit = (status) => {
+            onEdit = status => {
                 this.setState({
-                    toggleSpanEditing: status
-                })
+                    toggleSpanEditing: status,
+                });
             };
 
-            render(){
+            render() {
                 const { value, toggleSpanEditing } = this.state;
-                return <div>
-                    <TextInput value={value} onChange={this.onChange} wrapperStyle={{display: "inline-block"}} />
-                    <TextInput value={value} onChange={this.onChange} className="big" wrapperStyle={{display: "inline-block"}} />
+                return (
                     <div>
-                        <ToggleSpan value={value} editing={toggleSpanEditing} onEdit={this.onEdit} onChange={this.onChange} />
+                        <TextInput
+                            value={value}
+                            onChange={this.onChange}
+                            wrapperStyle={{ display: 'inline-block' }}
+                        />
+                        <TextInput
+                            value={value}
+                            onChange={this.onChange}
+                            className="big"
+                            wrapperStyle={{ display: 'inline-block' }}
+                        />
+                        <div>
+                            <ToggleSpan
+                                value={value}
+                                editing={toggleSpanEditing}
+                                onEdit={this.onEdit}
+                                onChange={this.onChange}
+                            />
+                        </div>
                     </div>
-                </div>
+                );
             }
         }
 
-        return <TextInputDemo/>
+        return <TextInputDemo />;
     })
-
     .add('auto complete', () => {
-
-        const VALUES = [
-            "Иванов",
-            "Иванченко",
-            "Сидоров",
-            "Петров"
-        ];
+        const VALUES = ['Иванов', 'Иванченко', 'Сидоров', 'Петров'];
 
         class AutoCompleteDemo extends Component {
             state = {
-                value: 'Ива'
+                value: 'Ива',
             };
 
-            onChange = (value) => {
+            onChange = value => {
                 this.setState({
-                    value
-                })
+                    value,
+                });
             };
 
-            render(){
+            render() {
                 const { value } = this.state;
 
-                return <div>
-                    <AutoComplete onChange={this.onChange} values={VALUES} value={value} />
-                </div>
+                return (
+                    <div>
+                        <AutoComplete
+                            onChange={this.onChange}
+                            values={VALUES}
+                            value={value}
+                        />
+                    </div>
+                );
             }
         }
 
-        return <AutoCompleteDemo/>
+        return <AutoCompleteDemo />;
     })
-
     .add('select', () => {
         class SelectDemo extends Component {
             state = {
@@ -90,69 +119,81 @@ storiesOf('noMUI', [TextInput, AutoComplete, Select, TextArea])
                 items: [
                     {
                         value: 'plan',
-                        text: 'Плановый'
+                        text: 'Плановый',
                     },
                     {
                         value: 'noPlan',
-                        text: 'Не плановая'
+                        text: 'Не плановая',
                     },
                     {
                         value: 'name',
-                        text: 'Именованная'
+                        text: 'Именованная',
                     },
                     {
                         value: 'goverment',
-                        text: 'Государственная'
-                    }
-                ]
+                        text: 'Государственная',
+                    },
+                ],
             };
 
-            change = (value) => {
+            change = value => {
                 this.setState({
-                    value
-                })
+                    value,
+                });
             };
 
-            change2 = (value2) => {
+            change2 = value2 => {
                 this.setState({
-                    value2
-                })
+                    value2,
+                });
             };
 
-            render(){
+            render() {
                 const { value, value2, items } = this.state;
-                return <div>
-                    <Select multi value={value2} items={items} onChange={this.change2} />
+                return (
                     <div>
-                        <Select value={value} items={items} onChange={this.change} />
+                        <Select
+                            multi
+                            value={value2}
+                            items={items}
+                            onChange={this.change2}
+                        />
+                        <div>
+                            <Select
+                                value={value}
+                                items={items}
+                                onChange={this.change}
+                            />
+                        </div>
                     </div>
-                </div>
+                );
             }
         }
 
-        return <SelectDemo/>
+        return <SelectDemo />;
     })
-
     .add('text area', () => {
         class TextAreaDemo extends Component {
             state = {
-                value: 'Text area'
+                value: 'Text area',
             };
 
-            handleChange = (value) => {
+            handleChange = value => {
                 this.setState({
-                    value
-                })
+                    value,
+                });
             };
 
-            render(){
+            render() {
                 const { value } = this.state;
 
-                return <div>
-                    <TextArea value={value} onChange={this.handleChange}/>
-                </div>
+                return (
+                    <div>
+                        <TextArea value={value} onChange={this.handleChange} />
+                    </div>
+                );
             }
         }
 
-        return <TextAreaDemo/>
+        return <TextAreaDemo />;
     });

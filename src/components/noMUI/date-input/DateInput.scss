@@ -1,60 +1,62 @@
 @import "../../../assets/base/colors.scss";
 
-.sberDateInput{
-  .react-datepicker__input-container{
-    width: 100%;
-  }
-  input{
-    background-color: #fff;
-    border: 1px solid $paleGrey;
-    border-radius: 2px;
-    line-height: 2.286rem;
-    font-size: 1rem;
-    padding: 0 0.8571rem;
-    width: 100%;
-    &:focus{
-      border-color: $softGreen;
+:global {
+  .sberDateInput {
+    .react-datepicker__input-container {
+      width: 100%;
     }
-  }
-}
-
-.sberCalendar{
-  box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.22);
-  border: none;
-  font-size: 14px;
-
-  .react-datepicker{
-    &__header{
+    input {
       background-color: #fff;
-      border: none;
+      border: 1px solid $paleGrey;
+      border-radius: 2px;
+      line-height: 2.286rem;
+      font-size: 1rem;
+      padding: 0 0.8571rem;
+      width: 100%;
+      &:focus {
+        border-color: $softGreen;
+      }
     }
-    &__triangle{
-      display: none;
-    }
-    &__day{
-      width: 2.143rem;
-      line-height: 2.143rem;
-      &-name{
+  }
+
+  .sberCalendar {
+    box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.22);
+    border: none;
+    font-size: 14px;
+
+    .react-datepicker {
+      &__header {
+        background-color: #fff;
+        border: none;
+      }
+      &__triangle {
+        display: none;
+      }
+      &__day {
         width: 2.143rem;
         line-height: 2.143rem;
+        &-name {
+          width: 2.143rem;
+          line-height: 2.143rem;
+        }
+        &-names {
+          margin-top: 0.7857rem;
+        }
+        &--outside-month {
+          color: $coolGrayTwo;
+        }
+        &--keyboard-selected, &--selected, &--in-range, &--in-selecting-range {
+          border-radius: 50%;
+          background-color: $softGreen;
+        }
+        &:hover {
+          border-radius: 50%;
+        }
       }
-      &-names{
-        margin-top: 0.7857rem;
+      &__month {
+        margin: 0.7857rem;
+        margin-top: 0;
       }
-      &--outside-month{
-        color: $coolGrayTwo;
-      }
-      &--keyboard-selected, &--selected, &--in-range, &--in-selecting-range{
-        border-radius: 50%;
-        background-color: $softGreen;
-      }
-      &:hover{
-        border-radius: 50%;
-      }
-    }
-    &__month{
-      margin: 0.7857rem;
-      margin-top: 0;
     }
   }
 }

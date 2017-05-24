@@ -141,7 +141,7 @@ export default createReducer(
 
         [selectObject]: (state, payload) =>
             state.set('selectedObjects', payload),
-        
+
         [setDomainsFilter]: (state, payload) =>
             state.set('domainsFilter', payload),
     },
