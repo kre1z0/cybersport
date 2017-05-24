@@ -29,6 +29,7 @@ const MapState = Record({
         4: true,
         5: true
     }),
+    domainsFilter: null,
     showOffices: true,
     showHomeAddress: true,
     selectedObjects: []
@@ -45,8 +46,8 @@ export const loadServicesError = createAction('map/load-services-error');
 export const setObjectsDataFilter = createAction('map/set-object-data-filter');
 export const setShowOffices = createAction('map/set-show-offices');
 export const setShowHomeAddress = createAction('map/set-show-home-address');
-
 export const selectObject = createAction('map/select-object');
+export const setDomainsFilter = createAction('map/set-domain-filter');
 
 const isVisible = (name, {basemap}) => (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
 
@@ -112,6 +113,9 @@ export default createReducer({
         state.set('showHomeAddress', payload.checked),
 
     [selectObject]: (state, payload) =>
-        state.set('selectedObjects', payload)
+        state.set('selectedObjects', payload),
+
+    [setDomainsFilter]: (state, payload) =>
+        state.set('domainsFilter', payload)
 
 }, initState)

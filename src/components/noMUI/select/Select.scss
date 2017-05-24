@@ -3,6 +3,10 @@
 .sberSelect{
   display: inline-block;
   position: relative;
+  &.disable{
+    pointer-events: none;
+    opacity: .4;
+  }
   .select-field{
     background-color: #fff;
     border: 1px solid $paleGrey;
@@ -24,6 +28,9 @@
     }
     &.focus{
       border-color: $softGreen;
+      svg{
+        fill: $softGreen !important;
+      }
     }
     &.big{
       line-height: 4.143rem;
@@ -68,6 +75,9 @@
         display: block;
         &.selected{
           color: $softGreen;
+          svg{
+            fill: $softGreen !important;
+          }
         }
       }
       b{

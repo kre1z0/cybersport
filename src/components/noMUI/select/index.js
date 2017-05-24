@@ -12,11 +12,13 @@ class Select extends Component {
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
         onChange: PropTypes.func,
         multi: PropTypes.bool,
+        disable: PropTypes.bool,
         items: PropTypes.array,
         big: PropTypes.bool,
         placeholder: PropTypes.string,
         selectItemFormatter: PropTypes.func,
-        style: PropTypes.object
+        style: PropTypes.object,
+        noCheckbox: PropTypes.bool
     };
 
     static defaultProps = {
@@ -48,6 +50,7 @@ class Select extends Component {
             else{
                 value.push(item.value)
             }
+            onChange && onChange(value);
         }
         else{
             onChange && onChange(item.value);
@@ -58,11 +61,13 @@ class Select extends Component {
     };
 
     componentDidMount () {
-        document.addEventListener('click', this.handleDocumentClick)
+        document.addEventListener('click', this.handleDocumentClick);
+        document.addEventListener('touchend', this.handleDocumentClick)
     }
 
     componentWillUnmount () {
-        document.removeEventListener('click', this.handleDocumentClick)
+        document.removeEventListener('click', this.handleDocumentClick);
+        document.removeEventListener('touchend', this.handleDocumentClick)
     }
 
     handleDocumentClick = (e) => {
@@ -78,13 +83,13 @@ class Select extends Component {
 
     render(){
         const { open, focus } = this.state;
-        const { value, items, big, multi, placeholder, selectItemFormatter, style } = this.props;
+        const { value, items, big, multi, placeholder, selectItemFormatter, style, noCheckbox, disable } = this.props;
         const label = multi
             ? selectItemFormatter(items
                 .filter(item => value.indexOf(item.value) !== -1))
             : items.find(item => item.value === value);
 
-        return <div className="sberSelect" style={style} ref={el => this.el = el}>
+        return <div className={cn("sberSelect", {disable})} style={style} ref={el => this.el = el}>
             <div onTouchTap={this.open} className={cn("select-field", {big}, {focus})}>
                 {label
                     && <span>{label.text || label}</span>
@@ -101,11 +106,11 @@ class Select extends Component {
                     {items.map(item => {
                         const intoValue = value.indexOf(item.value) !== -1;
                         return <div key={item.value} onTouchTap={() => { this.selectItem(item) }} className={cn("select-item", {big})}>
-                            <div className="item-checkbox">
-                                {intoValue && <svg width="12" height="10" viewBox="0 0 10 12">
+                            {noCheckbox && <div className="item-checkbox">
+                                {intoValue &&  <svg width="12" height="10" viewBox="0 0 10 12">
                                     <path d="M4.3,9.9c-0.3,0-0.5-0.1-0.7-0.3L0.3,6.3c-0.4-0.4-0.4-1,0-1.4c0.4-0.4,1-0.4,1.4,0l2.6,2.6l6-7c0.4-0.4,1-0.5,1.4-0.1  c0.4,0.4,0.5,1,0.1,1.4L5.1,9.5C4.9,9.8,4.6,9.9,4.3,9.9C4.4,9.9,4.3,9.9,4.3,9.9z"/>
                                 </svg>}
-                            </div>
+                            </div>}
                             <span className={cn({selected: intoValue})}>{item.text}</span>
                         </div>
                     })}

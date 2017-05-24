@@ -16,7 +16,7 @@ export const fetchObjects = ({filter, sort} = {}) =>
         serviceName: OBJECTS_SERVICE,
         condition: filter ? filter : undefined,
         startIndex: 0,
-        count: 3000,
+        count: 100,
         orderBy: sort ? sort : undefined,
         getGeometry: false
     }).then(({data, totalObjects}) => ({

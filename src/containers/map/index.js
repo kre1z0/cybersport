@@ -62,11 +62,11 @@ class MapContainer extends Component {
                 });
             }
 
-            if(this.props.map.objectsDataFilter !== map.objectsDataFilter) {
+            if(this.props.map.objectsDataFilter !== map.objectsDataFilter || map.domainsFilter !== this.props.map.domainsFilter) {
                 const layerManager = getLayerManager();
                 const sber_service = layerManager.getService(OBJECTS_SERVICE);
                 let df = sber_service.dataFilter;
-                df.condition = this.setFilter(map.objectsDataFilter.toJS());
+                df.condition = this.setFilter(map.objectsDataFilter.toJS(), map.domainsFilter);
                 sber_service.setDataFilter(df);
             }
 
@@ -91,7 +91,7 @@ class MapContainer extends Component {
 
             if(name === OBJECTS_SERVICE) {
                 let df = service.dataFilter;
-                df.condition = this.setFilter(map.objectsDataFilter.toJS());
+                df.condition = this.setFilter(map.objectsDataFilter.toJS(), map.domainsFilter);
                 service.setDataFilter(df);
             }
 
@@ -101,7 +101,7 @@ class MapContainer extends Component {
         });
     }
 
-    setFilter(filter){
+    setFilter(filter, domains){
         let filterArray = [];
         let toServiceFilter = null;
         for(let f in filter){
@@ -110,7 +110,7 @@ class MapContainer extends Component {
         if(filterArray.length > 0){
             toServiceFilter = filterArray.join(' && ')
         }
-        return toServiceFilter;
+        return toServiceFilter && domains && toServiceFilter + ' && ' + domains || toServiceFilter || domains;
     }
 
     onMapPick = (e) => {

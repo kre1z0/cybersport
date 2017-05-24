@@ -9,19 +9,30 @@
   max-height: 100%;
   overflow-y: auto;
   .extend-filter{
+    padding-bottom: 20px;
     &-enter {
-      max-height: 0;
+      height: 0;
+      overflow: hidden;
     }
     &-enter-active{
-      max-height: 500px;
-      transition: max-height 200ms ease-in;
+      height: 615px;
+      transition: height 200ms ease-in;
     }
     &-leave {
-      max-height: 500px;
+      height: 615px;
+      overflow: hidden;
     }
     &-leave-active{
-      max-height: 0;
-      transition: max-height 200ms ease-in;
+      height: 0;
+      transition: height 200ms ease-in;
+    }
+  }
+  .form-control{
+    margin-bottom: 20px;
+    .label{
+      color: $coolGrayTwo;
+      margin-bottom: 10px;
+      display: block;
     }
   }
 }
