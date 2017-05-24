@@ -58,7 +58,6 @@ class MapContainer extends Component {
     componentDidMount() {
         const { loadMapServicesIfNeeded, getDomainsIfNeeded, map } = this.props;
         loadMapServicesIfNeeded().then(services => {
-            console.log('loadMapServices', services);
             services && this.updateServices(services, map);
         });
         getDomainsIfNeeded();
@@ -138,7 +137,7 @@ class MapContainer extends Component {
                     resolution={map.resolution}
                     onCenterChange={setCenter}
                     onResolutionChange={setResolution}
-                    onMapPick={this.onMapPick}
+                    //onMapPick={this.onMapPick}
                 />
                 <FloatingActionButton
                     style={floatButtonStyles.button}

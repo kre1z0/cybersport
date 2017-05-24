@@ -13,7 +13,7 @@ import {
     applyObjectsStyle,
     applyClusterEvents,
 } from '../evergis/helpers';
-import { pickByGeometry } from '../evergis/api';
+import { pickByGeometry, pickById } from '../evergis/api';
 
 const Service = Record({
     name: undefined,
@@ -72,7 +72,9 @@ export const loadMapServices = (
             );
             applyObjectsStyle(objectsService);
 
-            applyClusterEvents(objectsService, e => console.log(e));
+            applyClusterEvents(objectsService, ({ ids }) => {
+                dispatch(pickObjectsById(ids));
+            });
 
             const state = getState();
             const containersState = containers.map(({ name }) => ({
@@ -90,6 +92,11 @@ export const loadMapServicesIfNeeded = () => dispatch =>
 
 export const pickObject = point => dispatch =>
     pickByGeometry(point)
+        .then(response => dispatch(selectObject(response)))
+        .catch(error => dispatch(selectObject([])));
+
+export const pickObjectsById = ids => dispatch =>
+    pickById(ids)
         .then(response => dispatch(selectObject(response)))
         .catch(error => dispatch(selectObject([])));
 

@@ -9,6 +9,7 @@ import {
     transformResponseData,
     initService,
     transformAttributeDefinition,
+    transformPointsToObjects,
 } from './helpers';
 
 export const fetchObjects = ({ filter, sort } = {}) =>
@@ -82,10 +83,18 @@ export const fetchStaticService = () =>
     initService(getConnector(), STATIC_SERVICE);
 
 export const pickByGeometry = point =>
-    getConnector().api
-        .pickByGeometry({
+    getDataAccessService(getConnector())
+        .queryByGeometry({
             geometry: point,
-            services: [OBJECTS_SERVICE],
+            serviceName: OBJECTS_SERVICE,
             resolution: getMap({}).resolution,
         })
-        .then(features => transformResponseData(features));
+        .then(features => transformPointsToObjects(features));
+
+export const pickById = objectIds =>
+    getDataAccessService(getConnector())
+        .queryById({
+            serviceName: OBJECTS_SERVICE,
+            objectIds,
+        })
+        .then(features => transformPointsToObjects(features));

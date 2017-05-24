@@ -50,7 +50,7 @@ class Map extends Component {
         });
 
         this.map.on('bboxChange', this.onBboxChange);
-        this.map.on('click', this.props.onMapPick);
+        this.props.onMapPick && this.map.on('click', this.props.onMapPick);
     }
 
     componentWillReceiveProps(nextProps) {

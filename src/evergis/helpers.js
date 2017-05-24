@@ -33,6 +33,19 @@ export const transformAttributeDefinition = attributeDefinition =>
     attributeDefinition &&
     keyValueArrayToObject(normalizeAttributeDefinition(attributeDefinition));
 
+export const transformPointAttributesToObject = attributes =>
+    attributes &&
+    Object.keys(attributes).reduce((prev, key) => {
+        prev[key] = attributes[key].value;
+        return prev;
+    }, {});
+
+export const transformPointsToObjects = points =>
+    points &&
+    points.map(({ attributes }) =>
+        transformPointAttributesToObject(attributes),
+    );
+
 export const getAuthUrl = spUrl =>
     spUrl.replace(
         'SpatialProcessor/IIS/',
