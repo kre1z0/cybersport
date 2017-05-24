@@ -1,0 +1,24 @@
+@import "../../../assets/base/colors.scss";
+
+.sberAutoComplete{
+  display: inline-block;
+  .item-list{
+    border-radius: 2px;
+    background-color: #ffffff;
+    box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.22);
+    .item{
+      line-height: 2.143rem;
+      padding: 0 0.8571rem;
+      cursor: pointer;
+      b{
+        font-weight: 600;
+      }
+      &:hover{
+        background-color: $paleGrey;
+      }
+      &.selected{
+        background-color: $paleGrey;
+      }
+    }
+  }
+}
