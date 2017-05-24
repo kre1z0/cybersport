@@ -242,36 +242,44 @@ class LayerList extends Component {
     };
 
     componentWillMount() {
-        const attr = this.props.attributes.toJS();
-        attr.forEach(item => {
-            if (item.name === 'department') {
-                item.domain &&
+        const domains = this.props.domains.toJS();
+        Object.keys(domains)
+            .filter(domain => domain !== undefined)
+            .forEach(domain => {
+                if (domain === 'department') {
                     this.setState(state => ({
                         bankItems: [
                             ...state.bankItems,
-                            ...item.domain.map(el => ({ value: el, text: el })),
+                            ...domains[domain].map(el => ({
+                                value: el,
+                                text: el,
+                            })),
                         ],
                     }));
-            }
-            if (item.name === 'object_quality_category') {
-                item.domain &&
+                }
+                if (domain === 'object_quality_category') {
                     this.setState(state => ({
                         qualityCategoryItems: [
                             ...state.qualityCategoryItems,
-                            ...item.domain.map(el => ({ value: el, text: el })),
+                            ...domains[domain].map(el => ({
+                                value: el,
+                                text: el,
+                            })),
                         ],
                     }));
-            }
-            if (item.name === 'liquidity') {
-                item.domain &&
+                }
+                if (domain === 'liquidity') {
                     this.setState(state => ({
                         liquidityItems: [
                             ...state.liquidityItems,
-                            ...item.domain.map(el => ({ value: el, text: el })),
+                            ...domains[domain].map(el => ({
+                                value: el,
+                                text: el,
+                            })),
                         ],
                     }));
-            }
-        });
+                }
+            });
     }
 
     render() {
@@ -435,9 +443,9 @@ class LayerList extends Component {
     }
 }
 
-const mapProps = ({ map, objects }) => ({
+const mapProps = ({ map, domains }) => ({
     map,
-    attributes: objects.attributes,
+    domains,
 });
 
 const mapActions = {

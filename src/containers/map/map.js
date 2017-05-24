@@ -64,7 +64,10 @@ class MapContainer extends Component {
     }
 
     componentWillReceiveProps({ map }) {
-        if (this.props.map.objectsDataFilter !== map.objectsDataFilter) {
+        if (
+            this.props.map.objectsDataFilter !== map.objectsDataFilter ||
+            this.props.map.domainsFilter !== map.domainsFilter
+        ) {
             const layerManager = getLayerManager();
             const sber_service = layerManager.getService(OBJECTS_SERVICE);
             let df = sber_service.dataFilter;
