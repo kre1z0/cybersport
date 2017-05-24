@@ -1,6 +1,6 @@
 import { createAction, createReducer } from 'redux-act';
 import { Record, Map } from 'immutable';
-import getLayerManager from '../evergis/layer-manager';
+import getLayerManager, { isServicesLoaded } from '../evergis/layer-manager';
 import getMap from '../evergis/map';
 import getConnector from '../evergis/connector';
 import {
@@ -72,7 +72,7 @@ export const loadMapServices = (
             );
             applyObjectsStyle(objectsService);
 
-            applyClusterEvents(objectsService);
+            applyClusterEvents(objectsService, e => console.log(e));
 
             const state = getState();
             const containersState = containers.map(({ name }) => ({
@@ -82,8 +82,11 @@ export const loadMapServices = (
             dispatch(loadServicesSuccess(containersState));
             return containersState;
         })
-        .catch(error => dispatch(loadServicesError()));
+        .catch(error => dispatch(loadServicesError(error)));
 };
+
+export const loadMapServicesIfNeeded = () => dispatch =>
+    isServicesLoaded() ? Promise.resolve() : dispatch(loadMapServices());
 
 export const pickObject = point => dispatch =>
     pickByGeometry(point)

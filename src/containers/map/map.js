@@ -9,11 +9,11 @@ import withAuth from '../../hoc/withAuth';
 import {
     setCenter,
     setResolution,
-    loadMapServices,
+    loadMapServicesIfNeeded,
     pickObject,
 } from '../../ducks/map';
 import { getDomainsIfNeeded } from '../../ducks/domains';
-import getLayerManager, { isServicesLoaded } from '../../evergis/layer-manager';
+import getLayerManager from '../../evergis/layer-manager';
 
 import Map from '../../components/map';
 import LayersList from './layer-list';
@@ -56,14 +56,15 @@ class MapContainer extends Component {
     };
 
     componentDidMount() {
-        const { loadMapServices, getDomainsIfNeeded, map } = this.props;
-        loadMapServices().then(services => {
-            this.updateServices(services, map);
+        const { loadMapServicesIfNeeded, getDomainsIfNeeded, map } = this.props;
+        loadMapServicesIfNeeded().then(services => {
+            console.log('loadMapServices', services);
+            services && this.updateServices(services, map);
         });
         getDomainsIfNeeded();
     }
 
-    componentWillReceiveProps({ loadMapServices, map, isAuth }) {
+    componentWillReceiveProps({ map }) {
         if (this.props.map.objectsDataFilter !== map.objectsDataFilter) {
             const layerManager = getLayerManager();
             const sber_service = layerManager.getService(OBJECTS_SERVICE);
@@ -163,7 +164,7 @@ const mapProps = ({ map }) => ({
 const mapActions = {
     setCenter,
     setResolution,
-    loadMapServices,
+    loadMapServicesIfNeeded,
     pickObject,
     getDomainsIfNeeded,
 };

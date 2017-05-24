@@ -153,26 +153,31 @@ export const addEmployeeToQuery = (query, id) => {
     return query;
 };
 
-export const applyClusterEvents = container => {
+export const updateListeners = (container, action) => {
     const clusterLayers = container.layer.childLayers.filter(
         layer => layer instanceof sGis.sp.ClusterLayer,
     );
 
-    console.info('clusterLayers', clusterLayers);
-
-    container.service.on('dataFilterChange', e =>
-        console.info('dataFilerChange', e),
-    );
-
     clusterLayers.forEach(layer => {
-        console.info('clusterLayer', layer);
         layer.on('propertyChange', ev => {
-            console.info('features', layer._features, ev);
             if (ev.property !== 'features') return;
             layer._features.forEach(feature =>
-                feature.on('click', ev => console.info('click', ev)),
+                feature.on(
+                    'click',
+                    ({ mouseOffset, sourceObject: { ids, position } }) => {
+                        action({ mouseOffset, ids, position });
+                    },
+                ),
             );
         });
+    });
+};
+
+export const applyClusterEvents = (container, action) => {
+    updateListeners(container, action);
+
+    container.service.on('dataFilterChange', () => {
+        updateListeners(container, action);
     });
 
     return container;
