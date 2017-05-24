@@ -4,18 +4,52 @@ import MapPopups from '../../components/map-popup';
 import ObjectContent from '../../components/map-popup/object-content';
 
 class FeaturePopup extends Component {
+    state = {
+        current: 0,
+        close: false,
+    };
+    onNext = () =>
+        this.setState(state => ({
+            current: Math.min(
+                state.current + 1,
+                this.props.selectedObjects.length - 1,
+            ),
+        }));
+    onPrev = () =>
+        this.setState(state => ({ current: Math.max(0, state.current - 1) }));
+
+    closePopup = () => this.setState(state => ({ close: true }));
+
+    componentWillReceiveProps = ({ selectedObjects }) => {
+        if (selectedObjects !== this.props.selectedObjects) {
+            this.setState(state => ({
+                current: 0,
+                close: false,
+            }));
+        }
+    };
+
     render() {
         const { selectedObjects, staticServiceUrl } = this.props;
-        return selectedObjects && selectedObjects.length > 0
+        const { current, close } = this.state;
+
+        const selectedObject = selectedObjects[current];
+
+        return !close && selectedObject
             ? <MapPopups
+                  onCloseRequest={this.closePopup}
                   style={{
                       top: '1rem',
                       right: '1rem',
                   }}
               >
                   <ObjectContent
-                      object={selectedObjects[0]}
+                      current={current + 1}
+                      count={selectedObjects.length}
+                      object={selectedObjects[current]}
                       staticServiceUrl={staticServiceUrl}
+                      onNext={this.onNext}
+                      onPrev={this.onPrev}
                   />
               </MapPopups>
             : null;
