@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addObject } from '../../ducks/objects';
+import { addObject, createError } from '../../ducks/objects';
 
 import ModalWindow from '../../components/modal-window';
 import RoundedButton from '../../components/button/rounded-button';
@@ -28,31 +28,28 @@ class NewObjectWindowContainer extends Component {
         object: {},
     };
 
+    images = null;
+
     onChange = (name, value) => {
-        this.setState(({ object }) => ({
-            object: {
-                ...object,
-                [name]: value.id === undefined ? value : value.id,
-            },
-        }));
+        if (name === 'image_name') {
+            this.images = value;
+        } else {
+            this.setState(({ object }) => ({
+                object: {
+                    ...object,
+                    [name]: value.id === undefined ? value : value.id,
+                },
+            }));
+        }
     };
 
     onApply = () => {
-        const { addObject, onRequestClose, objects } = this.props;
+        const { addObject, createError, onRequestClose } = this.props;
         const { object } = this.state;
 
-        const attributes = objects.attributes.toJS();
-        const newObject = { ...object };
-
-        attributes.forEach(({ name, domain }) => {
-            if (domain && name in newObject) {
-                newObject[name] = domain[newObject[name]];
-            }
-        });
-
-        addObject(newObject)
+        addObject(object, this.images)
             .then(response => onRequestClose())
-            .catch(error => console.log(error));
+            .catch(error => createError(error));
     };
 
     componentWillReceiveProps({ open }) {
@@ -64,7 +61,7 @@ class NewObjectWindowContainer extends Component {
     }
 
     render() {
-        const { open, objects, onRequestClose } = this.props;
+        const { open, objects, domains, onRequestClose } = this.props;
         const { object } = this.state;
 
         const attributes = objects.attributes.toJS();
@@ -92,6 +89,7 @@ class NewObjectWindowContainer extends Component {
                     data={attributes.filter(
                         ({ name }) => !NEW_OBJECT_COLUMNS.includes(name),
                     )}
+                    domains={domains.toJS()}
                     object={object}
                     onChange={this.onChange}
                 />
@@ -99,12 +97,14 @@ class NewObjectWindowContainer extends Component {
         );
     }
 }
-const mapProps = ({ objects }) => ({
+const mapProps = ({ objects, domains }) => ({
     objects,
+    domains,
 });
 
 const mapActions = {
     addObject,
+    createError,
 };
 
 export default connect(mapProps, mapActions)(NewObjectWindowContainer);

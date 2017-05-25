@@ -10,6 +10,8 @@ import {
     initService,
     transformAttributeDefinition,
     transformPointsToObjects,
+    guid,
+    getFileExtension,
 } from './helpers';
 
 export const fetchObjects = ({ filter, sort } = {}) =>
@@ -78,6 +80,21 @@ export const createFeature = (
 
 export const createObjectFeature = attributes =>
     createFeature(attributes, OBJECTS_SERVICE);
+
+export const uploadImages = images =>
+    fetchStaticService().then(service => {
+        !service && Promise.reject(new Error('static service not found'));
+
+        let names = images.map(
+            ({ name }) => `${guid()}.${getFileExtension(name)}`,
+        );
+
+        return Promise.all(
+            images.map((img, i) => service.upload(names[i], img)),
+        ).then(() => {
+            return { names };
+        });
+    });
 
 export const fetchStaticService = () =>
     initService(getConnector(), STATIC_SERVICE);

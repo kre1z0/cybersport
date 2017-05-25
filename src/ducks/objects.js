@@ -1,5 +1,9 @@
 import { createAction, createReducer } from 'redux-act';
-import { fetchObjects, createObjectFeature } from '../evergis/api';
+import {
+    fetchObjects,
+    createObjectFeature,
+    uploadImages,
+} from '../evergis/api';
 import { tranformQuery, addEmployeeToQuery } from '../evergis/helpers';
 import { Record, List } from 'immutable';
 import initAttributesArray from '../assets/const/attributes';
@@ -42,18 +46,23 @@ export const create = createAction('objects/create');
 export const createSuccess = createAction('objects/create-success');
 export const createError = createAction('objects/create-error');
 
-export const addObject = attributes => dispatch => {
+export const addObject = (attributes, files) => dispatch => {
     dispatch(create());
-    return createObjectFeature(attributes)
-        .then(response => dispatch(createSuccess(response)))
-        .catch(error => dispatch(createError(error)));
+    return uploadImages(files)
+        .then(({ names }) => {
+            attributes.image_name = names && names.join(';');
+            return createObjectFeature(attributes);
+        })
+        .then(response => dispatch(createSuccess(response)));
 };
 
 export const getObjects = (query = {}) => (dispatch, getState) => {
     const state = getState();
     dispatch(fetch());
     return fetchObjects(
-        addEmployeeToQuery(tranformQuery(query), state.user.employee_id),
+        /*addEmployeeToQuery(*/ tranformQuery(
+            query,
+        ) /*, state.user.employee_id)*/,
     )
         .then(objects => dispatch(fetchSuccess(objects)))
         .catch(error => dispatch(fetchError(error)));

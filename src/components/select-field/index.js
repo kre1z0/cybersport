@@ -51,11 +51,11 @@ class SelectFieldInput extends Component {
     static propTypes = {
         data: PropTypes.arrayOf(
             PropTypes.shape({
-                text: PropTypes.string,
+                text: PropTypes.any,
                 id: PropTypes.number,
             }),
         ),
-        value: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
+        value: PropTypes.any,
         maxHeight: PropTypes.number,
         onChange: PropTypes.func,
         multiple: PropTypes.bool,

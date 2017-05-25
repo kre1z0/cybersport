@@ -91,6 +91,7 @@ class ImageLoader extends Component {
     }
 
     inputChange = () => {
+        const { onChange } = this.props;
         this.setState(clearImages);
 
         this.files = Array.from(this.input.files);
@@ -98,6 +99,8 @@ class ImageLoader extends Component {
         this.files.forEach(file => {
             readAsDataURL(file).then(this.dataUrlLoaded);
         });
+
+        onChange && onChange(this.files);
     };
 
     dataUrlLoaded = result => this.setState(addImage(result));
