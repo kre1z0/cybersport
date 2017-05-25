@@ -209,7 +209,7 @@ const ObjectContent = ({
                     label="Создать задачу"
                 />
             </div>
-            {count &&
+            {count > 1 &&
                 <div className="object-cluster-footer">
                     <PageBackButton onTouchTap={onPrev} />
                     <div className="page-numbers">
