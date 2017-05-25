@@ -145,7 +145,6 @@ class AutoCompleteInput extends Component {
                             ...itemStyle,
                             ...{ height: (style && style.height) || 'auto' },
                         },
-                        listStyle: { backgroundColor: 'red' },
                     }}
                     ref={input => input && focused && input.focus()}
                     searchText={value}
