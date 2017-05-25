@@ -85,6 +85,21 @@ class Portfolio extends Component {
         isAuth && getObjects(query);
     };
 
+    getImages = names => {
+        const { staticServiceUrl } = this.props;
+
+        return (
+            names &&
+            names
+                .split(';')
+                .map(
+                    name =>
+                        staticServiceUrl &&
+                        staticServiceUrl.replace('{{filename}}', name),
+                )
+        );
+    };
+
     render() {
         const {
             objects: { data, attributes, loading },
@@ -109,15 +124,8 @@ class Portfolio extends Component {
 
                     <Table
                         cacheKey={hashKey}
-                        data={dataJS.map(object => ({
-                            ...object,
-                            image_name: staticServiceUrl &&
-                                object.image_name &&
-                                staticServiceUrl.replace(
-                                    '{{filename}}',
-                                    object.image_name,
-                                ),
-                        }))}
+                        data={dataJS}
+                        getImages={this.getImages}
                         columns={attrJS.filter(({ isVisible }) => isVisible)}
                         query={query}
                         loader={

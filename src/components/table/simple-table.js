@@ -75,7 +75,7 @@ class TableComponent extends Component {
     };
 
     getCellContent = (rowIndex, columnIndex) => {
-        const { columns, data } = this.props;
+        const { columns, data, getImages } = this.props;
         const { selectedCell, isEdit } = this.state;
         const isSelected =
             selectedCell &&
@@ -85,7 +85,9 @@ class TableComponent extends Component {
         const { name, type, isEditable } = columns[columnIndex];
         return {
             type: isSelected && isEditable && isEdit ? TYPES.EDITOR : type,
-            content: data[rowIndex][name],
+            content: type === TYPES.IMG
+                ? getImages(data[rowIndex][name])
+                : data[rowIndex][name],
         };
     };
 
