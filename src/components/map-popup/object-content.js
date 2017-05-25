@@ -58,7 +58,10 @@ const ObjectContent = ({
         classifier3,
         classifier4,
         object_quality_category,
+        actual_quality_category,
         liquidity,
+        actual_liquidity,
+        original_full_value,
         actual_full_value,
         address_adjusted,
         address_combined,
@@ -113,18 +116,24 @@ const ObjectContent = ({
                 />
                 <MapPopupItem
                     label={'Категория качества'}
-                    text={[object_quality_category]}
+                    text={[actual_quality_category || object_quality_category]}
                     half={true}
                 />
                 <MapPopupItem
                     label={'Ликвидность'}
-                    text={[liquidity]}
+                    text={[actual_liquidity || liquidity]}
                     half={isTextShort([liquidity])}
                 />
                 <MapPopupItem
                     label={'Оценочная стоимость, руб.'}
-                    text={[numeral(actual_full_value).format('0,0')]}
-                    half={isTextShort([actual_full_value])}
+                    text={[
+                        numeral(
+                            actual_full_value || original_full_value,
+                        ).format('0,0'),
+                    ]}
+                    half={isTextShort([
+                        actual_full_value || original_full_value,
+                    ])}
                 />
                 <MapPopupItem
                     label={'Адрес'}
