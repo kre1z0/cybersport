@@ -17,6 +17,8 @@ class TableComponent extends Component {
         columns: PropTypes.array.isRequired,
         data: PropTypes.array.isRequired,
         rowHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        onImageClick: PropTypes.func,
+        onCellClick: PropTypes.func,
     };
 
     static defaultProps = {
@@ -86,7 +88,7 @@ class TableComponent extends Component {
         return {
             type: isSelected && isEditable && isEdit ? TYPES.EDITOR : type,
             content: type === TYPES.IMG
-                ? getImages(data[rowIndex][name])
+                ? getImages(data[rowIndex][name])[0]
                 : data[rowIndex][name],
         };
     };
@@ -123,6 +125,10 @@ class TableComponent extends Component {
     );
 
     onCellClick = (rowIndex, columnIndex) => {
+        const { columns, data, onImageClick } = this.props;
+        if (columns[columnIndex].type === TYPES.IMG) {
+            onImageClick && onImageClick(data[rowIndex]);
+        }
         this.setState(selectCell(rowIndex, columnIndex));
     };
 

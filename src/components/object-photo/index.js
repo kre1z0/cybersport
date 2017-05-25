@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ImageGallery from 'react-image-gallery';
 import ObjectPhotoItem from './object-photo-item';
 import './object-photo.scss';
@@ -7,26 +8,21 @@ class ObjectPhoto extends Component {
     static propTypes = {
         attr: PropTypes.array,
         object: PropTypes.object,
+        images: PropTypes.array,
     };
 
     render() {
-        const { attr, object } = this.props;
-
-        const images = [];
-        const imagesSplit = object.image_name.split(';');
-        imagesSplit.forEach(item => {
-            images.push({
-                original: item,
-                thumbnail: item,
-            });
-        });
+        const { attr, object, images } = this.props;
 
         return (
             <div className="object-photo">
                 <div className="object-photo-left-col">
                     <ImageGallery
                         showPlayButton={false}
-                        items={images}
+                        items={images.map(image => ({
+                            original: image,
+                            thumbnail: image,
+                        }))}
                         showFullscreenButton={false}
                         slideInterval={2000}
                     />

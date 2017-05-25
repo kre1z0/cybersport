@@ -20,7 +20,7 @@ export const TYPES = {
     NUMBER: 'number',
 };
 
-const CellSwitcher = ({ type, onCellClick, onCellChange, ...props }) => {
+const CellSwitcher = ({ type, onCellChange, ...props }) => {
     switch (type) {
         case TYPES.HEADER:
             return <HeaderCell {...props} />;

@@ -10,6 +10,7 @@ import withAuth from '../../hoc/withAuth';
 
 import NewObjectWindow from './new-object-window';
 import ColumnsSettingsWindow from './columns-settings-window';
+import GalleryWindow from './gallery-window';
 
 import './portfolio.scss';
 
@@ -21,6 +22,7 @@ class Portfolio extends Component {
     state = {
         newObjectOpen: false,
         columnsSettingsOpen: false,
+        galleryObject: null,
         query: {},
     };
 
@@ -100,12 +102,27 @@ class Portfolio extends Component {
         );
     };
 
+    showGallery = object => {
+        console.log(object);
+        this.setState(state => ({
+            galleryObject: object,
+        }));
+    };
+
+    closeGallery = () => {
+        this.setState(state => ({
+            galleryObject: null,
+        }));
+    };
+
     render() {
+        const { objects: { data, attributes, loading } } = this.props;
         const {
-            objects: { data, attributes, loading },
-            staticServiceUrl,
-        } = this.props;
-        const { newObjectOpen, columnsSettingsOpen, query } = this.state;
+            newObjectOpen,
+            columnsSettingsOpen,
+            galleryObject,
+            query,
+        } = this.state;
 
         const dataJS = data.toJS();
         const attrJS = attributes.toJS();
@@ -132,6 +149,7 @@ class Portfolio extends Component {
                             loading && <Loader className="loader overlay" />
                         }
                         onFilterChange={this.changeFilter}
+                        onImageClick={this.showGallery}
                     />
                     <NewObjectWindow
                         open={newObjectOpen}
@@ -140,6 +158,16 @@ class Portfolio extends Component {
                     <ColumnsSettingsWindow
                         open={columnsSettingsOpen}
                         onRequestClose={this.closeColumnsSettings}
+                    />
+                    <GalleryWindow
+                        open={!!galleryObject}
+                        object={galleryObject}
+                        images={
+                            galleryObject &&
+                                this.getImages(galleryObject.image_name)
+                        }
+                        onRequestClose={this.closeGallery}
+                        attributes={attrJS}
                     />
                 </div>
             </div>
