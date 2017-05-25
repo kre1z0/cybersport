@@ -71,17 +71,18 @@ class MapContainer extends Component {
             const layerManager = getLayerManager();
             const sber_service = layerManager.getService(OBJECTS_SERVICE);
             let df = sber_service.dataFilter;
-            df.condition = this.setFilter(
-                map.objectsDataFilter.toJS(),
+            df.condition = this.getFilter(
+                map.objectsDataFilter.toJS(), //todo
                 map.domainsFilter,
             );
             sber_service.setDataFilter(df);
+            sber_service.layer.redraw();
         }
 
         if (this.props.map.showOffices !== map.showOffices) {
             const layerManager = getLayerManager();
             const offices_service = layerManager.getService(OFFICES_SERVICE);
-            offices_service.isDisplayed = map.showOffices;
+            offices_service.isDisplayed = map.showOffices; //todo
         }
 
         if (this.props.map.showHomeAddress !== map.showHomeAddress) {
@@ -89,7 +90,7 @@ class MapContainer extends Component {
             const employess_service = layerManager.getService(
                 EMPLOYEES_SERVICE,
             );
-            employess_service.isDisplayed = map.showHomeAddress;
+            employess_service.isDisplayed = map.showHomeAddress; //todo
         }
     }
 
@@ -100,11 +101,12 @@ class MapContainer extends Component {
 
             if (name === OBJECTS_SERVICE) {
                 let df = service.dataFilter;
-                df.condition = this.setFilter(
+                df.condition = this.getFilter(
                     map.objectsDataFilter.toJS(),
                     map.domainsFilter,
                 );
                 service.setDataFilter(df);
+                service.layer.redraw();
             }
 
             if (service) {
@@ -113,7 +115,7 @@ class MapContainer extends Component {
         });
     }
 
-    setFilter(filter, domains) {
+    getFilter(filter, domains) {
         let filterArray = [];
         let toServiceFilter = null;
         for (let f in filter) {
