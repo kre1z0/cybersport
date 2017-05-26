@@ -42,7 +42,7 @@ const CellSwitcher = ({ type, onCellChange, ...props }) => {
             return <EditorCell {...props} onBlur={onCellChange} />;
         case TYPES.NUMBER: {
             const content = props.content
-                ? numeral(props.content).format('0,0')
+                ? numeral(+props.content).format('0,0')
                 : '';
             return <TextCell {...props} content={content} />;
         }

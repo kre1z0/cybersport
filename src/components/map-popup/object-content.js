@@ -95,7 +95,7 @@ const ObjectContent = ({
                     label={'Оценочная стоимость, руб.'}
                     text={[
                         numeral(
-                            actual_full_value || original_full_value,
+                            +actual_full_value || +original_full_value,
                         ).format('0,0'),
                     ]}
                     half={isTextShort([
