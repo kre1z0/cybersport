@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MapPopups from '../../components/map-popup';
 import ObjectContent from '../../components/map-popup/object-content';
+import MapPopupHeader from '../../components/map-popup/map-popup-header';
 
 class FeaturePopup extends Component {
     state = {
@@ -42,14 +43,19 @@ class FeaturePopup extends Component {
                       top: '1rem',
                       right: '1rem',
                   }}
+                  current={current + 1}
+                  count={selectedObjects.length}
+                  onNext={this.onNext}
+                  onPrev={this.onPrev}
+                  headerComponent={
+                      <MapPopupHeader
+                          status={selectedObjects[current].status}
+                      />
+                  }
               >
                   <ObjectContent
-                      current={current + 1}
-                      count={selectedObjects.length}
                       object={selectedObjects[current]}
                       staticServiceUrl={staticServiceUrl}
-                      onNext={this.onNext}
-                      onPrev={this.onPrev}
                   />
               </MapPopups>
             : null;

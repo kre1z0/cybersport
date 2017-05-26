@@ -2,11 +2,8 @@ import React from 'react';
 import MapPopupAvatar from './avatar';
 import MapPopupItem from './map-popup-item';
 import { isTextShort } from './isTextShort';
-import { paleGrey, darkGrey, coolGreyTwo } from '../../assets/theme';
+import { paleGrey, darkGrey } from '../../assets/theme';
 import RoundedButton from '../../components/button/rounded-button';
-import MapPopupHeader from './map-popup-header';
-import IconButton from 'material-ui/IconButton';
-import { PageBack, PageNext } from '../icons';
 
 import moment from 'moment';
 import numeral from 'numeral';
@@ -26,32 +23,7 @@ const labelButtonStyle = {
     fontWeight: 400,
 };
 
-const svgStyle = {
-    height: 10,
-    width: 6,
-};
-
-const paginationButtonStyle = {
-    width: 36,
-    height: 36,
-    padding: 0,
-};
-
-const PageBackButton = props => (
-    <IconButton {...props} style={paginationButtonStyle}>
-        <PageBack svgColor={coolGreyTwo} svgStyle={svgStyle} />
-    </IconButton>
-);
-
-const PageNextButton = props => (
-    <IconButton {...props} style={paginationButtonStyle}>
-        <PageNext svgColor={coolGreyTwo} svgStyle={svgStyle} />
-    </IconButton>
-);
-
 const ObjectContent = ({
-    current,
-    count,
     object: {
         classifier1,
         classifier2,
@@ -76,17 +48,11 @@ const ObjectContent = ({
         last_check_date,
         last_actualization_date,
         planned_audit_date,
-        status,
     },
     staticServiceUrl,
-    onNext,
-    onPrev,
 }) => {
     return (
         <div className="object-content">
-
-            <MapPopupHeader status={status} />
-
             <MapPopupAvatar
                 img={
                     staticServiceUrl &&
@@ -215,14 +181,7 @@ const ObjectContent = ({
                     label="Создать задачу"
                 />
             </div>
-            {count &&
-                <div className="object-cluster-footer">
-                    <PageBackButton onTouchTap={onPrev} />
-                    <div className="page-numbers">
-                        {`${current} из ${count}`}
-                    </div>
-                    <PageNextButton onTouchTap={onNext} />
-                </div>}
+
         </div>
     );
 };
