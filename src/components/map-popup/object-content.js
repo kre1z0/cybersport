@@ -75,6 +75,7 @@ const ObjectContent = ({
         object_description,
         last_check_date,
         last_actualization_date,
+        planned_audit_date,
         status,
     },
     staticServiceUrl,
@@ -186,8 +187,13 @@ const ObjectContent = ({
                     />
                     <MapPopupItem
                         label={'Плановая проверка'}
-                        text={['']}
-                        half={isTextShort(['22.01.2018'])}
+                        text={[
+                            planned_audit_date &&
+                                moment(planned_audit_date).format('L'),
+                        ]}
+                        half={isTextShort([
+                            moment(planned_audit_date).format('L'),
+                        ])}
                     />
                     <MapPopupItem
                         label={'Плановая актуализация'}
