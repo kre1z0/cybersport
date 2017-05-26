@@ -19,13 +19,13 @@
     }
 
     .triangle-with-shadow {
-      width: 100px;
-      height: 100px;
+      width: 30px;
+      height: 45px;
       position: absolute;
       overflow: hidden;
-      left: -100px;
+      left: -30px;
       top: 50%;
-      margin-top: -50px;
+      margin-top: -22px;
       &:after {
         content: "";
         position: absolute;
@@ -34,7 +34,7 @@
         background: #fff;
         transform: rotate(45deg);
         top: 50%;
-        left: 94px;
+        left: 24px;
         margin-top: -25px;
         box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.15);
       }
