@@ -243,7 +243,7 @@ export default [
     },
     {
         name: 'owner_name',
-        alias: 'Заправочные островки',
+        alias: 'Залогодатель',
         type: 'text',
         editorType: 'text',
         isEditable: true,
