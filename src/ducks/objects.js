@@ -48,7 +48,7 @@ export const createError = createAction('objects/create-error');
 
 export const addObject = (attributes, files) => dispatch => {
     dispatch(create());
-    return uploadImages(files)
+    return uploadImages(files || [])
         .then(({ names }) => {
             attributes.image_name = names && names.join(';');
             return createObjectFeature(attributes);

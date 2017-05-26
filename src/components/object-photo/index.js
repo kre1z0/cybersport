@@ -19,10 +19,14 @@ class ObjectPhoto extends Component {
                 <div className="object-photo-left-col">
                     <ImageGallery
                         showPlayButton={false}
-                        items={images.map(image => ({
-                            original: image,
-                            thumbnail: image,
-                        }))}
+                        items={
+                            images.map
+                                ? images.map(image => ({
+                                      original: image,
+                                      thumbnail: image,
+                                  }))
+                                : []
+                        }
                         showFullscreenButton={false}
                         slideInterval={2000}
                     />

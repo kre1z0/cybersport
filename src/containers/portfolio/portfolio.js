@@ -103,7 +103,6 @@ class Portfolio extends Component {
     };
 
     showGallery = object => {
-        console.log(object);
         this.setState(state => ({
             galleryObject: object,
         }));

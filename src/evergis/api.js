@@ -84,7 +84,7 @@ export const createObjectFeature = attributes =>
 export const uploadImages = images =>
     fetchStaticService().then(service => {
         !service && Promise.reject(new Error('static service not found'));
-
+        console.log(images);
         let names = images.map(
             ({ name }) => `${guid()}.${getFileExtension(name)}`,
         );

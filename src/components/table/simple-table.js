@@ -85,11 +85,12 @@ class TableComponent extends Component {
             selectedCell[1] === columnIndex;
 
         const { name, type, isEditable } = columns[columnIndex];
+        const images = type === TYPES.IMG
+            ? getImages(data[rowIndex][name])
+            : null;
         return {
             type: isSelected && isEditable && isEdit ? TYPES.EDITOR : type,
-            content: type === TYPES.IMG
-                ? getImages(data[rowIndex][name])[0]
-                : data[rowIndex][name],
+            content: images ? images[0] : data[rowIndex][name],
         };
     };
 
