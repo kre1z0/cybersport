@@ -10,6 +10,8 @@
     box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.15);
     display: flex;
     flex-direction: column;
+    transition: all .1s ease;
+    transform: translate(20px, -50%);
     .object-content {
       padding: 30px;
       overflow: auto;

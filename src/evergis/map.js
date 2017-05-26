@@ -23,4 +23,7 @@ const getMap = ({ wrapper, position, resolution }) => {
 export const getMapPoint = (position = [0, 0]) =>
     new sGis.feature.Point(position, { crs: sGis.CRS.webMercator });
 
+export const pointToScreen = position =>
+    initedSGis.painter.getPxPosition(position);
+
 export default getMap;

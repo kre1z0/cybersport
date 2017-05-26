@@ -61,7 +61,7 @@ class MapPopup extends Component {
             <div className="map-popup" style={style}>
                 {headerComponent}
                 <CloseWindowButton onTouchTap={onCloseRequest} />
-                {/*<div className="triangle-with-shadow" />*/}
+                <div className="triangle-with-shadow" />
                 {children}
                 {count &&
                     <div className="object-cluster-footer">
