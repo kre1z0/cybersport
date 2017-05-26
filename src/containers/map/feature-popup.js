@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MapPopups from '../../components/map-popup';
 import ObjectContent from '../../components/map-popup/object-content';
+import MapPopupHeader from '../../components/map-popup/map-popup-header';
+import { pointToScreen } from '../../evergis/map';
 
 class FeaturePopup extends Component {
     state = {
@@ -30,26 +32,39 @@ class FeaturePopup extends Component {
     };
 
     render() {
-        const { selectedObjects, staticServiceUrl } = this.props;
+        const {
+            selectedObjects,
+            staticServiceUrl,
+            anchorPosition,
+        } = this.props;
         const { current, close } = this.state;
 
         const selectedObject = selectedObjects[current];
+
+        const { x, y } = (anchorPosition &&
+            pointToScreen(anchorPosition)) || {};
 
         return !close && selectedObject
             ? <MapPopups
                   onCloseRequest={this.closePopup}
                   style={{
-                      top: '1rem',
-                      right: '1rem',
+                      top: y,
+                      left: x,
+                      transform: `translate(${selectedObjects.length === 1 ? 31 : 41}px, -50%)`,
                   }}
+                  current={current + 1}
+                  count={selectedObjects.length}
+                  onNext={this.onNext}
+                  onPrev={this.onPrev}
+                  headerComponent={
+                      <MapPopupHeader
+                          status={selectedObjects[current].status}
+                      />
+                  }
               >
                   <ObjectContent
-                      current={current + 1}
-                      count={selectedObjects.length}
                       object={selectedObjects[current]}
                       staticServiceUrl={staticServiceUrl}
-                      onNext={this.onNext}
-                      onPrev={this.onPrev}
                   />
               </MapPopups>
             : null;
@@ -57,11 +72,13 @@ class FeaturePopup extends Component {
 }
 
 const mapProps = ({
-    map: { selectedObjects },
+    map: { center, selectedObjects, anchorPosition },
     user: { staticServiceUrl },
 }) => ({
     selectedObjects,
     staticServiceUrl,
+    anchorPosition,
+    center,
 });
 
 const mapActions = {};

@@ -39,6 +39,7 @@ const MapState = Record({
     showOffices: true,
     showHomeAddress: true,
     selectedObjects: [],
+    anchorPosition: null,
 });
 
 const initState = new MapState();
@@ -74,8 +75,8 @@ export const loadMapServices = (
             );
             applyObjectsStyle(objectsService);
 
-            applyClusterEvents(objectsService, ({ ids }) => {
-                dispatch(pickObjectsById(ids));
+            applyClusterEvents(objectsService, ({ ids, position }) => {
+                dispatch(pickObjectsById({ ids, position }));
             });
 
             const state = getState();
@@ -97,10 +98,12 @@ export const pickObject = point => dispatch =>
         .then(response => dispatch(selectObject(response)))
         .catch(error => dispatch(selectObject([])));
 
-export const pickObjectsById = ids => dispatch =>
+export const pickObjectsById = ({ ids, position }) => dispatch =>
     pickById(ids)
-        .then(response => dispatch(selectObject(response)))
-        .catch(error => dispatch(selectObject([])));
+        .then(response =>
+            dispatch(selectObject({ objects: response, position })),
+        )
+        .catch(error => dispatch(selectObject({ objects: [] })));
 
 export default createReducer(
     {
@@ -139,8 +142,10 @@ export default createReducer(
         [setShowHomeAddress]: (state, payload) =>
             state.set('showHomeAddress', payload.checked),
 
-        [selectObject]: (state, payload) =>
-            state.set('selectedObjects', payload),
+        [selectObject]: (state, { objects, position }) =>
+            state
+                .set('selectedObjects', objects)
+                .set('anchorPosition', position),
 
         [setDomainsFilter]: (state, payload) =>
             state.set('domainsFilter', payload),

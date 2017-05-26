@@ -12,6 +12,7 @@ import moment from 'moment';
 import numeral from 'numeral';
 
 import 'numeral/locales/ru';
+import 'moment/locale/ru';
 OfflinePluginRuntime.install();
 injectTapEventPlugin();
 

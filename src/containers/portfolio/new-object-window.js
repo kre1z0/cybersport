@@ -8,6 +8,8 @@ import RoundedButton from '../../components/button/rounded-button';
 import NewObjectWindow
     from '../../components/new-object-window/new-object-window';
 
+import classifierFull from '../../assets/const/classifier-full';
+
 const NEW_OBJECT_COLUMNS = [
     'control',
     'object_name',
@@ -15,6 +17,19 @@ const NEW_OBJECT_COLUMNS = [
     'planned_audit_date',
     'gid',
 ];
+
+const filterClassifierDomains = (object, domains, fields = [1, 2, 3, 4]) => {
+    fields.forEach(i => {
+        if (object['classifier' + i]) {
+            domains['classifier' + (i + 1)] =
+                classifierFull[object['classifier' + i]];
+        } else {
+            domains['classifier' + (i + 1)] = [];
+        }
+    });
+
+    return domains;
+};
 
 class NewObjectWindowContainer extends Component {
     static propTypes = {
@@ -89,7 +104,7 @@ class NewObjectWindowContainer extends Component {
                     data={attributes.filter(
                         ({ name }) => !NEW_OBJECT_COLUMNS.includes(name),
                     )}
-                    domains={domains.toJS()}
+                    domains={filterClassifierDomains(object, domains.toJS())}
                     object={object}
                     onChange={this.onChange}
                 />

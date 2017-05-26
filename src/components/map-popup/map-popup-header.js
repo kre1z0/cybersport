@@ -7,6 +7,8 @@ import {
     coolGreyThree,
 } from '../../assets/theme';
 
+import './map-popup-header.scss';
+
 const STATUS = {
     1: {
         text: 'нарушений нет',

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import sGis from '../../assets/sgis';
 import getMap from '../../evergis/map';
 import debounce from 'lodash/debounce';
+import cloneDeep from 'lodash/cloneDeep';
 
 import './map.scss';
 
@@ -32,6 +33,7 @@ class Map extends Component {
             this.props.center,
             sGis.CRS.webMercator,
         );
+        console.log(newCenter, oldCenter, !newCenter.equals(oldCenter));
         if (!newCenter.equals(oldCenter)) {
             this.props.onCenterChange(newCenter.position);
         }
@@ -45,7 +47,7 @@ class Map extends Component {
     componentDidMount() {
         this.map = getMap({
             wrapper: this.container,
-            position: this.props.center,
+            position: cloneDeep(this.props.center),
             resolution: this.props.resolution,
         });
 
