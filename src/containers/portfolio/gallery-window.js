@@ -30,9 +30,9 @@ class GalleryWindow extends Component {
         const { open, object, attributes, onRequestClose, images } = this.props;
         return (
             <ModalWindow
+                contentClassName="object-photo-modal"
                 bodyStyle={{
                     padding: 0,
-                    display: 'table',
                     height: '100%',
                 }}
                 open={open}

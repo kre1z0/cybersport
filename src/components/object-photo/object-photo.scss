@@ -1,6 +1,16 @@
 @import "../../assets/base/colors";
 @import "../../assets/base/media";
-$photoGalleryWidth: 500px;
+$photoWidthLarge: 590px;
+
+$mediaMiddle: screen and (max-width: 1100px), screen and (max-height: 850px);
+$photoWidthMiddle: 400px;
+
+$mediaSmall: screen and (max-width: 750px), screen and (max-height: 650px);
+$photoWidthSmall: 300px;
+
+$mediaVerySmall: screen and (max-width: 650px), screen and (max-height: 550px);
+$photoWidthVerySmall: 240px;
+
 @import "react-image-gallery";
 
 :global {
@@ -9,13 +19,11 @@ $photoGalleryWidth: 500px;
     .object-photo-left-col {
       position: relative;
       padding: 10px 0;
-      width: $photoGalleryWidth;
       background-color: $darkGrey;
+      width: $photoWidthLarge;
     }
     .object-photo-right-col {
-      width: calc(100% - #{$photoGalleryWidth});
-      max-height: 630px;
-      overflow-y: auto;
+      width: calc(100% - #{$photoWidthLarge});
       .right-col-header {
         color: $darkGrey;
         font-size: 1.285rem;
@@ -38,6 +46,63 @@ $photoGalleryWidth: 500px;
           &:first-child {
             padding: 0;
           }
+        }
+      }
+    }
+  }
+  .object-photo-modal {
+    max-width: 909px !important;
+    @media #{$mediaMiddle} {
+      max-width: 650px !important;
+      .object-photo-left-col {
+        width: $photoWidthMiddle;
+        .image-gallery-image {
+          width: $photoWidthMiddle;
+          height: $photoWidthMiddle;
+          img {
+            max-width: $photoWidthMiddle;
+            max-height: $photoWidthMiddle;
+          }
+        }
+      }
+      .object-photo-right-col {
+        width: calc(100% - #{$photoWidthMiddle});
+      }
+    }
+    @media #{$mediaSmall} {
+      max-width: 500px !important;
+      .object-photo-left-col {
+        width: $photoWidthSmall;
+        .image-gallery-image {
+          width: $photoWidthSmall;
+          height: $photoWidthSmall;
+          img {
+            max-width: $photoWidthSmall;
+            max-height: $photoWidthSmall;
+          }
+        }
+      }
+      .object-photo-right-col {
+        width: calc(100% - #{$photoWidthSmall});
+      }
+    }
+    @media #{$mediaVerySmall} {
+      max-width: $photoWidthVerySmall !important;
+      .object-photo {
+        display: block;
+        .object-photo-left-col {
+          width: $photoWidthVerySmall;
+          .image-gallery-image {
+            width: $photoWidthVerySmall;
+            height: $photoWidthVerySmall;
+            img {
+              max-width: $photoWidthVerySmall;
+              max-height: $photoWidthVerySmall;
+            }
+          }
+        }
+        .object-photo-right-col {
+          width: 100%;
         }
       }
     }

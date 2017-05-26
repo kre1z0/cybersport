@@ -116,22 +116,26 @@
 
   .image-gallery-image {
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $photoWidthLarge;
+    height: $photoWidthLarge;
   }
 
   .image-gallery-slide {
-    width: $photoGalleryWidth;
-    height: $photoGalleryWidth;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
+    top: 0;
     &.center {
       position: relative;
     }
 
     img {
-      max-width: $photoGalleryWidth;
-      max-height: $photoGalleryWidth;
+      max-width: $photoWidthLarge;
+      max-height: $photoWidthLarge;
     }
 
     .image-gallery-description {

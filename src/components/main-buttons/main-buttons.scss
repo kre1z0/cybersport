@@ -28,6 +28,13 @@
         font-size: 1.286rem;
       }
     }
+    @media screen and (max-height: 700px) {
+      margin-top: 20px;
+      .home-button {
+        height: 90px;
+        margin-bottom: 20px;
+      }
+    }
     @media #{$phone} {
       margin-top: 10px;
       .home-button {
