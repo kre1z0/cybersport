@@ -50,6 +50,7 @@ class FeaturePopup extends Component {
                   style={{
                       top: y,
                       left: x,
+                      transform: `translate(${selectedObjects.length === 1 ? 31 : 41}px, -50%)`,
                   }}
                   current={current + 1}
                   count={selectedObjects.length}
