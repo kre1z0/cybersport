@@ -45,7 +45,7 @@
 
   }
 
-  @keyframes dash {
+  @keyframes :global(dash) {
     from {
       stroke-dashoffset: 877;
     }
