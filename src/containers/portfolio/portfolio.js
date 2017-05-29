@@ -166,7 +166,6 @@ class Portfolio extends Component {
                                 this.getImages(galleryObject.image_name)
                         }
                         onRequestClose={this.closeGallery}
-                        attributes={attrJS}
                     />
                 </div>
             </div>

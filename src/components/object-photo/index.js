@@ -14,7 +14,31 @@ class ObjectPhoto extends Component {
     };
 
     render() {
-        const { attr, object, images } = this.props;
+        const {
+            attr,
+            object: {
+                object_description,
+                gid,
+                department,
+                classifier2,
+                classifier3,
+                address_region,
+                responsible_employee_name,
+
+                address_combined,
+                address_adjusted,
+
+                liquidity,
+                actual_liquidity,
+
+                object_quality_category,
+                actual_quality_category,
+
+                original_full_value,
+                actual_full_value,
+            },
+            images,
+        } = this.props;
 
         return (
             <div className="object-photo">
@@ -35,25 +59,52 @@ class ObjectPhoto extends Component {
                 </div>
                 <div className="object-photo-right-col">
                     <div className="right-col-header">
-                        {object.object_description}
+                        {object_description}
                     </div>
                     <div className="right-col-content">
-                        {attr.map(({ name, alias, type }) => {
-                            return (
-                                <ObjectPhotoItem
-                                    key={name}
-                                    alias={alias}
-                                    name={name}
-                                    content={
-                                        type === TYPES.NUMBER
-                                            ? numeral(+object[name]).format(
-                                                  '0,0',
-                                              )
-                                            : object[name]
-                                    }
-                                />
-                            );
-                        })}
+                        <ObjectPhotoItem alias={'ID'} content={gid} />
+                        <ObjectPhotoItem alias={'ТБ'} content={department} />
+                        <ObjectPhotoItem
+                            alias={'Ответственный'}
+                            content={responsible_employee_name}
+                        />
+                        <ObjectPhotoItem
+                            alias={'Регион объекта'}
+                            content={address_region}
+                        />
+                        <ObjectPhotoItem
+                            alias={'Адрес объекта'}
+                            content={address_adjusted || address_combined}
+                        />
+                        <ObjectPhotoItem
+                            alias={'2 уровень классификатора'}
+                            content={classifier2}
+                        />
+                        <ObjectPhotoItem
+                            alias={'3 уровень классификатора'}
+                            content={classifier3}
+                        />
+                        <ObjectPhotoItem
+                            alias={'Категория'}
+                            content={
+                                actual_quality_category ||
+                                    object_quality_category
+                            }
+                        />
+                        <ObjectPhotoItem
+                            alias={'Ликвидность'}
+                            content={actual_liquidity || liquidity}
+                        />
+                        <ObjectPhotoItem
+                            alias={'Оценочная стоимость'}
+                            content={
+                                actual_full_value
+                                    ? numeral(+actual_full_value).format('0,0')
+                                    : numeral(+original_full_value).format(
+                                          '0,0',
+                                      )
+                            }
+                        />
                     </div>
                 </div>
             </div>
