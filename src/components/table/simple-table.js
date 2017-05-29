@@ -77,7 +77,7 @@ class TableComponent extends Component {
     };
 
     getCellContent = (rowIndex, columnIndex) => {
-        const { columns, data, getImages } = this.props;
+        const { columns, data, getImages, onRemove } = this.props;
         const { selectedCell, isEdit } = this.state;
         const isSelected =
             selectedCell &&
@@ -89,8 +89,10 @@ class TableComponent extends Component {
             ? getImages(data[rowIndex][name])
             : null;
         return {
+            rowIndex,
             type: isSelected && isEditable && isEdit ? TYPES.EDITOR : type,
             content: images ? images[0] : data[rowIndex][name],
+            onRemove: TYPES.CONTROL === type ? onRemove : null,
         };
     };
 

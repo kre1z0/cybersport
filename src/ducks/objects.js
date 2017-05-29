@@ -3,6 +3,7 @@ import {
     fetchObjects,
     createObjectFeature,
     uploadImages,
+    deleteObjectFeatures,
 } from '../evergis/api';
 import { tranformQuery, addEmployeeToQuery } from '../evergis/helpers';
 import { Record, List } from 'immutable';
@@ -46,6 +47,10 @@ export const create = createAction('objects/create');
 export const createSuccess = createAction('objects/create-success');
 export const createError = createAction('objects/create-error');
 
+export const del = createAction('objects/delete');
+export const delSuccess = createAction('objects/delete-success');
+export const delError = createAction('objects/delete-error');
+
 export const addObject = (attributes, files) => dispatch => {
     dispatch(create());
     return uploadImages(files || [])
@@ -54,6 +59,18 @@ export const addObject = (attributes, files) => dispatch => {
             return createObjectFeature(attributes);
         })
         .then(response => dispatch(createSuccess(response)));
+};
+
+export const deleteObject = ids => dispatch => {
+    dispatch(del());
+    return deleteObjectFeatures(ids)
+        .then(response => {
+            dispatch(delSuccess({ ids }));
+        })
+        .catch(error => {
+            console.log(error);
+            dispatch(delError(error));
+        });
 };
 
 export const getObjects = (query = {}) => (dispatch, getState) => {
@@ -94,9 +111,21 @@ export default createReducer(
 
         [create]: (state, payload) => state,
 
-        [createSuccess]: (state, payload) => state,
+        [createSuccess]: (state, payload) => state.set('error', false),
 
-        [createError]: (state, payload) => state,
+        [createError]: (state, payload) => state.set('error', payload),
+
+        [del]: (state, payload) => state,
+
+        [delSuccess]: (state, { ids }) => {
+            const index = state
+                .get('data')
+                .findIndex(({ gid }) => gid === ids[0]);
+            return state
+                .set('error', false)
+                .set('data', state.get('data').delete(index));
+        },
+        [delError]: (state, payload) => state.set('error', payload),
     },
     initState,
 );

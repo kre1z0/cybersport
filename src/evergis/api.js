@@ -78,8 +78,16 @@ export const createFeature = (
         geometry,
     });
 
+export const deleteFeature = (ids, serviceName) =>
+    getDataAccessService(getConnector()).deleteFeatures({
+        ids,
+        serviceName,
+    });
+
 export const createObjectFeature = attributes =>
     createFeature(attributes, OBJECTS_SERVICE);
+
+export const deleteObjectFeatures = ids => deleteFeature(ids, OBJECTS_SERVICE);
 
 export const uploadImages = images =>
     fetchStaticService().then(service => {

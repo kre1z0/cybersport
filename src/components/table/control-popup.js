@@ -38,6 +38,12 @@ class ControlPopup extends PureComponent {
 
     closePopup = () => this.setState(setAnchor(null));
 
+    removeRow = () => {
+        const { onRemove, rowIndex } = this.props;
+        onRemove && onRemove(rowIndex);
+        this.closePopup();
+    };
+
     render() {
         const { anchor } = this.state;
 
@@ -73,7 +79,7 @@ class ControlPopup extends PureComponent {
                         />
                         <FlatButton
                             label="Удалить объект"
-                            onTouchTap={this.closePopup}
+                            onTouchTap={this.removeRow}
                             secondary={true}
                         />
                     </div>

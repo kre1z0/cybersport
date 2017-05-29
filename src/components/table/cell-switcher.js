@@ -20,7 +20,7 @@ export const TYPES = {
     NUMBER: 'number',
 };
 
-const CellSwitcher = ({ type, onCellChange, ...props }) => {
+const CellSwitcher = ({ type, onCellChange, onRemove, ...props }) => {
     switch (type) {
         case TYPES.HEADER:
             return <HeaderCell {...props} />;
@@ -29,7 +29,7 @@ const CellSwitcher = ({ type, onCellChange, ...props }) => {
         case TYPES.IMG:
             return <ImageCell {...props} />;
         case TYPES.CONTROL:
-            return <ControlCell {...props} />;
+            return <ControlCell {...props} onRemove={onRemove} />;
         case TYPES.ADDRESS:
             return <AddressCell {...props} />;
         case TYPES.DATE: {

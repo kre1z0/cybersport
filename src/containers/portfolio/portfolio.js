@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 import HeaderTitleBlock from '../../components/header-title-block';
 import Table from '../../components/table/simple-table';
-import { getObjects } from '../../ducks/objects';
+import { getObjects, deleteObject } from '../../ducks/objects';
 import { getDomainsIfNeeded } from '../../ducks/domains';
 import withAuth from '../../hoc/withAuth';
 
@@ -114,6 +114,14 @@ class Portfolio extends Component {
         }));
     };
 
+    removeObject = rowIndex => {
+        const { deleteObject, objects: { data } } = this.props;
+        const id = data.get(rowIndex).gid;
+        if (id) {
+            deleteObject && deleteObject([id]);
+        }
+    };
+
     render() {
         const { objects: { data, attributes, loading } } = this.props;
         const {
@@ -149,6 +157,7 @@ class Portfolio extends Component {
                         }
                         onFilterChange={this.changeFilter}
                         onImageClick={this.showGallery}
+                        onRemove={this.removeObject}
                     />
                     <NewObjectWindow
                         open={newObjectOpen}
@@ -181,6 +190,7 @@ const mapProps = ({ objects, user: { staticServiceUrl } }) => ({
 const mapActions = {
     getObjects,
     getDomainsIfNeeded,
+    deleteObject,
 };
 
 export default connect(mapProps, mapActions)(withAuth(Portfolio));
