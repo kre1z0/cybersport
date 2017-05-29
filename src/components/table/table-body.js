@@ -97,7 +97,10 @@ class Body extends Component {
                                                 columnRef,
                                                 newRowIndex,
                                                 columnIndex,
-                                                max - 1,
+                                                Math.min(
+                                                    max - 1,
+                                                    rowRenderHelper.length - 1,
+                                                ),
                                             )}
                                         >
                                             {cellRenderer(
