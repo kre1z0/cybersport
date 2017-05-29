@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImageGallery from 'react-image-gallery';
 import ObjectPhotoItem from './object-photo-item';
+import { TYPES } from '../table/cell-switcher';
 import './object-photo.scss';
+import numeral from 'numeral';
 
 class ObjectPhoto extends Component {
     static propTypes = {
@@ -36,13 +38,19 @@ class ObjectPhoto extends Component {
                         {object.object_description}
                     </div>
                     <div className="right-col-content">
-                        {attr.map(({ name, alias }) => {
+                        {attr.map(({ name, alias, type }) => {
                             return (
                                 <ObjectPhotoItem
                                     key={name}
                                     alias={alias}
                                     name={name}
-                                    content={object[name]}
+                                    content={
+                                        type === TYPES.NUMBER
+                                            ? numeral(+object[name]).format(
+                                                  '0,0',
+                                              )
+                                            : object[name]
+                                    }
                                 />
                             );
                         })}
