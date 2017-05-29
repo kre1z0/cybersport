@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImageGallery from 'react-image-gallery';
 import ObjectPhotoItem from './object-photo-item';
-import { TYPES } from '../table/cell-switcher';
 import './object-photo.scss';
 import numeral from 'numeral';
 
@@ -15,7 +14,6 @@ class ObjectPhoto extends Component {
 
     render() {
         const {
-            attr,
             object: {
                 object_description,
                 gid,
