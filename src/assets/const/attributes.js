@@ -24,7 +24,7 @@ export default [
         name: 'object_name',
         alias: '№ в исходных данных',
         type: 'number',
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'department',
@@ -58,7 +58,7 @@ export default [
         type: 'text',
         editorType: 'text-area',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'address_region',
@@ -66,7 +66,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'address_combined',
@@ -81,7 +81,7 @@ export default [
         alias: 'Адрес объекта (исправленный)',
         type: 'address',
         editorType: 'address',
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'classifier1',
@@ -89,7 +89,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'classifier2',
@@ -107,7 +107,7 @@ export default [
         editorType: 'select',
         isEditable: true,
         filterable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'classifier4',
@@ -115,7 +115,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'cadastr_no',
@@ -123,7 +123,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'building_type',
@@ -131,7 +131,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'wall_material',
@@ -139,7 +139,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'construction_year',
@@ -147,7 +147,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'red_line_position',
@@ -155,7 +155,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'area',
@@ -163,7 +163,7 @@ export default [
         type: 'number',
         editorType: 'number',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'floor_no',
@@ -171,7 +171,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
         validation: {
             type: [Number, 'Здание целиком', 'Подвал', 'Цокольный этаж'],
             min: 1,
@@ -184,7 +184,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'floor_qty',
@@ -192,7 +192,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
         validation: {
             type: Number,
             min: 1,
@@ -205,7 +205,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
         validation: {
             type: [Number, 'Студия'],
             min: 1,
@@ -218,7 +218,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'has_store',
@@ -226,7 +226,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'petrol_station_qty',
@@ -234,7 +234,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
         validation: {
             type: Number,
             min: 1,
@@ -256,7 +256,7 @@ export default [
         editorType: 'text',
         isEditable: true,
         filterable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'contacts',
@@ -264,7 +264,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'contract_no',
@@ -273,7 +273,7 @@ export default [
         editorType: 'text',
         isEditable: true,
         filterable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'contract_start_date',
@@ -281,7 +281,7 @@ export default [
         type: 'date',
         editorType: 'date',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'contract_end_date',
@@ -289,7 +289,7 @@ export default [
         type: 'date',
         editorType: 'date',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'credit_inspector',
@@ -297,7 +297,7 @@ export default [
         type: 'text',
         editorType: 'text',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'object_quality_category',
@@ -305,7 +305,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'actual_quality_category',
@@ -313,7 +313,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'liquidity',
@@ -321,7 +321,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'actual_liquidity',
@@ -329,7 +329,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'value_type',
@@ -337,7 +337,7 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'original_full_value',
@@ -345,7 +345,7 @@ export default [
         type: 'number',
         editorType: 'number',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'actual_full_value',
@@ -353,7 +353,7 @@ export default [
         type: 'number',
         editorType: 'number',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'original_mortgage_value',
@@ -361,7 +361,7 @@ export default [
         type: 'number',
         editorType: 'number',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'actual_mortgage_value',
@@ -369,7 +369,7 @@ export default [
         type: 'number',
         editorType: 'number',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'check_interval',
@@ -377,7 +377,7 @@ export default [
         type: 'number',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'actualization_interval',
@@ -385,14 +385,14 @@ export default [
         type: 'number',
         editorType: 'number',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'last_check_date',
         alias: 'Последняя проверка',
         type: 'date',
         editorType: 'date',
-        isVisible: true,
+        isVisible: false,
         isEditable: true,
     },
     {
@@ -400,7 +400,7 @@ export default [
         alias: 'Последняя актуализация',
         type: 'date',
         editorType: 'date',
-        isVisible: true,
+        isVisible: false,
         isEditable: true,
     },
     {
@@ -409,13 +409,13 @@ export default [
         type: 'text',
         editorType: 'select',
         isEditable: true,
-        isVisible: true,
+        isVisible: false,
     },
     {
         name: 'planned_audit_date',
         alias: 'Плановая проверка',
         type: 'date',
-        isVisible: true,
+        isVisible: false,
         filterable: true,
     },
 ];
