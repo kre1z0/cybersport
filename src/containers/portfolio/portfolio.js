@@ -123,7 +123,7 @@ class Portfolio extends Component {
     };
 
     render() {
-        const { objects: { data, attributes, loading } } = this.props;
+        const { objects: { data, attributes, loading }, domains } = this.props;
         const {
             newObjectOpen,
             columnsSettingsOpen,
@@ -134,6 +134,7 @@ class Portfolio extends Component {
         const dataJS = data.toJS();
         const attrJS = attributes.toJS();
         const hashKey = Math.random().toString(36);
+        const domainsJS = domains.toJS();
 
         return (
             <div className="portfolio-container --padding">
@@ -151,6 +152,7 @@ class Portfolio extends Component {
                         data={dataJS}
                         getImages={this.getImages}
                         columns={attrJS.filter(({ isVisible }) => isVisible)}
+                        domains={domainsJS}
                         query={query}
                         loader={
                             loading && <Loader className="loader overlay" />
@@ -182,9 +184,10 @@ class Portfolio extends Component {
     }
 }
 
-const mapProps = ({ objects, user: { staticServiceUrl } }) => ({
+const mapProps = ({ domains, objects, user: { staticServiceUrl } }) => ({
     objects,
     staticServiceUrl,
+    domains,
 });
 
 const mapActions = {

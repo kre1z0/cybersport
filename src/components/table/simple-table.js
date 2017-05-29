@@ -34,13 +34,17 @@ class TableComponent extends Component {
     getChildContext() {
         return {
             getColumnsDataDistinct: columnName => {
+                if (columnName === 'gid') return [];
+
                 const column = this.props.columns.find(
                     ({ name }) => name === columnName,
                 );
+                const { domains } = this.props;
+
                 if (!column) {
                     return [];
-                } else if (column.domain) {
-                    return column.domain;
+                } else if (domains && column in domains) {
+                    return domains[column];
                 } else {
                     return uniq(
                         this.props.data
