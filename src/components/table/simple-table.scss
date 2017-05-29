@@ -6,7 +6,6 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #fff;
 
     td, th {
       vertical-align: middle;
@@ -18,6 +17,7 @@
 
     .body-container {
       overflow: auto;
+      height: 100%;
       table {
         table-layout: fixed;
       }
