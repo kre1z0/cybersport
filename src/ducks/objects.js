@@ -5,7 +5,7 @@ import {
     uploadImages,
     deleteObjectFeatures,
 } from '../evergis/api';
-import { tranformQuery, addEmployeeToQuery } from '../evergis/helpers';
+import { tranformQuery /*, addEmployeeToQuery*/ } from '../evergis/helpers';
 import { Record, List } from 'immutable';
 import initAttributesArray from '../assets/const/attributes';
 
@@ -64,13 +64,8 @@ export const addObject = (attributes, files) => dispatch => {
 export const deleteObject = ids => dispatch => {
     dispatch(del());
     return deleteObjectFeatures(ids)
-        .then(response => {
-            dispatch(delSuccess({ ids }));
-        })
-        .catch(error => {
-            console.log(error);
-            dispatch(delError(error));
-        });
+        .then(response => dispatch(delSuccess({ ids })))
+        .catch(error => dispatch(delError(error)));
 };
 
 export const getObjects = (query = {}) => (dispatch, getState) => {
