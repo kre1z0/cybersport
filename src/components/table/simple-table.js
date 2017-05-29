@@ -93,6 +93,7 @@ class TableComponent extends Component {
             type: isSelected && isEditable && isEdit ? TYPES.EDITOR : type,
             content: images ? images[0] : data[rowIndex][name],
             onRemove: TYPES.CONTROL === type ? onRemove : null,
+            className: name.slice(0, -1) === 'classifier' ? 'classifier' : null,
         };
     };
 
@@ -110,7 +111,7 @@ class TableComponent extends Component {
     hiddenHeaderRenderer = columnIndex => {
         const { popup, content } = this.getHeaderContent(columnIndex);
         return (
-            <div className="cell --hidden">
+            <div className="cell hidden">
                 {popup &&
                     <div
                         style={{ width: 40 }}

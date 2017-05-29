@@ -11,7 +11,7 @@ const HeaderCell = ({
     filterable,
     onClick,
 }) => (
-    <div className="cell --header" style={style}>
+    <div className="cell header" style={style}>
         {popup &&
             <HeaderPopup
                 columnName={name}

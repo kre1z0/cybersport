@@ -1,7 +1,8 @@
 import React from 'react';
+import cn from 'classnames';
 
-const TextCell = ({ rowIndex, content, ...props }) => (
-    <div className="cell">
+const TextCell = ({ rowIndex, content, className, ...props }) => (
+    <div className={cn('cell', className)}>
         {content}
     </div>
 );

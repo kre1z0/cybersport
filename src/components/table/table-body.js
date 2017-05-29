@@ -80,7 +80,7 @@ class Body extends Component {
                                 <tr
                                     key={`tr-${newRowIndex}`}
                                     className={cn({
-                                        '--odd': newRowIndex % 2 === 0,
+                                        odd: newRowIndex % 2 === 0,
                                     })}
                                 >
                                     {colRenderHelper.map((c, columnIndex) => (
