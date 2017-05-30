@@ -1,5 +1,5 @@
 import { createAction, createReducer } from 'redux-act';
-import { fetchEmployees } from '../evergis/api';
+import { fetchEmployees, fetchAudits } from '../evergis/api';
 import { tranformQuery } from '../evergis/helpers';
 import { Record, List } from 'immutable';
 import initAttributesArray from '../assets/const/employeeAttributes';
@@ -42,12 +42,15 @@ export const updateAttributes = createAction('employees/update-attributes');
 export const getEmployees = (query = {}) => (dispatch, getState) => {
     const state = getState();
     dispatch(fetch());
-    return fetchEmployees(
-        /*addEmployeeToQuery(*/ tranformQuery(
-            query,
-        ) /*, state.user.employee_id)*/,
-    )
-        .then(objects => dispatch(fetchSuccess(objects)))
+    return Promise.all([
+        fetchEmployees(
+            /*addEmployeeToQuery(*/ tranformQuery(
+                query,
+            ) /*, state.user.employee_id)*/,
+        ),
+        fetchAudits(),
+    ])
+        .then(([objects, audits]) => dispatch(fetchSuccess(objects)))
         .catch(error => dispatch(fetchError(error)));
 };
 

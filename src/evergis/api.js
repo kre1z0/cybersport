@@ -5,6 +5,7 @@ import {
     OBJECTS_SERVICE,
     EMPLOYEES_SERVICE,
     STATIC_SERVICE,
+    AUDITS_SERVICE,
     getAuthUrl,
     transformResponseData,
     initService,
@@ -42,6 +43,21 @@ export const fetchEmployees = ({ filter, sort } = {}) =>
         })
         .then(({ data, totalObjects }) => ({
             data: joinManager(transformResponseData(data)),
+            totalObjects,
+        }));
+
+export const fetchAudits = ({ filter, sort } = {}) =>
+    getConnector().api
+        .getObjects({
+            serviceName: AUDITS_SERVICE,
+            condition: filter ? filter : undefined,
+            startIndex: 0,
+            count: 3000,
+            orderBy: sort ? sort : undefined,
+            getGeometry: false,
+        })
+        .then(({ data, totalObjects }) => ({
+            data: transformResponseData(data),
             totalObjects,
         }));
 
