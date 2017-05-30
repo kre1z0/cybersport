@@ -342,13 +342,13 @@ class LayerList extends Component {
                                 </span>
                                 <DateInput
                                     libProps={{
-                                        onChange: this.handlerChangeDate1,
-                                        selected: planDate1,
                                         selectsStart: true,
                                         startDate: planDate1,
                                         maxDate: planDate2,
                                         endDate: planDate2,
                                     }}
+                                    onChange={this.handlerChangeDate1}
+                                    value={planDate1}
                                     style={{
                                         width: '50%',
                                         display: 'inline-block',
@@ -356,13 +356,13 @@ class LayerList extends Component {
                                 />
                                 <DateInput
                                     libProps={{
-                                        onChange: this.handlerChangeDate2,
-                                        selected: planDate2,
                                         selectsEnd: true,
                                         startDate: planDate1,
                                         minDate: planDate1,
                                         endDate: planDate2,
                                     }}
+                                    onChange={this.handlerChangeDate2}
+                                    value={planDate2}
                                     style={{
                                         width: '50%',
                                         display: 'inline-block',

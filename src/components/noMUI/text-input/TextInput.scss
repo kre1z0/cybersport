@@ -3,6 +3,9 @@
 :global {
   .sberTextInputWrapper {
     .sberTextInput {
+      box-shadow: none;
+      appearance: none;
+      outline: none;
       background-color: #fff;
       border: 1px solid $paleGrey;
       border-radius: 2px;
