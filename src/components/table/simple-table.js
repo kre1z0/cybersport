@@ -43,8 +43,8 @@ class TableComponent extends Component {
 
                 if (!column) {
                     return [];
-                } else if (domains && column in domains) {
-                    return domains[column];
+                } else if (domains && columnName in domains) {
+                    return domains[columnName];
                 } else {
                     return uniq(
                         this.props.data
