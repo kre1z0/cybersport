@@ -12,6 +12,7 @@ import {
     setDomainsFilter,
 } from '../../ducks/map';
 import TextInput from '../../components/noMUI/text-input';
+import AutoComplete from '../../components/noMUI/auto-complete';
 import Select from '../../components/noMUI/select';
 import DateInput from '../../components/noMUI/date-input';
 
@@ -287,6 +288,7 @@ class LayerList extends Component {
             setObjectsDataFilter,
             setShowOffices,
             setShowHomeAddress,
+            domains,
             map,
         } = this.props;
         const {
@@ -330,10 +332,13 @@ class LayerList extends Component {
                             </div>
                             <div className="form-control">
                                 <span className="label">Сотрудник ПМЗ:</span>
-                                <TextInput
+                                <AutoComplete
                                     style={{ width: '100%' }}
                                     value={employee}
                                     onChange={this.handleEmployeeChange}
+                                    values={
+                                        domains.toJS().responsible_employee_name
+                                    }
                                 />
                             </div>
                             <div className="form-control">
