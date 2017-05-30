@@ -218,3 +218,21 @@ export const guid = sGis.utils.getGuid;
 export const getFileExtension = filename => {
     return filename.slice(((filename.lastIndexOf('.') - 1) >>> 0) + 2);
 };
+
+export const getEmployeeProgress = (employeeId, audits) => {
+    const status2Count = audits.filter(({ status_code }) => status_code === 2)
+        .length;
+
+    const employeeAuditsCount = audits.filter(
+        ({ employee_id }) => employee_id === employeeId,
+    ).length;
+
+    return Math.round(status2Count / (employeeAuditsCount / 100));
+};
+
+export const joinProgress = (objects, audits) =>
+    objects &&
+    objects.map(object => {
+        object.progress = getEmployeeProgress(object.gid, audits);
+        return object;
+    });

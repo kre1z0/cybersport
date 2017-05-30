@@ -13,6 +13,7 @@ import {
     transformPointsToObjects,
     guid,
     joinManager,
+    joinProgress,
     getFileExtension,
 } from './helpers';
 
@@ -31,7 +32,7 @@ export const fetchObjects = ({ filter, sort } = {}) =>
             totalObjects,
         }));
 
-export const fetchEmployees = ({ filter, sort } = {}) =>
+export const fetchEmployeesNames = ({ filter, sort } = {}) =>
     getConnector().api
         .getObjects({
             serviceName: EMPLOYEES_SERVICE,
@@ -41,10 +42,28 @@ export const fetchEmployees = ({ filter, sort } = {}) =>
             orderBy: sort ? sort : undefined,
             getGeometry: false,
         })
-        .then(({ data, totalObjects }) => ({
-            data: joinManager(transformResponseData(data)),
+        .then(([{ data, totalObjects }, audits]) => ({
+            data: transformResponseData(data),
             totalObjects,
         }));
+
+export const fetchEmployees = ({ filter, sort } = {}) =>
+    Promise.all([
+        getConnector().api.getObjects({
+            serviceName: EMPLOYEES_SERVICE,
+            condition: filter ? filter : undefined,
+            startIndex: 0,
+            count: 100,
+            orderBy: sort ? sort : undefined,
+            getGeometry: false,
+        }),
+        fetchAudits(),
+    ]).then(([{ data, totalObjects }, audits]) => ({
+        data: joinManager(
+            joinProgress(transformResponseData(data), audits.data),
+        ),
+        totalObjects,
+    }));
 
 export const fetchAudits = ({ filter, sort } = {}) =>
     getConnector().api
