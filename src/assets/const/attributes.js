@@ -47,7 +47,7 @@ export default [
         name: 'responsible_employee_name',
         alias: 'Ответственный',
         type: 'text',
-        editorType: 'text',
+        editorType: 'autocomplete',
         filterable: true,
         isEditable: true,
         isVisible: true,

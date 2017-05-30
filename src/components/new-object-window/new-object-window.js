@@ -21,13 +21,7 @@ class NewObjectWindow extends Component {
                                 <InputSwitcher
                                     type={editorType}
                                     value={object[name]}
-                                    data={
-                                        domains[name] &&
-                                            domains[name].map(text => ({
-                                                id: text,
-                                                text,
-                                            }))
-                                    }
+                                    domain={domains[name]}
                                     onChange={value => onChange(name, value)}
                                 />
                             </div>

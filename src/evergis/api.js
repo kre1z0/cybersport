@@ -29,6 +29,21 @@ export const fetchObjects = ({ filter, sort } = {}) =>
             totalObjects,
         }));
 
+export const fetchEmployees = ({ filter, sort } = {}) =>
+    getConnector().api
+        .getObjects({
+            serviceName: EMPLOYEES_SERVICE,
+            condition: filter ? filter : undefined,
+            startIndex: 0,
+            count: 100,
+            orderBy: sort ? sort : undefined,
+            getGeometry: false,
+        })
+        .then(({ data, totalObjects }) => ({
+            data: transformResponseData(data),
+            totalObjects,
+        }));
+
 let authConfigUrl = process.env.NODE_ENV === 'development'
     ? '/auth.dev.json'
     : '/auth.json';
@@ -122,3 +137,9 @@ export const pickById = objectIds =>
             objectIds,
         })
         .then(features => transformPointsToObjects(features));
+
+export const getScalarValue = (query, serviceName) =>
+    getDataAccessService(getConnector()).getScalarValue({ query, serviceName });
+
+export const getEmployeesList = () =>
+    getScalarValue('gid,full_name order by gid', EMPLOYEES_SERVICE);

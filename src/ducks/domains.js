@@ -1,7 +1,10 @@
 import { createAction, createReducer } from 'redux-act';
 import { Map } from 'immutable';
 
-import { fetchObjectsAttributeDefinition } from '../evergis/api';
+import {
+    fetchObjectsAttributeDefinition,
+    fetchEmployees,
+} from '../evergis/api';
 
 const fetch = createAction('domains/fetch');
 const fetchSuccess = createAction('domains/fetch-success');
@@ -9,8 +12,16 @@ const fetchError = createAction('domains/fetch-error');
 
 export const getDomains = () => dispatch => {
     dispatch(fetch);
-    return fetchObjectsAttributeDefinition()
-        .then(domains => dispatch(fetchSuccess(domains)))
+    return Promise.all([fetchObjectsAttributeDefinition(), fetchEmployees({})])
+        .then(([domains, employees]) =>
+            dispatch(
+                fetchSuccess({
+                    ...domains,
+                    responsible_employee_name: employees.data &&
+                        employees.data.map(({ full_name }) => full_name),
+                }),
+            ),
+        )
         .catch(error => dispatch(fetchError(error)));
 };
 
