@@ -133,6 +133,7 @@ class AutoComplete extends Component {
                 style={style}
             >
                 <TextInput
+                    style={{ width: '100%' }}
                     onChange={this.onChange}
                     value={value}
                     inputProps={{ onKeyDown: this.keyUp }}

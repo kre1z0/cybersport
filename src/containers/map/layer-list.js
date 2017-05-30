@@ -12,6 +12,7 @@ import {
     setDomainsFilter,
 } from '../../ducks/map';
 import TextInput from '../../components/noMUI/text-input';
+import AutoComplete from '../../components/noMUI/auto-complete';
 import Select from '../../components/noMUI/select';
 import DateInput from '../../components/noMUI/date-input';
 
@@ -287,6 +288,7 @@ class LayerList extends Component {
             setObjectsDataFilter,
             setShowOffices,
             setShowHomeAddress,
+            domains,
             map,
         } = this.props;
         const {
@@ -330,10 +332,13 @@ class LayerList extends Component {
                             </div>
                             <div className="form-control">
                                 <span className="label">Сотрудник ПМЗ:</span>
-                                <TextInput
+                                <AutoComplete
                                     style={{ width: '100%' }}
                                     value={employee}
                                     onChange={this.handleEmployeeChange}
+                                    values={
+                                        domains.toJS().responsible_employee_name
+                                    }
                                 />
                             </div>
                             <div className="form-control">
@@ -342,13 +347,13 @@ class LayerList extends Component {
                                 </span>
                                 <DateInput
                                     libProps={{
-                                        onChange: this.handlerChangeDate1,
-                                        selected: planDate1,
                                         selectsStart: true,
                                         startDate: planDate1,
                                         maxDate: planDate2,
                                         endDate: planDate2,
                                     }}
+                                    onChange={this.handlerChangeDate1}
+                                    value={planDate1}
                                     style={{
                                         width: '50%',
                                         display: 'inline-block',
@@ -356,13 +361,13 @@ class LayerList extends Component {
                                 />
                                 <DateInput
                                     libProps={{
-                                        onChange: this.handlerChangeDate2,
-                                        selected: planDate2,
                                         selectsEnd: true,
                                         startDate: planDate1,
                                         minDate: planDate1,
                                         endDate: planDate2,
                                     }}
+                                    onChange={this.handlerChangeDate2}
+                                    value={planDate2}
                                     style={{
                                         width: '50%',
                                         display: 'inline-block',
