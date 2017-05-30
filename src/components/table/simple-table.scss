@@ -13,6 +13,9 @@
 
     .header-container {
       will-change: transform;
+      table {
+        min-width: 100%;
+      }
     }
 
     .body-container {
@@ -20,6 +23,7 @@
       height: 100%;
       table {
         table-layout: fixed;
+        min-width: 100%;
       }
     }
 
