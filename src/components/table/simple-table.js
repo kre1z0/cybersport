@@ -69,12 +69,14 @@ class TableComponent extends Component {
     getHeaderContent = columnIndex => {
         const { onFilterChange, query } = this.props;
         const column = this.props.columns[columnIndex];
+
         return {
             type: TYPES.HEADER,
             popup: column.type !== TYPES.CONTROL && column.type !== TYPES.IMG,
             content: column.alias,
             name: column.name,
             filterable: column.filterable,
+            sortable: column.sortable,
             onApply: onFilterChange,
             query: query[column.name],
         };

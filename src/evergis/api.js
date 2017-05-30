@@ -11,6 +11,7 @@ import {
     transformAttributeDefinition,
     transformPointsToObjects,
     guid,
+    joinManager,
     getFileExtension,
 } from './helpers';
 
@@ -40,7 +41,7 @@ export const fetchEmployees = ({ filter, sort } = {}) =>
             getGeometry: false,
         })
         .then(({ data, totalObjects }) => ({
-            data: transformResponseData(data),
+            data: joinManager(transformResponseData(data)),
             totalObjects,
         }));
 
@@ -81,6 +82,8 @@ export const fetchAttributeDefinition = name =>
 
 export const fetchObjectsAttributeDefinition = () =>
     fetchAttributeDefinition(OBJECTS_SERVICE);
+export const fetchEmployeesAttributeDefinition = () =>
+    fetchAttributeDefinition(EMPLOYEES_SERVICE);
 
 export const createFeature = (
     attributes,

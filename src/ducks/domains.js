@@ -3,6 +3,7 @@ import { Map } from 'immutable';
 
 import {
     fetchObjectsAttributeDefinition,
+    fetchEmployeesAttributeDefinition,
     fetchEmployees,
 } from '../evergis/api';
 
@@ -12,11 +13,16 @@ const fetchError = createAction('domains/fetch-error');
 
 export const getDomains = () => dispatch => {
     dispatch(fetch);
-    return Promise.all([fetchObjectsAttributeDefinition(), fetchEmployees({})])
-        .then(([domains, employees]) =>
+    return Promise.all([
+        fetchObjectsAttributeDefinition(),
+        fetchEmployees({}),
+        fetchEmployeesAttributeDefinition(),
+    ])
+        .then(([domains, employees, employeesDomains]) =>
             dispatch(
                 fetchSuccess({
                     ...domains,
+                    ...employeesDomains,
                     responsible_employee_name: employees.data &&
                         employees.data.map(({ full_name }) => full_name),
                 }),
