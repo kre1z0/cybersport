@@ -4,6 +4,7 @@ import addSberSymbol from '../assets/sgis/SberObjectSymbol';
 export const OBJECTS_SERVICE = 'sber_objects';
 export const EMPLOYEES_SERVICE = 'sber_employees_pin';
 export const OFFICES_SERVICE = 'sber_offices_pin';
+export const AUDITS_SERVICE = 'sber_audits';
 export const OSM = 'osm';
 export const GIS = '2gis';
 export const STATIC_SERVICE = 'sber_objects_static';
@@ -22,12 +23,28 @@ export const normalizeData = data =>
     );
 
 export const normalizeAttributeDefinition = attributeDefinition =>
-    attributeDefinition.attributes.map(({ name, domainsValues }) => ({
-        Key: name,
-        Value: domainsValues,
-    }));
+    attributeDefinition.attributes
+        .filter(({ domainsValues }) => !!domainsValues)
+        .map(({ name, domainsValues }) => ({
+            Key: name,
+            Value: domainsValues,
+        }));
 
 export const transformResponseData = data => data && normalizeData(data);
+
+export const joinManager = employees =>
+    employees.map(employee => {
+        if (employee.manager_id) {
+            const manager = employees.find(
+                ({ gid }) => gid === employee.manager_id,
+            );
+            employee.manager_full_name = manager && manager.full_name;
+
+            return employee;
+        } else {
+            return employee;
+        }
+    });
 
 export const transformAttributeDefinition = attributeDefinition =>
     attributeDefinition &&

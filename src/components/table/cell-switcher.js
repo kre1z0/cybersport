@@ -5,6 +5,7 @@ import ImageCell from './img-cell';
 import ControlCell from './control-cell';
 import EditorCell from './editor-cell';
 import AddressCell from './address-cell';
+import ProgressCell from './progress-cell';
 
 import moment from 'moment';
 import numeral from 'numeral';
@@ -18,6 +19,7 @@ export const TYPES = {
     ADDRESS: 'address',
     DATE: 'date',
     NUMBER: 'number',
+    PROGRESS: 'progress',
 };
 
 const CellSwitcher = ({ type, onCellChange, onRemove, ...props }) => {
@@ -46,6 +48,8 @@ const CellSwitcher = ({ type, onCellChange, onRemove, ...props }) => {
                 : '';
             return <TextCell {...props} content={content} />;
         }
+        case TYPES.PROGRESS:
+            return <ProgressCell {...props} />;
         default:
             return <TextCell {...props} />;
     }

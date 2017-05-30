@@ -52,7 +52,7 @@ class SelectFieldInput extends Component {
         data: PropTypes.arrayOf(
             PropTypes.shape({
                 text: PropTypes.any,
-                id: PropTypes.number,
+                id: PropTypes.any,
             }),
         ),
         value: PropTypes.any,

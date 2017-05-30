@@ -5,12 +5,14 @@ import {
     OBJECTS_SERVICE,
     EMPLOYEES_SERVICE,
     STATIC_SERVICE,
+    AUDITS_SERVICE,
     getAuthUrl,
     transformResponseData,
     initService,
     transformAttributeDefinition,
     transformPointsToObjects,
     guid,
+    joinManager,
     getFileExtension,
 } from './helpers';
 
@@ -18,6 +20,36 @@ export const fetchObjects = ({ filter, sort } = {}) =>
     getConnector().api
         .getObjects({
             serviceName: OBJECTS_SERVICE,
+            condition: filter ? filter : undefined,
+            startIndex: 0,
+            count: 3000,
+            orderBy: sort ? sort : undefined,
+            getGeometry: false,
+        })
+        .then(({ data, totalObjects }) => ({
+            data: transformResponseData(data),
+            totalObjects,
+        }));
+
+export const fetchEmployees = ({ filter, sort } = {}) =>
+    getConnector().api
+        .getObjects({
+            serviceName: EMPLOYEES_SERVICE,
+            condition: filter ? filter : undefined,
+            startIndex: 0,
+            count: 100,
+            orderBy: sort ? sort : undefined,
+            getGeometry: false,
+        })
+        .then(({ data, totalObjects }) => ({
+            data: joinManager(transformResponseData(data)),
+            totalObjects,
+        }));
+
+export const fetchAudits = ({ filter, sort } = {}) =>
+    getConnector().api
+        .getObjects({
+            serviceName: AUDITS_SERVICE,
             condition: filter ? filter : undefined,
             startIndex: 0,
             count: 3000,
@@ -66,6 +98,8 @@ export const fetchAttributeDefinition = name =>
 
 export const fetchObjectsAttributeDefinition = () =>
     fetchAttributeDefinition(OBJECTS_SERVICE);
+export const fetchEmployeesAttributeDefinition = () =>
+    fetchAttributeDefinition(EMPLOYEES_SERVICE);
 
 export const createFeature = (
     attributes,
@@ -122,3 +156,9 @@ export const pickById = objectIds =>
             objectIds,
         })
         .then(features => transformPointsToObjects(features));
+
+export const getScalarValue = (query, serviceName) =>
+    getDataAccessService(getConnector()).getScalarValue({ query, serviceName });
+
+export const getEmployeesList = () =>
+    getScalarValue('gid,full_name order by gid', EMPLOYEES_SERVICE);
