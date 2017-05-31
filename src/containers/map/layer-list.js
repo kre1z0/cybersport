@@ -222,11 +222,11 @@ class LayerList extends Component {
                         'planned_audit_date',
                         (planDate1 &&
                             planDate2 &&
-                            `(date > #'${planDate1.format('DD/MM/YYYY')}' || date < #'${planDate2.format('DD/MM/YYYY')}')`) ||
+                            `(planned_audit_date > #'${planDate1.format('MM/DD/YYYY')}' && planned_audit_date < #'${planDate2.format('MM/DD/YYYY')}')`) ||
                             (planDate1 &&
-                                `(date > #'${planDate1.format('DD/MM/YYYY')}')`) ||
+                                `(planned_audit_date > #'${planDate1.format('MM/DD/YYYY')}')`) ||
                             (planDate2 &&
-                                `(date < #'${planDate2.format('DD/MM/YYYY')}')`) ||
+                                `(planned_audit_date < #'${planDate2.format('MM/DD/YYYY')}')`) ||
                             null,
                     )
                     .toJS(),

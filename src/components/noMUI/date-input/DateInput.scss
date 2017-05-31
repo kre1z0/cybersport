@@ -63,6 +63,9 @@
         }
         &--outside-month {
           color: $coolGrayTwo;
+          &.react-datepicker__day--in-range, &.react-datepicker__day--in-selecting-range{
+            color: rgba(255, 255, 255, .7)
+          }
         }
         &--keyboard-selected, &--selected, &--in-range, &--in-selecting-range {
           border-radius: 50%;
