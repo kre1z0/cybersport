@@ -35,16 +35,16 @@
   }
 
   .loader {
-    width: 100%!important;
-    height: 100%!important;
-    display: flex!important;
-    align-items: center!important;
-    justify-content: center!important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     &.overlay {
-      position: absolute!important;
+      position: absolute !important;
       top: 0;
       left: 0;
-      background-color: rgba(255,255,255,.5);
+      background-color: rgba(255, 255, 255, .5);
       z-index: 999;
     }
   }
@@ -52,5 +52,20 @@
   a,
   button {
     user-select: none;
+  }
+  ::-webkit-scrollbar {
+    width: 12px;
+    background: #fff;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $silverThree;
+    border: 2px solid #fff;
+    &:hover {
+      background: #989fa8;
+    }
+    &:active {
+      background: #797f86;
+    }
   }
 }
