@@ -42,7 +42,7 @@ export const fetchEmployeesNames = ({ filter, sort } = {}) =>
             orderBy: sort ? sort : undefined,
             getGeometry: false,
         })
-        .then(([{ data, totalObjects }, audits]) => ({
+        .then(({ data, totalObjects }) => ({
             data: transformResponseData(data),
             totalObjects,
         }));
