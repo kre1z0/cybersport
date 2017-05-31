@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 import {
     fetchObjectsAttributeDefinition,
     fetchEmployeesAttributeDefinition,
-    fetchEmployees,
+    fetchEmployeesNames,
 } from '../evergis/api';
 
 const fetch = createAction('domains/fetch');
@@ -15,7 +15,7 @@ export const getDomains = () => dispatch => {
     dispatch(fetch);
     return Promise.all([
         fetchObjectsAttributeDefinition(),
-        fetchEmployees({}),
+        fetchEmployeesNames({}),
         fetchEmployeesAttributeDefinition(),
     ])
         .then(([domains, employees, employeesDomains]) =>
