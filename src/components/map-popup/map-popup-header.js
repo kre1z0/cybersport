@@ -27,12 +27,12 @@ const STATUS = {
         color: coolGreyThree,
     },
     5: {
-        text: 'нарушений нет',
+        text: 'перенос сроков мониторинга',
         color: brightLavender,
     },
 };
 
-const MapPopupHeader = ({ status }) => (
+const MapPopupHeader = ({ status = 4 }) => (
     <div className="map-popup-header">
         <div
             style={{ backgroundColor: STATUS[status].color }}

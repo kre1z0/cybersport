@@ -1,9 +1,10 @@
 import getConnector from './connector';
 import getDataAccessService from './data-access';
-import getMap, { getMapPoint } from './map';
+import getMap, { getMapPoint, addFeatureLayer, symbolizeFeatures } from './map';
 import {
     OBJECTS_SERVICE,
     EMPLOYEES_SERVICE,
+    OFFICES_SERVICE,
     STATIC_SERVICE,
     AUDITS_SERVICE,
     getAuthUrl,
@@ -15,7 +16,16 @@ import {
     joinManager,
     joinProgress,
     getFileExtension,
+    fullBbox,
 } from './helpers';
+
+import EmployeePin from '../assets/images/pin_home.png';
+import OfficePin from '../assets/images/pin_pmz.png';
+
+const sourceImages = {
+    [EMPLOYEES_SERVICE]: EmployeePin,
+    [OFFICES_SERVICE]: OfficePin,
+};
 
 export const fetchObjects = ({ filter, sort } = {}) =>
     getConnector().api
@@ -42,7 +52,7 @@ export const fetchEmployeesNames = ({ filter, sort } = {}) =>
             orderBy: sort ? sort : undefined,
             getGeometry: false,
         })
-        .then(([{ data, totalObjects }, audits]) => ({
+        .then(({ data, totalObjects }) => ({
             data: transformResponseData(data),
             totalObjects,
         }));
@@ -181,3 +191,20 @@ export const getScalarValue = (query, serviceName) =>
 
 export const getEmployeesList = () =>
     getScalarValue('gid,full_name order by gid', EMPLOYEES_SERVICE);
+
+export const initFeatureLayers = names =>
+    Promise.all(
+        names.map(name => createFeatureLayer(name)),
+    ).then(featuresArrays => {
+        return featuresArrays.map((features, i) =>
+            addFeatureLayer(
+                symbolizeFeatures(features, sourceImages[names[i]]),
+            ),
+        );
+    });
+
+export const createFeatureLayer = serviceName =>
+    getDataAccessService(getConnector()).queryByGeometry({
+        serviceName,
+        geometry: fullBbox,
+    });

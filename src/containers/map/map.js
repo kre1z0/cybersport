@@ -10,7 +10,7 @@ import {
     setCenter,
     setResolution,
     loadMapServicesIfNeeded,
-    pickObject,
+    selectObject,
 } from '../../ducks/map';
 import { getDomainsIfNeeded } from '../../ducks/domains';
 import getLayerManager from '../../evergis/layer-manager';
@@ -133,8 +133,8 @@ class MapContainer extends Component {
         );
     }
 
-    onMapPick = e => {
-        this.props.pickObject(e.point);
+    onMapClick = e => {
+        this.props.selectObject({ objects: [] });
     };
 
     handleShowPopup = () => {
@@ -154,7 +154,7 @@ class MapContainer extends Component {
                     resolution={map.resolution}
                     onCenterChange={setCenter}
                     onResolutionChange={setResolution}
-                    //onMapPick={this.onMapPick}
+                    onMapClick={this.onMapClick}
                 />
                 <FloatingActionButton
                     style={floatButtonStyles.button}
@@ -181,7 +181,7 @@ const mapActions = {
     setCenter,
     setResolution,
     loadMapServicesIfNeeded,
-    pickObject,
+    selectObject,
     getDomainsIfNeeded,
 };
 

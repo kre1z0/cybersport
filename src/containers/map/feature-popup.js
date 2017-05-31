@@ -5,6 +5,24 @@ import ObjectContent from '../../components/map-popup/object-content';
 import MapPopupHeader from '../../components/map-popup/map-popup-header';
 import { pointToScreen } from '../../evergis/map';
 
+const FEATURE_TYPES = {
+    OBJECT: 'object',
+    HOME: 'home',
+    OFFICE: 'office',
+};
+
+const getObjectType = ({ status, employee_id, address }) => {
+    if (status) {
+        return FEATURE_TYPES.OBJECT;
+    } else if (employee_id) {
+        return FEATURE_TYPES.HOME;
+    } else if (address) {
+        return FEATURE_TYPES.OFFICE;
+    }
+};
+
+const ContentSwitch = () => {};
+
 class FeaturePopup extends Component {
     state = {
         current: 0,
@@ -62,10 +80,11 @@ class FeaturePopup extends Component {
                       />
                   }
               >
-                  <ObjectContent
-                      object={selectedObjects[current]}
-                      staticServiceUrl={staticServiceUrl}
-                  />
+                  <div>{getObjectType(selectedObject)}</div>
+                  {/*<ObjectContent*/}
+                  {/*object={selectedObjects[current]}*/}
+                  {/*staticServiceUrl={staticServiceUrl}*/}
+                  {/*/>*/}
               </MapPopups>
             : null;
     }

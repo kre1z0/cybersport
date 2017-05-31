@@ -33,7 +33,7 @@ class Map extends Component {
             this.props.center,
             sGis.CRS.webMercator,
         );
-        console.log(newCenter, oldCenter, !newCenter.equals(oldCenter));
+
         if (!newCenter.equals(oldCenter)) {
             this.props.onCenterChange(newCenter.position);
         }
@@ -52,7 +52,7 @@ class Map extends Component {
         });
 
         this.map.on('bboxChange', this.onBboxChange);
-        this.props.onMapPick && this.map.on('click', this.props.onMapPick);
+        this.props.onMapClick && this.map.on('click', this.props.onMapClick);
     }
 
     componentWillReceiveProps(nextProps) {
