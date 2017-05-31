@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MapPopups from '../../components/map-popup';
 import ObjectContent from '../../components/map-popup/object-content';
+import HomeContent from '../../components/map-popup/home-content';
+import OfficeContent from '../../components/map-popup/office-content';
 import MapPopupHeader from '../../components/map-popup/map-popup-header';
 import { pointToScreen } from '../../evergis/map';
 
@@ -21,7 +23,50 @@ const getObjectType = ({ status, employee_id, address }) => {
     }
 };
 
-const ContentSwitch = () => {};
+const ContentSwitch = ({ type, feature, staticServiceUrl }) => {
+    switch (type) {
+        case FEATURE_TYPES.OBJECT:
+            return (
+                <ObjectContent
+                    object={feature}
+                    staticServiceUrl={staticServiceUrl}
+                />
+            );
+        case FEATURE_TYPES.HOME:
+            return (
+                <HomeContent
+                    object={feature}
+                    staticServiceUrl={staticServiceUrl}
+                />
+            );
+        case FEATURE_TYPES.OFFICE:
+            return (
+                <OfficeContent
+                    object={feature}
+                    staticServiceUrl={staticServiceUrl}
+                />
+            );
+    }
+};
+
+const HeaderSwitch = ({ type, object }) => {
+    switch (type) {
+        case FEATURE_TYPES.OBJECT:
+            return <MapPopupHeader status={object.status} />;
+        case FEATURE_TYPES.HOME:
+            return (
+                <div className="map-popup-header">
+                    Домашний адрес
+                </div>
+            );
+        case FEATURE_TYPES.OFFICE:
+            return (
+                <div className="map-popup-header">
+                    Офис ПМЗ
+                </div>
+            );
+    }
+};
 
 class FeaturePopup extends Component {
     state = {
@@ -58,10 +103,11 @@ class FeaturePopup extends Component {
         const { current, close } = this.state;
 
         const selectedObject = selectedObjects[current];
+        const type = selectedObject && getObjectType(selectedObject);
 
         const { x, y } = (anchorPosition &&
             pointToScreen(anchorPosition)) || {};
-
+        console.log(selectedObject);
         return !close && selectedObject
             ? <MapPopups
                   onCloseRequest={this.closePopup}
@@ -75,16 +121,14 @@ class FeaturePopup extends Component {
                   onNext={this.onNext}
                   onPrev={this.onPrev}
                   headerComponent={
-                      <MapPopupHeader
-                          status={selectedObjects[current].status}
-                      />
+                      <HeaderSwitch object={selectedObject} type={type} />
                   }
               >
-                  <div>{getObjectType(selectedObject)}</div>
-                  {/*<ObjectContent*/}
-                  {/*object={selectedObjects[current]}*/}
-                  {/*staticServiceUrl={staticServiceUrl}*/}
-                  {/*/>*/}
+                  <ContentSwitch
+                      type={type}
+                      feature={selectedObject}
+                      staticServiceUrl={staticServiceUrl}
+                  />
               </MapPopups>
             : null;
     }
