@@ -9,6 +9,18 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import './DateInput.scss';
 
+class CalendarLabel extends Component {
+    render() {
+        const { onClick } = this.props;
+        return (
+            <CalendarIcon
+                onClick={onClick}
+                style={{ height: '1rem', width: '1rem' }}
+            />
+        );
+    }
+}
+
 class DateInput extends Component {
     state = {
         displayedDate: '',
@@ -75,11 +87,7 @@ class DateInput extends Component {
             <div style={style} className={cn('sberDateInput', className)}>
                 <DatePicker
                     {...libProps}
-                    customInput={
-                        <CalendarIcon
-                            style={{ height: '1rem', width: '1rem' }}
-                        />
-                    }
+                    customInput={<CalendarLabel />}
                     onChange={onChange}
                     selected={value}
                     dateFormat="DD/MM/YYYY"
@@ -89,7 +97,6 @@ class DateInput extends Component {
                 <input
                     placeholder="дд.мм.гггг"
                     type="text"
-                    ref={elem => (this.input = elem)}
                     onChange={this.handleChange}
                     value={
                         (value && value.format('DD.MM.YYYY')) || displayedDate

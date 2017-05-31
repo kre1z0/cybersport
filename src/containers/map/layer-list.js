@@ -58,6 +58,9 @@ const LayerListInitState = Map({
     ensureType2Value: List(Object.keys(CLASSIFIER)),
     ensureType3Value: 'all',
     dataFilter: Map({
+        planned_audit_date: null,
+        responsible_employee_name: null,
+        object_quality_category: null,
         liquidity: null,
         department: null,
         classifier2: null,
@@ -131,9 +134,22 @@ class LayerList extends Component {
     };
 
     handleEmployeeChange = value => {
-        this.setState({
-            employee: value,
-        });
+        this.setState(
+            state => ({
+                employee: value,
+                dataFilter: Map(state.dataFilter)
+                    .set(
+                        'responsible_employee_name',
+                        value === ''
+                            ? null
+                            : `(responsible_employee_name == "${value}")`,
+                    )
+                    .toJS(),
+            }),
+            () => {
+                this.setFilter();
+            },
+        );
     };
 
     handleCollapse = () => {
@@ -143,9 +159,22 @@ class LayerList extends Component {
     };
 
     handleSelectQualityCategory = value => {
-        this.setState({
-            qualityCategoryValue: value,
-        });
+        this.setState(
+            state => ({
+                qualityCategoryValue: value,
+                dataFilter: Map(state.dataFilter)
+                    .set(
+                        'object_quality_category',
+                        value === 'all'
+                            ? null
+                            : `(actual_quality_category == {null} && object_quality_category == "${value}" || actual_quality_category == "${value}")`,
+                    )
+                    .toJS(),
+            }),
+            () => {
+                this.setFilter();
+            },
+        );
     };
 
     handleSelectLiquidity = value => {
@@ -168,16 +197,45 @@ class LayerList extends Component {
     };
 
     handlerChangeDate1 = value => {
-        this.setState({
-            planDate1: value,
-        });
+        this.setState(
+            {
+                planDate1: value,
+            },
+            this.setFilterFromDates,
+        );
     };
 
     handlerChangeDate2 = value => {
-        this.setState({
-            planDate2: value,
-        });
+        this.setState(
+            {
+                planDate2: value,
+            },
+            this.setFilterFromDates,
+        );
     };
+
+    setFilterFromDates() {
+        this.setState(
+            ({ planDate1, planDate2, dataFilter }) => ({
+                dataFilter: Map(dataFilter)
+                    .set(
+                        'planned_audit_date',
+                        (planDate1 &&
+                            planDate2 &&
+                            `(planned_audit_date > #'${planDate1.format('MM/DD/YYYY')}' && planned_audit_date < #'${planDate2.format('MM/DD/YYYY')}')`) ||
+                            (planDate1 &&
+                                `(planned_audit_date > #'${planDate1.format('MM/DD/YYYY')}')`) ||
+                            (planDate2 &&
+                                `(planned_audit_date < #'${planDate2.format('MM/DD/YYYY')}')`) ||
+                            null,
+                    )
+                    .toJS(),
+            }),
+            () => {
+                this.setFilter();
+            },
+        );
+    }
 
     handleEnsure2Select = value => {
         let toEnsure3 = [
