@@ -63,7 +63,7 @@ class MapPopup extends Component {
                 <CloseWindowButton onTouchTap={onCloseRequest} />
                 <div className="triangle-with-shadow" />
                 {children}
-                {count &&
+                {count > 1 &&
                     <div className="object-cluster-footer">
                         <PageBackButton onTouchTap={onPrev} />
                         <div className="page-numbers">

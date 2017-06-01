@@ -12,6 +12,7 @@ import {
     setDomainsFilter,
 } from '../../ducks/map';
 import TextInput from '../../components/noMUI/text-input';
+import AutoComplete from '../../components/noMUI/auto-complete';
 import Select from '../../components/noMUI/select';
 import DateInput from '../../components/noMUI/date-input';
 
@@ -57,6 +58,9 @@ const LayerListInitState = Map({
     ensureType2Value: List(Object.keys(CLASSIFIER)),
     ensureType3Value: 'all',
     dataFilter: Map({
+        planned_audit_date: null,
+        responsible_employee_name: null,
+        object_quality_category: null,
         liquidity: null,
         department: null,
         classifier2: null,
@@ -130,9 +134,22 @@ class LayerList extends Component {
     };
 
     handleEmployeeChange = value => {
-        this.setState({
-            employee: value,
-        });
+        this.setState(
+            state => ({
+                employee: value,
+                dataFilter: Map(state.dataFilter)
+                    .set(
+                        'responsible_employee_name',
+                        value === ''
+                            ? null
+                            : `(responsible_employee_name == "${value}")`,
+                    )
+                    .toJS(),
+            }),
+            () => {
+                this.setFilter();
+            },
+        );
     };
 
     handleCollapse = () => {
@@ -142,9 +159,22 @@ class LayerList extends Component {
     };
 
     handleSelectQualityCategory = value => {
-        this.setState({
-            qualityCategoryValue: value,
-        });
+        this.setState(
+            state => ({
+                qualityCategoryValue: value,
+                dataFilter: Map(state.dataFilter)
+                    .set(
+                        'object_quality_category',
+                        value === 'all'
+                            ? null
+                            : `(actual_quality_category == {null} && object_quality_category == "${value}" || actual_quality_category == "${value}")`,
+                    )
+                    .toJS(),
+            }),
+            () => {
+                this.setFilter();
+            },
+        );
     };
 
     handleSelectLiquidity = value => {
@@ -167,16 +197,45 @@ class LayerList extends Component {
     };
 
     handlerChangeDate1 = value => {
-        this.setState({
-            planDate1: value,
-        });
+        this.setState(
+            {
+                planDate1: value,
+            },
+            this.setFilterFromDates,
+        );
     };
 
     handlerChangeDate2 = value => {
-        this.setState({
-            planDate2: value,
-        });
+        this.setState(
+            {
+                planDate2: value,
+            },
+            this.setFilterFromDates,
+        );
     };
+
+    setFilterFromDates() {
+        this.setState(
+            ({ planDate1, planDate2, dataFilter }) => ({
+                dataFilter: Map(dataFilter)
+                    .set(
+                        'planned_audit_date',
+                        (planDate1 &&
+                            planDate2 &&
+                            `(planned_audit_date >= #'${planDate1.format('MM/DD/YYYY')}' && planned_audit_date <= #'${planDate2.format('MM/DD/YYYY')}')`) ||
+                            (planDate1 &&
+                                `(planned_audit_date >= #'${planDate1.format('MM/DD/YYYY')}')`) ||
+                            (planDate2 &&
+                                `(planned_audit_date =< #'${planDate2.format('MM/DD/YYYY')}')`) ||
+                            null,
+                    )
+                    .toJS(),
+            }),
+            () => {
+                this.setFilter();
+            },
+        );
+    }
 
     handleEnsure2Select = value => {
         let toEnsure3 = [
@@ -287,6 +346,7 @@ class LayerList extends Component {
             setObjectsDataFilter,
             setShowOffices,
             setShowHomeAddress,
+            domains,
             map,
         } = this.props;
         const {
@@ -330,10 +390,13 @@ class LayerList extends Component {
                             </div>
                             <div className="form-control">
                                 <span className="label">Сотрудник ПМЗ:</span>
-                                <TextInput
+                                <AutoComplete
                                     style={{ width: '100%' }}
                                     value={employee}
                                     onChange={this.handleEmployeeChange}
+                                    values={
+                                        domains.toJS().responsible_employee_name
+                                    }
                                 />
                             </div>
                             <div className="form-control">
@@ -342,13 +405,13 @@ class LayerList extends Component {
                                 </span>
                                 <DateInput
                                     libProps={{
-                                        onChange: this.handlerChangeDate1,
-                                        selected: planDate1,
                                         selectsStart: true,
                                         startDate: planDate1,
                                         maxDate: planDate2,
                                         endDate: planDate2,
                                     }}
+                                    onChange={this.handlerChangeDate1}
+                                    value={planDate1}
                                     style={{
                                         width: '50%',
                                         display: 'inline-block',
@@ -356,13 +419,13 @@ class LayerList extends Component {
                                 />
                                 <DateInput
                                     libProps={{
-                                        onChange: this.handlerChangeDate2,
-                                        selected: planDate2,
                                         selectsEnd: true,
                                         startDate: planDate1,
                                         minDate: planDate1,
                                         endDate: planDate2,
                                     }}
+                                    onChange={this.handlerChangeDate2}
+                                    value={planDate2}
                                     style={{
                                         width: '50%',
                                         display: 'inline-block',

@@ -10,10 +10,11 @@ import {
     setCenter,
     setResolution,
     loadMapServicesIfNeeded,
-    pickObject,
+    selectObject,
 } from '../../ducks/map';
 import { getDomainsIfNeeded } from '../../ducks/domains';
 import getLayerManager from '../../evergis/layer-manager';
+import { getFeatureLayer } from '../../evergis/map';
 
 import Map from '../../components/map';
 import LayersList from './layer-list';
@@ -80,22 +81,22 @@ class MapContainer extends Component {
         }
 
         if (this.props.map.showOffices !== map.showOffices) {
-            const layerManager = getLayerManager();
-            const offices_service = layerManager.getService(OFFICES_SERVICE);
-            offices_service.isDisplayed = map.showOffices; //todo
+            const offices_layer = getFeatureLayer(OFFICES_SERVICE);
+            offices_layer.isDisplayed = map.showOffices; //todo
         }
 
         if (this.props.map.showHomeAddress !== map.showHomeAddress) {
-            const layerManager = getLayerManager();
-            const employess_service = layerManager.getService(
-                EMPLOYEES_SERVICE,
-            );
-            employess_service.isDisplayed = map.showHomeAddress; //todo
+            const employess_layer = getFeatureLayer(EMPLOYEES_SERVICE);
+            employess_layer.isDisplayed = map.showHomeAddress; //todo
         }
     }
 
     updateServices(services, map) {
         const layerManager = getLayerManager();
+        if (!services.forEach) {
+            throw Error('Error in service init');
+            return;
+        }
         services.forEach(({ name, isVisible }) => {
             const service = layerManager.getService(name);
 
@@ -133,8 +134,8 @@ class MapContainer extends Component {
         );
     }
 
-    onMapPick = e => {
-        this.props.pickObject(e.point);
+    onMapClick = e => {
+        this.props.selectObject({ objects: [] });
     };
 
     handleShowPopup = () => {
@@ -154,7 +155,7 @@ class MapContainer extends Component {
                     resolution={map.resolution}
                     onCenterChange={setCenter}
                     onResolutionChange={setResolution}
-                    //onMapPick={this.onMapPick}
+                    onMapClick={this.onMapClick}
                 />
                 <FloatingActionButton
                     style={floatButtonStyles.button}
@@ -181,7 +182,7 @@ const mapActions = {
     setCenter,
     setResolution,
     loadMapServicesIfNeeded,
-    pickObject,
+    selectObject,
     getDomainsIfNeeded,
 };
 

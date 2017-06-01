@@ -72,6 +72,7 @@ class AutoComplete extends Component {
         const code = e.keyCode;
         const { selectItemIndex, items } = this.state;
 
+        // UP
         if (code === 38) {
             e.preventDefault();
             if (selectItemIndex === 0) return;
@@ -80,6 +81,7 @@ class AutoComplete extends Component {
             });
             return;
         }
+        // DOWN
         if (code === 40) {
             e.preventDefault();
             if (selectItemIndex === items.length - 1) return;
@@ -88,9 +90,11 @@ class AutoComplete extends Component {
             });
             return;
         }
+        // ENTER
         if (code === 13) {
             e.preventDefault();
-            this.onSelect(this.state.items[this.state.selectItemIndex].value);
+            items[selectItemIndex] &&
+                this.onSelect(items[selectItemIndex].value);
         }
     };
 
@@ -133,6 +137,7 @@ class AutoComplete extends Component {
                 style={style}
             >
                 <TextInput
+                    style={{ width: '100%' }}
                     onChange={this.onChange}
                     value={value}
                     inputProps={{ onKeyDown: this.keyUp }}

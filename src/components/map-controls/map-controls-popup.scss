@@ -7,8 +7,9 @@
     border-radius: 4px;
     box-shadow: 0 7px 15px 0 rgba(24, 25, 26, 0.15);
     max-width: 340px;
-    max-height: 100%;
+    max-height: calc(100% - 1rem - 20px);
     overflow-y: auto;
+    z-index: 1;
     .extend-filter{
       padding-bottom: 20px;
       &-enter {

@@ -4,6 +4,7 @@ import addSberSymbol from '../assets/sgis/SberObjectSymbol';
 export const OBJECTS_SERVICE = 'sber_objects';
 export const EMPLOYEES_SERVICE = 'sber_employees_pin';
 export const OFFICES_SERVICE = 'sber_offices_pin';
+export const AUDITS_SERVICE = 'sber_audits';
 export const OSM = 'osm';
 export const GIS = '2gis';
 export const STATIC_SERVICE = 'sber_objects_static';
@@ -22,12 +23,28 @@ export const normalizeData = data =>
     );
 
 export const normalizeAttributeDefinition = attributeDefinition =>
-    attributeDefinition.attributes.map(({ name, domainsValues }) => ({
-        Key: name,
-        Value: domainsValues,
-    }));
+    attributeDefinition.attributes
+        .filter(({ domainsValues }) => !!domainsValues)
+        .map(({ name, domainsValues }) => ({
+            Key: name,
+            Value: domainsValues,
+        }));
 
 export const transformResponseData = data => data && normalizeData(data);
+
+export const joinManager = employees =>
+    employees.map(employee => {
+        if (employee.manager_id) {
+            const manager = employees.find(
+                ({ gid }) => gid === employee.manager_id,
+            );
+            employee.manager_full_name = manager && manager.full_name;
+
+            return employee;
+        } else {
+            return employee;
+        }
+    });
 
 export const transformAttributeDefinition = attributeDefinition =>
     attributeDefinition &&
@@ -166,7 +183,7 @@ export const addEmployeeToQuery = (query, id) => {
     return query;
 };
 
-export const updateListeners = (container, action) => {
+export const updateClusterListeners = (container, action) => {
     const clusterLayers = container.layer.childLayers.filter(
         layer => layer instanceof sGis.sp.ClusterLayer,
     );
@@ -177,7 +194,12 @@ export const updateListeners = (container, action) => {
             layer._features.forEach(feature =>
                 feature.on(
                     'click',
-                    ({ mouseOffset, sourceObject: { ids, position } }) => {
+                    ({
+                        mouseOffset,
+                        sourceObject: { ids, position },
+                        stopPropagation,
+                    }) => {
+                        stopPropagation();
                         action({ mouseOffset, ids, position });
                     },
                 ),
@@ -187,17 +209,74 @@ export const updateListeners = (container, action) => {
 };
 
 export const applyClusterEvents = (container, action) => {
-    updateListeners(container, action);
+    updateClusterListeners(container, action);
 
     container.service.on('dataFilterChange', () => {
-        updateListeners(container, action);
+        updateClusterListeners(container, action);
     });
 
     return container;
 };
+
+export const applyFeatureEvents = (layer, action) =>
+    layer._features &&
+    layer._features.map(feature => {
+        feature.on(
+            'click',
+            ({
+                mouseOffset,
+                sourceObject: { attributes, position },
+                stopPropagation,
+            }) => {
+                stopPropagation();
+                const object = transformPointAttributesToObject(attributes);
+                object.image = getRandomImg();
+                action({ mouseOffset, object, position });
+            },
+        );
+    });
 
 export const guid = sGis.utils.getGuid;
 
 export const getFileExtension = filename => {
     return filename.slice(((filename.lastIndexOf('.') - 1) >>> 0) + 2);
 };
+
+export const getEmployeeProgress = (employeeId, audits) => {
+    const status2Count = audits.filter(({ status_code }) => status_code === 2)
+        .length;
+
+    const employeeAuditsCount = audits.filter(
+        ({ employee_id }) => employee_id === employeeId,
+    ).length;
+
+    return Math.round(status2Count / (employeeAuditsCount / 100));
+};
+
+export const joinProgress = (objects, audits) =>
+    objects &&
+    objects.map(object => {
+        object.progress = getEmployeeProgress(object.gid, audits);
+        return object;
+    });
+
+export const fullBbox = new sGis.Bbox([-85, -180], [85, 180]).projectTo(
+    sGis.CRS.webMercator,
+);
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomSex() {
+    return Math.random() > 0.5 ? 'women' : 'men';
+}
+
+export const getRandomImg = () =>
+    `https://randomuser.me/api/portraits/${getRandomSex()}/${getRandomInt(1, 99)}.jpg`;
+
+export const addRandomImage = items =>
+    items.map(item => {
+        item.image = getRandomImg();
+        return item;
+    });
