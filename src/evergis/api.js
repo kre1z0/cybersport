@@ -142,6 +142,9 @@ export const createObjectFeature = attributes =>
 
 export const deleteObjectFeatures = ids => deleteFeature(ids, OBJECTS_SERVICE);
 
+export const deleteEmployerFeature = ids =>
+    deleteFeature(ids, EMPLOYEES_SERVICE);
+
 export const uploadImages = images =>
     fetchStaticService().then(service => {
         !service && Promise.reject(new Error('static service not found'));

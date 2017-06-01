@@ -45,6 +45,7 @@ class ControlPopup extends PureComponent {
     };
 
     render() {
+        const { children } = this.props;
         const { anchor } = this.state;
 
         return (
@@ -68,21 +69,8 @@ class ControlPopup extends PureComponent {
                     zDepth={3}
                     onRequestClose={this.closePopup}
                 >
-                    <div className="control-popup-content">
-                        <FlatButton
-                            label="Карточка мониторинга"
-                            onTouchTap={this.closePopup}
-                        />
-                        <FlatButton
-                            label="Ближайшая проверка"
-                            onTouchTap={this.closePopup}
-                        />
-                        <FlatButton
-                            label="Удалить объект"
-                            onTouchTap={this.removeRow}
-                            secondary={true}
-                        />
-                    </div>
+                    {typeof children === 'function' &&
+                        children(this.closePopup, this.removeRow)}
                 </Popover>
             </div>
         );

@@ -1,5 +1,5 @@
 import { createAction, createReducer } from 'redux-act';
-import { fetchEmployees } from '../evergis/api';
+import { fetchEmployees, deleteEmployerFeature } from '../evergis/api';
 import { tranformQuery } from '../evergis/helpers';
 import { Record, List } from 'immutable';
 import initAttributesArray from '../assets/const/employeeAttributes';
@@ -36,6 +36,7 @@ const initState = new EmployeesState({
 export const fetch = createAction('employees/fetch');
 export const fetchSuccess = createAction('employees/fetch-success');
 export const fetchError = createAction('employees/fetch-error');
+export const del = createAction('employees/delete');
 
 export const updateAttributes = createAction('employees/update-attributes');
 
@@ -49,6 +50,12 @@ export const getEmployees = (query = {}) => (dispatch, getState) => {
     )
         .then(objects => dispatch(fetchSuccess(objects)))
         .catch(error => dispatch(fetchError(error)));
+};
+
+export const deleteEmployer = ids => dispatch => {
+    /*return deleteEmployerFeature(ids)
+        .then(objects => dispatch(fetchSuccess(objects)))
+        .catch(error => dispatch(fetchError(error)));*/
 };
 
 export default createReducer(
@@ -74,6 +81,7 @@ export default createReducer(
                     payload,
                 ),
             ), //TODO
+        [del]: (state, payload) => state,
     },
     initState,
 );

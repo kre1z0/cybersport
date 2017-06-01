@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 import HeaderTitleBlock from '../../components/header-title-block';
+import FlatButton from '../../components/button/flat-button';
 import Table from '../../components/table/simple-table';
 import { getObjects, deleteObject } from '../../ducks/objects';
 import { getDomainsIfNeeded } from '../../ducks/domains';
@@ -148,6 +149,23 @@ class Portfolio extends Component {
                     />
 
                     <Table
+                        rowMenu={(closePopup, removeRow) => (
+                            <div className="control-popup-content">
+                                <FlatButton
+                                    label="Карточка мониторинга"
+                                    onTouchTap={closePopup}
+                                />
+                                <FlatButton
+                                    label="Ближайшая проверка"
+                                    onTouchTap={closePopup}
+                                />
+                                <FlatButton
+                                    label="Удалить объект"
+                                    onTouchTap={removeRow}
+                                    secondary={true}
+                                />
+                            </div>
+                        )}
                         cacheKey={hashKey}
                         data={dataJS}
                         getImages={this.getImages}

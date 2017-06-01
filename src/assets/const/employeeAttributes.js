@@ -8,7 +8,7 @@ export default [
     {
         name: 'image',
         alias: 'Фото',
-        type: 'img',
+        type: 'img-loader',
         isVisible: true,
     },
     {
