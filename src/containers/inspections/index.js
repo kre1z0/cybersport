@@ -6,9 +6,28 @@ import InspectionsHeader from '../../components/inspections-header';
 import WorkerItem from '../../components/inspections-content/worker-item';
 
 import './inspections.scss';
+import { calculateAudits } from '../../ducks/inspections';
+import withAuth from '../../hoc/withAuth';
+import moment from 'moment';
+
+import RoundedButton from '../../components/button/rounded-button';
+import Loader from 'material-ui/CircularProgress';
 
 class Inspections extends Component {
+    calculateAudits = () => {
+        const now = moment();
+        const startDate = now.format('YYYY-MM-DD HH:mm:ss');
+        const end = now.add(30, 'days');
+        const endDate = end.format('YYYY-MM-DD HH:mm:ss');
+
+        this.props.calculateAudits({
+            startDate,
+            endDate,
+        });
+    };
+
     render() {
+        const { audits, loading, employees } = this.props;
         return (
             <div className="inspections-container">
                 <InspectionsHeader />
@@ -189,8 +208,12 @@ class Inspections extends Component {
     }
 }
 
-const mapProps = () => ({});
+const mapProps = ({ inspections: { audits, loading, employees } }) => ({
+    audits,
+    loading,
+    employees,
+});
 
-const mapActions = {};
+const mapActions = { calculateAudits };
 
-export default connect(mapProps, mapActions)(Inspections);
+export default connect(mapProps, mapActions)(withAuth(Inspections));
