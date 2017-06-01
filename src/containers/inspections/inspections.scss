@@ -10,6 +10,19 @@
       overflow: auto;
       overflow-y: scroll;
       padding-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .date-label {
+        padding: .625rem;
+        color: $coolGrayTwo;
+      }
+      .date-group {
+        max-width: 364px;
+      }
+      &.justify{
+        justify-content: center;
+      }
     }
   }
 }
