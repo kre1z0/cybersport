@@ -1,6 +1,8 @@
 import getConnector from './connector';
 import getDataAccessService from './data-access';
+import SberController from './sber-controller';
 import getMap, { getMapPoint, addFeatureLayer, symbolizeFeatures } from './map';
+
 import {
     OBJECTS_SERVICE,
     EMPLOYEES_SERVICE,
@@ -54,7 +56,7 @@ export const fetchEmployeesNames = ({ filter, sort } = {}) =>
             getGeometry: false,
         })
         .then(({ data, totalObjects }) => ({
-            data: transformResponseData(data),
+            data: addRandomImage(transformResponseData(data)),
             totalObjects,
         }));
 
@@ -115,6 +117,7 @@ export const fetchUserInfo = ({ login }) =>
             serviceName: EMPLOYEES_SERVICE,
             startIndex: 0,
             count: 1,
+            condition: 'gid == 14',
             getGeometry: false,
         })
         .then(({ data }) => ({
@@ -210,3 +213,12 @@ export const createFeatureLayer = serviceName =>
         serviceName,
         geometry: fullBbox,
     });
+
+export const makeAuditsPlan = ({ startDate, endDate, employeeIds = [19] }) => {
+    const controller = new SberController(getConnector());
+    return controller.makeAuditPlan({
+        startDate,
+        endDate,
+        employeeIds,
+    });
+};
