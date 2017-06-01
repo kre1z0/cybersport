@@ -10,7 +10,6 @@ import { calculateAudits } from '../../ducks/inspections';
 import withAuth from '../../hoc/withAuth';
 import moment from 'moment';
 
-import RoundedButton from '../../components/button/rounded-button';
 import Loader from 'material-ui/CircularProgress';
 
 class Inspections extends Component {
@@ -69,97 +68,6 @@ class Inspections extends Component {
                                     fullName="Иванов Иван Иванович"
                                     img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
                                 />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="6575675"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="123"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="dfgfdgdfgdfgdfgd"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
                             </div>
                         </div>
                         <div className="inspections-status-block-item">
@@ -182,11 +90,6 @@ class Inspections extends Component {
                                     fullName="Иванов Иван Иванович"
                                     img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
                                 />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
                             </div>
                         </div>
                         <div className="inspections-status-block-item">
@@ -194,11 +97,6 @@ class Inspections extends Component {
                                 <div className="inspections-item-date">
                                     01.04.2017
                                 </div>
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
                             </div>
                         </div>
                     </div>
