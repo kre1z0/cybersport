@@ -79,7 +79,7 @@ class Inspections extends Component {
                                                       fullName={
                                                           employee.full_name
                                                       }
-                                                      img={employee.image}
+                                                      img={employee.image_name}
                                                       key={gid}
                                                   />
                                               );
