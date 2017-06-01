@@ -21,10 +21,10 @@ const labelButtonStyle = {
 };
 
 const HomeContent = ({
-    object: { home_address_details, tb_name, full_name, role_name },
+    object: { home_address_details, tb_name, full_name, role_name, image },
 }) => (
     <div className="popup-content">
-        <MapPopupAvatar label={role_name} text={full_name} />
+        <MapPopupAvatar label={role_name} text={full_name} img={image} />
         <div className="map-popup-item-block">
             <MapPopupItem
                 label={'ТБ'}

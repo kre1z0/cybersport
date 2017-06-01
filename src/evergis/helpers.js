@@ -230,6 +230,7 @@ export const applyFeatureEvents = (layer, action) =>
             }) => {
                 stopPropagation();
                 const object = transformPointAttributesToObject(attributes);
+                object.image = getRandomImg();
                 action({ mouseOffset, object, position });
             },
         );
@@ -262,3 +263,20 @@ export const joinProgress = (objects, audits) =>
 export const fullBbox = new sGis.Bbox([-85, -180], [85, 180]).projectTo(
     sGis.CRS.webMercator,
 );
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomSex() {
+    return Math.random() > 0.5 ? 'women' : 'men';
+}
+
+export const getRandomImg = () =>
+    `https://randomuser.me/api/portraits/${getRandomSex()}/${getRandomInt(1, 99)}.jpg`;
+
+export const addRandomImage = items =>
+    items.map(item => {
+        item.image = getRandomImg();
+        return item;
+    });

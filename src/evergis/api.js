@@ -17,6 +17,7 @@ import {
     joinProgress,
     getFileExtension,
     fullBbox,
+    addRandomImage,
 } from './helpers';
 
 import EmployeePin from '../assets/images/pin_home.png';
@@ -69,8 +70,8 @@ export const fetchEmployees = ({ filter, sort } = {}) =>
         }),
         fetchAudits(),
     ]).then(([{ data, totalObjects }, audits]) => ({
-        data: joinManager(
-            joinProgress(transformResponseData(data), audits.data),
+        data: addRandomImage(
+            joinManager(joinProgress(transformResponseData(data), audits.data)),
         ),
         totalObjects,
     }));

@@ -21,20 +21,7 @@ class Employees extends Component {
         this.props.getDomainsIfNeeded();
     }
 
-    getImages = names => {
-        const { staticServiceUrl } = this.props;
-
-        return (
-            names &&
-            names
-                .split(';')
-                .map(
-                    name =>
-                        staticServiceUrl &&
-                        staticServiceUrl.replace('{{filename}}', name),
-                )
-        );
-    };
+    getImages = names => [names];
 
     render() {
         const {
