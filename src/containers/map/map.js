@@ -93,6 +93,10 @@ class MapContainer extends Component {
 
     updateServices(services, map) {
         const layerManager = getLayerManager();
+        if (!services.forEach) {
+            throw Error('Error in service init');
+            return;
+        }
         services.forEach(({ name, isVisible }) => {
             const service = layerManager.getService(name);
 
