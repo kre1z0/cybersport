@@ -107,7 +107,7 @@ class FeaturePopup extends Component {
 
         const { x, y } = (anchorPosition &&
             pointToScreen(anchorPosition)) || {};
-        console.log(selectedObject);
+
         return !close && selectedObject
             ? <MapPopups
                   onCloseRequest={this.closePopup}
