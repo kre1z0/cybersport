@@ -37,10 +37,17 @@ export const symbolizeFeatures = (features, source) => {
     return features;
 };
 
-export const addFeatureLayer = features => {
+export const addFeatureLayer = (features, name) => {
     const layer = new sGis.FeatureLayer({ features });
     initedSGis.map.insertLayer(layer, -1);
+    initedSGis.map._featureLayers = {
+        ...initedSGis.map._featureLayers,
+        [name]: layer,
+    };
     return layer;
 };
+
+export const getFeatureLayer = name =>
+    initedSGis.map && initedSGis.map._featureLayers[name];
 
 export default getMap;

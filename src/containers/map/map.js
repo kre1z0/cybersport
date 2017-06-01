@@ -14,6 +14,7 @@ import {
 } from '../../ducks/map';
 import { getDomainsIfNeeded } from '../../ducks/domains';
 import getLayerManager from '../../evergis/layer-manager';
+import { getFeatureLayer } from '../../evergis/map';
 
 import Map from '../../components/map';
 import LayersList from './layer-list';
@@ -80,17 +81,13 @@ class MapContainer extends Component {
         }
 
         if (this.props.map.showOffices !== map.showOffices) {
-            const layerManager = getLayerManager();
-            const offices_service = layerManager.getService(OFFICES_SERVICE);
-            offices_service.isDisplayed = map.showOffices; //todo
+            const offices_layer = getFeatureLayer(OFFICES_SERVICE);
+            offices_layer.isDisplayed = map.showOffices; //todo
         }
 
         if (this.props.map.showHomeAddress !== map.showHomeAddress) {
-            const layerManager = getLayerManager();
-            const employess_service = layerManager.getService(
-                EMPLOYEES_SERVICE,
-            );
-            employess_service.isDisplayed = map.showHomeAddress; //todo
+            const employess_layer = getFeatureLayer(EMPLOYEES_SERVICE);
+            employess_layer.isDisplayed = map.showHomeAddress; //todo
         }
     }
 

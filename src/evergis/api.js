@@ -200,6 +200,7 @@ export const initFeatureLayers = names =>
         return featuresArrays.map((features, i) =>
             addFeatureLayer(
                 symbolizeFeatures(features, sourceImages[names[i]]),
+                names[i],
             ),
         );
     });
