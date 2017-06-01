@@ -6821,7 +6821,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     } else if ((typeof module === "undefined" ? "undefined" : _typeof(module)) === 'object' && module.exports) {
         module.exports = sGis;
     }
-        window.sGis = sGis;
+    window.sGis = sGis;
 
     function setModuleReference(module, name) {
         var ns = name.split('.');
@@ -8761,7 +8761,7 @@ sGis.module('Map', ['utils', 'CRS', 'Point', 'Bbox', 'LayerGroup', 'TileScheme']
         }, {
             key: 'setResolution',
             value: function setResolution(resolution, basePoint, doNotAdjust) {
-                this.setPosition(this._getScaledPosition(this.resolution, basePoint), doNotAdjust ? resolution : this.getAdjustedResolution(resolution));
+                this.setPosition(this._getScaledPosition(resolution, basePoint), doNotAdjust ? resolution : this.getAdjustedResolution(resolution));
             }
         }, {
             key: 'position',
@@ -14287,6 +14287,8 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
 });
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14312,7 +14314,7 @@ sGis.module('painter.domPainter.EventDispatcher', ['event', 'utils'], function (
             this._onDocumentMouseup = this._onDocumentMouseup.bind(this);
 
             this._wheelTimer = 0;
-            this._touchHandler = { dragPrevPosition: {} };
+            this._touchHandler = { dragPrevPosition: [] };
         }
 
         _createClass(EventDispatcher, [{
@@ -14498,22 +14500,43 @@ sGis.module('painter.domPainter.EventDispatcher', ['event', 'utils'], function (
         }, {
             key: '_ontouchstart',
             value: function _ontouchstart(event) {
-                for (var i = 0; i < event.changedTouches.length; i++) {
+                var _this = this;
+
+                if (!this._touches) this._touches = [];
+
+                var _loop = function _loop(i) {
                     var touch = event.changedTouches[i];
-                    this._touchHandler.dragPrevPosition[touch.identifier] = { x: touch.pageX, y: touch.pageY };
-                    this._touchHandler.lastDrag = { x: 0, y: 0 };
+                    if (!_this._touches.some(function (t) {
+                        return t.id === touch.identifier;
+                    })) _this._touches.push({ id: touch.identifier, position: [touch.pageX, touch.pageY] });
+                };
+
+                for (var i = 0; i < event.changedTouches.length; i++) {
+                    _loop(i);
                 }
+
+                this._touchHandler.lastDrag = { x: 0, y: 0 };
             }
         }, {
             key: '_ontouchmove',
             value: function _ontouchmove(event) {
+                var _this2 = this;
+
+                this._clearTouches(event);
+                var touches = Array.prototype.slice.apply(event.touches);
+
                 var map = this._master.map;
-                if (event.touches.length === 1 && this._touchHandler.lastDrag) {
-                    var touch = event.targetTouches[0];
-                    var dxPx = this._touchHandler.dragPrevPosition[touch.identifier].x - touch.pageX;
-                    var dyPx = this._touchHandler.dragPrevPosition[touch.identifier].y - touch.pageY;
+                if (touches.length === 1 && this._touchHandler.lastDrag) {
+                    var _touch = event.targetTouches[0];
+
+                    var _touches$0$position = _slicedToArray(this._touches[0].position, 2),
+                        prevX = _touches$0$position[0],
+                        prevY = _touches$0$position[1];
+
+                    var dxPx = prevX - _touch.pageX;
+                    var dyPx = prevY - _touch.pageY;
                     var resolution = map.resolution;
-                    var touchOffset = ev.getMouseOffset(event.currentTarget, touch);
+                    var touchOffset = ev.getMouseOffset(event.currentTarget, _touch);
                     var point = this._master.getPointFromPxPosition(touchOffset.x, touchOffset.y);
                     var position = { x: point.x / resolution, y: 0 - point.y / resolution };
 
@@ -14525,60 +14548,102 @@ sGis.module('painter.domPainter.EventDispatcher', ['event', 'utils'], function (
                     this._touchHandler.lastDrag = { x: dxPx * resolution, y: 0 - dyPx * resolution };
                     this._draggingObject.fire('drag', { point: point, position: position, offset: { xPx: dxPx, yPx: dyPx, x: this._touchHandler.lastDrag.x, y: this._touchHandler.lastDrag.y } });
 
-                    this._touchHandler.dragPrevPosition[touch.identifier].x = touch.pageX;
-                    this._touchHandler.dragPrevPosition[touch.identifier].y = touch.pageY;
-                } else if (event.touches.length > 1) {
+                    this._touches[0].position = [_touch.pageX, _touch.pageY];
+                } else if (touches.length > 1) {
                     this._master.forbidUpdate();
                     this._touchHandler.lastDrag = null;
                     this._touchHandler.scaleChanged = true;
 
-                    var touch1 = event.touches[0];
-                    var touch2 = event.touches[1];
+                    var t1 = touches.find(function (t) {
+                        return t.identifier === _this2._touches[0].id;
+                    });
+                    var t2 = touches.find(function (t) {
+                        return t.identifier === _this2._touches[1].id;
+                    });
 
-                    touch1.prevPosition = this._touchHandler.dragPrevPosition[touch1.identifier];
-                    touch2.prevPosition = this._touchHandler.dragPrevPosition[touch2.identifier];
+                    var _touches$0$position2 = _slicedToArray(this._touches[0].position, 2),
+                        x11 = _touches$0$position2[0],
+                        y11 = _touches$0$position2[1];
 
-                    var x11 = touch1.prevPosition.x;
-                    var x12 = touch1.pageX;
-                    var x21 = touch2.prevPosition.x;
-                    var x22 = touch2.pageX;
-                    var baseX = x11 - x12 - x21 + x22 === 0 ? (x11 + x21) / 2 : (x11 * x22 - x12 * x21) / (x11 - x12 - x21 + x22);
-                    var y11 = touch1.prevPosition.y;
-                    var y12 = touch1.pageY;
-                    var y21 = touch2.prevPosition.y;
-                    var y22 = touch2.pageY;
-                    var baseY = y11 - y12 - y21 + y22 === 0 ? (y11 + y21) / 2 : (y11 * y22 - y12 * y21) / (y11 - y12 - y21 + y22);
+                    var _ref = [t1.pageX, t1.pageY],
+                        x12 = _ref[0],
+                        y12 = _ref[1];
+
+                    var _touches$1$position = _slicedToArray(this._touches[1].position, 2),
+                        x21 = _touches$1$position[0],
+                        y21 = _touches$1$position[1];
+
+                    var _ref2 = [t2.pageX, t2.pageY],
+                        x22 = _ref2[0],
+                        y22 = _ref2[1];
+
+
+                    var c1 = [(x11 + x21) / 2, (y11 + y21) / 2];
+                    var c2 = [(x12 + x22) / 2, (y12 + y22) / 2];
+
+                    var base = [(c1[0] + c2[0]) / 2, (c1[1] + c2[1]) / 2];
+
                     var len1 = Math.sqrt(Math.pow(x11 - x21, 2) + Math.pow(y11 - y21, 2));
                     var len2 = Math.sqrt(Math.pow(x12 - x22, 2) + Math.pow(y12 - y22, 2));
 
-                    map.changeScale(len1 / len2, this._master.getPointFromPxPosition(baseX, baseY), true);
+                    var basePoint = this._master.getPointFromPxPosition(base[0], base[1]);
+                    var dc = [c1[0] - c2[0], c2[1] - c1[1]];
 
-                    this._touchHandler.dragPrevPosition[touch1.identifier].x = touch1.pageX;
-                    this._touchHandler.dragPrevPosition[touch1.identifier].y = touch1.pageY;
-                    this._touchHandler.dragPrevPosition[touch2.identifier].x = touch2.pageX;
-                    this._touchHandler.dragPrevPosition[touch2.identifier].y = touch2.pageY;
+                    if (len1 !== len2 && len2 !== 0) map.changeScale(len1 / len2, basePoint, true);
+                    map.move(dc[0] * map.resolution, dc[1] * map.resolution);
+
+                    this._touches[0].position = [x12, y12];
+                    this._touches[1].position = [x22, y22];
                 }
                 event.preventDefault();
             }
         }, {
             key: '_ontouchend',
             value: function _ontouchend(event) {
+                var _this3 = this;
+
+                this._clearTouches(event);
+
+                var _loop2 = function _loop2(i) {
+                    var index = _this3._touches.findIndex(function (touch) {
+                        return touch.id === event.changedTouches[i].identifier;
+                    });
+                    if (index >= 0) _this3._touches.splice(index, 1);
+                };
+
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    delete this._touchHandler.dragPrevPosition[event.changedTouches[i].identifier];
+                    _loop2(i);
                 }
 
                 this._touchHandler.lastDrag = null;
 
-                var map = this._master.map;
                 if (this._touchHandler.scaleChanged) {
-                    map.adjustResolution();
+                    this._master.map.adjustResolution();
                     this._touchHandler.scaleChanged = false;
-                    this._master.allowUpdate();
                 } else {
                     if (this._draggingObject) {
                         this._draggingObject.fire('dragEnd');
                         this._draggingObject = null;
                     }
+                }
+
+                if (this._touches.length < 2) this._master.allowUpdate();
+            }
+        }, {
+            key: '_clearTouches',
+            value: function _clearTouches(event) {
+                var _this4 = this;
+
+                var touches = Array.prototype.slice.apply(event.touches);
+
+                var _loop3 = function _loop3(i) {
+                    if (!touches.some(function (touch) {
+                        return touch.identifier === _this4._touches[i].id;
+                    })) _this4._touches.splice(i, 1);
+                };
+
+                for (var i = this._touches.length - 1; i >= 0; i--) {
+                    _loop3(i);
                 }
             }
         }]);
@@ -20715,6 +20780,7 @@ sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLaye
                 var filter = this._service.dataFilter;
 
                 if (filter) this._fillResolutionGroups(filter);
+                this.redraw();
             }
         }, {
             key: '_fillResolutionGroups',
@@ -22184,12 +22250,12 @@ sGis.module('sp.services.DataViewService', ['sp.utils', 'sp.services.MapService'
         }, {
             key: 'dataFilter',
             get: function get() {
-                return this._dataFilter;
+                return this._dataFilter || this._originalFilter;
             }
         }, {
             key: 'tempFilterApplied',
             get: function get() {
-                return this._dataFilter !== this._originalFilter;
+                return this._dataFilter && this._dataFilter !== this._originalFilter;
             }
         }, {
             key: 'customFilter',

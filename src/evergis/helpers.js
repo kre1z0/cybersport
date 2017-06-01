@@ -183,7 +183,7 @@ export const addEmployeeToQuery = (query, id) => {
     return query;
 };
 
-export const updateListeners = (container, action) => {
+export const updateClusterListeners = (container, action) => {
     const clusterLayers = container.layer.childLayers.filter(
         layer => layer instanceof sGis.sp.ClusterLayer,
     );
@@ -194,7 +194,12 @@ export const updateListeners = (container, action) => {
             layer._features.forEach(feature =>
                 feature.on(
                     'click',
-                    ({ mouseOffset, sourceObject: { ids, position } }) => {
+                    ({
+                        mouseOffset,
+                        sourceObject: { ids, position },
+                        stopPropagation,
+                    }) => {
+                        stopPropagation();
                         action({ mouseOffset, ids, position });
                     },
                 ),
@@ -204,14 +209,32 @@ export const updateListeners = (container, action) => {
 };
 
 export const applyClusterEvents = (container, action) => {
-    updateListeners(container, action);
+    updateClusterListeners(container, action);
 
     container.service.on('dataFilterChange', () => {
-        updateListeners(container, action);
+        updateClusterListeners(container, action);
     });
 
     return container;
 };
+
+export const applyFeatureEvents = (layer, action) =>
+    layer._features &&
+    layer._features.map(feature => {
+        feature.on(
+            'click',
+            ({
+                mouseOffset,
+                sourceObject: { attributes, position },
+                stopPropagation,
+            }) => {
+                stopPropagation();
+                const object = transformPointAttributesToObject(attributes);
+                object.image = getRandomImg();
+                action({ mouseOffset, object, position });
+            },
+        );
+    });
 
 export const guid = sGis.utils.getGuid;
 
@@ -235,4 +258,25 @@ export const joinProgress = (objects, audits) =>
     objects.map(object => {
         object.progress = getEmployeeProgress(object.gid, audits);
         return object;
+    });
+
+export const fullBbox = new sGis.Bbox([-85, -180], [85, 180]).projectTo(
+    sGis.CRS.webMercator,
+);
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomSex() {
+    return Math.random() > 0.5 ? 'women' : 'men';
+}
+
+export const getRandomImg = () =>
+    `https://randomuser.me/api/portraits/${getRandomSex()}/${getRandomInt(1, 99)}.jpg`;
+
+export const addRandomImage = items =>
+    items.map(item => {
+        item.image = getRandomImg();
+        return item;
     });
