@@ -277,6 +277,6 @@ export const getRandomImg = () =>
 
 export const addRandomImage = items =>
     items.map(item => {
-        item.image = getRandomImg();
+        item.image_name = getRandomImg();
         return item;
     });

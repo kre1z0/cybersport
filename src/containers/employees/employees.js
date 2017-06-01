@@ -96,11 +96,14 @@ class Employees extends Component {
         this.images = object.image_name;
         const { employees: { attributes } } = this.props;
         this.setState(state => ({
-            galleryObject: Object.keys(object).map(key => ({
-                value: object[key],
-                key: key,
-                alias: attributes.find(el => el.name === key).alias,
-            })),
+            galleryObject: Object.keys(object)
+                .filter(key => key !== 'image_name')
+                .filter(key => attributes.find(el => el.name === key))
+                .map(key => ({
+                    value: object[key],
+                    key: key,
+                    alias: attributes.find(el => el.name === key).alias,
+                })),
         }));
     };
 
