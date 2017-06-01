@@ -141,7 +141,9 @@ class TableComponent extends Component {
     onCellClick = (rowIndex, columnIndex) => {
         const { columns, data, onImageClick } = this.props;
         if (columns[columnIndex].type === TYPES.IMG) {
-            onImageClick && onImageClick(data[rowIndex]);
+            onImageClick &&
+                data[rowIndex].image_name &&
+                onImageClick(data[rowIndex]);
         }
         this.setState(selectCell(rowIndex, columnIndex));
     };

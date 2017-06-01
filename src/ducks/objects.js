@@ -53,13 +53,15 @@ export const delSuccess = createAction('objects/delete-success');
 export const delError = createAction('objects/delete-error');
 
 export const addObject = (attributes, files) => dispatch => {
-    dispatch(create());
     return uploadImages(files || [])
         .then(({ names }) => {
             attributes.image_name = names && names.join(';');
             return createObjectFeature(attributes);
         })
-        .then(response => dispatch(createSuccess(response)));
+        .then(response => {
+            dispatch(create({ attributes, response }));
+            // dispatch(createSuccess(response))
+        });
 };
 
 export const deleteObject = ids => dispatch => {
@@ -70,7 +72,6 @@ export const deleteObject = ids => dispatch => {
 };
 
 export const getObjects = (query = {}) => (dispatch, getState) => {
-    const state = getState();
     dispatch(fetch());
     return fetchObjects(
         /*addEmployeeToQuery(*/ tranformQuery(
@@ -105,7 +106,14 @@ export default createReducer(
                 ),
             ), //TODO
 
-        [create]: (state, payload) => state,
+        [create]: (state, payload) =>
+            state.set(
+                'data',
+                state.get('data').push({
+                    gid: payload.response.Id * 1,
+                    ...payload.attributes,
+                }),
+            ),
 
         [createSuccess]: (state, payload) => state.set('error', false),
 

@@ -1,5 +1,10 @@
 import { createAction, createReducer } from 'redux-act';
-import { fetchEmployees, deleteEmployerFeature } from '../evergis/api';
+import {
+    fetchEmployees,
+    deleteEmployerFeature,
+    uploadImages,
+    createEmployerFeature,
+} from '../evergis/api';
 import { tranformQuery } from '../evergis/helpers';
 import { Record, List } from 'immutable';
 import initAttributesArray from '../assets/const/employeeAttributes';
@@ -36,12 +41,18 @@ const initState = new EmployeesState({
 export const fetch = createAction('employees/fetch');
 export const fetchSuccess = createAction('employees/fetch-success');
 export const fetchError = createAction('employees/fetch-error');
+
 export const del = createAction('employees/delete');
+export const delSuccess = createAction('employees/delete-success');
+export const delError = createAction('employees/delete-error');
+
+export const create = createAction('employees/create');
+export const createSuccess = createAction('employees/create-success');
+export const createError = createAction('employees/create-error');
 
 export const updateAttributes = createAction('employees/update-attributes');
 
 export const getEmployees = (query = {}) => (dispatch, getState) => {
-    const state = getState();
     dispatch(fetch());
     return fetchEmployees(
         /*addEmployeeToQuery(*/ tranformQuery(
@@ -52,14 +63,40 @@ export const getEmployees = (query = {}) => (dispatch, getState) => {
         .catch(error => dispatch(fetchError(error)));
 };
 
+export const addEmployer = (attributes, files) => dispatch => {
+    return uploadImages(files || [])
+        .then(({ names }) => {
+            attributes.image_name = names && names.join(';');
+            return createEmployerFeature(attributes);
+        })
+        .then(response => {
+            dispatch(create({ attributes, response }));
+            // dispatch(createSuccess(response))
+        });
+};
+
 export const deleteEmployer = ids => dispatch => {
-    /*return deleteEmployerFeature(ids)
-        .then(objects => dispatch(fetchSuccess(objects)))
-        .catch(error => dispatch(fetchError(error)));*/
+    dispatch(del());
+    return deleteEmployerFeature(ids)
+        .then(response => dispatch(delSuccess({ ids })))
+        .catch(error => dispatch(delError(error)));
 };
 
 export default createReducer(
     {
+        [create]: (state, payload) =>
+            state.set(
+                'data',
+                state.get('data').push({
+                    gid: payload.response.Id * 1,
+                    ...payload.attributes,
+                }),
+            ),
+
+        [createSuccess]: (state, payload) => state.set('error', false),
+
+        [createError]: (state, payload) => state.set('error', payload),
+
         [fetch]: (state, payload) => state.set('loading', true),
 
         [fetchSuccess]: (state, { totalObjects, data }) =>
@@ -82,6 +119,16 @@ export default createReducer(
                 ),
             ), //TODO
         [del]: (state, payload) => state,
+
+        [delSuccess]: (state, { ids }) => {
+            const index = state
+                .get('data')
+                .findIndex(({ gid }) => gid === ids[0]);
+            return state
+                .set('error', false)
+                .set('data', state.get('data').delete(index));
+        },
+        [delError]: (state, payload) => state.set('error', payload),
     },
     initState,
 );

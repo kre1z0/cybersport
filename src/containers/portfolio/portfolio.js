@@ -5,7 +5,11 @@ import Loader from 'material-ui/CircularProgress';
 import HeaderTitleBlock from '../../components/header-title-block';
 import FlatButton from '../../components/button/flat-button';
 import Table from '../../components/table/simple-table';
-import { getObjects, deleteObject } from '../../ducks/objects';
+import {
+    getObjects,
+    deleteObject,
+    updateAttributes,
+} from '../../ducks/objects';
 import { getDomainsIfNeeded } from '../../ducks/domains';
 import withAuth from '../../hoc/withAuth';
 
@@ -104,8 +108,16 @@ class Portfolio extends Component {
     };
 
     showGallery = object => {
+        this.images = object.image_name;
+        const { objects: { attributes } } = this.props;
         this.setState(state => ({
-            galleryObject: object,
+            galleryObject: Object.keys(object)
+                .filter(key => attributes.find(el => el.name === key))
+                .map(key => ({
+                    value: object[key],
+                    key: key,
+                    alias: attributes.find(el => el.name === key).alias,
+                })),
         }));
     };
 
@@ -124,7 +136,11 @@ class Portfolio extends Component {
     };
 
     render() {
-        const { objects: { data, attributes, loading }, domains } = this.props;
+        const {
+            objects: { data, attributes, loading },
+            domains,
+            updateAttributes,
+        } = this.props;
         const {
             newObjectOpen,
             columnsSettingsOpen,
@@ -186,14 +202,14 @@ class Portfolio extends Component {
                     <ColumnsSettingsWindow
                         open={columnsSettingsOpen}
                         onRequestClose={this.closeColumnsSettings}
+                        initAttributes={attributes}
+                        updateAttributes={updateAttributes}
+                        title="Настройки реестра"
                     />
                     <GalleryWindow
                         open={!!galleryObject}
                         object={galleryObject}
-                        images={
-                            galleryObject &&
-                                this.getImages(galleryObject.image_name)
-                        }
+                        images={this.images && this.getImages(this.images)}
                         onRequestClose={this.closeGallery}
                     />
                 </div>
@@ -212,6 +228,7 @@ const mapActions = {
     getObjects,
     getDomainsIfNeeded,
     deleteObject,
+    updateAttributes,
 };
 
 export default connect(mapProps, mapActions)(withAuth(Portfolio));

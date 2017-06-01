@@ -20,9 +20,9 @@ const configureStore = (preloadedState = new StateRecord()) => {
         applyMiddleware(
             thunk,
             createActionBuffer(REHYDRATE),
-            createLogger({
+            /*createLogger({
                 stateTransformer,
-            }),
+            }),*/
         ),
         autoRehydrate(),
     );

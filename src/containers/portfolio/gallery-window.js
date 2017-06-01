@@ -7,7 +7,7 @@ import ObjectPhoto from '../../components/object-photo';
 class GalleryWindow extends Component {
     static propTypes = {
         open: PropTypes.bool,
-        object: PropTypes.object,
+        object: PropTypes.array,
         onRequestClose: PropTypes.func,
         images: PropTypes.array,
     };
