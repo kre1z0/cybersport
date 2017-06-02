@@ -8,7 +8,7 @@ import { PageBack, PageNext } from '../icons';
 const closeButtonStyle = {
     position: 'absolute',
     right: 12,
-    top: 12,
+    top: 16,
 };
 
 const closeSvgStyle = {
