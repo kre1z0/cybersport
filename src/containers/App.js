@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import withRouter from '../hoc/withRouter';
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
@@ -39,7 +39,7 @@ class App extends Component {
         return (
             <div className="app-container">
                 <AppBar
-                    title={<Title />}
+                    title={<Title goHome={this.props.goHome} />}
                     className="sber-appbar"
                     titleStyle={titleStyle}
                     onLeftIconButtonTouchTap={this.toggleSidebar}
