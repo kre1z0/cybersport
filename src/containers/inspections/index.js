@@ -1,189 +1,63 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { coolGreyTwo, macaroniAndCheese, softGreen } from '../../assets/theme';
+import classNames from 'classnames';
 
-import InspectionsHeader from '../../components/inspections-header';
-import WorkerItem from '../../components/inspections-content/worker-item';
+import TabItem from '../../components/inspections-header/tab-item';
+import Control from '../../components/inspections-header/control';
+import Filters from '../../components/inspections-header/filters';
+import Employees from '../../components/inspections-content/employees-tasks';
+import PlanMonth from '../../components/inspections-content/plan-next-month';
 
 import './inspections.scss';
 
 class Inspections extends Component {
+    state = {
+        activeTabId: 1,
+        tabs: [
+            { title: 'Задачи сотрудников', id: 1 },
+            { title: 'План на следующий месяц', id: 2 },
+        ],
+        collapsed: false,
+    };
+    handleTabClick = id => {
+        this.setState({
+            activeTabId: id,
+        });
+    };
+    handleCollapse = () => {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    };
     render() {
+        const { tabs, activeTabId, collapsed } = this.state;
+        const container = classNames('inspections-container', {
+            height: activeTabId === 2,
+        });
         return (
-            <div className="inspections-container">
-                <InspectionsHeader />
-                <div className="inspections-status-header">
-                    <div
-                        className="inspections-status-title"
-                        style={{
-                            color: coolGreyTwo,
-                        }}
-                    >
-                        Назначенные
+            <div className={container}>
+                <div className="inspections-header">
+                    <div className="row">
+                        <div className="inspections-tabs">
+                            {tabs.map(({ id, title }) => (
+                                <TabItem
+                                    onSwitchTab={this.handleTabClick}
+                                    key={id}
+                                    id={id}
+                                    title={title}
+                                    isActive={activeTabId === id ? true : false}
+                                />
+                            ))}
+                        </div>
+                        <Control
+                            activeTabId={activeTabId}
+                            collapsed={collapsed}
+                            handleCollapse={this.handleCollapse}
+                        />
                     </div>
-                    <div
-                        className="inspections-status-title"
-                        style={{
-                            color: macaroniAndCheese,
-                        }}
-                    >
-                        В работе
-                    </div>
-                    <div
-                        className="inspections-status-title"
-                        style={{
-                            color: softGreen,
-                        }}
-                    >
-                        Выполненные
-                    </div>
+                    <Filters collapsed={collapsed} />
                 </div>
-                <div className="table-container">
-                    <div className="inspections-status-block">
-                        <div className="inspections-status-block-item">
-                            <div className="inspections-status-wrapper">
-                                <div className="inspections-item-date">
-                                    01.04.2017
-                                </div>
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="6575675"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="123"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="dfgfdgdfgdfgdfgd"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                            </div>
-                        </div>
-                        <div className="inspections-status-block-item">
-                            <div className="inspections-status-wrapper">
-                                <div className="inspections-item-date">
-                                    01.04.2017
-                                </div>
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                            </div>
-                            <div className="inspections-status-wrapper">
-                                <div className="inspections-item-date">
-                                    01.04.2017
-                                </div>
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                            </div>
-                        </div>
-                        <div className="inspections-status-block-item">
-                            <div className="inspections-status-wrapper">
-                                <div className="inspections-item-date">
-                                    01.04.2017
-                                </div>
-                                <WorkerItem
-                                    id="0000001"
-                                    fullName="Иванов Иван Иванович"
-                                    img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {activeTabId === 1 ? <Employees /> : <PlanMonth />}
             </div>
         );
     }

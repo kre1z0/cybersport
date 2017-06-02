@@ -7,8 +7,6 @@
     box-shadow: 0 4px 8px 0 rgba(164, 168, 171, 0.1);
 
     .inspections-tabs {
-      display: inline-block;
-      padding-bottom: 20px;
       .inspections-tabs-item {
         padding-right: 30px;
         user-select: none;
@@ -16,23 +14,28 @@
         font-size: 1.285rem;
       }
     }
-
-    .inspections-control {
-      float: right;
+    .row {
+      height: 56px;
+      padding-bottom: 10px;
       display: flex;
-      padding: 0 15px 20px 0;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .rounded-button {
+      margin-right: 30px !important;
+    }
+    .inspections-control {
+      display: flex;
+      align-items: center;
+      padding: 0 15px 0 0;
     }
 
     .section {
       display: flex;
-      width: 90px;
+      width: 53px;
       justify-content: space-between;
-      &:first-child,
       &:last-child {
-        width: 53px;
-      }
-      &:not(:last-child) {
-        margin-right: 42px;
+        margin-left: 42px;
       }
     }
 
@@ -48,9 +51,9 @@
       }
     }
     .inspection-filter {
-      padding-bottom: 20px;
       display: flex;
       justify-content: flex-end;
+      height: 54px;
       &-enter {
         height: 0;
         overflow: hidden;
