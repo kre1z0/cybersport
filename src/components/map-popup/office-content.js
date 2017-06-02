@@ -19,21 +19,13 @@ const labelButtonStyle = {
     fontWeight: 400,
 };
 
-const OfficeContent = () => (
-    <div className="office-content">
-        <div className="map-popup-header">
-            Офис ПМЗ
-        </div>
+const OfficeContent = ({ object: { address } }) => (
+    <div className="popup-content">
         <div className="map-popup-item-block">
             <MapPopupItem
-                label={'ТБ'}
-                owner_name={['Московский банк']}
-                half={isTextShort(['Московский банк'])}
-            />
-            <MapPopupItem
                 label={'Адрес'}
-                owner_name={['г. Москва, Проспект Мира, д. 1']}
-                half={isTextShort(['г. Москва, Проспект Мира, д. 1'])}
+                text={[address]}
+                half={isTextShort([address])}
             />
         </div>
         <RoundedButton

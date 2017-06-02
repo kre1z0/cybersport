@@ -1,9 +1,12 @@
 import getConnector from './connector';
 import getDataAccessService from './data-access';
-import getMap, { getMapPoint } from './map';
+import SberController from './sber-controller';
+import getMap, { getMapPoint, addFeatureLayer, symbolizeFeatures } from './map';
+
 import {
     OBJECTS_SERVICE,
     EMPLOYEES_SERVICE,
+    OFFICES_SERVICE,
     STATIC_SERVICE,
     AUDITS_SERVICE,
     getAuthUrl,
@@ -15,7 +18,17 @@ import {
     joinManager,
     joinProgress,
     getFileExtension,
+    fullBbox,
+    addRandomImage,
 } from './helpers';
+
+import EmployeePin from '../assets/images/pin_home.png';
+import OfficePin from '../assets/images/pin_pmz.png';
+
+const sourceImages = {
+    [EMPLOYEES_SERVICE]: EmployeePin,
+    [OFFICES_SERVICE]: OfficePin,
+};
 
 export const fetchObjects = ({ filter, sort } = {}) =>
     getConnector().api
@@ -43,7 +56,7 @@ export const fetchEmployeesNames = ({ filter, sort } = {}) =>
             getGeometry: false,
         })
         .then(({ data, totalObjects }) => ({
-            data: transformResponseData(data),
+            data: addRandomImage(transformResponseData(data)),
             totalObjects,
         }));
 
@@ -59,8 +72,8 @@ export const fetchEmployees = ({ filter, sort } = {}) =>
         }),
         fetchAudits(),
     ]).then(([{ data, totalObjects }, audits]) => ({
-        data: joinManager(
-            joinProgress(transformResponseData(data), audits.data),
+        data: addRandomImage(
+            joinManager(joinProgress(transformResponseData(data), audits.data)),
         ),
         totalObjects,
     }));
@@ -104,6 +117,7 @@ export const fetchUserInfo = ({ login }) =>
             serviceName: EMPLOYEES_SERVICE,
             startIndex: 0,
             count: 1,
+            condition: 'gid == 14',
             getGeometry: false,
         })
         .then(({ data }) => ({
@@ -187,3 +201,30 @@ export const getScalarValue = (query, serviceName) =>
 
 export const getEmployeesList = () =>
     getScalarValue('gid,full_name order by gid', EMPLOYEES_SERVICE);
+
+export const initFeatureLayers = names =>
+    Promise.all(
+        names.map(name => createFeatureLayer(name)),
+    ).then(featuresArrays => {
+        return featuresArrays.map((features, i) =>
+            addFeatureLayer(
+                symbolizeFeatures(features, sourceImages[names[i]]),
+                names[i],
+            ),
+        );
+    });
+
+export const createFeatureLayer = serviceName =>
+    getDataAccessService(getConnector()).queryByGeometry({
+        serviceName,
+        geometry: fullBbox,
+    });
+
+export const makeAuditsPlan = ({ startDate, endDate, employeeIds = [19] }) => {
+    const controller = new SberController(getConnector());
+    return controller.makeAuditPlan({
+        startDate,
+        endDate,
+        employeeIds,
+    });
+};

@@ -7,6 +7,7 @@ import plan from './plan';
 import objects from './objects';
 import domains from './domains';
 import employees from './employees';
+import inspections from './inspections';
 
 export const StateRecord = new Record({
     user: undefined,
@@ -15,6 +16,7 @@ export const StateRecord = new Record({
     objects: undefined,
     domains: undefined,
     employees: undefined,
+    inspections: undefined,
 });
 
 export default combineReducers({
@@ -24,4 +26,5 @@ export default combineReducers({
     objects,
     domains,
     employees,
+    inspections,
 });
