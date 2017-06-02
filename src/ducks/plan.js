@@ -6,7 +6,7 @@ const Plan = Record({
 });
 
 const initState = new Plan({
-    progress: 60,
+    progress: 20,
 });
 
 export default createReducer({}, initState);

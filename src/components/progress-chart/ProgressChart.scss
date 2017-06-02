@@ -4,6 +4,10 @@
   .progress-chart {
     position: relative;
 
+    svg{
+      transform: rotate(90deg);
+    }
+
     .content {
       position: absolute;
       top: 33px;
