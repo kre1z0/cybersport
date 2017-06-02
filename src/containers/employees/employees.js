@@ -106,14 +106,8 @@ class Employees extends Component {
     };
 
     showGallery = object => {
-        this.images = object.image_name;
-        const { employees: { attributes } } = this.props;
         this.setState(state => ({
-            galleryObject: Object.keys(object).map(key => ({
-                value: object[key],
-                key: key,
-                alias: attributes.find(el => el.name === key).alias,
-            })),
+            galleryObject: object,
         }));
     };
 
@@ -173,7 +167,11 @@ class Employees extends Component {
                 <GalleryWindow
                     open={!!galleryObject}
                     object={galleryObject}
-                    images={this.images && this.getImages(this.images)}
+                    images={
+                        galleryObject &&
+                            this.getImages(galleryObject.image_name)
+                    }
+                    entity="employees"
                     onRequestClose={this.closeGallery}
                 />
                 <div className="employees-content">

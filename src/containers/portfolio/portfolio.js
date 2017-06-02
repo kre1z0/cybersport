@@ -108,16 +108,8 @@ class Portfolio extends Component {
     };
 
     showGallery = object => {
-        this.images = object.image_name;
-        const { objects: { attributes } } = this.props;
         this.setState(state => ({
-            galleryObject: Object.keys(object)
-                .filter(key => attributes.find(el => el.name === key))
-                .map(key => ({
-                    value: object[key],
-                    key: key,
-                    alias: attributes.find(el => el.name === key).alias,
-                })),
+            galleryObject: object,
         }));
     };
 
@@ -209,7 +201,11 @@ class Portfolio extends Component {
                     <GalleryWindow
                         open={!!galleryObject}
                         object={galleryObject}
-                        images={this.images && this.getImages(this.images)}
+                        images={
+                            galleryObject &&
+                                this.getImages(galleryObject.image_name)
+                        }
+                        entity="portfolio"
                         onRequestClose={this.closeGallery}
                     />
                 </div>
