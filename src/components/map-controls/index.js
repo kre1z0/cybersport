@@ -43,7 +43,6 @@ class MapControl extends Component {
                         Объекты залога
                     </div>
                     <div>
-
                         <IconButton
                             style={closeButtonStyle}
                             iconStyle={dragIconStyle}
