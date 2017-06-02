@@ -36,7 +36,7 @@ export const fetchObjects = ({ filter, sort } = {}) =>
             serviceName: OBJECTS_SERVICE,
             condition: filter ? filter : undefined,
             startIndex: 0,
-            count: 10,
+            count: 3000,
             orderBy: sort ? sort : undefined,
             getGeometry: false,
         })
@@ -51,7 +51,7 @@ export const fetchEmployeesNames = ({ filter, sort } = {}) =>
             serviceName: EMPLOYEES_SERVICE,
             condition: filter ? filter : undefined,
             startIndex: 0,
-            count: 10,
+            count: 500,
             orderBy: sort ? sort : undefined,
             getGeometry: false,
         })
@@ -66,7 +66,7 @@ export const fetchEmployees = ({ filter, sort } = {}) =>
             serviceName: EMPLOYEES_SERVICE,
             condition: filter ? filter : undefined,
             startIndex: 0,
-            count: 10,
+            count: 500,
             orderBy: sort ? sort : undefined,
             getGeometry: false,
         }),
