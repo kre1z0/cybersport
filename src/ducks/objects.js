@@ -15,6 +15,7 @@ const Attribute = Record({
     type: undefined,
     editorType: undefined,
     isEditable: undefined,
+    sortable: undefined,
     filterable: undefined,
     isVisible: undefined,
 });

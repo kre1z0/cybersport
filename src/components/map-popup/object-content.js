@@ -52,7 +52,7 @@ const ObjectContent = ({
     staticServiceUrl,
 }) => {
     return (
-        <div className="object-content">
+        <div className="popup-content">
             <MapPopupAvatar
                 img={
                     staticServiceUrl &&

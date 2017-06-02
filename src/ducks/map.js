@@ -12,8 +12,9 @@ import {
     OFFICES_SERVICE,
     applyObjectsStyle,
     applyClusterEvents,
+    applyFeatureEvents,
 } from '../evergis/helpers';
-import { pickByGeometry, pickById } from '../evergis/api';
+import { pickByGeometry, pickById, initFeatureLayers } from '../evergis/api';
 
 const Service = Record({
     name: undefined,
@@ -60,20 +61,30 @@ export const setDomainsFilter = createAction('map/set-domain-filter');
 const isVisible = (name, { basemap }) =>
     (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
 
-export const loadMapServices = (
-    names = [OSM, GIS, EMPLOYEES_SERVICE, OFFICES_SERVICE, OBJECTS_SERVICE],
-) => (dispatch, getState) => {
+export const loadMapServices = (names = [OSM, GIS, OBJECTS_SERVICE]) => (
+    dispatch,
+    getState,
+) => {
     dispatch(loadServices);
     const map = getMap({});
     const connector = getConnector();
     const layerManager = getLayerManager(connector, map);
 
-    return Promise.all(names.map(name => layerManager.loadWithPromise(name)))
-        .then(containers => {
+    return Promise.all([
+        Promise.all(names.map(name => layerManager.loadWithPromise(name))),
+        initFeatureLayers([OFFICES_SERVICE, EMPLOYEES_SERVICE]),
+    ])
+        .then(([containers, featureLayers]) => {
             const objectsService = containers.find(
                 ({ name }) => name === OBJECTS_SERVICE,
             );
             applyObjectsStyle(objectsService);
+
+            featureLayers.forEach(layer =>
+                applyFeatureEvents(layer, ({ object, position }) => {
+                    dispatch(selectObject({ objects: [object], position }));
+                }),
+            );
 
             applyClusterEvents(objectsService, ({ ids, position }) => {
                 dispatch(pickObjectsById({ ids, position }));

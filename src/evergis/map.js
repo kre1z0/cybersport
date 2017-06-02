@@ -26,4 +26,28 @@ export const getMapPoint = (position = [0, 0]) =>
 export const pointToScreen = position =>
     initedSGis.painter.getPxPosition(position);
 
+export const symbolizeFeatures = (features, source) => {
+    features.forEach(feature => {
+        feature.symbol = new sGis.symbol.point.Image({
+            source,
+            height: 49,
+            width: 42,
+        });
+    });
+    return features;
+};
+
+export const addFeatureLayer = (features, name) => {
+    const layer = new sGis.FeatureLayer({ features });
+    initedSGis.map.insertLayer(layer, -1);
+    initedSGis.map._featureLayers = {
+        ...initedSGis.map._featureLayers,
+        [name]: layer,
+    };
+    return layer;
+};
+
+export const getFeatureLayer = name =>
+    initedSGis.map && initedSGis.map._featureLayers[name];
+
 export default getMap;

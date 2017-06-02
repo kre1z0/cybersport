@@ -58,7 +58,7 @@ class AutoCompleteInput extends Component {
     };
 
     filterData(value) {
-        const result = value === ''
+        const result = value === '' || !this.props.data
             ? []
             : this.props.data.filter(
                   item => item.toLowerCase().search(value.toLowerCase()) !== -1,
@@ -111,7 +111,7 @@ class AutoCompleteInput extends Component {
     }
 
     render() {
-        const { filteredData, focused } = this.state;
+        const { focused } = this.state;
         const {
             className,
             style,
@@ -119,6 +119,7 @@ class AutoCompleteInput extends Component {
             listStyle,
             itemStyle,
             value,
+            data,
         } = this.props;
         const mergedClassName = cn('auto-complete-input', className);
 
@@ -127,7 +128,7 @@ class AutoCompleteInput extends Component {
                 <AutoComplete
                     animated={false}
                     hintText=" "
-                    dataSource={filteredData}
+                    dataSource={data || []}
                     dataSourceConfig={{ text: 'text', value: 'id' }}
                     onUpdateInput={this.handleUpdateInput}
                     fullWidth={true}
@@ -153,6 +154,7 @@ class AutoCompleteInput extends Component {
                     onKeyDown={this.handleKeyDown}
                     onNewRequest={this.handleSelectItem}
                     menuCloseDelay={0}
+                    filter={AutoComplete.caseInsensitiveFilter}
                 />
             </div>
         );
