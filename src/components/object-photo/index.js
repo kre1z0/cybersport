@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImageGallery from 'react-image-gallery';
-import ObjectPhotoItem from './object-photo-item';
 import './object-photo.scss';
-import numeral from 'numeral';
+
+import Portfolio from './portfolio';
+import Employees from './employees';
 
 class ObjectPhoto extends Component {
     static propTypes = {
         attr: PropTypes.array,
-        object: PropTypes.array,
+        object: PropTypes.object,
         images: PropTypes.array,
+        entity: PropTypes.string,
+    };
+
+    static defaultProps = {
+        images: [],
     };
 
     render() {
-        const { object, images } = this.props;
+        const { object, images, entity } = this.props;
 
         return (
             <div className="object-photo">
@@ -32,18 +38,9 @@ class ObjectPhoto extends Component {
                         slideInterval={2000}
                     />
                 </div>
-                <div className="object-photo-right-col">
-                    <div className="right-col-header" />
-                    <div className="right-col-content">
-                        {object.map(o => (
-                            <ObjectPhotoItem
-                                key={o.key}
-                                alias={o.alias}
-                                content={o.value}
-                            />
-                        ))}
-                    </div>
-                </div>
+                {entity === 'portfolio'
+                    ? <Portfolio objects={object} />
+                    : <Employees objects={object} />}
             </div>
         );
     }

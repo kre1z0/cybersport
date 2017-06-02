@@ -7,13 +7,14 @@ import ObjectPhoto from '../../components/object-photo';
 class GalleryWindow extends Component {
     static propTypes = {
         open: PropTypes.bool,
-        object: PropTypes.array,
+        object: PropTypes.object,
         onRequestClose: PropTypes.func,
         images: PropTypes.array,
+        entity: PropTypes.string,
     };
 
     render() {
-        const { open, object, onRequestClose, images } = this.props;
+        const { open, object, onRequestClose, images, entity } = this.props;
 
         return (
             <ModalWindow
@@ -25,7 +26,7 @@ class GalleryWindow extends Component {
                 open={open}
                 onRequestClose={onRequestClose}
             >
-                <ObjectPhoto object={object} images={images} />
+                <ObjectPhoto object={object} images={images} entity={entity} />
             </ModalWindow>
         );
     }

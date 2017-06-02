@@ -25,8 +25,6 @@ class NewEmployerWindow extends Component {
         const { addEmployer, createError, onHide } = this.props;
         const { employer } = this.state;
 
-        console.log(employer);
-
         addEmployer(employer, this.images)
             .then(response => onHide())
             .catch(error => createError(error));
