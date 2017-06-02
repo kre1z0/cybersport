@@ -2,6 +2,7 @@
 
 :global {
   .map-popup {
+    box-sizing: content-box;
     width: 410px;
     background-color: #fff;
     position: absolute;

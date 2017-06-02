@@ -348,6 +348,7 @@ class LayerList extends Component {
             setShowHomeAddress,
             domains,
             map,
+            onClose,
         } = this.props;
         const {
             disableEnsure3,
@@ -371,6 +372,7 @@ class LayerList extends Component {
                 onCollapse={this.handleCollapse}
                 style={layerListStyle}
                 collapsed={collapsed}
+                onClose={onClose}
             >
                 <CSSTransitionGroup
                     transitionEnterTimeout={500}

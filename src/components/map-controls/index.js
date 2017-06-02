@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import IconButton from 'material-ui/IconButton';
-import { FilterIcon } from '../icons';
+import { FilterIcon, CloseMapPopupIcon } from '../icons';
 import './map-controls-popup.scss';
 
 const dragIconStyle = {
@@ -8,7 +8,14 @@ const dragIconStyle = {
     height: 10,
 };
 
-const dragButtonStyle = {
+const collapseButtonStyle = {
+    width: 27,
+    height: 27,
+    padding: 0,
+    marginRight: '10px',
+};
+
+const closeButtonStyle = {
     width: 27,
     height: 27,
     padding: 0,
@@ -16,21 +23,41 @@ const dragButtonStyle = {
 
 class MapControl extends Component {
     render() {
-        const { children, style, onCollapse, collapsed } = this.props;
+        const { children, style, onCollapse, collapsed, onClose } = this.props;
         return (
             <div className="map-control-popup" style={style}>
                 <div className="map-popup-control-header">
-                    Объекты залога
-                    <IconButton
-                        style={dragButtonStyle}
-                        iconStyle={dragIconStyle}
-                        onTouchTap={onCollapse}
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
                     >
-                        <FilterIcon
-                            style={{ height: '0.785rem' }}
-                            isActive={collapsed}
-                        />
-                    </IconButton>
+                        <IconButton
+                            style={collapseButtonStyle}
+                            iconStyle={dragIconStyle}
+                            onTouchTap={onCollapse}
+                        >
+                            <FilterIcon isActive={collapsed} />
+                        </IconButton>
+                        Объекты залога
+                    </div>
+                    <div>
+
+                        <IconButton
+                            style={closeButtonStyle}
+                            iconStyle={dragIconStyle}
+                            onTouchTap={onClose}
+                        >
+                            <CloseMapPopupIcon
+                                svgStyle={{
+                                    width: '12px',
+                                    height: '12px',
+                                }}
+                            />
+                        </IconButton>
+                    </div>
+
                 </div>
                 {children}
             </div>
