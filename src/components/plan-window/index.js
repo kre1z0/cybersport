@@ -21,6 +21,22 @@ const labelButtonStyle = {
     fontWeight: 500,
 };
 
+const Actions = (
+    <div className="ggwp">
+        <RoundedButton
+            style={buttonStyle}
+            labelStyle={labelButtonStyle}
+            label="Отменить"
+        />
+    </div>
+);
+
+const actionsContainerStyle = {
+    padding: 20,
+    borderTop: 'none',
+    textAlign: 'center',
+};
+
 class PlanWindow extends Component {
     state = {
         value: 0,
@@ -34,7 +50,12 @@ class PlanWindow extends Component {
     render() {
         const { value, loader } = this.state;
         return (
-            <ModalWindow contentClassName="plan-calculate-modal" open={true}>
+            <ModalWindow
+                actions={Actions}
+                actionsContainerStyle={actionsContainerStyle}
+                contentClassName="plan-calculate-modal"
+                open={true}
+            >
                 <div className="plan-calculate-modal-conent">
                     <div
                         className="plan-progress-chart"
@@ -92,11 +113,6 @@ class PlanWindow extends Component {
                             />
                         </div>
                     </div>
-                    <RoundedButton
-                        style={buttonStyle}
-                        labelStyle={labelButtonStyle}
-                        label="Отменить"
-                    />
                 </div>
             </ModalWindow>
         );
