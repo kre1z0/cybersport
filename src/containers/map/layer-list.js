@@ -25,11 +25,12 @@ import ResidentialProperty from '../../components/icons/residential-property';
 
 import CLASSIFIER from '../../assets/const/classifier';
 
-const layerListStyle = {
+const layerListStyle = showTime => ({
     position: 'absolute',
     top: '1rem',
     left: '5rem',
-};
+    display: showTime ? 'block' : 'none',
+});
 
 const ensureIcons = {
     'Коммерческая недвижимость': CommerceProperty,
@@ -72,6 +73,7 @@ class LayerList extends Component {
     state = Object.assign(
         {
             collapsed: false,
+            filled: false,
             bankItems: [
                 {
                     value: 'all',
@@ -114,6 +116,9 @@ class LayerList extends Component {
             .map(key => dataFilter[key])
             .join(' && ');
         this.props.setDomainsFilter(FILTER || null);
+        this.setState({
+            filled: !!FILTER,
+        });
     }
 
     handleBankChange = value => {
@@ -300,6 +305,14 @@ class LayerList extends Component {
         });
     };
 
+    componentWillReceiveProps({ showTime }) {
+        if (!showTime) {
+            this.setState({
+                collapsed: showTime,
+            });
+        }
+    }
+
     componentWillMount() {
         const domains = this.props.domains.toJS();
         Object.keys(domains)
@@ -349,10 +362,12 @@ class LayerList extends Component {
             domains,
             map,
             onClose,
+            showTime,
         } = this.props;
         const {
             disableEnsure3,
             collapsed,
+            filled,
             bankValue,
             bankItems,
             employee,
@@ -370,8 +385,8 @@ class LayerList extends Component {
         return (
             <MapControl
                 onCollapse={this.handleCollapse}
-                style={layerListStyle}
-                collapsed={collapsed}
+                style={layerListStyle(showTime)}
+                collapsed={collapsed || filled}
                 onClose={onClose}
             >
                 <CSSTransitionGroup

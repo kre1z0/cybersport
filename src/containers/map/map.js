@@ -167,7 +167,12 @@ class MapContainer extends Component {
                         isActive={showPopup}
                     />
                 </FloatingActionButton>
-                {showPopup && <LayersList onClose={this.handleShowPopup} />}
+                {
+                    <LayersList
+                        showTime={showPopup}
+                        onClose={this.handleShowPopup}
+                    />
+                }
                 <FeaturePopup />
             </div>
         );

@@ -37,6 +37,10 @@ const ItemList = ({ items, onSelect, selectItemIndex, className }) => {
 };
 
 class AutoComplete extends Component {
+    static defaultProps = {
+        values: [],
+    };
+
     state = {
         items: [],
         selectItemIndex: -1,
@@ -57,8 +61,9 @@ class AutoComplete extends Component {
                 ? values
                       .filter(
                           item =>
+                              item &&
                               item.toLowerCase().search(value.toLowerCase()) !==
-                              -1,
+                                  -1,
                       )
                       .map(item => ({
                           value: item,
