@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 import TabItem from '../../components/inspections-header/tab-item';
 import Control from '../../components/inspections-header/control';
 import Filters from '../../components/inspections-header/filters';
-import Employees from '../../components/inspections-content/employees-tasks';
+import EmployeesTasks
+    from '../../components/inspections-content/employees-tasks';
 import PlanMonth from '../../components/inspections-content/plan-next-month';
 
 import './inspections.scss';
@@ -22,19 +23,34 @@ class Inspections extends Component {
         ],
         collapsed: false,
     };
+
+    calculateAudits = () => {
+        const now = moment();
+        const startDate = now.format('YYYY-MM-DD');
+        const end = now.add(30, 'days');
+        const endDate = end.format('YYYY-MM-DD');
+
+        this.props.calculateAudits({
+            startDate,
+            endDate,
+        });
+    };
+
     handleTabClick = id => {
         this.setState({
             activeTabId: id,
         });
     };
+
     handleCollapse = () => {
         this.setState({
             collapsed: !this.state.collapsed,
         });
     };
+
     render() {
         const { tabs, activeTabId, collapsed } = this.state;
-        const container = classNames('inspections-container', {
+        const container = cn('inspections-container', {
             height: activeTabId === 2,
         });
         return (
@@ -48,7 +64,7 @@ class Inspections extends Component {
                                     key={id}
                                     id={id}
                                     title={title}
-                                    isActive={activeTabId === id ? true : false}
+                                    isActive={activeTabId === id}
                                 />
                             ))}
                         </div>
@@ -60,7 +76,7 @@ class Inspections extends Component {
                     </div>
                     <Filters collapsed={collapsed} />
                 </div>
-                {activeTabId === 1 ? <Employees /> : <PlanMonth />}
+                {activeTabId === 1 ? <EmployeesTasks /> : <PlanMonth />}
             </div>
         );
     }

@@ -1,19 +1,19 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+//import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, autoRehydrate } from 'redux-persist-immutable';
 import { REHYDRATE } from 'redux-persist-immutable/constants';
 import createActionBuffer from 'redux-action-buffer';
 import localForage from 'localforage';
-import { Iterable } from 'immutable';
+//import { Iterable } from 'immutable';
 
 import reducers, { StateRecord } from '../ducks';
 
-const stateTransformer = state => {
-    if (Iterable.isIterable(state)) return state.toJS();
-    else return state;
-};
+// const stateTransformer = state => {
+//     if (Iterable.isIterable(state)) return state.toJS();
+//     else return state;
+// };
 
 const configureStore = (preloadedState = new StateRecord()) => {
     const middlewares = composeWithDevTools(
