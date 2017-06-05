@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 
 import CellSwitcher, { TYPES } from './cell-switcher';
+
 import Body from './table-body';
 import Header from './table-header';
 
@@ -104,13 +105,16 @@ class TableComponent extends Component {
     };
 
     bodyCellRenderer = (rowIndex, columnIndex) => {
+        const CELL_DATA = this.getCellContent(rowIndex, columnIndex);
         return (
             <CellSwitcher
-                {...this.getCellContent(rowIndex, columnIndex)}
+                {...CELL_DATA}
                 onCellChange={this.onCellChange}
                 rowIndex={rowIndex}
                 columnIndex={columnIndex}
-            />
+            >
+                {CELL_DATA.type === 'control' && this.props.rowMenu}
+            </CellSwitcher>
         );
     };
 
@@ -137,7 +141,9 @@ class TableComponent extends Component {
     onCellClick = (rowIndex, columnIndex) => {
         const { columns, data, onImageClick } = this.props;
         if (columns[columnIndex].type === TYPES.IMG) {
-            onImageClick && onImageClick(data[rowIndex]);
+            onImageClick &&
+                //data[rowIndex].image_name &&
+                onImageClick(data[rowIndex]);
         }
         this.setState(selectCell(rowIndex, columnIndex));
     };

@@ -51,7 +51,7 @@ export const fetchEmployeesNames = ({ filter, sort } = {}) =>
             serviceName: EMPLOYEES_SERVICE,
             condition: filter ? filter : undefined,
             startIndex: 0,
-            count: 100,
+            count: 500,
             orderBy: sort ? sort : undefined,
             getGeometry: false,
         })
@@ -66,7 +66,7 @@ export const fetchEmployees = ({ filter, sort } = {}) =>
             serviceName: EMPLOYEES_SERVICE,
             condition: filter ? filter : undefined,
             startIndex: 0,
-            count: 100,
+            count: 500,
             orderBy: sort ? sort : undefined,
             getGeometry: false,
         }),
@@ -154,7 +154,13 @@ export const deleteFeature = (ids, serviceName) =>
 export const createObjectFeature = attributes =>
     createFeature(attributes, OBJECTS_SERVICE);
 
+export const createEmployerFeature = attributes =>
+    createFeature(attributes, EMPLOYEES_SERVICE);
+
 export const deleteObjectFeatures = ids => deleteFeature(ids, OBJECTS_SERVICE);
+
+export const deleteEmployerFeature = ids =>
+    deleteFeature(ids, EMPLOYEES_SERVICE);
 
 export const uploadImages = images =>
     fetchStaticService().then(service => {

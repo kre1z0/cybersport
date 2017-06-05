@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Loader from 'material-ui/CircularProgress';
 import HeaderTitleBlock from '../../components/header-title-block';
+import FlatButton from '../../components/button/flat-button';
 import Table from '../../components/table/simple-table';
-import { getObjects, deleteObject } from '../../ducks/objects';
+import {
+    getObjects,
+    deleteObject,
+    updateAttributes,
+} from '../../ducks/objects';
 import { getDomainsIfNeeded } from '../../ducks/domains';
 import withAuth from '../../hoc/withAuth';
 
@@ -123,7 +128,11 @@ class Portfolio extends Component {
     };
 
     render() {
-        const { objects: { data, attributes, loading }, domains } = this.props;
+        const {
+            objects: { data, attributes, loading },
+            domains,
+            updateAttributes,
+        } = this.props;
         const {
             newObjectOpen,
             columnsSettingsOpen,
@@ -148,6 +157,23 @@ class Portfolio extends Component {
                     />
 
                     <Table
+                        rowMenu={(closePopup, removeRow) => (
+                            <div className="control-popup-content">
+                                <FlatButton
+                                    label="Карточка мониторинга"
+                                    onTouchTap={closePopup}
+                                />
+                                <FlatButton
+                                    label="Ближайшая проверка"
+                                    onTouchTap={closePopup}
+                                />
+                                <FlatButton
+                                    label="Удалить объект"
+                                    onTouchTap={removeRow}
+                                    secondary={true}
+                                />
+                            </div>
+                        )}
                         cacheKey={hashKey}
                         data={dataJS}
                         getImages={this.getImages}
@@ -168,6 +194,9 @@ class Portfolio extends Component {
                     <ColumnsSettingsWindow
                         open={columnsSettingsOpen}
                         onRequestClose={this.closeColumnsSettings}
+                        initAttributes={attributes}
+                        updateAttributes={updateAttributes}
+                        title="Настройки реестра"
                     />
                     <GalleryWindow
                         open={!!galleryObject}
@@ -176,6 +205,7 @@ class Portfolio extends Component {
                             galleryObject &&
                                 this.getImages(galleryObject.image_name)
                         }
+                        entity="portfolio"
                         onRequestClose={this.closeGallery}
                     />
                 </div>
@@ -194,6 +224,7 @@ const mapActions = {
     getObjects,
     getDomainsIfNeeded,
     deleteObject,
+    updateAttributes,
 };
 
 export default connect(mapProps, mapActions)(withAuth(Portfolio));

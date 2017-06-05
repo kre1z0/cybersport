@@ -9,6 +9,9 @@ import Employees from '../../components/inspections-content/employees-tasks';
 import PlanMonth from '../../components/inspections-content/plan-next-month';
 
 import './inspections.scss';
+import { calculateAudits } from '../../ducks/inspections';
+import withAuth from '../../hoc/withAuth';
+import moment from 'moment';
 
 class Inspections extends Component {
     state = {
@@ -63,8 +66,12 @@ class Inspections extends Component {
     }
 }
 
-const mapProps = () => ({});
+const mapProps = ({ inspections: { audits, loading, employees } }) => ({
+    audits,
+    loading,
+    employees,
+});
 
-const mapActions = {};
+const mapActions = { calculateAudits };
 
-export default connect(mapProps, mapActions)(Inspections);
+export default connect(mapProps, mapActions)(withAuth(Inspections));

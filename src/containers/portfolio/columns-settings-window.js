@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { updateAttributes } from '../../ducks/objects';
 import ModalWindow from '../../components/modal-window';
 import RoundedButton from '../../components/button/rounded-button';
 import ColumnsSettings from '../../components/columns-settings';
@@ -33,12 +31,12 @@ class ColumnsSettingsContainer extends Component {
     };
 
     render() {
-        const { open, onRequestClose } = this.props;
+        const { open, onRequestClose, title } = this.props;
         const { attributes } = this.state;
 
         return (
             <ModalWindow
-                title="Настройки реестра"
+                title={title}
                 open={open}
                 actions={
                     <div>
@@ -64,12 +62,4 @@ class ColumnsSettingsContainer extends Component {
     }
 }
 
-const mapProps = ({ objects }) => ({
-    initAttributes: objects.attributes,
-});
-
-const mapActions = {
-    updateAttributes,
-};
-
-export default connect(mapProps, mapActions)(ColumnsSettingsContainer);
+export default ColumnsSettingsContainer;

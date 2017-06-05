@@ -3,9 +3,9 @@ import Logo from '../../assets/icons/logo.svg';
 
 import './appbar-title.scss';
 
-const AppbarTitle = () => (
+const AppbarTitle = ({ goHome }) => (
     <div className="appbar-title">
-        <img className="logo" src={Logo} alt="сбербанк" />
+        <img onTouchTap={goHome} className="logo" src={Logo} alt="сбербанк" />
         <h1>геомониторинг залогов</h1>
     </div>
 );
