@@ -21,8 +21,20 @@ const Filters = ({ collapsed }) => (
                 <InspectionFilterItem
                     element={
                         <div className="date">
-                            <DateInput />
-                            <DateInput />
+                            <DateInput
+                                libProps={{
+                                    popoverAttachment: 'bottom left',
+                                    popoverTargetAttachment: 'top left',
+                                    popoverTargetOffset: '10px -35px',
+                                }}
+                            />
+                            <DateInput
+                                libProps={{
+                                    popoverAttachment: 'bottom center',
+                                    popoverTargetAttachment: 'top center',
+                                    popoverTargetOffset: '10px -35px',
+                                }}
+                            />
                         </div>
                     }
                     label="Период:"

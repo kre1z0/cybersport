@@ -10,6 +10,11 @@
       left: 9px;
       cursor: pointer;
     }
+    .react-datepicker__tether-enabled{
+      & + input {
+        border-color: $softGreen !important;
+      }
+    }
     input {
       background-color: #fff;
       border: 1px solid $paleGrey;
