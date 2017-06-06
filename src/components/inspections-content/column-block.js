@@ -1,11 +1,13 @@
 import React from 'react';
 import DateBlock from '../../components/inspections-content/tasks-date-block';
 
-const ColumnBlock = () => (
+const ColumnBlock = ({ tasks = {} }) => (
     <div className="inspections-status-block-item">
         <div className="inspections-status-wrapper">
-            <DateBlock date="01.04.2017" />
-            <DateBlock date="01.04.2019" />
+            {tasks &&
+                Object.keys(tasks).map(date => (
+                    <DateBlock date={date} tasks={tasks[date]} />
+                ))}
         </div>
     </div>
 );

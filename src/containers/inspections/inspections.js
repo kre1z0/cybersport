@@ -10,9 +10,13 @@ import EmployeesTasks
 import PlanMonth from '../../components/inspections-content/plan-next-month';
 
 import './inspections.scss';
-import { calculateAudits } from '../../ducks/inspections';
+import {
+    calculateAudits,
+    getAuditsWithEmployeesIfNeeded,
+} from '../../ducks/inspections';
 import withAuth from '../../hoc/withAuth';
 import moment from 'moment';
+import groupBy from 'lodash/groupBy';
 
 class Inspections extends Component {
     state = {
@@ -23,6 +27,10 @@ class Inspections extends Component {
         ],
         collapsed: false,
     };
+
+    componentDidMount() {
+        this.props.getAuditsWithEmployeesIfNeeded();
+    }
 
     calculateAudits = () => {
         const now = moment();
@@ -49,6 +57,7 @@ class Inspections extends Component {
     };
 
     render() {
+        const { tasksByStatus, tasksByDate } = this.props;
         const { tabs, activeTabId, collapsed } = this.state;
         const container = cn('inspections-container', {
             height: activeTabId === 2,
@@ -76,18 +85,45 @@ class Inspections extends Component {
                     </div>
                     <Filters collapsed={collapsed} />
                 </div>
-                {activeTabId === 1 ? <EmployeesTasks /> : <PlanMonth />}
+                {activeTabId === 1
+                    ? <EmployeesTasks tasks={tasksByStatus} />
+                    : <PlanMonth tasks={tasksByDate} />}
             </div>
         );
     }
 }
 
-const mapProps = ({ inspections: { audits, loading, employees } }) => ({
-    audits,
-    loading,
-    employees,
-});
+const joinEmployee = (audits, employees) =>
+    audits.map(audit => ({
+        ...audit,
+        employee: employees.find(
+            employee => employee.gid === audit.employee_id,
+        ),
+    }));
+const groupAudits = audits => {
+    const groupedAuditsByStatus = groupBy(audits, 'status_code');
+    const statuses =
+        groupedAuditsByStatus && Object.keys(groupedAuditsByStatus);
 
-const mapActions = { calculateAudits };
+    statuses.forEach(status => {
+        groupedAuditsByStatus[status] = groupBy(
+            groupedAuditsByStatus[status],
+            'audit_date',
+        );
+    });
+
+    return groupedAuditsByStatus;
+};
+
+const mapProps = ({ inspections: { audits, loading, employees } }) => {
+    const tasksWithEmployees = joinEmployee(audits, employees);
+    return {
+        loading,
+        tasksByStatus: groupAudits(tasksWithEmployees),
+        tasksByDate: groupBy(tasksWithEmployees, 'audit_date'),
+    };
+};
+
+const mapActions = { calculateAudits, getAuditsWithEmployeesIfNeeded };
 
 export default connect(mapProps, mapActions)(withAuth(Inspections));

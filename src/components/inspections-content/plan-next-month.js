@@ -17,15 +17,13 @@ const labelPrimaryButtonStyle = {
     fontWeight: 500,
 };
 
-const PlanMonth = () => (
+const PlanMonth = ({ tasks }) => (
     <div className="plan-next-month-wrapper">
         <div className="plan-next-month-block">
-            <DateBlock date="01.04.2017" />
-            <DateBlock date="01.04.2017" />
-            <DateBlock date="01.04.2017" />
-            <DateBlock date="01.04.2017" />
-            <DateBlock date="01.04.2018" />
-            <DateBlock date="01.04.2019" />
+            {tasks &&
+                Object.keys(tasks).map(date => (
+                    <DateBlock date={date} tasks={tasks[date]} />
+                ))}
         </div>
         <div className="plan-next-month-footer">
             <RoundedButton

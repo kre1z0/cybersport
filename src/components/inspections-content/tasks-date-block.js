@@ -1,36 +1,19 @@
 import React from 'react';
 import WorkerItem from '../../components/inspections-content/worker-item';
+import moment from 'moment';
 
-const DateBlock = ({ date }) => (
+const DateBlock = ({ date, tasks = [] }) => (
     <div className="date-block">
         <div className="inspections-item-date">
-            {date}
+            {moment(date).format('L')}
         </div>
-        <WorkerItem
-            id="0000001"
-            fullName="Иванов Иван Иванович"
-            img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-        />
-        <WorkerItem
-            id="0000001"
-            fullName="Иванов Иван Иванович"
-            img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-        />
-        <WorkerItem
-            id="0000001"
-            fullName="Иванов Иван Иванович"
-            img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-        />
-        <WorkerItem
-            id="0000001"
-            fullName="Иванов Иван Иванович"
-            img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-        />
-        <WorkerItem
-            id="0000001"
-            fullName="Иванов Иван Иванович"
-            img="https://i2.wp.com/iknowyourmeme.files.wordpress.com/2016/07/photo.png?w=388&h=388&crop=1&ssl=1"
-        />
+        {tasks.map(({ gid, employee, image }) => (
+            <WorkerItem
+                id={gid}
+                fullName={employee.full_name}
+                img={employee.image}
+            />
+        ))}
     </div>
 );
 

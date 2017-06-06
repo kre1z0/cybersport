@@ -11,6 +11,12 @@ export const STATIC_SERVICE = 'sber_objects_static';
 
 export const BASEMAPS = [OSM, GIS];
 
+export const ROLES = {
+    EMPLOYEE: 'Сотрудник',
+    MANAGER: 'Руководитель',
+    CENTRAL: 'ЦА',
+};
+
 export const keyValueArrayToObject = array =>
     array.reduce((prev, { Key, Value }) => {
         prev[Key] = Value;

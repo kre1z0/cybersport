@@ -5,7 +5,7 @@ import Home from './containers/home';
 import Portfolio from './containers/portfolio/portfolio';
 import Map from './containers/map/map';
 import Employees from './containers/employees/employees';
-import Inspections from './containers/inspections';
+import Inspections from './containers/inspections/inspections';
 import Analytics from './containers/analytics';
 import Login from './components/login-page';
 
