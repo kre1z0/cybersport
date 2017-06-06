@@ -12,6 +12,7 @@ const DateBlock = ({ date, tasks = [] }) => (
                 id={gid}
                 fullName={employee.full_name}
                 img={employee.image}
+                key={gid}
             />
         ))}
     </div>

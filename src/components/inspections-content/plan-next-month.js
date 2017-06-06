@@ -22,7 +22,11 @@ const PlanMonth = ({ tasks }) => (
         <div className="plan-next-month-block">
             {tasks &&
                 Object.keys(tasks).map(date => (
-                    <DateBlock date={date} tasks={tasks[date]} />
+                    <DateBlock
+                        date={date}
+                        tasks={tasks[date]}
+                        key={date + '-key'}
+                    />
                 ))}
         </div>
         <div className="plan-next-month-footer">

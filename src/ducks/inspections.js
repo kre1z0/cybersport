@@ -104,13 +104,14 @@ export const calculateAudits = props => (dispatch, getState) => {
     });
 
     operation.on('progressUpdate', ({ progress: { processed, total } }) => {
-        dispatch(makeProgress(Math.round(processed / total / 100)));
+        dispatch(makeProgress(Math.round(processed / (total / 100))));
     });
 
     return operation
         .then(() => {
             dispatch(makeSuccess());
             dispatch(getAudits({ ids }));
+            dispatch(makeProgress(0));
         })
         .catch(error => dispatch(makeError(error)));
 };

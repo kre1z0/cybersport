@@ -39,22 +39,36 @@ const actionsContainerStyle = {
 
 class PlanWindow extends Component {
     state = {
-        value: 0,
         loader: false,
     };
+
     click = () => {
-        this.setState({
+        const { onApply } = this.props;
+
+        onApply();
+        this.setState(state => ({
             loader: true,
-        });
+        }));
     };
+
+    componentWillReceiveProps({ open }) {
+        if (!open && this.props.open) {
+            this.setState(state => ({
+                loader: false,
+            }));
+        }
+    }
+
     render() {
-        const { value, loader } = this.state;
+        const { open, onRequestClose, progress } = this.props;
+        const { loader } = this.state;
         return (
             <ModalWindow
                 actions={Actions}
                 actionsContainerStyle={actionsContainerStyle}
                 contentClassName="plan-calculate-modal"
-                open={true}
+                open={open}
+                onRequestClose={onRequestClose}
             >
                 <div className="plan-calculate-modal-conent">
                     <div
@@ -75,15 +89,16 @@ class PlanWindow extends Component {
                                 stroke={softGreen}
                                 strokeDasharray="887"
                                 strokeWidth="26"
-                                strokeDashoffset={887 + value * 8.87 + 30}
+                                strokeDashoffset={887 + progress * 8.87 + 30}
                                 strokeLinecap="round"
+                                className="plan-progress-chart-path"
                             />
                         </svg>
                         <div className="content">
                             {loader
                                 ? <div>
                                       <h1 className="title">
-                                          {value}%
+                                          {progress}%
                                       </h1>
                                       <h3 className="sub-title">идет расчет</h3>
                                   </div>

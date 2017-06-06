@@ -6,7 +6,11 @@ const ColumnBlock = ({ tasks = {} }) => (
         <div className="inspections-status-wrapper">
             {tasks &&
                 Object.keys(tasks).map(date => (
-                    <DateBlock date={date} tasks={tasks[date]} />
+                    <DateBlock
+                        date={date}
+                        tasks={tasks[date]}
+                        key={date + '-key'}
+                    />
                 ))}
         </div>
     </div>

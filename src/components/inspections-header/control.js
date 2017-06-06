@@ -23,7 +23,7 @@ const labelPrimaryButtonStyle = {
     fontWeight: 500,
 };
 
-const Control = ({ activeTabId, collapsed, handleCollapse }) => (
+const Control = ({ activeTabId, collapsed, handleCollapse, onCalc }) => (
     <div className="inspections-control">
         {activeTabId === 2
             ? <RoundedButton
@@ -31,6 +31,7 @@ const Control = ({ activeTabId, collapsed, handleCollapse }) => (
                   labelStyle={labelPrimaryButtonStyle}
                   label="Сформировать план"
                   primary={true}
+                  onTouchTap={onCalc}
               />
             : null}
         <div className="section">

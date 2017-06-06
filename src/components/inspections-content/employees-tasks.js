@@ -21,14 +21,21 @@ class EmployeesTasks extends Component {
         return (
             <div className="employes-tasks">
                 <div className="employes-header">
-                    {STATUS.map(({ title, color }) => (
-                        <PlanTitleItem color={color} title={title} />
+                    {STATUS.map(({ title, color, value }) => (
+                        <PlanTitleItem
+                            color={color}
+                            title={title}
+                            key={value}
+                        />
                     ))}
                 </div>
                 <div className="table-container">
                     <div className="inspections-status-block">
                         {STATUS.map(({ value }) => (
-                            <ColumnBlock tasks={tasks[value]} />
+                            <ColumnBlock
+                                tasks={tasks[value]}
+                                key={value + '-block'}
+                            />
                         ))}
                     </div>
                 </div>

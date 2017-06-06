@@ -11,6 +11,10 @@
         margin: 30px 0;
         position: relative;
         cursor: pointer;
+        .plan-progress-chart-path {
+          transition: stroke-dashoffset .8s ease-out;
+          animation: dash .8s ease-out;
+        }
         svg {
           transform: rotate(90deg);
         }
@@ -81,5 +85,11 @@
         }
       }
     }
+  }
+}
+
+@keyframes :global(dash) {
+  from {
+    stroke-dashoffset: 877;
   }
 }

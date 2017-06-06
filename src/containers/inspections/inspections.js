@@ -8,6 +8,7 @@ import Filters from '../../components/inspections-header/filters';
 import EmployeesTasks
     from '../../components/inspections-content/employees-tasks';
 import PlanMonth from '../../components/inspections-content/plan-next-month';
+import PlanWindow from '../../components/plan-window';
 
 import './inspections.scss';
 import {
@@ -26,6 +27,7 @@ class Inspections extends Component {
             { title: 'План на следующий месяц', id: 2 },
         ],
         collapsed: false,
+        calcWindowOpen: false,
     };
 
     componentDidMount() {
@@ -33,15 +35,20 @@ class Inspections extends Component {
     }
 
     calculateAudits = () => {
+        const { calculateAudits, employeesIds } = this.props;
         const now = moment();
         const startDate = now.format('YYYY-MM-DD');
         const end = now.add(30, 'days');
         const endDate = end.format('YYYY-MM-DD');
 
-        this.props.calculateAudits({
-            startDate,
-            endDate,
-        });
+        calculateAudits &&
+            calculateAudits({
+                startDate,
+                endDate,
+                ids: employeesIds,
+            }).then(() => {
+                this.closeCalcWindow();
+            });
     };
 
     handleTabClick = id => {
@@ -56,9 +63,12 @@ class Inspections extends Component {
         });
     };
 
+    closeCalcWindow = () => this.setState(state => ({ calcWindowOpen: false }));
+    showCalcWindow = () => this.setState(state => ({ calcWindowOpen: true }));
+
     render() {
-        const { tasksByStatus, tasksByDate } = this.props;
-        const { tabs, activeTabId, collapsed } = this.state;
+        const { tasksByStatus, tasksByDate, progress } = this.props;
+        const { tabs, activeTabId, collapsed, calcWindowOpen } = this.state;
         const container = cn('inspections-container', {
             height: activeTabId === 2,
         });
@@ -81,6 +91,7 @@ class Inspections extends Component {
                             activeTabId={activeTabId}
                             collapsed={collapsed}
                             handleCollapse={this.handleCollapse}
+                            onCalc={this.showCalcWindow}
                         />
                     </div>
                     <Filters collapsed={collapsed} />
@@ -88,6 +99,12 @@ class Inspections extends Component {
                 {activeTabId === 1
                     ? <EmployeesTasks tasks={tasksByStatus} />
                     : <PlanMonth tasks={tasksByDate} />}
+                <PlanWindow
+                    open={calcWindowOpen}
+                    progress={progress}
+                    onRequestClose={this.closeCalcWindow}
+                    onApply={this.calculateAudits}
+                />
             </div>
         );
     }
@@ -115,12 +132,16 @@ const groupAudits = audits => {
     return groupedAuditsByStatus;
 };
 
-const mapProps = ({ inspections: { audits, loading, employees } }) => {
+const mapProps = ({
+    inspections: { audits, loading, employees, progress },
+}) => {
     const tasksWithEmployees = joinEmployee(audits, employees);
     return {
         loading,
         tasksByStatus: groupAudits(tasksWithEmployees),
         tasksByDate: groupBy(tasksWithEmployees, 'audit_date'),
+        progress,
+        employeesIds: employees.map(({ gid }) => gid),
     };
 };
 
