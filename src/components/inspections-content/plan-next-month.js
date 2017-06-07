@@ -26,9 +26,10 @@ const labelPrimaryButtonStyle = {
 };
 
 const PlanMonth = ({ tasks }) => {
+    const keysTasks = Object.keys(tasks);
     return (
         <div className="plan-next-month-wrapper">
-            {Object.keys(tasks).length === 0
+            {keysTasks.length === 0
                 ? <div className="tasks-empty">
                       <div className="tasks-empty-title">
                           Нет задач на согласовании
@@ -43,7 +44,7 @@ const PlanMonth = ({ tasks }) => {
                 : <div>
                       <div className="plan-next-month-block">
                           {tasks &&
-                              Object.keys(tasks).map(date => (
+                              keysTasks.map(date => (
                                   <DateBlock
                                       date={date}
                                       tasks={tasks[date]}
