@@ -90,6 +90,7 @@ export const getAudits = ({ ids } = {}) => (dispatch, getState) => {
 
 export const calculateAudits = props => (dispatch, getState) => {
     dispatch(make());
+    dispatch(makeProgress(0));
     const { user: { role_name }, inspections: { employees } } = getState();
 
     if (role_name !== ROLES.MANAGER && role_name !== ROLES.CENTRAL) {
@@ -111,7 +112,6 @@ export const calculateAudits = props => (dispatch, getState) => {
         .then(() => {
             dispatch(makeSuccess());
             dispatch(getAudits({ ids }));
-            dispatch(makeProgress(0));
         })
         .catch(error => dispatch(makeError(error)));
 };
@@ -135,7 +135,7 @@ export default createReducer(
         [setEmployees]: (state, payload) => state.set('employees', payload),
 
         [fetchAuditsStart]: (state, payload) =>
-            state.set('loading', false).set('error', false),
+            state.set('loading', true).set('error', false),
 
         [fetchAuditsSuccess]: (state, payload) =>
             state

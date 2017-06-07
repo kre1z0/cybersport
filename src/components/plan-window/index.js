@@ -44,24 +44,35 @@ class PlanWindow extends Component {
 
     click = () => {
         const { onApply } = this.props;
+        const { start, end } = this.state;
 
-        onApply();
+        onApply(start, end);
         this.setState(state => ({
             loader: true,
         }));
+    };
+
+    onChange = field => value => {
+        if (value) {
+            this.setState(state => ({
+                [field]: value,
+            }));
+        }
     };
 
     componentWillReceiveProps({ open }) {
         if (!open && this.props.open) {
             this.setState(state => ({
                 loader: false,
+                start: null,
+                end: null,
             }));
         }
     }
 
     render() {
         const { open, onRequestClose, progress } = this.props;
-        const { loader } = this.state;
+        const { loader, start, end } = this.state;
         return (
             <ModalWindow
                 actions={Actions}
@@ -118,6 +129,8 @@ class PlanWindow extends Component {
                                     popoverTargetAttachment: 'top left',
                                     popoverTargetOffset: '10px -25px',
                                 }}
+                                value={start}
+                                onChange={this.onChange('start')}
                             />
                             <DateInput
                                 libProps={{
@@ -125,6 +138,8 @@ class PlanWindow extends Component {
                                     popoverTargetAttachment: 'top center',
                                     popoverTargetOffset: '10px -15px',
                                 }}
+                                value={end}
+                                onChange={this.onChange('end')}
                             />
                         </div>
                     </div>

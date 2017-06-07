@@ -34,17 +34,13 @@ class Inspections extends Component {
         this.props.getAuditsWithEmployeesIfNeeded();
     }
 
-    calculateAudits = () => {
+    calculateAudits = (startDate, endDate) => {
         const { calculateAudits, employeesIds } = this.props;
-        const now = moment();
-        const startDate = now.format('YYYY-MM-DD');
-        const end = now.add(30, 'days');
-        const endDate = end.format('YYYY-MM-DD');
 
         calculateAudits &&
             calculateAudits({
-                startDate,
-                endDate,
+                startDate: startDate.format('YYYY-MM-DD'),
+                endDate: endDate.format('YYYY-MM-DD'),
                 ids: employeesIds,
             }).then(() => {
                 this.closeCalcWindow();
@@ -67,7 +63,7 @@ class Inspections extends Component {
     showCalcWindow = () => this.setState(state => ({ calcWindowOpen: true }));
 
     render() {
-        const { tasksByStatus, tasksByDate, progress } = this.props;
+        const { tasksByStatus, tasksByDate, progress, loading } = this.props;
         const { tabs, activeTabId, collapsed, calcWindowOpen } = this.state;
         const container = cn('inspections-container', {
             height: activeTabId === 2,
@@ -97,8 +93,8 @@ class Inspections extends Component {
                     <Filters collapsed={collapsed} />
                 </div>
                 {activeTabId === 1
-                    ? <EmployeesTasks tasks={tasksByStatus} />
-                    : <PlanMonth tasks={tasksByDate} />}
+                    ? <EmployeesTasks tasks={tasksByStatus} loading={loading} />
+                    : <PlanMonth tasks={tasksByDate} loading={loading} />}
                 <PlanWindow
                     open={calcWindowOpen}
                     progress={progress}

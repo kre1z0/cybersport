@@ -3,6 +3,7 @@ import PropType from 'prop-types';
 import PlanTitleItem from '../../components/inspections-header/plan-title-item';
 import ColumnBlock from '../../components/inspections-content/column-block';
 import { coolGreyTwo, macaroniAndCheese, softGreen } from '../../assets/theme';
+import withLoader from '../../hoc/withLoader';
 
 import './employes-tasks.scss';
 
@@ -44,4 +45,4 @@ class EmployeesTasks extends Component {
     }
 }
 
-export default EmployeesTasks;
+export default withLoader(EmployeesTasks);

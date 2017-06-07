@@ -1,6 +1,7 @@
 import React from 'react';
 import DateBlock from '../../components/inspections-content/tasks-date-block';
 import RoundedButton from '../../components/button/rounded-button';
+import withLoader from '../../hoc/withLoader';
 
 import './plan-next-month.scss';
 
@@ -40,4 +41,4 @@ const PlanMonth = ({ tasks }) => (
     </div>
 );
 
-export default PlanMonth;
+export default withLoader(PlanMonth);
