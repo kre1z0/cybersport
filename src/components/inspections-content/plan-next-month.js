@@ -26,7 +26,7 @@ const labelPrimaryButtonStyle = {
 };
 
 const PlanMonth = ({ tasks }) => {
-    const keysTasks = Object.keys(tasks);
+    const keysTasks = tasks && Object.keys(tasks);
     return (
         <div className="plan-next-month-wrapper">
             {keysTasks.length === 0
@@ -43,14 +43,13 @@ const PlanMonth = ({ tasks }) => {
                   </div>
                 : <div>
                       <div className="plan-next-month-block">
-                          {tasks &&
-                              keysTasks.map(date => (
-                                  <DateBlock
-                                      date={date}
-                                      tasks={tasks[date]}
-                                      key={date + '-key'}
-                                  />
-                              ))}
+                          {keysTasks.map(date => (
+                              <DateBlock
+                                  date={date}
+                                  tasks={tasks[date]}
+                                  key={date + '-key'}
+                              />
+                          ))}
                       </div>
                       <div className="plan-next-month-footer">
                           <RoundedButton
