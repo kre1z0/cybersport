@@ -1,8 +1,24 @@
+@import "../../assets/base/colors";
+
 :global {
   .plan-next-month-wrapper {
+    height: 100%;
     position: relative;
     padding: 0 20px 20px 20px;
     overflow-y: auto;
+    .tasks-empty {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      .tasks-empty-title {
+        margin-bottom: 20px;
+        font-weight: 500;
+        font-size: 1.285rem;
+        color: $darkGrey;
+      }
+    }
     .plan-next-month-block {
       max-width: 432px;
       margin: 0 auto;
