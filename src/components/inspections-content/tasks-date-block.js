@@ -11,7 +11,7 @@ const DateBlock = ({ date, tasks = [] }) => (
             <WorkerItem
                 id={gid}
                 fullName={employee.full_name}
-                img={employee.image}
+                img={employee.image_name}
                 key={gid}
             />
         ))}
