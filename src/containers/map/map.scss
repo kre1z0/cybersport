@@ -4,4 +4,31 @@
     width: 100%;
     position: relative;
   }
+  .sGis-zoomButtons{
+    position: absolute;
+    top: calc( 50% - 54px );
+    left: 10px;
+    .sGis-zoomButtons-zoomIn, .sGis-zoomButtons-zoomOut{
+      cursor: pointer;
+      margin: 2px;
+      z-index: 9;
+      position: relative;
+      width: 44px;
+      height: 44px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      background-repeat: no-repeat;
+      background-size: 16px;
+      background-position: center;
+    }
+    .sGis-zoomButtons{
+      &-zoomIn{
+        background-image: url(../../assets/images/plus.svg);
+        margin-bottom: 10px;
+      }
+      &-zoomOut{
+        background-image: url(../../assets/images/minus.svg);
+      }
+    }
+  }
 }
