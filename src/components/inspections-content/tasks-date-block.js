@@ -7,12 +7,12 @@ const DateBlock = ({ date, tasks = [] }) => (
         <div className="inspections-item-date">
             {moment(date).format('L')}
         </div>
-        {tasks.map(({ gid, employee, image }) => (
+        {tasks.map(({ id, employee, image }) => (
             <WorkerItem
-                id={gid}
+                id={id}
                 fullName={employee.full_name}
                 img={employee.image_name}
-                key={gid}
+                key={id}
             />
         ))}
     </div>

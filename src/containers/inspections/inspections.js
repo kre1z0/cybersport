@@ -141,6 +141,7 @@ const groupAuditsInTasks = audits => {
         const [audit] = tasksAudits || [];
         employeesIds.forEach(employee_id => {
             tasks.push({
+                id: `${task_id}-${employee_id}`,
                 task_id,
                 employee_id: +employee_id,
                 task_date: audit && audit.audit_date,
