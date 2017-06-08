@@ -9,7 +9,7 @@ export const OSM = 'osm';
 export const GIS = '2gis';
 export const STATIC_SERVICE = 'sber_objects_static';
 
-export const BASEMAPS = [OSM, GIS];
+export const BASEMAPS = [OSM];
 
 export const ROLES = {
     EMPLOYEE: 'Сотрудник',

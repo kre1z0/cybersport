@@ -11,6 +11,7 @@ import {
     setResolution,
     loadMapServicesIfNeeded,
     selectObject,
+    changeMap,
 } from '../../ducks/map';
 import { getDomainsIfNeeded } from '../../ducks/domains';
 import getLayerManager from '../../evergis/layer-manager';
@@ -19,10 +20,11 @@ import { getFeatureLayer } from '../../evergis/map';
 import Map from '../../components/map';
 import LayersList from './layer-list';
 import FeaturePopup from './feature-popup';
+import BaseMap from '../../components/map-controls/base-maps';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
-import { MapLayers } from '../../components/icons';
+import { MapLayers, BasemapsIcon } from '../../components/icons';
 
 import {
     OBJECTS_SERVICE,
@@ -39,12 +41,19 @@ const floatButtonStyles = {
         left: '1rem',
         zIndex: 1,
     },
+    buttonBaseMaps: {
+        position: 'absolute',
+        bottom: '1rem',
+        left: '1rem',
+        zIndex: 1,
+    },
     svg: { height: '15px', width: '16px', verticalAlign: 'sub' },
 };
 
 class MapContainer extends Component {
     state = {
         showPopup: false,
+        showBaseMaps: false,
     };
 
     static propTypes = {
@@ -144,9 +153,15 @@ class MapContainer extends Component {
         }));
     };
 
+    handleShowBaseMaps = () => {
+        this.setState(state => ({
+            showBaseMaps: !state.showBaseMaps,
+        }));
+    };
+
     render() {
-        const { map, setCenter, setResolution } = this.props;
-        const { showPopup } = this.state;
+        const { map, setCenter, setResolution, changeMap } = this.props;
+        const { showPopup, showBaseMaps } = this.state;
 
         return (
             <div className="map-container">
@@ -167,12 +182,27 @@ class MapContainer extends Component {
                         isActive={showPopup}
                     />
                 </FloatingActionButton>
-                {
-                    <LayersList
-                        showTime={showPopup}
-                        onClose={this.handleShowPopup}
+                <LayersList
+                    showTime={showPopup}
+                    onClose={this.handleShowPopup}
+                />
+
+                <FloatingActionButton
+                    style={floatButtonStyles.buttonBaseMaps}
+                    backgroundColor="#fff"
+                    onTouchTap={this.handleShowBaseMaps}
+                >
+                    <BasemapsIcon
+                        style={floatButtonStyles.svg}
+                        isActive={showBaseMaps}
                     />
-                }
+                </FloatingActionButton>
+                <BaseMap
+                    showTime={showBaseMaps}
+                    currentMap={map.basemap}
+                    onChange={changeMap}
+                />
+
                 <FeaturePopup />
             </div>
         );
@@ -184,6 +214,7 @@ const mapProps = ({ map }) => ({
 });
 
 const mapActions = {
+    changeMap,
     setCenter,
     setResolution,
     loadMapServicesIfNeeded,

@@ -58,6 +58,8 @@ export const setShowHomeAddress = createAction('map/set-show-home-address');
 export const selectObject = createAction('map/select-object');
 export const setDomainsFilter = createAction('map/set-domain-filter');
 
+export const changeBaseMap = createAction('map/change-base-map');
+
 const isVisible = (name, { basemap }) =>
     (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
 
@@ -116,6 +118,10 @@ export const pickObjectsById = ({ ids, position }) => dispatch =>
         )
         .catch(error => dispatch(selectObject({ objects: [] })));
 
+export const changeMap = map => dispatch => {
+    dispatch(changeBaseMap(map));
+};
+
 export default createReducer(
     {
         [setCenter]: (state, payload) => state.set('center', payload),
@@ -160,6 +166,8 @@ export default createReducer(
 
         [setDomainsFilter]: (state, payload) =>
             state.set('domainsFilter', payload),
+
+        [changeBaseMap]: (state, payload) => state.set('basemap', payload),
     },
     initState,
 );
