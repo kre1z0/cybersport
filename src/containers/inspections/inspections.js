@@ -121,21 +121,51 @@ const groupAudits = audits => {
     statuses.forEach(status => {
         groupedAuditsByStatus[status] = groupBy(
             groupedAuditsByStatus[status],
-            'audit_date',
+            'task_date',
         );
     });
 
     return groupedAuditsByStatus;
 };
 
+const groupAuditsInTasks = audits => {
+    const auditsByTask = groupBy(audits, 'task_id');
+    const tasksIds = auditsByTask && Object.keys(auditsByTask);
+    const tasks = [];
+
+    tasksIds.forEach(task_id => {
+        const tasksAudits = auditsByTask[task_id];
+        const taskAuditsByEmployee = groupBy(tasksAudits, 'employee_id');
+        const employeesIds =
+            taskAuditsByEmployee && Object.keys(taskAuditsByEmployee);
+        const [audit] = tasksAudits || [];
+        employeesIds.forEach(employee_id => {
+            tasks.push({
+                task_id,
+                employee_id: +employee_id,
+                task_date: audit && audit.audit_date,
+                status_code: audit && audit.status_code,
+                audits: tasksAudits.filter(
+                    item => item.employee_id === +employee_id,
+                ),
+            });
+        });
+    });
+
+    return tasks;
+};
+
 const mapProps = ({
     inspections: { audits, loading, employees, progress },
 }) => {
-    const tasksWithEmployees = joinEmployee(audits, employees);
+    const auditsWithEmployees = joinEmployee(
+        groupAuditsInTasks(audits),
+        employees,
+    );
     return {
         loading,
-        tasksByStatus: groupAudits(tasksWithEmployees),
-        tasksByDate: groupBy(tasksWithEmployees, 'audit_date'),
+        tasksByStatus: groupAudits(auditsWithEmployees),
+        tasksByDate: groupBy(auditsWithEmployees, 'task_date'),
         progress,
         employeesIds: employees.map(({ gid }) => gid),
     };
