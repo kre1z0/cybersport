@@ -68,12 +68,18 @@ class MapContainer extends Component {
     componentDidMount() {
         const { loadMapServicesIfNeeded, getDomainsIfNeeded, map } = this.props;
         loadMapServicesIfNeeded().then(services => {
-            services && this.updateServices(services, map);
+            if (services) {
+                this.services = services;
+                this.updateServices(services, map);
+            }
         });
         getDomainsIfNeeded();
     }
 
     componentWillReceiveProps({ map }) {
+        if (this.props.map.basemap !== map.basemap) {
+            this.updateServices(map.services, map);
+        }
         if (
             this.props.map.objectsDataFilter !== map.objectsDataFilter ||
             this.props.map.domainsFilter !== map.domainsFilter

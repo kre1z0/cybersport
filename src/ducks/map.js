@@ -167,7 +167,21 @@ export default createReducer(
         [setDomainsFilter]: (state, payload) =>
             state.set('domainsFilter', payload),
 
-        [changeBaseMap]: (state, payload) => state.set('basemap', payload),
+        [changeBaseMap]: (state, payload) =>
+            state
+                .set(
+                    'services',
+                    state.services.map(service => {
+                        if (service.name === state.basemap) {
+                            return service.set('isVisible', false);
+                        }
+                        if (service.name === payload) {
+                            return service.set('isVisible', true);
+                        }
+                        return service;
+                    }),
+                )
+                .set('basemap', payload),
     },
     initState,
 );
