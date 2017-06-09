@@ -118,10 +118,6 @@ export const pickObjectsById = ({ ids, position }) => dispatch =>
         )
         .catch(error => dispatch(selectObject({ objects: [] })));
 
-export const changeMap = map => dispatch => {
-    dispatch(changeBaseMap(map));
-};
-
 export default createReducer(
     {
         [setCenter]: (state, payload) => state.set('center', payload),

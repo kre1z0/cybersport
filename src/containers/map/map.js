@@ -11,7 +11,7 @@ import {
     setResolution,
     loadMapServicesIfNeeded,
     selectObject,
-    changeMap,
+    changeBaseMap,
 } from '../../ducks/map';
 import { getDomainsIfNeeded } from '../../ducks/domains';
 import getLayerManager from '../../evergis/layer-manager';
@@ -163,7 +163,7 @@ class MapContainer extends Component {
     };
 
     render() {
-        const { map, setCenter, setResolution, changeMap } = this.props;
+        const { map, setCenter, setResolution, changeBaseMap } = this.props;
         const { showPopup, showBaseMaps } = this.state;
 
         return (
@@ -203,7 +203,7 @@ class MapContainer extends Component {
                 <BaseMap
                     showTime={showBaseMaps}
                     currentMap={map.basemap}
-                    onChange={changeMap}
+                    onChange={changeBaseMap}
                 />
 
                 <FeaturePopup />
@@ -217,7 +217,7 @@ const mapProps = ({ map }) => ({
 });
 
 const mapActions = {
-    changeMap,
+    changeBaseMap,
     setCenter,
     setResolution,
     loadMapServicesIfNeeded,
