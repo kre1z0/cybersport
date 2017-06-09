@@ -15,6 +15,7 @@ const getMap = ({ wrapper, position, resolution }) => {
         wrapper,
         position,
         resolution,
+        plugins: [{ name: 'ZoomButtons' }],
     });
 
     return initedSGis.map;
