@@ -58,6 +58,8 @@ export const setShowHomeAddress = createAction('map/set-show-home-address');
 export const selectObject = createAction('map/select-object');
 export const setDomainsFilter = createAction('map/set-domain-filter');
 
+export const changeBaseMap = createAction('map/change-base-map');
+
 const isVisible = (name, { basemap }) =>
     (BASEMAPS.includes(name) && basemap === name) || !BASEMAPS.includes(name);
 
@@ -160,6 +162,22 @@ export default createReducer(
 
         [setDomainsFilter]: (state, payload) =>
             state.set('domainsFilter', payload),
+
+        [changeBaseMap]: (state, payload) =>
+            state
+                .set(
+                    'services',
+                    state.services.map(service => {
+                        if (service.name === state.basemap) {
+                            return service.set('isVisible', false);
+                        }
+                        if (service.name === payload) {
+                            return service.set('isVisible', true);
+                        }
+                        return service;
+                    }),
+                )
+                .set('basemap', payload),
     },
     initState,
 );
