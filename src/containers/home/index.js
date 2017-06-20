@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import withRouter from '../../hoc/withRouter';
 import { getStreamersList } from '../../actions/twitch/getStreamersList';
 import { getYoutubeChannelData } from '../../actions/youtube/getChannel';
 import { getYoutubeVideosByToken } from '../../actions/youtube/getVideosByToken';
 import { getAllVideosByDate } from '../../actions/youtube/getAllVideosByDate';
 import { getVideoDetails } from '../../actions/youtube/getVideoDetails';
+import { getYoutubeComments } from '../../actions/youtube/getComments';
 import Youtube from '../../components/youtube';
 import Twitch from '../../components/twitch';
 import VideoPlayer from '../../components/video-player';
 import TwitchChat from '../../components/twitch/chat';
 import YoutubeListItem from '../../components/youtube/youtube-list-item';
 import YoutubeSort from '../../components/youtube/youtube-date-videos';
+import Comments from '../../components/youtube/comments';
 import Twitter from '../../components/twitter';
 import youtubeList from '../../assets/data/youtube.json';
 
@@ -78,6 +81,7 @@ class Home extends Component {
             videoIframeUrl: `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`,
         });
         this.props.getVideoDetails(id);
+        this.props.getYoutubeComments(id);
     };
     loadTwitchScreen = (template, createdAt) => {
         const { width, height } = this.state;
@@ -103,10 +107,12 @@ class Home extends Component {
         const {
             twitch: { streamers },
             youtube: {
+                comments,
                 channel,
                 videos: { items, nextPageToken, prevPageToken },
             },
             getYoutubeVideosByToken,
+            getYoutubeComments,
         } = this.props;
         const {
             video,
@@ -159,6 +165,7 @@ class Home extends Component {
                         />}
                 </div>
                 <div className="right-side">
+                    {comments && <Comments comments={comments} />}
                     {twitch_chat &&
                         <TwitchChat height={height} id={twitch_id} />}
                     <YoutubeSort
@@ -195,6 +202,7 @@ const mapActions = {
     getYoutubeVideosByToken,
     getAllVideosByDate,
     getVideoDetails,
+    getYoutubeComments,
 };
 
 export default withRouter(connect(mapProps, mapActions)(Home));

@@ -39,6 +39,16 @@ export const fetchCommentsSuccess = createAction(
 );
 export const fetchCommentsError = createAction('youtube/fetch-comments-error');
 
+export const fetchCommentsByTokenStart = createAction(
+    'youtube/fetch-comments-by-token-start',
+);
+export const fetchCommentsByTokenSuccess = createAction(
+    'youtube/fetch-comments-by-token-success',
+);
+export const fetchCommentsByTokenError = createAction(
+    'youtube/fetch-comments-by-token-error',
+);
+
 export default createReducer(
     {
         [fetchChannelStart]: (state, payload) => state.set('error', false),
@@ -68,6 +78,13 @@ export default createReducer(
         [fetchCommentsSuccess]: (state, payload) =>
             state.set('comments', payload).set('error', false),
         [fetchCommentsError]: (state, payload) => state.set('error', payload),
+
+        [fetchCommentsByTokenStart]: (state, payload) =>
+            state.set('error', false),
+        [fetchCommentsByTokenSuccess]: (state, payload) =>
+            state.set('comments', payload).set('error', false),
+        [fetchCommentsByTokenError]: (state, payload) =>
+            state.set('error', payload),
     },
     initState,
 );

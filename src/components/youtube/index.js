@@ -28,6 +28,7 @@ class Youtube extends Component {
                     videos.map(
                         ({
                             id: { videoId },
+                            etag,
                             snippet: {
                                 title,
                                 publishedAt,
@@ -40,7 +41,7 @@ class Youtube extends Component {
                                 loadYoutubeVideo={() =>
                                     loadYoutubeVideo(videoId)}
                                 title={title}
-                                key={videoId}
+                                key={etag}
                                 published={publishedAt}
                                 imageSrc={url}
                             />,
