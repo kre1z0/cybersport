@@ -1,6 +1,4 @@
-.storybook
 config
 node_modules
 public
 scripts
-src/assets/sgis/*

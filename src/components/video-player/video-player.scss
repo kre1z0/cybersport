@@ -1,0 +1,31 @@
+@import "../../assets/base/colors";
+
+:global {
+  .video-block {
+    padding: 5px;
+    background: url(../../assets/images/twitch.jpg);
+    background-size: cover;
+    position: relative;
+    border-radius: 3px;
+    border: 1px solid $tundora;
+    margin-bottom: 10px;
+    .twitch-screen {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+    }
+    .twitch-created-date {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 0 0 3px 0;
+      padding: 5px 10px;
+      background-color: $mineShaft;
+    }
+    .video-iframe {
+      width: 100%;
+      height: 100%;
+      background-color: $mineShaft;
+    }
+  }
+}

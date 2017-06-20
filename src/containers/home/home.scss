@@ -1,17 +1,31 @@
+@import "../../assets/base/colors";
+
+$blockMargin: 5px;
+
 :global {
   .home-container {
-    height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .home-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    .left-side {
+      width: calc(17% - #{$blockMargin});
+      border-radius: 3px;
+      border: 1px solid $tundora;
+      border-bottom: none;
+      background-color: $mineShaft;
+      .twitter {
+        height: 1300px;
+      }
+    }
+    .center-side {
+      width: calc(60% - #{$blockMargin});
+    }
+    .right-side {
+      width: calc(23% - #{$blockMargin});
+      .youtube-list {
+        display: flex;
+        flex-wrap: wrap;
+      }
     }
   }
 }

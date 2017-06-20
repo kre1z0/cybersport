@@ -1,0 +1,43 @@
+@import "../../assets/base/colors";
+
+:global {
+  .youtube-videos-block {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    .video-navigation {
+      width: calc(100% / 4 - 5px);
+      margin-right: 5px;
+    }
+    .video-item {
+      margin: 0 5px 5px 0;
+      padding: 5px;
+      border-radius: 3px;
+      width: calc(100% / 4 - 5px);
+      position: relative;
+      border: 1px solid $tundora;
+      background-color: $mineShaft;
+      cursor: pointer;
+      &:hover {
+        border: 1px solid $alto;
+      }
+      &.selected {
+        border: 1px solid $alto;
+      }
+      .video-image {
+        width: 100%;
+        height: auto;
+      }
+      .published-date {
+        font-size: 0.928rem;
+        border-radius: 3px;
+        padding: 3px 10px;
+        position: absolute;
+        background-color: $mineShaft;
+        bottom: 0;
+        left: 0;
+        transition: opacity .3s ease;
+      }
+    }
+  }
+}

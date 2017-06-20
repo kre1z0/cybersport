@@ -1,0 +1,23 @@
+@import "../../assets/base/colors";
+
+:global {
+  .youtube-list-item {
+    margin: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 0.928rem;
+    color: $doveGray;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid $tundora;
+    background-color: $mineShaft;
+    &.selected {
+      cursor: default;
+      color: $alto;
+      background-color: $mineShaftDark;
+    }
+    &:hover {
+      color: $alto;
+      background-color: $mineShaftDark;
+    }
+  }
+}

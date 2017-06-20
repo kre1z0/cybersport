@@ -1,0 +1,41 @@
+@import "../../assets/base/colors";
+
+:global {
+  .streamers {
+    ul {
+      height: 100%;
+      overflow-y: auto;
+      li {
+        padding: 0 5px;
+        color: $doveGray;
+        border-bottom: 1px solid $tundora;
+        height: 27px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all .3s ease;
+        &.selected {
+          cursor: default;
+          color: $alto;
+          background-color: $mineShaftDark;
+        }
+        &:hover {
+          color: $alto;
+          background-color: $mineShaftDark;
+        }
+        .nickname {
+          padding-left: 5px;
+          font-size: 0.928rem;
+        }
+        .viewers {
+          font-size: 0.785rem;
+          margin-left: auto;
+        }
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}
+

@@ -16,25 +16,3 @@ export const mango = '#ffad2b';
 export const waterMelon = '#ff4057';
 export const coolGreyThree = '#98a1ab';
 export const brightLavender = '#df5dff';
-
-export const theme = getMuiTheme({
-    fontFamily: 'FedraSans',
-    fontSize: '14px',
-    appBar: {
-        height: 80,
-        color: softGreen,
-    },
-    svgIcon: {
-        color: coolGreyTwo,
-    },
-    palette: {
-        primary1Color: softGreen,
-        accent1Color: dustyOrange,
-    },
-    datePicker: {
-        selectColor: softGreen,
-    },
-    floatingActionButton: {
-        buttonSize: '44px',
-    },
-});

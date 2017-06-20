@@ -3,9 +3,9 @@
 :global {
   html {
     box-sizing: border-box;
-    font-family: FedraSans, 'sans-serif';
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
-    background: $mainBackground;
+    background: url("../../assets/images/background.jpg");
   }
 
   *, *:before, *:after {
@@ -20,33 +20,15 @@
   body,
   #root,
   .app-container {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+    color: #fff;
   }
 
   .pages-container {
-    height: calc(100% - 80px);
-    overflow: hidden;
+
   }
 
   .--padding {
-    padding: 20px;
-  }
-
-  .loader {
-    width: 100% !important;
-    height: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    &.overlay {
-      position: absolute !important;
-      top: 0;
-      left: 0;
-      background-color: rgba(255, 255, 255, .5);
-      z-index: 999;
-    }
+    padding: 5px;
   }
 
   a,
@@ -60,7 +42,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: $silverThree;
+    background: $mineShaftDark;
     border: 2px solid #fff;
     &:hover {
       background: #989fa8;

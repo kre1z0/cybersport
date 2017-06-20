@@ -1,0 +1,15 @@
+@import "../../assets/base/colors";
+
+:global {
+  .twitch-chat {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid $tundora;
+    background-color: $mineShaft;
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

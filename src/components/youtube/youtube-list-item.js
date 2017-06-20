@@ -1,9 +1,18 @@
 import React from 'react';
+import cn from 'classnames';
 
-const YoutubeList = () => {
+import './youtube-list-item.scss';
+
+const YoutubeList = ({ name, title, id, customId, loadYoutube, selectId }) => {
     return (
-        <div>
-            fsdfsdfsddfsfsd
+        <div
+            className={cn('youtube-list-item', {
+                selected: selectId === name,
+            })}
+            onTouchTap={() => loadYoutube(id, customId, name)}
+            title={title}
+        >
+            {name}
         </div>
     );
 };
