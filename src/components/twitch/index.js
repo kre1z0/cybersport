@@ -17,32 +17,30 @@ class Twitch extends Component {
         return (
             <div className="streamers">
                 {loader}
-                <ul>
-                    {streamers &&
-                        streamers.map(
-                            ({
-                                created_at,
-                                preview: { template },
-                                viewers,
-                                channel: { name, status },
-                            }) =>
-                                <Streamer
-                                    preview={template}
-                                    loadTwitchScreen={() =>
-                                        loadTwitchScreen(template, created_at)}
-                                    clearTwitchScreen={clearTwitchScreen}
-                                    selectId={selectId}
-                                    loadStream={loadStream}
-                                    viewers={viewers}
-                                    status={status}
-                                    key={name}
-                                    name={name}
-                                    streamers={StreamersList.find(
-                                        ({ id }) => id === name,
-                                    )}
-                                />,
-                        )}
-                </ul>
+                {streamers &&
+                    streamers.map(
+                        ({
+                            created_at,
+                            preview: { template },
+                            viewers,
+                            channel: { name, status },
+                        }) =>
+                            <Streamer
+                                preview={template}
+                                loadTwitchScreen={() =>
+                                    loadTwitchScreen(template, created_at)}
+                                clearTwitchScreen={clearTwitchScreen}
+                                selectId={selectId}
+                                loadStream={loadStream}
+                                viewers={viewers}
+                                status={status}
+                                key={name}
+                                name={name}
+                                streamers={StreamersList.find(
+                                    ({ id }) => id === name,
+                                )}
+                            />,
+                    )}
             </div>
         );
     }

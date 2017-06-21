@@ -1,6 +1,7 @@
 import React from 'react';
-import Ukraine from '../../assets/images/flag_country/Ukraine.png';
 import cn from 'classnames';
+import { countries } from 'country-data';
+import user from '../../assets/images/user.svg';
 
 const Streamer = ({
     loadStream,
@@ -12,18 +13,23 @@ const Streamer = ({
     clearTwitchScreen,
     streamers: { nickname, country },
 }) => {
+    const countryName = countries[country.toUpperCase()].name;
     return (
-        <li
+        <div
+            className={cn('item', { selected: selectId === name })}
             title={status}
-            className={cn({ selected: selectId === name })}
             onTouchTap={() => loadStream(name)}
             onMouseEnter={loadTwitchScreen}
             onMouseLeave={clearTwitchScreen}
         >
-            <img src={Ukraine} title={country} alt={country} />
+            <span
+                className={`flag-icon flag-icon-${country.toLowerCase()}`}
+                title={countryName}
+            />
             <span className="nickname">{nickname}</span>
             <span className="viewers">{viewers}</span>
-        </li>
+            <img src={user} alt="user" />
+        </div>
     );
 };
 

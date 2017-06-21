@@ -8,6 +8,7 @@ import { getYoutubeVideosByToken } from '../../actions/youtube/getVideosByToken'
 import { getAllVideosByDate } from '../../actions/youtube/getAllVideosByDate';
 import { getVideoDetails } from '../../actions/youtube/getVideoDetails';
 import { getYoutubeComments } from '../../actions/youtube/getComments';
+import { getYoutubeCommentsByToken } from '../../actions/youtube/getCommentsBytoken';
 import Youtube from '../../components/youtube';
 import Twitch from '../../components/twitch';
 import VideoPlayer from '../../components/video-player';
@@ -112,7 +113,7 @@ class Home extends Component {
                 videos: { items, nextPageToken, prevPageToken },
             },
             getYoutubeVideosByToken,
-            getYoutubeComments,
+            getYoutubeCommentsByToken,
         } = this.props;
         const {
             video,
@@ -165,7 +166,14 @@ class Home extends Component {
                         />}
                 </div>
                 <div className="right-side">
-                    {comments && <Comments comments={comments} />}
+                    {comments &&
+                        <Comments
+                            id={youtube_video_id}
+                            getYoutubeCommentsByToken={
+                                getYoutubeCommentsByToken
+                            }
+                            comments={comments}
+                        />}
                     {twitch_chat &&
                         <TwitchChat height={height} id={twitch_id} />}
                     <YoutubeSort
@@ -201,8 +209,9 @@ const mapActions = {
     getYoutubeChannelData,
     getYoutubeVideosByToken,
     getAllVideosByDate,
-    getVideoDetails,
     getYoutubeComments,
+    getVideoDetails,
+    getYoutubeCommentsByToken,
 };
 
 export default withRouter(connect(mapProps, mapActions)(Home));

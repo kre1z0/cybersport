@@ -1,16 +1,20 @@
 import React from 'react';
 import CommentItem from '../../components/youtube/comment-item';
 
-const Comments = ({ comments: { prevPageToken, nextPageToken, items } }) => {
+import './comments.scss';
+
+const Comments = ({
+    id,
+    getYoutubeCommentsByToken,
+    comments: { nextPageToken, items },
+}) => {
     return (
-        <div className="video-navigation">
-            {prevPageToken &&
-                <button>
-                    -->
-                </button>}
-            comment-block
+        <div className="comments-navigation">
             {nextPageToken &&
-                <button>
+                <button
+                    onTouchTap={() =>
+                        getYoutubeCommentsByToken(id, nextPageToken)}
+                >
                     -->
                 </button>}
             {items &&

@@ -14,6 +14,7 @@ module.exports = {
         '**/isTextShort.js',
     ],
     require: [
+        'flag-icon-css/sass/_flag-icon.scss',
         'reset.css/reset.css',
         './src/assets/fonts/fonts.scss',
         './src/assets/base/main.scss',

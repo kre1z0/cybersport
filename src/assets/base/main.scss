@@ -1,6 +1,7 @@
 @import "./colors.scss";
 
 :global {
+  @import "../../../node_modules/flag-icon-css/sass/flag-icon.scss";
   html {
     box-sizing: border-box;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
