@@ -1,14 +1,41 @@
+@import "../../assets/base/colors";
+
 :global {
   .comments-navigation {
     .item {
-      .name {
-
-      }
-      .publish-date {
-
+      border: 1px solid $tundora;
+      padding: 5px;
+      border-radius: 3px;
+      margin-bottom: 5px;
+      background-color: $mineShaft;
+      .header {
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+        img {
+          width: 28px;
+          height: 28px;
+          border-radius: 3px;
+          margin-right: 10px;
+        }
+        .name {
+          font-size: 0.928rem;
+          color: $dodgerBlue;
+          text-decoration: none;
+          &:hover {
+            color: $dodgerBlueLight;
+            text-decoration: underline;
+          }
+        }
+        .publish-date {
+          margin-top: 3px;
+          font-size: 0.928rem;
+          color: $doveGray;
+        }
       }
       .text-content {
-
+        font-size: 0.928rem;
+        line-height: normal;
       }
     }
   }

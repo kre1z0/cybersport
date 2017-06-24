@@ -7,6 +7,7 @@ import './videos.scss';
 class Youtube extends Component {
     render() {
         const {
+            width,
             getYoutubeVideosByToken,
             channel,
             videos,
@@ -15,10 +16,14 @@ class Youtube extends Component {
             loadYoutubeVideo,
             selectId,
         } = this.props;
+        const itemWidth = width / 4 - 5;
+        const itemHeight = itemWidth / 1.69 - 4;
         return (
             <div className="youtube-videos-block">
                 {channel &&
                     <Navigation
+                        width={itemWidth}
+                        height={itemHeight}
                         getYoutubeVideosByToken={getYoutubeVideosByToken}
                         prevPageToken={prevPageToken}
                         nextPageToken={nextPageToken}
@@ -36,6 +41,8 @@ class Youtube extends Component {
                             },
                         }) =>
                             <VideoItem
+                                width={itemWidth}
+                                height={itemHeight}
                                 id={videoId}
                                 selectId={selectId}
                                 loadYoutubeVideo={() =>

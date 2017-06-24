@@ -5,15 +5,10 @@
     display: flex;
     flex-wrap: wrap;
     margin-right: -5px;
-    .video-navigation {
-      width: calc(100% / 4 - 5px);
-      margin-right: 5px;
-    }
     .video-item {
       margin: 0 5px 5px 0;
       padding: 5px;
       border-radius: 3px;
-      width: calc(100% / 4 - 5px);
       position: relative;
       border: 1px solid $tundora;
       background-color: $mineShaft;

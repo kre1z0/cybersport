@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
+import './sort.scss';
+
 const today = moment().clone().startOf('day');
 const yesterday = moment().clone().subtract(1, 'days').startOf('day');
 const beforeYesterday = moment().clone().subtract(2, 'days').startOf('day');
@@ -22,7 +24,7 @@ const youtubeSortMenu = [
 
 const YoutubeSort = ({ youtubeList, loadYoutubeVideosByDate }) => {
     return (
-        <div>
+        <div className="youtube-sort-panel">
             {youtubeSortMenu.map(({ name, publish }) => {
                 return (
                     <div

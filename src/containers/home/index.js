@@ -117,6 +117,7 @@ class Home extends Component {
         } = this.props;
         const {
             video,
+            width,
             height,
             twitch_chat,
             createdAt,
@@ -156,6 +157,7 @@ class Home extends Component {
                         />}
                     {youtubeVideos &&
                         <Youtube
+                            width={width}
                             getYoutubeVideosByToken={getYoutubeVideosByToken}
                             selectId={youtube_video_id}
                             loadYoutubeVideo={this.loadYoutubeVideo}
