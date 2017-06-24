@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import cn from 'classnames';
 
 import './sort.scss';
 
@@ -22,21 +23,24 @@ const youtubeSortMenu = [
     },
 ];
 
-const YoutubeSort = ({ youtubeList, loadYoutubeVideosByDate }) => {
+const YoutubeSort = ({ youtubeList, loadYoutubeVideosByDate, selectId }) => {
     return (
-        <div className="youtube-sort-panel">
+        <ul className="youtube-sort-panel">
             {youtubeSortMenu.map(({ name, publish }) => {
                 return (
-                    <div
+                    <li
+                        className={cn('youtube-sort-item', {
+                            selected: selectId === name,
+                        })}
                         onTouchTap={() =>
-                            loadYoutubeVideosByDate(youtubeList, publish)}
+                            loadYoutubeVideosByDate(youtubeList, publish, name)}
                         key={name}
                     >
                         {name}
-                    </div>
+                    </li>
                 );
             })}
-        </div>
+        </ul>
     );
 };
 

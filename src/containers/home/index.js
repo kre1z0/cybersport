@@ -27,10 +27,12 @@ class Home extends Component {
         youtubeVideos: false,
         twitch: false,
         createdAt: '',
+        videoLoading: true,
         width: 0,
         height: 0,
         videoIframeUrl: '',
         twitch_chat: false,
+        youtube_comments: false,
         twitch_id: null,
         youtube_list_id: null,
         youtube_video_id: null,
@@ -54,6 +56,8 @@ class Home extends Component {
         this.setState({
             videoIframeUrl: `https://player.twitch.tv/?channel=${id}`,
             video: true,
+            videoLoading: false,
+            youtube_comments: false,
             twitch: true,
             twitch_chat: true,
             twitch_id: id,
@@ -67,9 +71,10 @@ class Home extends Component {
         });
         this.props.getYoutubeChannelData(id, customId);
     };
-    loadYoutubeVideosByDate = (list, publish) => {
+    loadYoutubeVideosByDate = (list, publish, name) => {
         this.setState({
             youtubeVideos: true,
+            youtube_list_id: name,
         });
         this.props.getAllVideosByDate(list, publish);
     };
@@ -77,8 +82,10 @@ class Home extends Component {
         this.setState({
             youtube_video_id: id,
             video: true,
+            youtube_comments: true,
             twitch_id: null,
             twitch_chat: false,
+            videoLoading: false,
             videoIframeUrl: `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`,
         });
         this.props.getVideoDetails(id);
@@ -104,6 +111,11 @@ class Home extends Component {
             });
         }
     };
+    onLoadTwitchVideoImg = () => {
+        this.setState({
+            videoLoading: false,
+        });
+    };
     render() {
         const {
             twitch: { streamers },
@@ -127,6 +139,8 @@ class Home extends Component {
             twitch_id,
             videoIframeUrl,
             youtubeVideos,
+            videoLoading,
+            youtube_comments,
         } = this.state;
         return (
             <div className="home-container --padding">
@@ -150,6 +164,8 @@ class Home extends Component {
                 >
                     {video &&
                         <VideoPlayer
+                            onLoadTwitchVideoImg={this.onLoadTwitchVideoImg}
+                            loading={videoLoading}
                             createdAt={createdAt}
                             imgSrc={twitch_screen}
                             height={height}
@@ -168,7 +184,8 @@ class Home extends Component {
                         />}
                 </div>
                 <div className="right-side">
-                    {comments &&
+                    {youtube_comments &&
+                        comments &&
                         <Comments
                             id={youtube_video_id}
                             getYoutubeCommentsByToken={
@@ -179,6 +196,7 @@ class Home extends Component {
                     {twitch_chat &&
                         <TwitchChat height={height} id={twitch_id} />}
                     <YoutubeSort
+                        selectId={youtube_list_id}
                         youtubeList={youtubeList}
                         loadYoutubeVideosByDate={this.loadYoutubeVideosByDate}
                     />

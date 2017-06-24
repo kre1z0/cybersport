@@ -1,0 +1,10 @@
+@import "../../assets/base/colors";
+
+:global {
+  .twitter {
+    direction:rtl;
+    width: 100%;
+    overflow-y: scroll;
+    height: 700px;
+  }
+}

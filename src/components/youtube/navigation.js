@@ -5,7 +5,6 @@ import next from '../../assets/images/next.svg';
 import './navigation.scss';
 
 const Navigation = ({
-    width,
     height,
     getYoutubeVideosByToken,
     channel: { id, snippet: { thumbnails, title } },
@@ -13,10 +12,7 @@ const Navigation = ({
     prevPageToken,
 }) => {
     return (
-        <div
-            style={{ width: width, height: height }}
-            className="video-navigation"
-        >
+        <div style={{ height: height }} className="video-navigation">
             <div className="prev">
                 {prevPageToken &&
                     <div

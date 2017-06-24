@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './twitter.scss';
+
 class Twitter extends Component {
     componentDidMount() {
         const twitterscript = document.createElement('script');
@@ -15,12 +17,10 @@ class Twitter extends Component {
     }
 
     render() {
-        const { url } = this.props;
         return (
             <div className="twitter">
                 <a
-                    data-height="100%"
-                    href={url}
+                    href="https://twitter.com/Kreiz0/lists/dota"
                     data-link-color="#239DFF"
                     data-theme="dark"
                     data-border-color="#444444"

@@ -22,7 +22,6 @@ class Youtube extends Component {
             <div className="youtube-videos-block">
                 {channel &&
                     <Navigation
-                        width={itemWidth}
                         height={itemHeight}
                         getYoutubeVideosByToken={getYoutubeVideosByToken}
                         prevPageToken={prevPageToken}
@@ -41,7 +40,6 @@ class Youtube extends Component {
                             },
                         }) =>
                             <VideoItem
-                                width={itemWidth}
                                 height={itemHeight}
                                 id={videoId}
                                 selectId={selectId}

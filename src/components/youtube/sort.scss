@@ -1,5 +1,35 @@
+@import "../../assets/base/colors";
+
 :global {
   .youtube-sort-panel {
-
+    margin-bottom: 10px;
+    .youtube-sort-item {
+      padding: 5px 0;
+      width: calc(100% / 3);
+      display: inline-block;
+      font-size: 0.928rem;
+      color: $doveGray;
+      border: 1px solid $tundora;
+      background-color: $mineShaft;
+      cursor: pointer;
+      text-align: center;
+      &:first-child {
+        border-right: none;
+        border-radius: 15px 0 0 15px;
+      }
+      &:last-child {
+        border-left: none;
+        border-radius: 0 15px 15px 0;
+      }
+      &.selected {
+        cursor: default;
+        color: $alto;
+        background-color: $mineShaftDark;
+      }
+      &:hover {
+        color: $alto;
+        background-color: $mineShaftDark;
+      }
+    }
   }
 }
