@@ -20,6 +20,7 @@ class Twitter extends Component {
         return (
             <div className="twitter">
                 <a
+                    key={'https://twitter.com/Kreiz0/lists/dota'}
                     href="https://twitter.com/Kreiz0/lists/dota"
                     data-link-color="#239DFF"
                     data-theme="dark"

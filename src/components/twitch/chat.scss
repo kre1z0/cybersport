@@ -8,6 +8,8 @@
     border: 1px solid $tundora;
     background-color: $mineShaft;
     iframe {
+      background: url("../../assets/images/kappa.jpg") center center;
+      background-size: cover;
       width: 100%;
       height: 100%;
     }
