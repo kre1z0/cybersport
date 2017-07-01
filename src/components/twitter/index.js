@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './twitter.scss';
 
 class Twitter extends Component {
-    componentDidMount() {
+    componentWillMount() {
         const twitterscript = document.createElement('script');
         twitterscript.src = '//platform.twitter.com/widgets.js';
         twitterscript.async = true;
