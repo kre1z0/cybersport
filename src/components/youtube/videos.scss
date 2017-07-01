@@ -17,9 +17,26 @@
       overflow: hidden;
       &:hover {
         border: 1px solid $alto;
+        .video-item-title {
+          white-space: normal;
+        }
       }
       &.selected {
         border: 1px solid $alto;
+      }
+      .video-item-title {
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        color: #fff;
+        border-bottom: 1px solid $tundora;
+        line-height: normal;
+        padding: 5px;
+        background-color: #000;
+        top: 0;
+        left: 0;
+        position: absolute;
       }
       .video-image {
         width: 100%;

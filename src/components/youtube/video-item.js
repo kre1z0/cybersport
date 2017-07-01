@@ -24,16 +24,19 @@ class VideoItem extends Component {
             selectId,
         } = this.props;
         const { loading } = this.state;
+        const selected = cn('video-item', {
+            selected: selectId === id,
+        });
         return (
             <div
                 style={{ width: width, height: height }}
-                className={cn('video-item', {
-                    selected: selectId === id,
-                })}
-                title={title}
+                className={selected}
                 onTouchTap={loadYoutubeVideo}
             >
                 {loading ? <Loader color="#707070" /> : null}
+                <div className="video-item-title">
+                    {title}
+                </div>
                 <img
                     onLoad={this.onLoadYoutubeVideoImg}
                     style={{ maxHeight: height + 10 }}

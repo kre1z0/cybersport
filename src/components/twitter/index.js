@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './twitter.scss';
 
 class Twitter extends Component {
-    componentWillMount() {
+    componentDidMount() {
         const twitterscript = document.createElement('script');
         twitterscript.src = '//platform.twitter.com/widgets.js';
         twitterscript.async = true;
@@ -20,14 +20,16 @@ class Twitter extends Component {
         return (
             <div className="twitter">
                 <a
-                    key={'https://twitter.com/Kreiz0/lists/dota'}
-                    href="https://twitter.com/Kreiz0/lists/dota"
+                    key="http://twitter.com/Kreiz0/lists/dota"
+                    href="http://twitter.com/Kreiz0/lists/dota"
                     data-link-color="#239DFF"
                     data-theme="dark"
                     data-border-color="#444444"
                     className="twitter-timeline"
                     data-chrome="nofooter transparent noheader"
-                />
+                >
+                    1
+                </a>
             </div>
         );
     }
