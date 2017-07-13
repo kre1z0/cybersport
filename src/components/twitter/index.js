@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './twitter.scss';
 
 class Twitter extends Component {
-    componentDidMount() {
+    componentWillMount() {
         const twitterscript = document.createElement('script');
         twitterscript.src = '//platform.twitter.com/widgets.js';
         twitterscript.async = true;
@@ -28,7 +28,7 @@ class Twitter extends Component {
                     className="twitter-timeline"
                     data-chrome="nofooter transparent noheader"
                 >
-                    1
+                    dota
                 </a>
             </div>
         );

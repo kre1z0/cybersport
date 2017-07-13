@@ -6,14 +6,14 @@ class App extends Component {
     render() {
         return (
             <div className="app-container">
-                <div>
-                    <div onTouchTap={this.props.goHome}>
-                        Home
-                    </div>
-                    <div onTouchTap={this.props.goHeroes}>
-                        heroes
-                    </div>
-                </div>
+                {/*<div>*/}
+                {/*<div onTouchTap={this.props.goHome}>*/}
+                {/*Home*/}
+                {/*</div>*/}
+                {/*<div onTouchTap={this.props.goHeroes}>*/}
+                {/*heroes*/}
+                {/*</div>*/}
+                {/*</div>*/}
                 <div className="pages-container">
                     {this.props.children}
                 </div>
